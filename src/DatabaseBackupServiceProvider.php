@@ -1,6 +1,4 @@
-<?php
-
-namespace Spatie\DatabaseBackup;
+<?php namespace Spatie\DatabaseBackup;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +19,9 @@ class DatabaseBackupServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/Assets/config/laravel-backup.php' => config_path('laravel-backup.php'),
+        ]);
     }
 
     /**
@@ -30,13 +31,15 @@ class DatabaseBackupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['command.db.backup'] = $this->app->share(
-            function ($app) {
-                return new Commands\BackupCommand();
+        $databaseBuilder = new DatabaseBuilder();
+
+        $this->app['command.db:backup'] = $this->app->share(
+            function ($app) use ($databaseBuilder) {
+                return new Commands\BackupCommand($databaseBuilder);
             }
         );
 
-        $this->commands('command.db.backup');
+        $this->commands('command.db:backup');
     }
 
     /**
@@ -46,6 +49,6 @@ class DatabaseBackupServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['command.db.backup'];
+        return ['command.db:backup'];
     }
 }

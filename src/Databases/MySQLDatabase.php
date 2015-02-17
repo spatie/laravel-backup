@@ -1,7 +1,6 @@
 <?php namespace Spatie\DatabaseBackup\Databases;
 
 use Spatie\DatabaseBackup\Console;
-
 use Config;
 
 class MySQLDatabase implements DatabaseInterface
@@ -34,6 +33,7 @@ class MySQLDatabase implements DatabaseInterface
             escapeshellarg($this->database),
             escapeshellarg($destinationFile)
         );
+
         return $this->console->run($command);
     }
     public function restore($sourceFile)
@@ -47,6 +47,7 @@ class MySQLDatabase implements DatabaseInterface
             escapeshellarg($this->database),
             escapeshellarg($sourceFile)
         );
+
         return $this->console->run($command);
     }
 
@@ -57,7 +58,6 @@ class MySQLDatabase implements DatabaseInterface
 
     protected function getDumpCommandPath()
     {
-        return Config::get('backup::mysql.dump_command_path');;
+        return Config::get('backup::mysql.dump_command_path');
     }
-
 }
