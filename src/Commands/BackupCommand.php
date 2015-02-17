@@ -1,7 +1,5 @@
 <?php namespace Spatie\DatabaseBackup\Commands;
 
-use File;
-
 class BackupCommand extends BaseCommand
 {
     /**
