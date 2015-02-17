@@ -1,5 +1,5 @@
 {
-    "name": "league/laravel-backup",
+    "name": "spatie/laravel-backup",
     "description": "Backup database command for Laravel 5 applications",
     "keywords": [
         "backup",
