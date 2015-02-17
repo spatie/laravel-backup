@@ -7,7 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/thephpleague/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/laravel-backup)
 [![Total Downloads](https://img.shields.io/packagist/dt/league/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/league/laravel-backup)
 
-This package is very much in alpha state
+This package is in alpha state, do not use unless you know what you're doing
 
 
 
