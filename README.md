@@ -5,7 +5,7 @@
 [![Build Status](https://img.shields.io/travis/thephpleague/laravel-backup/master.svg?style=flat-square)](https://travis-ci.org/thephpleague/laravel-backup)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/thephpleague/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/laravel-backup/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/thephpleague/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/laravel-backup)
-[![Total Downloads](https://img.shields.io/packagist/dt/league/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/league/laravel-backup)
+[![Total Downloads](https://img.shields.io/packagist/dt/freekmurze/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/freekmurze/laravel-backup)
 
 This package is in alpha state, do not use unless you know what you're doing
 
