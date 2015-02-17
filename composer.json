@@ -1,0 +1,41 @@
+{
+    "name": "league/laravel-backup",
+    "description": "Backup database command for Laravel 5 applications",
+    "keywords": [
+        "backup",
+        "laravel 5",
+        "database",
+        "mysql",
+        "spatie",
+        "laravel-backup"
+    ],
+    "homepage": "https://github.com/freekmurze/laravel-backup",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://murze.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0",
+        "illuminate/support": "5.0.x",
+        "illuminate/console": "5.0.x"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\DatabaseBackup\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\DatabaseBackup\\Test\\": "tests"
+        }
+    }
+}
