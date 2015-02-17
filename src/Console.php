@@ -12,12 +12,9 @@ class Console
 
         $process->run();
 
-        if ($process->isSuccessful())
-        {
+        if ($process->isSuccessful()) {
             return true;
-        }
-        else
-        {
+        } else {
             return $process->getErrorOutput();
         }
     }

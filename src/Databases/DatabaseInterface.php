@@ -25,4 +25,3 @@ interface DatabaseInterface
      */
     public function getFileExtension();
 }
-
