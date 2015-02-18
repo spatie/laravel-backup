@@ -30,7 +30,7 @@ You must also install this service provider.
 ];
 ```
 
-To publish the config file to ```app/config/laravel-backup.php`` run:
+To publish the config file to ``app/config/laravel-backup.php`` run:
 
 ``` bash
 $ php artisan vendor:publish --provider="Spatie\DatabaseBackup\DatabaseBackupServiceProvider"
