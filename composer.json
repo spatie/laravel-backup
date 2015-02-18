@@ -21,12 +21,14 @@
     ],
     "require": {
         "php" : ">=5.4.0",
-        "illuminate/support": "5.0.x",
-        "illuminate/console": "5.0.x",
-        "fabpot/php-cs-fixer": "~1.4"
+        "illuminate/support": "5.*",
+        "illuminate/console": "5.*",
+        "orchestra/testbench": "~3.0"
     },
     "require-dev": {
+        "laravel/framework": "5.*",
         "phpunit/phpunit" : "4.*",
+        "mockery/mockery": "0.9.*",
         "scrutinizer/ocular": "~1.1"
     },
     "autoload": {
