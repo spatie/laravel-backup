@@ -66,7 +66,7 @@ return [
 To generate a dump-file run:
 
 ``` bash
-$ php artisan db:backup
+php artisan db:backup
 ```
 
 The dump-file will be placed in storage/db-dumps or the folder you specified in the config.
