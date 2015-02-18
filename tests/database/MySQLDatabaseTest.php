@@ -34,11 +34,11 @@ class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
     public function testDump()
     {
         $this->console->shouldReceive('run')
-             ->with("mysqldump --user='testUser' --password='password' --host='localhost' --port='3306' 'testDatabase' > 'testfile.sql'")
-             ->once()
-             ->andReturn(true);
+            ->with("mysqldump --user='testUser' --password='password' --host='localhost' --port='3306' 'testDatabase' > 'testfile.sql'")
+            ->once()
+            ->andReturn(true);
 
-       $this->assertTrue(
+        $this->assertTrue(
             $this->database->dump('testfile.sql')
         );
     }

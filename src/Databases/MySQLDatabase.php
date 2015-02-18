@@ -12,6 +12,14 @@ class MySQLDatabase implements DatabaseInterface
     protected $host;
     protected $port;
 
+    /**
+     * @param Console $console
+     * @param $database
+     * @param $user
+     * @param $password
+     * @param $host
+     * @param $port
+     */
     public function __construct(Console $console, $database, $user, $password, $host, $port)
     {
         $this->console = $console;
@@ -22,6 +30,12 @@ class MySQLDatabase implements DatabaseInterface
         $this->port = $port;
     }
 
+    /**
+     * Create a database dump
+     *
+     * @param $destinationFile
+     * @return bool
+     */
     public function dump($destinationFile)
     {
         $command = sprintf('%smysqldump --user=%s --password=%s --host=%s --port=%s %s > %s',
@@ -36,26 +50,22 @@ class MySQLDatabase implements DatabaseInterface
 
         return $this->console->run($command);
     }
-    public function restore($sourceFile)
-    {
-        $command = sprintf('%smysql --user=%s --password=%s --host=%s --port=%s %s < %s',
-            $this->getRestoreCommandPath(),
-            escapeshellarg($this->user),
-            escapeshellarg($this->password),
-            escapeshellarg($this->host),
-            escapeshellarg($this->port),
-            escapeshellarg($this->database),
-            escapeshellarg($sourceFile)
-        );
 
-        return $this->console->run($command);
-    }
-
+    /**
+     * Get the default file extension
+     *
+     * @return string
+     */
     public function getFileExtension()
     {
         return 'sql';
     }
 
+    /**
+     * Get the path to the mysqldump
+     *
+     * @return string
+     */
     protected function getDumpCommandPath()
     {
         return Config::get('laravel-backup.mysql.dump_command_path');

@@ -11,14 +11,6 @@ interface DatabaseInterface
     public function dump($destinationFile);
 
     /**
-     * Restore a database dump
-     *
-     * @param $sourceFile
-     * @return bool
-     */
-    public function restore($sourceFile);
-
-    /**
      * Return the file extension of a dump file (sql, ...)
      *
      * @return string
