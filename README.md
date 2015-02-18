@@ -41,7 +41,9 @@ This is the contents of the configuration. These options should be self-explanat
 return [
 
     /*
-     * The directory where the database dumps will be saved
+     * The directory where the database dumps will be saved.
+     * A .gitignore file will be automatically placed in this directory
+     * so you don't accidentally end up committing these images
      */
     'path' => storage_path('db-dumps'),
 
