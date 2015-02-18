@@ -1,4 +1,4 @@
-# Database backup provider for Laravel 5 applications
+# A Laravel 5 package to dump your MySQL database
 
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-backup.svg?style=flat-square)](https://github.com/freekmurze/laravel-backup/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
