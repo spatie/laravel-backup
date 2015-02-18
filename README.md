@@ -69,7 +69,7 @@ To generate a dump-file run:
 php artisan db:backup
 ```
 
-The dump-file will be placed in storage/db-dumps or the folder you specified in the config.
+The dump-file will be placed in the directory you specified in the config-file.
 
 ## Testing
 
