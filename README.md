@@ -38,7 +38,7 @@ The dump-file will be placed in storage/db-dumps or the folder you specified in 
 Run the tests with:
 
 ``` bash
-$ phpunit
+vendor/bin/phpunit
 ```
 
 ## Contributing
@@ -54,6 +54,8 @@ If you discover any security related issues, please email freek@spatie.be instea
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [Matthias De Winter](https://github.com/MatthiasDeWinter)
 - [All Contributors](../../contributors)
+
+This package is based on [schickling/laravel-backup](https://github.com/schickling/laravel-backup)
 
 ## License
 
