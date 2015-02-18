@@ -17,7 +17,7 @@ To create a dump of a MySQL-db this packages uses the ```mysqldump```-binary. Ma
 You can install this package via composer using:
 
 ``` bash
-$ composer require spatie/laravel-backup
+composer require spatie/laravel-backup
 ```
 
 You must also install this service provider.
@@ -36,7 +36,7 @@ You must also install this service provider.
 To publish the config file to ``app/config/laravel-backup.php`` run:
 
 ``` bash
-$ php artisan vendor:publish --provider="Spatie\DatabaseBackup\DatabaseBackupServiceProvider"
+php artisan vendor:publish --provider="Spatie\DatabaseBackup\DatabaseBackupServiceProvider"
 ```
 
 This is the contents of the configuration. These options should be self-explanatory.
