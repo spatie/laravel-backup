@@ -17,6 +17,19 @@ Install via Composer using:
 $ composer require spatie/laravel-backup
 ```
 
+You must also install this service provider.
+
+```php
+
+// config/app.php
+
+'providers' => [
+    ...
+    'Spatie\DatabaseBackup\DatabaseBackupServiceProvider',
+    ...
+];
+```
+
 To publish the configuration run:
 
 ``` bash
