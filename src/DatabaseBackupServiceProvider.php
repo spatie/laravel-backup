@@ -22,6 +22,10 @@ class DatabaseBackupServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/Assets/config/laravel-backup.php' => config_path('laravel-backup.php'),
         ]);
+
+        $backupConfig = config('laravel-backup');
+
+        $this->writeIgnoreFile($backupConfig['path']);
     }
 
     /**
@@ -50,5 +54,20 @@ class DatabaseBackupServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['command.db:backup'];
+    }
+
+    /**
+     * Copy the gitignore stub to the given directory
+     *
+     * @param $directory
+     */
+    public function writeIgnoreFile($directory)
+    {
+        $destinationFile = $directory.'/.gitignore';
+
+        if(!file_exists($destinationFile))
+        {
+            $this->app['files']->copy(__DIR__.'/../stubs/gitignore.txt', $destinationFile);
+        }
     }
 }
