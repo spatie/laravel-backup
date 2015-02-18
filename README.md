@@ -30,10 +30,30 @@ You must also install this service provider.
 ];
 ```
 
-To publish the configuration run:
+To publish the config file to ```app/config/laravel-backup.php`` run:
 
 ``` bash
 $ php artisan vendor:publish --provider="Spatie\DatabaseBackup\DatabaseBackupServiceProvider"
+```
+
+This is the contents of the configuration. These options should be self-explanatory.
+```php
+return [
+
+    /*
+     * The directory where the database dumps will be saved
+     */
+    'path' => storage_path('db-dumps'),
+
+
+    /*
+     * The path to the mysqldump binary. You can leave this empty
+     * if the binary is installed in the default location.
+     */
+    'mysql' => array(
+        'dump_command_path' => '',
+    ),
+];
 ```
 
 ## Usage
