@@ -17,7 +17,7 @@ class BackupCommandTest extends TestCase {
         m::close();
     }
 
-    public function testThrowAway()
+    public function testInit()
     {
         $this->assertTrue(true);
     }
