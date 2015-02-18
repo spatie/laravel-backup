@@ -33,7 +33,7 @@ class MySQLDatabase implements DatabaseInterface
     /**
      * Create a database dump
      *
-     * @param $destinationFile
+     * @param string $destinationFile
      * @return bool
      */
     public function dump($destinationFile)
