@@ -11,15 +11,14 @@ return [
 
     /*
      * The path where the database dumps will be saved. This path
-     * is related to the path you configured with your chosen
-     * filesystem
+     * is relative to the root you configured on your chosen
+     * filesystem.
      *
      * If you're using the local filesystem a .gitignore file will
      * be automatically placed in this directory so you don't
      * accidentally end up committing these dumps.
      */
-    'path' => storage_path('db-dumps'),
-
+    'path' => 'db-dumps',
 
     /*
      * The path to the mysqldump binary. You can leave this empty
