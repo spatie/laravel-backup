@@ -4,9 +4,19 @@
 return [
 
     /*
-     * The directory where the database dumps will be saved.
-     * A .gitignore file will be automatically placed in this directory
-     * so you don't accidentally end up committing these dumps.
+     * The filesystem you want to use. Choose one of the filesystems you
+     * configured in app/config/filesystems.php
+     */
+    'filesystem' => 'local',
+
+    /*
+     * The path where the database dumps will be saved. This path
+     * is related to the path you configured with your chosen
+     * filesystem
+     *
+     * If you're using the local filesystem a .gitignore file will
+     * be automatically placed in this directory so you don't
+     * accidentally end up committing these dumps.
      */
     'path' => storage_path('db-dumps'),
 
@@ -19,4 +29,3 @@ return [
         'dump_command_path' => '',
     ),
 ];
-

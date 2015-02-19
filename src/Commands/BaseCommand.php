@@ -1,9 +1,9 @@
 <?php namespace Spatie\DatabaseBackup\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Spatie\DatabaseBackup\DatabaseBuilder;
 use Spatie\DatabaseBackup\Console;
-use Config;
 
 class BaseCommand extends Command
 {
@@ -28,8 +28,14 @@ class BaseCommand extends Command
      */
     public function getDatabase($database)
     {
-        $database = $database ?: Config::get('database.default');
-        $realConfig = Config::get('database.connections.'.$database);
+        $database = $database ?: config('database.default');
+
+        if ($database != 'mysql')
+        {
+            throw new Exception('laravel-backup can only backup mysql databases');
+        }
+
+        $realConfig = config('database.connections.'.$database);
 
         return $this->databaseBuilder->getDatabase($realConfig);
     }
@@ -41,6 +47,6 @@ class BaseCommand extends Command
      */
     protected function getDumpsPath()
     {
-        return Config::get('laravel-backup.path');
+        return config('laravel-backup.path');
     }
 }
