@@ -7,7 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-backup)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 
-This package makes a dump-file from a MySQL database in Laravel 5.
+This package creates a dump-file from a MySQL database in Laravel 5.
 
 ## Prerequisites
 To create a dump of a MySQL-db this packages uses the ```mysqldump```-binary. Make sure it is installed on your system.
