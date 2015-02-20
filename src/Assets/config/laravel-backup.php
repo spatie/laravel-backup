@@ -4,15 +4,15 @@
 return [
 
     /*
-     * The filesystem you want to use. Choose one of the filesystems you
+     * The filesystem(s) you want to use. Choose one or more of the filesystems you
      * configured in app/config/filesystems.php
      */
-    'filesystem' => 'local',
+    'filesystem' => ['local'],
 
     /*
      * The path where the database dumps will be saved. This path
      * is relative to the root you configured on your chosen
-     * filesystem.
+     * filesystem(s).
      *
      * If you're using the local filesystem a .gitignore file will
      * be automatically placed in this directory so you don't

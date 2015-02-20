@@ -26,7 +26,7 @@ class BaseCommand extends Command
      * @return mixed
      * @throws \Exception
      */
-    public function getDatabase($database)
+    public function getDatabase($database = '')
     {
         $database = $database ?: config('database.default');
 
@@ -35,7 +35,7 @@ class BaseCommand extends Command
             throw new Exception('laravel-backup can only backup mysql databases');
         }
 
-        $realConfig = config('database.connections.'.$database);
+        $realConfig = config('database.connections.' . $database);
 
         return $this->databaseBuilder->getDatabase($realConfig);
     }

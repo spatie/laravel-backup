@@ -19,71 +19,112 @@ class BackupCommand extends BaseCommand
      */
     protected $description = 'Backup the database to a file';
 
-    protected $filePath;
-
-    protected $fileName;
-
-    /**
-     * The disk on which the dumps will be stored
-     *
-     * @var Illuminate\Contracts\Filesystem\Factory
-     */
-    protected $disk;
-
     /**
      * Execute the console command.
+     *
      * @return mixed
      * @throws Exception
      */
     public function fire()
     {
-        $this->disk = Storage::disk(config('laravel-backup.filesystem'));
+        $this->info('Starting backing up db');
 
-        if (config('laravel-backup.filesystem') == 'local')
+        $databaseContents = $this->getDatabaseContents();
+
+        foreach($this->getTargetFileSystems() as $fileSystem)
         {
-            $this->writeIgnoreFile();
+            $disk = Storage::disk($fileSystem);
+
+            $this->saveDatabaseContents($databaseContents, $disk, $this->getDumpFile(), config('laravel-backup.filesystem') == 'local');
+
+            $this->comment('database successfully backupped on ' . $fileSystem . '-filesystem in file ' . $this->getDumpFile());
         }
 
-        $this->info('Starting database dump...');
-
-        $database = $this->getDatabase([]);
-
-        $this->createDumpFolder();
-
-        $dumpFileName = date('YmdHis').'.'.$database->getFileExtension();
-        $dumpFile = rtrim($this->getDumpsPath(), '/').'/' . $dumpFileName;
-
-        $tempFileHandle = tmpfile();
-        $tempFile = stream_get_meta_data($tempFileHandle)['uri'];
-
-        $success = $database->dump($tempFile);
-
-        if (! $success)
-        {
-            throw new Exception('could not dump database');
-        }
-
-        $this->disk->put($dumpFile, file_get_contents($tempFile));
-
-        $this->info('Database dumped successful on ' . config('laravel-backup.filesystem') . '-filesystem in file ' . $dumpFile);
-
-
+        $this->info('Database backup ok!');
 
     }
 
     /**
-     * Create  dump-folder
+     * Get the contents of the database
+     *
+     * @return string
+     * @throws Exception
      */
-    protected function createDumpFolder()
+    protected function getDatabaseContents()
     {
-        $dumpsPath = $this->getDumpsPath();
+        $tempFileHandle = tmpfile();
+        $tempFile = stream_get_meta_data($tempFileHandle)['uri'];
 
-        $this->disk->makeDirectory($dumpsPath);
+        $success = $this->getDatabase()->dump($tempFile);
+
+        if (! $success)
+        {
+            throw new Exception('could not dump the database');
+        }
+
+        return file_get_contents($tempFile);
     }
 
-    public function writeIgnoreFile()
+    /**
+     * Save the database contents on the given disk in the given dumpFile
+     *
+     * @param string $databaseContents
+     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
+     * @param string $dumpFile
+     * @param bool $addIgnoreFile
+     */
+    protected function saveDatabaseContents($databaseContents, $disk, $dumpFile, $addIgnoreFile = false)
+    {
+        $dumpDirectory = dirname($dumpFile);
+
+        $disk->makeDirectory($dumpDirectory);
+
+        if ($addIgnoreFile)
+        {
+            $this->writeIgnoreFile($disk, $dumpDirectory);
+        }
+
+        $disk->put($dumpFile, $databaseContents);
+    }
+
+    /**
+     * Get the path to the file where the database should be dumped
+     *
+     * @return string
+     * @throws Exception
+     */
+    protected function getDumpFile()
+    {
+        return $this->getDumpsPath() . '/' . date('YmdHis') . '.' . $this->getDatabase()->getFileExtension();
+    }
+
+    /**
+     * Get the filesystems to where the database should be dumped
+     *
+     * @return array
+     */
+    protected function getTargetFileSystems()
+    {
+        $fileSystems = config('laravel-backup.filesystem');
+
+        if (is_array($fileSystems))
+        {
+            return $fileSystems;
+        }
+
+        return [config('laravel-backup.filesystem')];
+
+    }
+
+    /**
+     * Write an ignore-file on the given disk in the given directory
+     *
+     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
+     * @param string $dumpDirectory
+     */
+    protected function writeIgnoreFile($disk, $dumpDirectory)
     {
         $gitIgnoreContents = '*' . PHP_EOL . '!.gitignore';
-        $this->disk->put(config('laravel-backup.path') . '/.gitignore', $gitIgnoreContents);
+        $disk->put($dumpDirectory . '/.gitignore', $gitIgnoreContents);
     }
 }
