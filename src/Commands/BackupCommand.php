@@ -112,7 +112,7 @@ class BackupCommand extends BaseCommand
             return $fileSystems;
         }
 
-        return [config('laravel-backup.filesystem')];
+        return [$fileSystems];
 
     }
 
