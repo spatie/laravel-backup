@@ -9,7 +9,7 @@
 
 This package creates a dump-file from a MySQL database in Laravel 5. The dumpfile can be stored on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/5.0/filesystem).
 
-Feeling paranoid about backups? No problem! You can backup your database to multiple filesystems at once.
+Feeling paranoid about db-backups? No problem! You can backup your database to multiple filesystems at once.
 
 ## Prerequisites
 To create a dump of a MySQL-db this packages uses the ```mysqldump```-binary. Make sure it is installed on your system.
@@ -74,13 +74,13 @@ return [
 
 ## Usage
 
-To generate a dump-file run:
+Use this command to generate and upload the db-dump to the filesystem(s) you specified:
 
 ``` bash
 php artisan db:backup
 ```
 
-A file containing the dump of your database will be created in the filesystem/directory you specified in the config-file.
+A file containing the dump of your database will be created on the filesystem(s) you specified in the config-file.
 
 ## Testing
 
