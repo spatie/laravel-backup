@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\DatabaseBackup\Commands\BackupCommand;
+use Spatie\Backup\Commands\BackupCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Orchestra\Testbench\TestCase;
 use Mockery as m;

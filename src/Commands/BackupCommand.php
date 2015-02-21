@@ -1,4 +1,4 @@
-<?php namespace Spatie\DatabaseBackup\Commands;
+<?php namespace Spatie\Backup\Commands;
 
 use Exception;
 use Storage;
@@ -10,14 +10,14 @@ class BackupCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'db:backup';
+    protected $name = 'backup:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Backup the database to a file';
+    protected $description = 'Run the backup';
 
     /**
      * Execute the console command.

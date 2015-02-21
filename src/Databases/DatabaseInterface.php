@@ -1,4 +1,4 @@
-<?php namespace Spatie\DatabaseBackup\Databases;
+<?php namespace Spatie\Backup\Databases;
 
 interface DatabaseInterface
 {

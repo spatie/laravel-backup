@@ -1,6 +1,6 @@
-<?php namespace Spatie\DatabaseBackup\Databases;
+<?php namespace Spatie\Backup\Databases;
 
-use Spatie\DatabaseBackup\Console;
+use Spatie\Backup\Console;
 use Config;
 
 class MySQLDatabase implements DatabaseInterface

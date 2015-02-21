@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\DatabaseBackup\Console;
+use Spatie\Backup\Console;
 
 class ConsoleTest extends PHPUnit_Framework_TestCase {
 

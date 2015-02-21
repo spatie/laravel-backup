@@ -1,9 +1,9 @@
-<?php namespace Spatie\DatabaseBackup\Commands;
+<?php namespace Spatie\Backup\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Spatie\DatabaseBackup\DatabaseBuilder;
-use Spatie\DatabaseBackup\Console;
+use Spatie\Backup\DatabaseBuilder;
+use Spatie\Backup\Console;
 
 class BaseCommand extends Command
 {

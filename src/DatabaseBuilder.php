@@ -1,4 +1,4 @@
-<?php namespace Spatie\DatabaseBackup;
+<?php namespace Spatie\Backup;
 
 use Exception;
 

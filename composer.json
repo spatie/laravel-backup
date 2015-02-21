@@ -1,6 +1,6 @@
 {
     "name": "spatie/laravel-backup",
-    "description": "Backup database command for Laravel 5 applications",
+    "description": "Backup command for Laravel 5 applications",
     "keywords": [
         "backup",
         "laravel 5",
@@ -33,12 +33,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\DatabaseBackup\\": "src"
+            "Spatie\\Backup\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\DatabaseBackup\\Test\\": "tests"
+            "Spatie\\Backup\\Test\\": "tests"
         }
     }
 }

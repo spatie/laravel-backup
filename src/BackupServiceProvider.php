@@ -1,8 +1,8 @@
-<?php namespace Spatie\DatabaseBackup;
+<?php namespace Spatie\Backup;
 
 use Illuminate\Support\ServiceProvider;
 
-class DatabaseBackupServiceProvider extends ServiceProvider
+class BackupServiceProvider extends ServiceProvider
 {
 
     /**

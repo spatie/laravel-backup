@@ -30,7 +30,7 @@ You must also install this service provider.
 
 'providers' => [
     ...
-    'Spatie\DatabaseBackup\DatabaseBackupServiceProvider',
+    'Spatie\Backup\BackupServiceProvider',
     ...
 ];
 ```
@@ -38,7 +38,7 @@ You must also install this service provider.
 To publish the config file to ``app/config/laravel-backup.php`` run:
 
 ``` bash
-php artisan vendor:publish --provider="Spatie\DatabaseBackup\DatabaseBackupServiceProvider"
+php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
 ```
 
 This is the contents of the configuration. These options should be self-explanatory.

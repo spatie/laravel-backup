@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\DatabaseBackup\Databases\MySQLDatabase;
+use Spatie\Backup\Databases\MySQLDatabase;
 use Mockery as m;
 
 class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
@@ -12,7 +12,7 @@ class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
     {
         parent::setUp();
 
-        $this->console = m::mock('Spatie\DatabaseBackup\Console');
+        $this->console = m::mock('Spatie\Backup\Console');
 
         $this->database = new MySQLDatabase(
             $this->console, 'testDatabase', 'testUser', 'password', 'localhost', '3306'
