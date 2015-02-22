@@ -60,11 +60,13 @@ class BackupCommand extends Command
     {
         $files = [];
 
-        $databaseBackupHandler = app()->make(DatabaseBackupHandler::class);
-        foreach ($databaseBackupHandler->getFilesToBeBackedUp() as $file) {
-            $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
+        if (config('laravel-backup.source.backup-db')) {
+            $databaseBackupHandler = app()->make(DatabaseBackupHandler::class);
+            foreach ($databaseBackupHandler->getFilesToBeBackedUp() as $file) {
+                $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
+            }
+            $this->comment('Database dumped');
         }
-        $this->comment('Database dumped');
 
         $this->comment('Determining which files should be backed up...');
         $fileBackupHandler = app()->make(FilesBackupHandler::class)
