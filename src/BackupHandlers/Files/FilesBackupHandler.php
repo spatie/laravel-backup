@@ -65,7 +65,7 @@ class FilesBackupHandler implements BackupHandlerInterface
             }
 
             if (File::isDirectory($file)) {
-                $files += File::allFiles($file);
+                $files = array_merge($files, File::allFiles($file));
             }
         }
 
