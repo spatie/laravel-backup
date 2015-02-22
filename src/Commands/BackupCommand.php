@@ -33,6 +33,13 @@ class BackupCommand extends Command
 
         $files = $this->getAllFilesToBeBackedUp();
 
+        if (count($files) == 0)
+        {
+            $this->info('Nothing to backup');
+
+            return true;
+        }
+
         $backupZipFile = $this->createZip($files);
 
         foreach ($this->getTargetFileSystems() as $fileSystem) {
