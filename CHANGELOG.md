@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.0.1
+- Fixed a bug that caused excluded files to still end up in the backup
+- Added an exception when the database dump returns an empty string
+
 ### 2.0.0
 - Added support to backup directories and individual files
 - Configuration file changed
