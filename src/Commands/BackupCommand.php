@@ -123,6 +123,10 @@ class BackupCommand extends Command
             $this->writeIgnoreFile($disk, $destinationDirectory);
         }
 
+        /*
+         * The zip-file could grow quite large. Use a stream to copy it
+         * to the target disk to avoid memory problems
+         */
         $disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
     }
 
