@@ -7,26 +7,27 @@ return [
         'files' => [
 
             /*
-             * The list of directories that should be backupped. You can
-             * specify individual files as well
+             * The list of directories that should be part of the backup. You can
+             * specify individual files as well.
              */
             'include' => [
-                public_path(),
+                base_path(),
             ],
 
             /*
-             * These directories will be excluded for the backup.
-             * You can specify individual files as well
+             * These directories will be excluded from the backup.
+             * You can specify individual files as well.
              */
             'exclude' => [
-
+                storage_path(),
+                base_path('vendor'),
             ],
         ],
 
         /*
-         * Should the database be backupped
+         * Should the database be part of the back up.
          */
-        'db' => true,
+        'backup-db' => true,
     ],
 
     'destination' => [
@@ -38,15 +39,15 @@ return [
         'filesystem' => ['local'],
 
         /*
-         * The path where the database dumps will be saved. This path
+         * The path where the backups will be saved. This path
          * is relative to the root you configured on your chosen
          * filesystem(s).
          *
          * If you're using the local filesystem a .gitignore file will
          * be automatically placed in this directory so you don't
-         * accidentally end up committing these dumps.
+         * accidentally end up committing these backups.
          */
-        'path' => 'db-dumps',
+        'path' => 'backups',
     ],
 
     /*

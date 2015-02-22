@@ -1,4 +1,4 @@
-<?php namespace Spatie\Backup\Databases;
+<?php namespace Spatie\Backup\BackupHandlers\Database\Databases;
 
 use Spatie\Backup\Console;
 use Config;

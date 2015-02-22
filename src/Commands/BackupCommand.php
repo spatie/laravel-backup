@@ -1,9 +1,12 @@
 <?php namespace Spatie\Backup\Commands;
-
+use Illuminate\Console\Command;
 use Exception;
+use Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler;
+use Spatie\Backup\BackupHandlers\Files\FilesBackupHandler;
 use Storage;
+use ZipArchive;
 
-class BackupCommand extends BaseCommand
+class BackupCommand extends Command
 {
     /**
      * The console command name.
@@ -27,75 +30,46 @@ class BackupCommand extends BaseCommand
      */
     public function fire()
     {
-        $this->info('Starting backing up db');
+        $this->info('Start backing up');
 
-        $databaseContents = $this->getDatabaseContents();
+        $files = $this->getAllFilesToBeBackedUp();
+
+        $backupZipFile = $this->createZip($files);
 
         foreach($this->getTargetFileSystems() as $fileSystem)
         {
             $disk = Storage::disk($fileSystem);
 
-            $this->saveDatabaseContents($databaseContents, $disk, $this->getDumpFile(), config('laravel-backup.filesystem') == 'local');
+            $this->copyFile($backupZipFile, $disk, $this->getBackupDestinationFileName(), $fileSystem == 'local');
 
-            $this->comment('database successfully backupped on ' . $fileSystem . '-filesystem in file ' . $this->getDumpFile());
+            $this->comment('Database successfully backupped on ' . $fileSystem . '-filesystem in file ' . $this->getBackupDestinationFileName());
         }
 
-        $this->info('Database backup ok!');
+        $this->info('Backup successfully completed');
 
     }
 
-    /**
-     * Get the contents of the database
-     *
-     * @return string
-     * @throws Exception
-     */
-    protected function getDatabaseContents()
-    {
-        $tempFileHandle = tmpfile();
-        $tempFile = stream_get_meta_data($tempFileHandle)['uri'];
-
-        $success = $this->getDatabase()->dump($tempFile);
-
-        if (! $success)
-        {
-            throw new Exception('could not dump the database');
-        }
-
-        return file_get_contents($tempFile);
-    }
 
     /**
-     * Save the database contents on the given disk in the given dumpFile
+     * Copy the given file on the given disk to the given destination
      *
-     * @param string $databaseContents
+     * @param string $file
      * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param string $dumpFile
+     * @param string $destination
      * @param bool $addIgnoreFile
      */
-    protected function saveDatabaseContents($databaseContents, $disk, $dumpFile, $addIgnoreFile = false)
+    protected function copyFile($file, $disk, $destination, $addIgnoreFile = false)
     {
-        $dumpDirectory = dirname($dumpFile);
+        $destionationDirectory = dirname($destination);
 
-        $disk->makeDirectory($dumpDirectory);
+        $disk->makeDirectory($destionationDirectory);
 
         if ($addIgnoreFile)
         {
-            $this->writeIgnoreFile($disk, $dumpDirectory);
+            $this->writeIgnoreFile($disk, $destionationDirectory);
         }
 
-        $disk->put($dumpFile, $databaseContents);
-    }
-
-    /**
-     * Get the path to the file where the database should be dumped
-     *
-     * @return string
-     * @throws Exception
-     */
-    protected function getDumpFile()
-    {
-        return $this->getDumpsPath() . '/' . date('YmdHis') . '.' . $this->getDatabase()->getFileExtension();
+        $disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
     }
 
     /**
@@ -105,7 +79,7 @@ class BackupCommand extends BaseCommand
      */
     protected function getTargetFileSystems()
     {
-        $fileSystems = config('laravel-backup.filesystem');
+        $fileSystems = config('laravel-backup.destination.filesystem');
 
         if (is_array($fileSystems))
         {
@@ -126,5 +100,75 @@ class BackupCommand extends BaseCommand
     {
         $gitIgnoreContents = '*' . PHP_EOL . '!.gitignore';
         $disk->put($dumpDirectory . '/.gitignore', $gitIgnoreContents);
+    }
+
+    /**
+     * Return an array with path to files that should be backed up
+     *
+     * @return array
+     */
+    private function getAllFilesToBeBackedUp()
+    {
+        $this->comment('Determining which files should be backed up');
+
+        $files = [];
+
+        $databaseBackupHandler = app()->make(DatabaseBackupHandler::class);
+        foreach($databaseBackupHandler->getFilesToBeBackedUp() as $file)
+        {
+            $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
+        }
+        $this->info('Database dumped');
+
+        $fileBackupHandler = app()->make(FilesBackupHandler::class)
+            ->setIncludedFiles(config('laravel-backup.source.files.include'))
+            ->setExcludedFiles(config('laravel-backup.source.files.exclude'));
+        foreach($fileBackupHandler->getFilesToBeBackedUp() as $file)
+        {
+            $files[] = ['realFile' => $file, 'fileInZip' => 'files/' . $file];
+        }
+
+        return $files;
+    }
+
+    /**
+     * Create a zip for the given files
+     *
+     * @param $files
+     * @return string
+     */
+    public function createZip($files)
+    {
+        $this->comment('Start zipping ' . count($files) . ' files');
+
+        $tempZipFile = tempnam(sys_get_temp_dir(), "laravel-backup-zip");
+
+        $zip = new ZipArchive();
+        $zip->open($tempZipFile, ZipArchive::CREATE);
+
+        foreach($files as $file)
+        {
+            if (file_exists($file['realFile']))
+            {
+                $zip->addFile($file['realFile'], $file['fileInZip']);
+            }
+
+        }
+
+        $zip->close();
+
+        $this->comment('Created zip file containing all files that need to be backed up');
+
+        return $tempZipFile;
+    }
+
+    /**
+     * Determine the name of the zip that contains the backup
+     *
+     * @return string
+     */
+    private function getBackupDestinationFileName()
+    {
+        return config('laravel-backup.destination.path') . '/' . date('YmdHis') . '.zip' ;
     }
 }

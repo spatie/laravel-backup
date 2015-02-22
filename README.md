@@ -1,4 +1,4 @@
-# A Laravel 5 package to backup your MySQL database to multiple filesystems
+# A Laravel 5 package to backup your application to multiple filesystems
 
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-backup.svg?style=flat-square)](https://github.com/freekmurze/laravel-backup/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -7,9 +7,9 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-backup)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 
-This Laravel 5 package creates a backups of a MySQL database. The backup can be stored on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/5.0/filesystem).
+This Laravel 5 package creates a backup of your application. The backup is a zipfile that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/5.0/filesystem).
 
-Feeling paranoid about db-backups? No problem! You can backup your database to multiple filesystems at once.
+Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 
 ## Prerequisites
 To create a dump of a MySQL-db this packages uses the ```mysqldump```-binary. Make sure it is installed on your system.
@@ -45,42 +45,74 @@ This is the contents of the configuration. These options should be self-explanat
 ```php
 return [
 
-    /*
-     * The filesystem(s) you want to use. Choose one or more of the filesystems you
-     * configured in app/config/filesystems.php
-     */
-    'filesystem' => ['local'],
+    'source' => [
 
-    /*
-     * The path where the database dumps will be saved. This path
-     * is relative to the root you configured on your chosen
-     * filesystem(s).
-     *
-     * If you're using the local filesystem a .gitignore file will
-     * be automatically placed in this directory so you don't
-     * accidentally end up committing these dumps.
-     */
-    'path' => 'db-dumps',
+        'files' => [
+
+            /*
+             * The list of directories that should be part of the backup. You can
+             * specify individual files as well.
+             */
+            'include' => [
+                base_path(),
+            ],
+
+            /*
+             * These directories will be excluded from the backup.
+             * You can specify individual files as well.
+             */
+            'exclude' => [
+                storage_path(),
+                base_path('vendor'),
+            ],
+        ],
+
+        /*
+         * Should the database be part of the back up.
+         */
+        'backup-db' => true,
+    ],
+
+    'destination' => [
+
+        /*
+         * The filesystem(s) you on which the backups will be stored. Choose one or more
+         * of the filesystems you configured in app/config/filesystems.php
+         */
+        'filesystem' => ['local'],
+
+        /*
+         * The path where the backups will be saved. This path
+         * is relative to the root you configured on your chosen
+         * filesystem(s).
+         *
+         * If you're using the local filesystem a .gitignore file will
+         * be automatically placed in this directory so you don't
+         * accidentally end up committing these backups.
+         */
+        'path' => 'backups',
+    ],
 
     /*
      * The path to the mysqldump binary. You can leave this empty
      * if the binary is installed in the default location.
      */
-    'mysql' => array(
+    'mysql' => [
         'dump_command_path' => '',
-    ),
+    ]
 ];
+
 ```
 
 ## Usage
 
-Use this command to generate and upload the db-dump to the filesystem(s) you specified:
+Use this command start the backup and store the zipfile to the filesystem(s) you specified:
 
 ``` bash
-php artisan db:backup
+php artisan backup:start
 ```
 
-A file containing the dump of your database will be created on the filesystem(s) you specified in the config-file.
+A zip-file, containing all files in the directories you specified along the dump of your database, will be created on the filesystem(s) you specified in the config-file.
 
 ## Testing
 
@@ -103,8 +135,6 @@ If you discover any security related issues, please email freek@spatie.be instea
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [Matthias De Winter](https://github.com/MatthiasDeWinter)
 - [All Contributors](../../contributors)
-
-This package is based on [schickling/laravel-backup](https://github.com/schickling/laravel-backup)
 
 ## License
 

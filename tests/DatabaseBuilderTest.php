@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Backup\DatabaseBuilder;
+use Spatie\Backup\BackupHandlers\Database\DatabaseBuilder;
 
 class DatabaseBuilderTest extends PHPUnit_Framework_TestCase {
 
@@ -18,6 +18,6 @@ class DatabaseBuilderTest extends PHPUnit_Framework_TestCase {
         $databaseBuilder = new DatabaseBuilder();
         $database = $databaseBuilder->getDatabase($config);
 
-        $this->assertInstanceOf('Spatie\Backup\Databases\MySQLDatabase', $database);
+        $this->assertInstanceOf('Spatie\Backup\BackupHandlers\Database\Databases\MySQLDatabase', $database);
     }
 }

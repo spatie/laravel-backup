@@ -1,7 +1,7 @@
 <?php
 
-use Spatie\Backup\Databases\MySQLDatabase;
 use Mockery as m;
+use Spatie\Backup\BackupHandlers\Database\Databases\MySQLDatabase;
 
 class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
 

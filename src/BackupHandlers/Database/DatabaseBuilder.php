@@ -1,6 +1,9 @@
-<?php namespace Spatie\Backup;
+<?php
+
+namespace Spatie\Backup\BackupHandlers\Database;
 
 use Exception;
+use Spatie\Backup\Console;
 
 class DatabaseBuilder
 {
