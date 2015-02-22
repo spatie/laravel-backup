@@ -5,7 +5,8 @@ namespace Spatie\Backup\BackupHandlers\Files;
 use File;
 use Spatie\Backup\BackupHandlers\BackupHandlerInterface;
 
-class FilesBackupHandler implements BackupHandlerInterface {
+class FilesBackupHandler implements BackupHandlerInterface
+{
 
     protected $includedFiles;
 
@@ -18,11 +19,10 @@ class FilesBackupHandler implements BackupHandlerInterface {
      */
     public function getFilesToBeBackedUp()
     {
-
         $filesToBeIncluded = $this->getAllPathFromFileArray($this->includedFiles);
         $filesToBeExcluded = $this->getAllPathFromFileArray($this->excludedFiles);
 
-        return array_filter($filesToBeIncluded, function($file) use ($filesToBeExcluded) {
+        return array_filter($filesToBeIncluded, function ($file) use ($filesToBeExcluded) {
             return ! in_array($file, $filesToBeExcluded);
         });
     }
@@ -30,7 +30,7 @@ class FilesBackupHandler implements BackupHandlerInterface {
     /**
      * Set all files that should be included
      *
-     * @param array $includedFiles
+     * @param  array $includedFiles
      * @return $this
      */
     public function setIncludedFiles($includedFiles)
@@ -43,7 +43,7 @@ class FilesBackupHandler implements BackupHandlerInterface {
     /**
      * Set all files that should be excluded
      *
-     * @param array $excludedFiles
+     * @param  array $excludedFiles
      * @return $this
      */
     public function setExcludedFiles($excludedFiles)
@@ -57,20 +57,17 @@ class FilesBackupHandler implements BackupHandlerInterface {
     {
         $files = [];
 
-        foreach($fileArray as $file)
-        {
-            if (File::isFile($file))
-            {
+        foreach ($fileArray as $file) {
+            if (File::isFile($file)) {
                 $files[] = $file;
             }
 
-            if (File::isDirectory($file))
-            {
+            if (File::isDirectory($file)) {
                 $files += File::allFiles($file);
             }
         }
 
-        return array_unique(array_map(function($file) {
+        return array_unique(array_map(function ($file) {
             return $file->getPathName();
         }, $files));
     }

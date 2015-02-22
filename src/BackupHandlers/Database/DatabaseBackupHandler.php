@@ -5,7 +5,8 @@ namespace Spatie\Backup\BackupHandlers\Database;
 use Exception;
 use Spatie\Backup\BackupHandlers\BackupHandlerInterface;
 
-class DatabaseBackupHandler implements BackupHandlerInterface {
+class DatabaseBackupHandler implements BackupHandlerInterface
+{
 
     protected $databaseBuilder;
 
@@ -17,7 +18,7 @@ class DatabaseBackupHandler implements BackupHandlerInterface {
     /**
      * Get database configuration
      *
-     * @param string $database
+     * @param  string    $database
      * @return mixed
      * @throws Exception
      */
@@ -25,12 +26,11 @@ class DatabaseBackupHandler implements BackupHandlerInterface {
     {
         $database = $database ?: config('database.default');
 
-        if ($database != 'mysql')
-        {
+        if ($database != 'mysql') {
             throw new Exception('laravel-backup can only backup mysql databases');
         }
 
-        return $this->databaseBuilder->getDatabase(config('database.connections.' . $database));
+        return $this->databaseBuilder->getDatabase(config('database.connections.'.$database));
     }
 
     public function getDumpedDatabase()
@@ -39,8 +39,7 @@ class DatabaseBackupHandler implements BackupHandlerInterface {
 
         $success = $this->getDatabase()->dump($tempFile);
 
-        if (! $success)
-        {
+        if (! $success) {
             throw new Exception('Could not created backup of db');
         }
 

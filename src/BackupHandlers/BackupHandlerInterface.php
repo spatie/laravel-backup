@@ -2,7 +2,8 @@
 
 namespace Spatie\Backup\BackupHandlers;
 
-interface BackupHandlerInterface {
+interface BackupHandlerInterface
+{
 
     /**
      * Returns an array of files which should be backed up.

@@ -33,7 +33,7 @@ class BackupServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app['command.backup:run'] = $this->app->share(
-            function ($app)  {
+            function ($app) {
                 return new Commands\BackupCommand();
             }
         );

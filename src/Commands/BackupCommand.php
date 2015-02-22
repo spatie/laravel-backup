@@ -1,4 +1,5 @@
 <?php namespace Spatie\Backup\Commands;
+
 use Illuminate\Console\Command;
 use Exception;
 use Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler;
@@ -36,27 +37,80 @@ class BackupCommand extends Command
 
         $backupZipFile = $this->createZip($files);
 
-        foreach($this->getTargetFileSystems() as $fileSystem)
-        {
+        foreach ($this->getTargetFileSystems() as $fileSystem) {
+            $this->comment('Start uploading backup to '.$fileSystem.'-filesystem...');
+
             $disk = Storage::disk($fileSystem);
 
             $this->copyFile($backupZipFile, $disk, $this->getBackupDestinationFileName(), $fileSystem == 'local');
 
-            $this->comment('Database successfully backupped on ' . $fileSystem . '-filesystem in file ' . $this->getBackupDestinationFileName());
+            $this->comment('Backup stored on '.$fileSystem.'-filesystem in file '.$this->getBackupDestinationFileName());
         }
 
         $this->info('Backup successfully completed');
-
     }
 
+    /**
+     * Return an array with path to files that should be backed up
+     *
+     * @return array
+     */
+    protected function getAllFilesToBeBackedUp()
+    {
+        $files = [];
+
+        $databaseBackupHandler = app()->make(DatabaseBackupHandler::class);
+        foreach ($databaseBackupHandler->getFilesToBeBackedUp() as $file) {
+            $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
+        }
+        $this->comment('Database dumped');
+
+        $this->comment('Determining which files should be backed up...');
+        $fileBackupHandler = app()->make(FilesBackupHandler::class)
+            ->setIncludedFiles(config('laravel-backup.source.files.include'))
+            ->setExcludedFiles(config('laravel-backup.source.files.exclude'));
+        foreach ($fileBackupHandler->getFilesToBeBackedUp() as $file) {
+            $files[] = ['realFile' => $file, 'fileInZip' => 'files/'.$file];
+        }
+
+        return $files;
+    }
+
+    /**
+     * Create a zip for the given files
+     *
+     * @param $files
+     * @return string
+     */
+    protected function createZip($files)
+    {
+        $this->comment('Start zipping '.count($files).' files...');
+
+        $tempZipFile = tempnam(sys_get_temp_dir(), "laravel-backup-zip");
+
+        $zip = new ZipArchive();
+        $zip->open($tempZipFile, ZipArchive::CREATE);
+
+        foreach ($files as $file) {
+            if (file_exists($file['realFile'])) {
+                $zip->addFile($file['realFile'], $file['fileInZip']);
+            }
+        }
+
+        $zip->close();
+
+        $this->comment('Zip created!');
+
+        return $tempZipFile;
+    }
 
     /**
      * Copy the given file on the given disk to the given destination
      *
-     * @param string $file
+     * @param string                                      $file
      * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param string $destination
-     * @param bool $addIgnoreFile
+     * @param string                                      $destination
+     * @param bool                                        $addIgnoreFile
      */
     protected function copyFile($file, $disk, $destination, $addIgnoreFile = false)
     {
@@ -64,8 +118,7 @@ class BackupCommand extends Command
 
         $disk->makeDirectory($destionationDirectory);
 
-        if ($addIgnoreFile)
-        {
+        if ($addIgnoreFile) {
             $this->writeIgnoreFile($disk, $destionationDirectory);
         }
 
@@ -81,85 +134,23 @@ class BackupCommand extends Command
     {
         $fileSystems = config('laravel-backup.destination.filesystem');
 
-        if (is_array($fileSystems))
-        {
+        if (is_array($fileSystems)) {
             return $fileSystems;
         }
 
         return [$fileSystems];
-
     }
 
     /**
      * Write an ignore-file on the given disk in the given directory
      *
      * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param string $dumpDirectory
+     * @param string                                      $dumpDirectory
      */
     protected function writeIgnoreFile($disk, $dumpDirectory)
     {
-        $gitIgnoreContents = '*' . PHP_EOL . '!.gitignore';
-        $disk->put($dumpDirectory . '/.gitignore', $gitIgnoreContents);
-    }
-
-    /**
-     * Return an array with path to files that should be backed up
-     *
-     * @return array
-     */
-    private function getAllFilesToBeBackedUp()
-    {
-        $this->comment('Determining which files should be backed up');
-
-        $files = [];
-
-        $databaseBackupHandler = app()->make(DatabaseBackupHandler::class);
-        foreach($databaseBackupHandler->getFilesToBeBackedUp() as $file)
-        {
-            $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
-        }
-        $this->info('Database dumped');
-
-        $fileBackupHandler = app()->make(FilesBackupHandler::class)
-            ->setIncludedFiles(config('laravel-backup.source.files.include'))
-            ->setExcludedFiles(config('laravel-backup.source.files.exclude'));
-        foreach($fileBackupHandler->getFilesToBeBackedUp() as $file)
-        {
-            $files[] = ['realFile' => $file, 'fileInZip' => 'files/' . $file];
-        }
-
-        return $files;
-    }
-
-    /**
-     * Create a zip for the given files
-     *
-     * @param $files
-     * @return string
-     */
-    public function createZip($files)
-    {
-        $this->comment('Start zipping ' . count($files) . ' files');
-
-        $tempZipFile = tempnam(sys_get_temp_dir(), "laravel-backup-zip");
-
-        $zip = new ZipArchive();
-        $zip->open($tempZipFile, ZipArchive::CREATE);
-
-        foreach($files as $file)
-        {
-            if (file_exists($file['realFile']))
-            {
-                $zip->addFile($file['realFile'], $file['fileInZip']);
-            }
-
-        }
-
-        $zip->close();
-
-        $this->comment('Created zip file containing all files that need to be backed up');
-
-        return $tempZipFile;
+        $gitIgnoreContents = '*'.PHP_EOL.'!.gitignore';
+        $disk->put($dumpDirectory.'/.gitignore', $gitIgnoreContents);
     }
 
     /**
@@ -167,8 +158,8 @@ class BackupCommand extends Command
      *
      * @return string
      */
-    private function getBackupDestinationFileName()
+    protected function getBackupDestinationFileName()
     {
-        return config('laravel-backup.destination.path') . '/' . date('YmdHis') . '.zip' ;
+        return config('laravel-backup.destination.path').'/'.date('YmdHis').'.zip';
     }
 }
