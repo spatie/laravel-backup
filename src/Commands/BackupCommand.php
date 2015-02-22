@@ -1,7 +1,6 @@
 <?php namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
-use Exception;
 use Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler;
 use Spatie\Backup\BackupHandlers\Files\FilesBackupHandler;
 use Storage;
