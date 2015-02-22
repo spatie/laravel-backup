@@ -11,9 +11,6 @@ This Laravel 5 package creates a backup of your application. The backup is a zip
 
 Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 
-## Important notice
-Dev-master contains a new version that is not yet entirely stable. You should use [version 1.2](https://github.com/freekmurze/laravel-backup/tree/1.2.0) in production environments.
-
 ## Prerequisites
 To create a dump of a MySQL-db this packages uses the ```mysqldump```-binary. Make sure it is installed on your system.
 
