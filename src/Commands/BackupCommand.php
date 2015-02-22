@@ -132,7 +132,7 @@ class BackupCommand extends Command
         }
 
         /*
-         * The zip-file could grow quite large. Use a stream to copy it
+         * The file could be quite large. Use a stream to copy it
          * to the target disk to avoid memory problems
          */
         $disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
