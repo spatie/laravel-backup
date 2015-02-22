@@ -26,8 +26,7 @@ class BackupCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
-     * @throws Exception
+     * @return bool
      */
     public function fire()
     {
@@ -48,6 +47,8 @@ class BackupCommand extends Command
         }
 
         $this->info('Backup successfully completed');
+
+        return true;
     }
 
     /**
@@ -114,12 +115,12 @@ class BackupCommand extends Command
      */
     protected function copyFile($file, $disk, $destination, $addIgnoreFile = false)
     {
-        $destionationDirectory = dirname($destination);
+        $destinationDirectory = dirname($destination);
 
-        $disk->makeDirectory($destionationDirectory);
+        $disk->makeDirectory($destinationDirectory);
 
         if ($addIgnoreFile) {
-            $this->writeIgnoreFile($disk, $destionationDirectory);
+            $this->writeIgnoreFile($disk, $destinationDirectory);
         }
 
         $disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
