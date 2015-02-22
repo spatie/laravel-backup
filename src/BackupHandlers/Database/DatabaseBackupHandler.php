@@ -39,7 +39,7 @@ class DatabaseBackupHandler implements BackupHandlerInterface
 
         $success = $this->getDatabase()->dump($tempFile);
 
-        if (! $success) {
+        if (! $success OR file_get_contents($tempFile) == '') {
             throw new Exception('Could not created backup of db');
         }
 
