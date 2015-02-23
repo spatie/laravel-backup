@@ -109,7 +109,7 @@ return [
 Use this command start the backup and store the zipfile to the filesystem(s) you specified:
 
 ``` bash
-php artisan backup:start
+php artisan backup:run
 ```
 
 A zip-file, containing all files in the directories you specified along the dump of your database, will be created on the filesystem(s) you specified in the config-file.
