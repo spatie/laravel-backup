@@ -3,7 +3,7 @@
 All Notable changes to `laravel-backup` will be documented in this file
 
 ### 2.0.2
-- Fixed a [security issue where](https://github.com/freekmurze/laravel-backup/issues/6), on shared hosting environments,
+- Fixed a [security issue](https://github.com/freekmurze/laravel-backup/issues/6) where, on shared hosting environments,
 the username and password show up in the processlist
 
 ### 2.0.1
