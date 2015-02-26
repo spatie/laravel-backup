@@ -31,19 +31,30 @@ class MySQLDatabase implements DatabaseInterface
     }
 
     /**
-     * Create a database dump
+     * Create a database dump.
      *
-     * @param  string $destinationFile
+     * @param string $destinationFile
+     *
      * @return bool
      */
     public function dump($destinationFile)
     {
-        $command = sprintf('%smysqldump --user=%s --password=%s --host=%s --port=%s %s > %s',
+        /*
+         * Create temporary file with db credentials
+         */
+        $tempFileHandle = tmpfile();
+        fwrite($tempFileHandle,
+            "[client]".PHP_EOL.
+            "user = '".$this->user."'".PHP_EOL.
+            "password = '".$this->password."'".PHP_EOL.
+            "host = '".$this->host."'".PHP_EOL.
+            "port = '".$this->port."'".PHP_EOL
+        );
+        $temporaryCredentialsFile = stream_get_meta_data($tempFileHandle)['uri'];
+
+        $command = sprintf('%smysqldump --defaults-extra-file=%s --skip-comments --skip-extended-insert %s > %s',
             $this->getDumpCommandPath(),
-            escapeshellarg($this->user),
-            escapeshellarg($this->password),
-            escapeshellarg($this->host),
-            escapeshellarg($this->port),
+            escapeshellarg($temporaryCredentialsFile),
             escapeshellarg($this->database),
             escapeshellarg($destinationFile)
         );
@@ -52,7 +63,7 @@ class MySQLDatabase implements DatabaseInterface
     }
 
     /**
-     * Get the default file extension
+     * Get the default file extension.
      *
      * @return string
      */
@@ -62,7 +73,7 @@ class MySQLDatabase implements DatabaseInterface
     }
 
     /**
-     * Get the path to the mysqldump
+     * Get the path to the mysqldump.
      *
      * @return string
      */

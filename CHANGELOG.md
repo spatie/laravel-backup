@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.0.2
+- Fixed a [security issue where](https://github.com/freekmurze/laravel-backup/issues/6), on shared hosting environments,
+the username and password show up in the processlist
+
 ### 2.0.1
 - Fixed a bug that caused excluded files to still end up in the backup
 - Added an exception when the database dump returns an empty string

@@ -7,7 +7,6 @@ use Spatie\Backup\BackupHandlers\BackupHandlerInterface;
 
 class DatabaseBackupHandler implements BackupHandlerInterface
 {
-
     protected $databaseBuilder;
 
     public function __construct(DatabaseBuilder $databaseBuilder)
@@ -16,10 +15,12 @@ class DatabaseBackupHandler implements BackupHandlerInterface
     }
 
     /**
-     * Get database configuration
+     * Get database configuration.
      *
-     * @param  string    $database
+     * @param string $database
+     *
      * @return mixed
+     *
      * @throws Exception
      */
     public function getDatabase($database = '')
@@ -40,7 +41,7 @@ class DatabaseBackupHandler implements BackupHandlerInterface
         $success = $this->getDatabase()->dump($tempFile);
 
         if (! $success || file_get_contents($tempFile) == '') {
-            throw new Exception('Could not created backup of db');
+            throw new Exception('Could not create backup of db');
         }
 
         return $tempFile;

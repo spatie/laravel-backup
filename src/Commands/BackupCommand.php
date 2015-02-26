@@ -33,8 +33,7 @@ class BackupCommand extends Command
 
         $files = $this->getAllFilesToBeBackedUp();
 
-        if (count($files) == 0)
-        {
+        if (count($files) == 0) {
             $this->info('Nothing to backup');
 
             return true;
@@ -58,7 +57,7 @@ class BackupCommand extends Command
     }
 
     /**
-     * Return an array with path to files that should be backed up
+     * Return an array with path to files that should be backed up.
      *
      * @return array
      */
@@ -86,9 +85,10 @@ class BackupCommand extends Command
     }
 
     /**
-     * Create a zip for the given files
+     * Create a zip for the given files.
      *
      * @param $files
+     *
      * @return string
      */
     protected function createZip($files)
@@ -114,7 +114,7 @@ class BackupCommand extends Command
     }
 
     /**
-     * Copy the given file on the given disk to the given destination
+     * Copy the given file on the given disk to the given destination.
      *
      * @param string                                      $file
      * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
@@ -139,7 +139,7 @@ class BackupCommand extends Command
     }
 
     /**
-     * Get the filesystems to where the database should be dumped
+     * Get the filesystems to where the database should be dumped.
      *
      * @return array
      */
@@ -155,7 +155,7 @@ class BackupCommand extends Command
     }
 
     /**
-     * Write an ignore-file on the given disk in the given directory
+     * Write an ignore-file on the given disk in the given directory.
      *
      * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
      * @param string                                      $dumpDirectory
@@ -167,7 +167,7 @@ class BackupCommand extends Command
     }
 
     /**
-     * Determine the name of the zip that contains the backup
+     * Determine the name of the zip that contains the backup.
      *
      * @return string
      */

@@ -8,15 +8,15 @@ use SplFileInfo;
 
 class FilesBackupHandler implements BackupHandlerInterface
 {
-
     protected $includedFiles;
 
     protected $excludedFiles;
 
     /**
-     * Set all files that should be included
+     * Set all files that should be included.
      *
-     * @param  array $includedFiles
+     * @param array $includedFiles
+     *
      * @return $this
      */
     public function setIncludedFiles($includedFiles)
@@ -27,9 +27,10 @@ class FilesBackupHandler implements BackupHandlerInterface
     }
 
     /**
-     * Set all files that should be excluded
+     * Set all files that should be excluded.
      *
-     * @param  array $excludedFiles
+     * @param array $excludedFiles
+     *
      * @return $this
      */
     public function setExcludedFiles($excludedFiles)
@@ -53,7 +54,6 @@ class FilesBackupHandler implements BackupHandlerInterface
             return ! in_array($file, $filesToBeExcluded);
         });
     }
-
 
     public function getAllPathFromFileArray($fileArray)
     {

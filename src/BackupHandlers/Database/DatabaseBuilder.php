@@ -7,7 +7,6 @@ use Spatie\Backup\Console;
 
 class DatabaseBuilder
 {
-
     protected $database;
     protected $console;
 
