@@ -34,7 +34,10 @@ class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
     public function testDump()
     {
         $this->console->shouldReceive('run')
-            ->with("mysqldump --user='testUser' --password='password' --host='localhost' --port='3306' 'testDatabase' > 'testfile.sql'")
+            ->with(m::on(function($parameter) {
+                $pattern = "/mysqldump --defaults-extra-file='(.*)' --skip-comments --skip-extended-insert 'testDatabase' > 'testfile.sql'/";
+                return preg_match($pattern, $parameter) == true;
+            }))
             ->once()
             ->andReturn(true);
 
