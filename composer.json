@@ -22,14 +22,15 @@
     "require": {
         "php" : ">=5.4.0",
         "illuminate/support": "5.*",
-        "illuminate/console": "5.*",
-        "orchestra/testbench": "~3.0"
+        "illuminate/console": "5.*"
+
     },
     "require-dev": {
         "laravel/framework": "5.*",
         "phpunit/phpunit" : "4.*",
         "mockery/mockery": "0.9.*",
-        "scrutinizer/ocular": "~1.1"
+        "scrutinizer/ocular": "~1.1",
+        "orchestra/testbench": "~3.0"
     },
     "autoload": {
         "psr-4": {
