@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.0.3
+- Moved orchestra/testbench to dev-dependencies
+
 ### 2.0.2
 - Fixed a [security issue](https://github.com/freekmurze/laravel-backup/issues/6) where, on shared hosting environments,
 the username and password show up in the processlist
