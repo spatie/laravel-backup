@@ -56,6 +56,12 @@ class FilesBackupHandler implements BackupHandlerInterface
         });
     }
 
+    /**
+     * Make a unique array of all filepaths from a given array of files.
+     *
+     * @param $fileArray
+     * @return array
+     */
     public function getAllPathFromFileArray($fileArray)
     {
         $files = [];
@@ -75,6 +81,12 @@ class FilesBackupHandler implements BackupHandlerInterface
         }, $files));
     }
 
+    /**
+     * Recursively get all the files within a given directory.
+     *
+     * @param $directory
+     * @return array
+     */
     protected function getAllFilesFromDirectory($directory)
     {
         $finder = (new Finder())
