@@ -5,6 +5,7 @@ namespace Spatie\Backup\BackupHandlers\Files;
 use File;
 use Spatie\Backup\BackupHandlers\BackupHandlerInterface;
 use SplFileInfo;
+use Symfony\Component\Finder\Finder;
 
 class FilesBackupHandler implements BackupHandlerInterface
 {
@@ -65,12 +66,23 @@ class FilesBackupHandler implements BackupHandlerInterface
             }
 
             if (File::isDirectory($file)) {
-                $files = array_merge($files, File::allFiles($file));
+                $files = array_merge($files, $this->getAllFilesFromDirectory($file));
             }
         }
 
         return array_unique(array_map(function (SplFileInfo $file) {
             return $file->getPathName();
         }, $files));
+    }
+
+    protected function getAllFilesFromDirectory($directory)
+    {
+        $finder = (new Finder())
+            ->ignoreDotFiles(false)
+            ->ignoreVCS(false)
+            ->files()
+            ->in($directory);
+
+        return iterator_to_array($finder);
     }
 }
