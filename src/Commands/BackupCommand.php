@@ -3,7 +3,7 @@
 use Illuminate\Console\Command;
 use Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler;
 use Spatie\Backup\BackupHandlers\Files\FilesBackupHandler;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
 class BackupCommand extends Command
