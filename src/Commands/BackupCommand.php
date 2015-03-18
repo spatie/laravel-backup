@@ -4,6 +4,7 @@ use Illuminate\Console\Command;
 use Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler;
 use Spatie\Backup\BackupHandlers\Files\FilesBackupHandler;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\InputOption;
 use ZipArchive;
 
 class BackupCommand extends Command
@@ -71,6 +72,11 @@ class BackupCommand extends Command
                 $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
             }
             $this->comment('Database dumped');
+        }
+
+        if($this->option('only-db'))
+        {
+            return $files;
         }
 
         $this->comment('Determining which files should be backed up...');
@@ -174,5 +180,17 @@ class BackupCommand extends Command
     protected function getBackupDestinationFileName()
     {
         return config('laravel-backup.destination.path').'/'.date('YmdHis').'.zip';
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['only-db', null, InputOption::VALUE_NONE, 'Only backup the database.'],
+        ];
     }
 }
