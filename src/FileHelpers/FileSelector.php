@@ -1,6 +1,5 @@
 <?php namespace Spatie\Backup\FileHelpers;
 
-use Storage;
 use DateTime;
 
 class FileSelector {
@@ -8,9 +7,8 @@ class FileSelector {
     protected $disk;
     protected $path;
 
-    public function __construct($path, $disk)
+    public function __construct($disk)
     {
-        $this->path = $path;
         $this->disk = $disk;
     }
 
@@ -23,9 +21,11 @@ class FileSelector {
      */
     public function getFilesOlderThan(DateTime $date, array $includedExtensions)
     {
+        $allFiles = $this->disk->allFiles();
+
         foreach($includedExtensions as $extension)
         {
-            $backupFiles = $this->filterFilesOnExtension($this->disk->allFiles($this->path), $extension);
+            $backupFiles = $this->filterFilesOnExtension($allFiles, $extension);
         }
 
         return $this->filterFilesOnDate($backupFiles, $date);
@@ -55,7 +55,7 @@ class FileSelector {
     public function filterFilesOnDate($files, DateTime $date)
     {
         return array_filter($files, function($file) use($date){
-            return Storage::lastModified($file) < $date->getTimeStamp();
+            return $this->disk->lastModified($file) < $date->getTimeStamp();
         });
     }
 }

@@ -24,36 +24,33 @@ class CleanCommand extends Command {
 
     public function fire()
     {
-        $path = config('laravel-backup.destination.path');
-
         $this->guardAgainstInvalidConfiguration();
 
         $expireDate = Carbon::now()->subDays(config('laravel-backup.clean.maxAgeInDays'));
 
-        $this->info('Start cleaning up back-up files that are older than before '.config('laravel-backup.clean.maxAgeInDays').' days');
-        $this->info('');
-
-        $filesDeleted = 0;
+        $this->info('Start cleaning up back-up files that are older than '.config('laravel-backup.clean.maxAgeInDays').' days');
 
         foreach($this->getTargetFileSystems() as $filesystem)
         {
             $disk = Storage::disk($filesystem);
 
-            $filesToBeDeleted = (new FileSelector($path, $disk))->getFilesOlderThan($expireDate, ['zip']);
+            $filesToBeDeleted = (new FileSelector($disk))->getFilesOlderThan($expireDate, ['zip']);
 
+            $filesDeleted = 0;
             foreach($filesToBeDeleted as $file)
             {
                 $modified = Carbon::createFromTimestamp(Storage::lastModified($file));
-
-                Storage::delete($file);
+                $disk->delete($file);
                 $this->comment($file . ' deleted because it was '.$modified->diffInDays().' days old.');
                 $filesDeleted++;
             }
-
+            $this->info('deleted '.$filesDeleted.' old backup(s) on the ' . $filesystem . '-filesystem.');
             $this->comment($filesystem.'-filesystem cleaned up.');
         }
 
-        $this->info('Deleted '.$filesDeleted.' files.');
+        $this->info('All done!');
+
+
     }
 
     /**
