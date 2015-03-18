@@ -95,7 +95,8 @@ return [
     
     'clean' => [
         /*
-        * The clean command will remove all backups that are older then this amount of days
+        * The clean command will remove all backups on all configured filesystems
+        * that are older then this amount of days.
         */
         'maxAgeInDays' => 90,
     ],
