@@ -133,9 +133,8 @@ A zip-file, containing all files in the directories you specified along the dump
 
 ### Cleanup
 
-<<<<<<< HEAD
 This command will remove all zip-files that are older than the specified amount of days in the config file on all configured filesystems:
-=======
+
 You can also specify an amount of days it takes for a backup-file to expire.
 
 Running this command will remove all 'expired' files from all the specified filesystems:
