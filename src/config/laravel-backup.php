@@ -59,7 +59,7 @@ return [
     ],
 
     /*
-     * Number of days before backup-files expire.
+     * The clean command will remove all backups that are older then this amount of days
      */
-    'expirationDays' => 90,
+    'maxAgeInDays' => 90,
 ];

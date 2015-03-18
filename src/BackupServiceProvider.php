@@ -36,7 +36,7 @@ class BackupServiceProvider extends ServiceProvider
 
         $this->app['command.backup:clean'] = $this->app->share(
             function ($app) {
-                return new Commands\CleanUpCommand();
+                return new Commands\CleanCommand();
             }
         );
 

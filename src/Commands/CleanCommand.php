@@ -5,7 +5,7 @@ use Storage;
 use Carbon\Carbon;
 use Spatie\Backup\FileHelpers\FileSelector;
 
-class CleanUpCommand extends Command {
+class CleanCommand extends Command {
 
     /**
      * The console command name.
@@ -25,9 +25,11 @@ class CleanUpCommand extends Command {
     {
         $path = config('laravel-backup.destination.path');
 
-        $expireDate = Carbon::now()->subDays(config('laravel-backup.expirationDays'));
+        $this->guardAgainstInvalidConfiguration();
 
-        $this->info('Start cleaning up back-up files created before ' . $expireDate);
+        $expireDate = Carbon::now()->subDays(config('laravel-backup.maxAgeInDays'));
+
+        $this->info('Start cleaning up back-up files that are older than before '.config('laravel-backup.maxAgeInDays').' days');
         $this->info('');
 
         $filesDeleted = 0;
@@ -67,5 +69,20 @@ class CleanUpCommand extends Command {
         }
 
         return [$fileSystems];
+    }
+
+    private function guardAgainstInvalidConfiguration()
+    {
+        $maxAgeInDays = config('laravel-backup.maxAgeInDays');
+
+        if (! is_numeric($maxAgeInDays))
+        {
+            throw new Exception('maxAgeInDays should be numeric');
+        }
+
+        if ($maxAgeInDays <= 0)
+        {
+            throw new Exception('maxAgeInDays should be higher than 0');
+        }
     }
 }
