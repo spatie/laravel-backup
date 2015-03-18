@@ -1,5 +1,6 @@
 <?php namespace Spatie\Backup\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Storage;
 use Carbon\Carbon;
@@ -27,9 +28,9 @@ class CleanCommand extends Command {
 
         $this->guardAgainstInvalidConfiguration();
 
-        $expireDate = Carbon::now()->subDays(config('laravel-backup.maxAgeInDays'));
+        $expireDate = Carbon::now()->subDays(config('laravel-backup.clean.maxAgeInDays'));
 
-        $this->info('Start cleaning up back-up files that are older than before '.config('laravel-backup.maxAgeInDays').' days');
+        $this->info('Start cleaning up back-up files that are older than before '.config('laravel-backup.clean.maxAgeInDays').' days');
         $this->info('');
 
         $filesDeleted = 0;
@@ -73,7 +74,7 @@ class CleanCommand extends Command {
 
     private function guardAgainstInvalidConfiguration()
     {
-        $maxAgeInDays = config('laravel-backup.maxAgeInDays');
+        $maxAgeInDays = config('laravel-backup.clean.maxAgeInDays');
 
         if (! is_numeric($maxAgeInDays))
         {
