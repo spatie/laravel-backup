@@ -59,7 +59,7 @@ class FilesBackupHandler implements BackupHandlerInterface
     /**
      * Make a unique array of all filepaths from a given array of files.
      *
-     * @param $fileArray
+     * @param array $fileArray
      * @return array
      */
     public function getAllPathFromFileArray($fileArray)
@@ -68,7 +68,7 @@ class FilesBackupHandler implements BackupHandlerInterface
 
         foreach ($fileArray as $file) {
             if (File::isFile($file)) {
-                $files[] = $file;
+                $files[] = new SplFileInfo($file);
             }
 
             if (File::isDirectory($file)) {

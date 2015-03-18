@@ -25,4 +25,3 @@ class ConsoleTest extends PHPUnit_Framework_TestCase {
         );
     }
 }
-
