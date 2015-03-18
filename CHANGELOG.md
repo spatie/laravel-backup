@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.1.0
+- Added a command to clean up old backups
+
 ### 2.0.6
 - Added an option to only backup the db
 
