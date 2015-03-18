@@ -40,8 +40,7 @@ class BackupServiceProvider extends ServiceProvider
             }
         );
 
-        $this->commands('command.backup:run');
-        $this->commands('command.backup:clean');
+        $this->commands(['command.backup:run', 'command.backup:clean']);
     }
 
     /**
