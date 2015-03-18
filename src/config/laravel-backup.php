@@ -57,4 +57,9 @@ return [
     'mysql' => [
         'dump_command_path' => '',
     ],
+
+    /*
+     * Number of days before backup-files expire.
+     */
+    'expirationDays' => 90,
 ];
