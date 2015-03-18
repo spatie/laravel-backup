@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.0.6
+- Added an option to only backup the db
+
 ### 2.0.4
 - Fixed a [bug](https://github.com/freekmurze/laravel-backup/issues/10) that caused dot files not being included in the backup
 
