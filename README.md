@@ -133,7 +133,7 @@ A zip-file, containing all files in the directories you specified along the dump
 
 ### Cleanup
 
-This command will remove all zip-files that are older than the amount of days specified in the config file.
+This command will remove all zip-files that are older than the amount of days specified in the config file:
 
 ``` bash
 php artisan backup:clean
