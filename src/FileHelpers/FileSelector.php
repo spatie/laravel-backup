@@ -12,17 +12,18 @@ class FileSelector {
     }
 
     /**
-     * Get all files older than $date, filtered on $includedExtensions
+     * Get all files older than $date
+     * Only files with an extension present in $onlyIncludeFilesWithExtension will be returned
      *
      * @param DateTime $date
-     * @param array $includedExtensions
+     * @param array $onlyIncludeFilesWithExtension
      * @return array
      */
-    public function getFilesOlderThan(DateTime $date, array $includedExtensions)
+    public function getFilesOlderThan(DateTime $date, array $onlyIncludeFilesWithExtension)
     {
         $allFiles = $this->disk->allFiles();
 
-        foreach($includedExtensions as $extension)
+        foreach($onlyIncludeFilesWithExtension as $extension)
         {
             $backupFiles = $this->filterFilesOnExtension($allFiles, $extension);
         }
@@ -37,7 +38,7 @@ class FileSelector {
      * @param $extension
      * @return array
      */
-    public function filterFilesOnExtension($backupFiles, $extension)
+    private function filterFilesOnExtension($backupFiles, $extension)
     {
         return array_filter($backupFiles, function($file) use($extension){
             return strtolower(pathinfo($file, PATHINFO_EXTENSION)) == $extension;
@@ -51,7 +52,7 @@ class FileSelector {
      * @param DateTime $date
      * @return array
      */
-    public function filterFilesOnDate($files, DateTime $date)
+    private function filterFilesOnDate($files, DateTime $date)
     {
         return array_filter($files, function($file) use($date){
             return $this->disk->lastModified($file) < $date->getTimeStamp();

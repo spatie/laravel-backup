@@ -1,56 +1,84 @@
 <?php
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use Spatie\Backup\FileHelpers\FileSelector;
-use Symfony\Component\Finder\SplFileInfo;
 
 class FileSelectorTest extends Orchestra\Testbench\TestCase {
 
+    protected $path;
+
+    protected $disk;
+
     protected $fileSelector;
-    protected $date;
 
     public function setUp()
     {
         parent::setUp();
-        $this->date = new DateTime();
+        $this->path = realpath('tests/_data/backups');
 
-        $this->disk = new Illuminate\Filesystem\FilesystemAdapter(new Filesystem(new Local(realpath('tests/_data/backups'))));
+        //make sure all files in our testdirectory are 5 days old
+        foreach (scandir($this->path) as $file)
+        {
+            touch($this->path . '/' . $file, time() - (60 * 60 * 24 * 5));
+        }
+
+        $this->disk = new Illuminate\Filesystem\FilesystemAdapter(new Filesystem(new Local($this->path)));
         $this->fileSelector = new FileSelector($this->disk);
     }
 
-    public function test_if_files_are_filtered_on_extension()
+    /**
+     * @test
+     */
+    public function it_returns_only_files_with_the_specified_extensions()
     {
+        $oldFiles = $this->fileSelector->getFilesOlderThan(new DateTime(), ['zip']);
 
-        $files = array_map(function($file) {
-            return new SplFileInfo($file, $file, $file);
-        }, $this->disk->allFiles());
+        $this->assertNotEmpty($oldFiles);
 
-        $filteredFiles = $this->fileSelector->filterFilesOnExtension($files, 'zip');
-
-        $this->assertNotEmpty($filteredFiles);
-
-        $this->assertEmpty(
-            array_filter($filteredFiles, function($file){
-                return $file->getRelativePathname() == 'MariahCarey.php';
-            })
-        );
+        $this->assertFalse(in_array('MariahCarey.php', $oldFiles));
     }
 
-    public function test_if_files_are_filtered_on_date()
+    /**
+     * @test
+     */
+    public function it_returns_an_empty_array_if_no_extensions_are_specified()
     {
-        $files = array_map(function($file) {
-            return new SplFileInfo($file, $file, $file);
-        }, $this->disk->allFiles());
+        $oldFiles = $this->fileSelector->getFilesOlderThan(new DateTime(), ['']);
 
-        $filteredFiles = $this->fileSelector->filterFilesOnDate($files, $this->date);
+        $this->assertEmpty($oldFiles);
     }
 
-    public function test_if_correct_files_are_returned()
+    /**
+     * @test
+     */
+    public function it_gets_files_older_than_the_given_date()
     {
-        $files = $this->fileSelector->getFilesOlderThan($this->date, ['zip']);
+        $testFileName = 'test_it_gets_files_older_than_the_given_date.zip';
+
+        touch($this->path . '/'  .$testFileName , time() - (60 * 60 * 24 * 10) + 60); //create a file that is 10 days and a minute old
+
+        $oldFiles = $this->fileSelector->getFilesOlderThan((new DateTime())->sub(new DateInterval('P9D')), ['zip']);
+        $this->assertTrue(in_array($testFileName, $oldFiles));
+
+        $oldFiles = $this->fileSelector->getFilesOlderThan((new DateTime())->sub(new DateInterval('P10D')), ['zip']);
+        $this->assertFalse(in_array($testFileName, $oldFiles));
+
+        $oldFiles = $this->fileSelector->getFilesOlderThan((new DateTime())->sub(new DateInterval('P11D')), ['zip']);
+        $this->assertFalse(in_array($testFileName, $oldFiles));
+
     }
 
+    /**
+     * Call artisan command and return code.
+     *
+     * @param string $command
+     * @param array $parameters
+     *
+     * @return int
+     */
+    public function artisan($command, $parameters = [])
+    {
+
+    }
 }
