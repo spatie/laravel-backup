@@ -18,7 +18,11 @@ class FileSelectorTest extends Orchestra\Testbench\TestCase {
 
     public function test_if_files_are_filtered_on_extension()
     {
-        $files = File::allFiles('tests/_data/backups');
+        print_r('Fileselector getting files');
+
+        $files = File::allFiles(realpath('tests/_data/backups'));
+
+        print_r($files);
 
         $filteredFiles = $this->fileSelector->filterFilesOnExtension($files, 'zip');
 

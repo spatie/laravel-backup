@@ -63,10 +63,11 @@ class FilesBackupHandlerTest extends Orchestra\Testbench\TestCase {
 
         $files = $this->backupHandler->getFilesToBeBackedUp();
 
-        print_r($files);
+        print_r('Testing NotHasKey on ' . realpath('tests/_data/OneDirection/Harry.php'));
 
         $this->assertArrayNotHasKey(realpath('tests/_data/OneDirection/Harry.php'), $files);
 
+        print_r('It Worked!');
 
         $this->assertArrayHasKey(realpath('tests/_data/OneDirection/SimonCowell.php'), $files);
         $this->assertArrayHasKey(realpath('tests/_data/OneDirection/GenericBoysBandDude.php'), $files);
