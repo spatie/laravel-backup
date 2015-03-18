@@ -22,9 +22,13 @@ class FileSelectorTest extends Orchestra\Testbench\TestCase {
 
         $files = File::allFiles(realpath('tests/_data/backups'));
 
+        print_r('Files array: '.PHP_EOL);
         print_r($files);
 
         $filteredFiles = $this->fileSelector->filterFilesOnExtension($files, 'zip');
+
+        print_r('Filtered Files: '.PHP_EOL);
+        print_r($filteredFiles);
 
         $this->assertEquals('ElvisPresley.zip', $filteredFiles[0]->getRelativePathname());
         $this->assertEquals('JohnnyCash.zip', $filteredFiles[1]->getRelativePathname());
