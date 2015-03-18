@@ -44,7 +44,7 @@ class CleanCommand extends Command {
                 $this->comment($file . ' deleted because it was '.$modified->diffInDays().' days old.');
                 $filesDeleted++;
             }
-            $this->info('deleted '.$filesDeleted.' old backup(s) on the ' . $filesystem . '-filesystem.');
+            $this->comment('deleted '.$filesDeleted.' old backup(s) on the ' . $filesystem . '-filesystem.');
             $this->comment($filesystem.'-filesystem cleaned up.');
         }
 
