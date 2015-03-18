@@ -39,9 +39,7 @@ class CleanCommand extends Command {
             $filesDeleted = 0;
             foreach($filesToBeDeleted as $file)
             {
-                $modified = Carbon::createFromTimestamp(Storage::lastModified($file));
                 $disk->delete($file);
-                $this->comment($file . ' deleted because it was '.$modified->diffInDays().' days old.');
                 $filesDeleted++;
             }
             $this->comment('deleted '.$filesDeleted.' old backup(s) on the ' . $filesystem . '-filesystem.');
