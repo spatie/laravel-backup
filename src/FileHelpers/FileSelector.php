@@ -5,7 +5,6 @@ use DateTime;
 class FileSelector {
 
     protected $disk;
-    protected $path;
 
     public function __construct($disk)
     {
