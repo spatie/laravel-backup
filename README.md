@@ -99,12 +99,20 @@ return [
      */
     'mysql' => [
         'dump_command_path' => '',
-    ]
+    ],
+    
+    /*
+     * Number of days before backup-files expire.
+     */
+    'expirationDays' => 90
 ];
+
 
 ```
 
 ## Usage
+
+### Backup
 
 Use this command start the backup and store the zipfile to the filesystem(s) you specified:
 
@@ -113,6 +121,18 @@ php artisan backup:run
 ```
 
 A zip-file, containing all files in the directories you specified along the dump of your database, will be created on the filesystem(s) you specified in the config-file.
+
+### Cleanup
+
+You can also specify an amount of days it takes for a backup-file to expire.
+
+Running this command will remove all 'expired' files from all the specified filesystems:
+
+``` bash
+php artisan backup:clean
+```
+
+
 
 ## Testing
 
