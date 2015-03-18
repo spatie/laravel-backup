@@ -102,9 +102,15 @@ return [
     ],
     
     /*
+<<<<<<< HEAD
      * The clean command will remove all backups that are older then this amount of days
      */
     'maxAgeInDays' => 90,
+=======
+     * Number of days before backup-files expire.
+     */
+    'expirationDays' => 90
+>>>>>>> a49226909edf6f1d5ef7846ecc29f59253eb36cd
 ];
 
 
@@ -129,8 +135,12 @@ A zip-file, containing all files in the directories you specified along the dump
 
 ### Cleanup
 
+<<<<<<< HEAD
 This command will remove all zip-files that are older than the specified amount of days in the config file on all configured filesystems:
+=======
+You can also specify an amount of days it takes for a backup-file to expire.
 
+Running this command will remove all 'expired' files from all the specified filesystems:
 ``` bash
 php artisan backup:clean
 ```
