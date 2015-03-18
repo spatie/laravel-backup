@@ -28,7 +28,7 @@ class CleanCommand extends Command {
 
         $expireDate = Carbon::now()->subDays(config('laravel-backup.clean.maxAgeInDays'));
 
-        $this->info('Start cleaning up back-up files that are older than '.config('laravel-backup.clean.maxAgeInDays').' days');
+        $this->info('Start cleaning up back-up files that are older than '.config('laravel-backup.clean.maxAgeInDays').' days...');
 
         foreach($this->getTargetFileSystems() as $filesystem)
         {
