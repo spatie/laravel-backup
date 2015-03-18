@@ -112,6 +112,11 @@ Use this command start the backup and store the zipfile to the filesystem(s) you
 php artisan backup:run
 ```
 
+If you want to take a backup of only the db (without all other files that you might have configured) you can use this command:
+``` bash
+php artisan backup:run --only-db
+```
+
 A zip-file, containing all files in the directories you specified along the dump of your database, will be created on the filesystem(s) you specified in the config-file.
 
 ## Testing
