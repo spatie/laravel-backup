@@ -18,23 +18,17 @@ class FileSelectorTest extends Orchestra\Testbench\TestCase {
 
     public function test_if_files_are_filtered_on_extension()
     {
-        print_r('Fileselector getting files');
-
         $files = File::allFiles(realpath('tests/_data/backups'));
-
-        print_r('Files array: '.PHP_EOL);
-        print_r($files);
 
         $filteredFiles = $this->fileSelector->filterFilesOnExtension($files, 'zip');
 
-        print_r('Filtered Files: '.PHP_EOL);
-        print_r($filteredFiles);
+        $this->assertNotEmpty($filteredFiles);
 
-        $this->assertEquals('ElvisPresley.zip', $filteredFiles[0]->getRelativePathname());
-        $this->assertEquals('JohnnyCash.zip', $filteredFiles[1]->getRelativePathname());
-        $this->assertEquals('test.zip', $filteredFiles[3]->getRelativePathname());
-
-        // Skips to key 3 because (fortunately) MariahCarey is filtered out!
+        $this->assertEmpty(
+            array_filter($filteredFiles, function($file){
+                return $file->getRelativePathname() == 'MariahCarey.php';
+            })
+        );
     }
 
     /*public function test_if_files_are_filtered_on_date()
