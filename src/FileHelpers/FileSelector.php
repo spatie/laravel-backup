@@ -5,10 +5,12 @@ use DateTime;
 class FileSelector {
 
     protected $disk;
+    protected $path;
 
-    public function __construct($disk)
+    public function __construct($disk, $path)
     {
         $this->disk = $disk;
+        $this->path = $path;
     }
 
     /**
@@ -21,7 +23,7 @@ class FileSelector {
      */
     public function getFilesOlderThan(DateTime $date, array $onlyIncludeFilesWithExtension)
     {
-        $allFiles = $this->disk->allFiles();
+        $allFiles = $this->disk->allFiles($this->path);
 
         foreach($onlyIncludeFilesWithExtension as $extension)
         {
