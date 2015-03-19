@@ -5,10 +5,12 @@ use DateTime;
 class FileSelector {
 
     protected $disk;
+    protected $path;
 
-    public function __construct($disk)
+    public function __construct($disk, $path)
     {
         $this->disk = $disk;
+        $this->path = $path;
     }
 
     /**

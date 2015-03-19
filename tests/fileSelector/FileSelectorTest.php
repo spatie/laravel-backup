@@ -24,7 +24,7 @@ class FileSelectorTest extends Orchestra\Testbench\TestCase {
         }
 
         $this->disk = new Illuminate\Filesystem\FilesystemAdapter(new Filesystem(new Local($this->path)));
-        $this->fileSelector = new FileSelector($this->disk);
+        $this->fileSelector = new FileSelector($this->disk, $this->path);
     }
 
     /**
