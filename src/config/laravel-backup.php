@@ -33,26 +33,26 @@ return [
     'destination' => [
 
         /*
-         * The filesystem(s) you on which the disk will be stored. Choose one or more
+         * The filesystem(s) you on which the backups will be stored. Choose one or more
          * of the filesystems you configured in app/config/filesystems.php
          */
         'filesystem' => ['local'],
 
         /*
-         * The path where the disk will be saved. This path
+         * The path where the backups will be saved. This path
          * is relative to the root you configured on your chosen
          * filesystem(s).
          *
          * If you're using the local filesystem a .gitignore file will
          * be automatically placed in this directory so you don't
-         * accidentally end up committing these disk.
+         * accidentally end up committing these backups.
          */
         'path' => 'backups',
     ],
 
     'clean' => [
         /*
-        * The clean command will remove all disk on all configured filesystems
+        * The clean command will remove all backups on all configured filesystems
         * that are older then this amount of days.
         */
         'maxAgeInDays' => 90,
