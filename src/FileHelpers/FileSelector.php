@@ -23,7 +23,7 @@ class FileSelector {
      */
     public function getFilesOlderThan(DateTime $date, array $onlyIncludeFilesWithExtension)
     {
-        $allFiles = $this->disk->allFiles();
+        $allFiles = $this->disk->allFiles($this->path);
 
         foreach($onlyIncludeFilesWithExtension as $extension)
         {
