@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.1.1
+- Fixed a bug where the specified path in the config file is not respected during clean up
+
 ### 2.1.0
 - Added a command to clean up old backups
 
