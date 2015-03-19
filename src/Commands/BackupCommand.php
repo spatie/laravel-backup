@@ -67,7 +67,7 @@ class BackupCommand extends Command
         $files = [];
 
         if (config('laravel-backup.source.backup-db')) {
-            $databaseBackupHandler = app()->make(DatabaseBackupHandler::class);
+            $databaseBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler');
             foreach ($databaseBackupHandler->getFilesToBeBackedUp() as $file) {
                 $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
             }
@@ -80,7 +80,7 @@ class BackupCommand extends Command
         }
 
         $this->comment('Determining which files should be backed up...');
-        $fileBackupHandler = app()->make(FilesBackupHandler::class)
+        $fileBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Files\FilesBackupHandler')
             ->setIncludedFiles(config('laravel-backup.source.files.include'))
             ->setExcludedFiles(config('laravel-backup.source.files.exclude'));
         foreach ($fileBackupHandler->getFilesToBeBackedUp() as $file) {
