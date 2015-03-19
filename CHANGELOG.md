@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+
+### 2.1.2
+- Package is now compatible with php 5.4
+
 ### 2.1.1
 - Fixed a bug where the specified path in the config file is not respected during clean up
 
