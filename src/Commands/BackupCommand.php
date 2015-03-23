@@ -1,8 +1,6 @@
 <?php namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler;
-use Spatie\Backup\BackupHandlers\Files\FilesBackupHandler;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\InputOption;
 use ZipArchive;
