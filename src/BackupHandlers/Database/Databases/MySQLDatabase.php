@@ -11,6 +11,7 @@ class MySQLDatabase implements DatabaseInterface
     protected $password;
     protected $host;
     protected $port;
+    protected $socket;
 
     /**
      * @param Console $console
@@ -20,7 +21,7 @@ class MySQLDatabase implements DatabaseInterface
      * @param $host
      * @param $port
      */
-    public function __construct(Console $console, $database, $user, $password, $host, $port)
+    public function __construct(Console $console, $database, $user, $password, $host, $port, $socket)
     {
         $this->console = $console;
         $this->database = $database;
@@ -28,6 +29,7 @@ class MySQLDatabase implements DatabaseInterface
         $this->password = $password;
         $this->host = $host;
         $this->port = $port;
+        $this->socket = $socket;
     }
 
     /**
@@ -52,11 +54,12 @@ class MySQLDatabase implements DatabaseInterface
         );
         $temporaryCredentialsFile = stream_get_meta_data($tempFileHandle)['uri'];
 
-        $command = sprintf('%smysqldump --defaults-extra-file=%s --skip-comments --skip-extended-insert %s > %s',
+        $command = sprintf('%smysqldump --defaults-extra-file=%s --skip-comments --skip-extended-insert %s > %s %s',
             $this->getDumpCommandPath(),
             escapeshellarg($temporaryCredentialsFile),
             escapeshellarg($this->database),
-            escapeshellarg($destinationFile)
+            escapeshellarg($destinationFile),
+            escapeshellarg($this->getSocketArgument())
         );
 
         return $this->console->run($command);
@@ -79,6 +82,21 @@ class MySQLDatabase implements DatabaseInterface
      */
     protected function getDumpCommandPath()
     {
-        return Config::get('laravel-backup.mysql.dump_command_path');
+        return config('laravel-backup.mysql.dump_command_path');
+    }
+
+    /**
+     * Set the socket if one is specified in the configuration
+     *
+     * @return string
+     */
+    protected function getSocketArgument()
+    {
+        if($this->socket != '')
+        {
+            return '--socket=' . $this->socket;
+        }
+
+        return '';
     }
 }

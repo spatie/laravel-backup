@@ -108,7 +108,6 @@ return [
     'mysql' => [
         'dump_command_path' => '',
     ],
-    
 ];
 
 
