@@ -52,11 +52,12 @@ class MySQLDatabase implements DatabaseInterface
         );
         $temporaryCredentialsFile = stream_get_meta_data($tempFileHandle)['uri'];
 
-        $command = sprintf('%smysqldump --defaults-extra-file=%s --skip-comments --skip-extended-insert %s > %s',
+        $command = sprintf('%smysqldump --defaults-extra-file=%s --skip-comments --skip-extended-insert %s > %s %s',
             $this->getDumpCommandPath(),
             escapeshellarg($temporaryCredentialsFile),
             escapeshellarg($this->database),
-            escapeshellarg($destinationFile)
+            escapeshellarg($destinationFile),
+            escapeshellarg($this->getSocketArgument())
         );
 
         return $this->console->run($command);
@@ -80,5 +81,18 @@ class MySQLDatabase implements DatabaseInterface
     protected function getDumpCommandPath()
     {
         return Config::get('laravel-backup.mysql.dump_command_path');
+    }
+
+    /**
+     * Set the socket if one is specified in the configuration
+     */
+    protected function getSocketArgument()
+    {
+        if(config('laravel-backup.unix_socket') != '')
+        {
+            return '--socket=' . config('laravel-backup.unix_socket');
+        }
+
+        return null;
     }
 }
