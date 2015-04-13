@@ -108,13 +108,6 @@ return [
     'mysql' => [
         'dump_command_path' => '',
     ],
-    
-    /*
-     * Path to the unix socket file. You can leave this empty
-     * if the socket is located in the default location.
-     */
-    'unix_socket' => '',
-    
 ];
 
 
