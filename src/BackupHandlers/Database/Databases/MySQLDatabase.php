@@ -87,6 +87,8 @@ class MySQLDatabase implements DatabaseInterface
 
     /**
      * Set the socket if one is specified in the configuration
+     *
+     * @return string
      */
     protected function getSocketArgument()
     {
@@ -95,6 +97,6 @@ class MySQLDatabase implements DatabaseInterface
             return '--socket=' . $this->socket;
         }
 
-        return null;
+        return '';
     }
 }

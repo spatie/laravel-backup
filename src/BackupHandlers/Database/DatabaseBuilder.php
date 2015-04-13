@@ -29,9 +29,9 @@ class DatabaseBuilder
 
     protected function buildMySQL(array $config)
     {
-        $socket = isset($config['unix_socket']) ? $config['unix_socket'] : '';
-
         $port = isset($config['port']) ? $config['port'] : 3306;
+
+        $socket = isset($config['unix_socket']) ? $config['unix_socket'] : '';
 
         $this->database = new Databases\MySQLDatabase(
             $this->console,
