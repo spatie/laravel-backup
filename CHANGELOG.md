@@ -2,6 +2,8 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.2.0
+- Add support for custom sockets
 
 ### 2.1.2
 - Package is now compatible with php 5.4
