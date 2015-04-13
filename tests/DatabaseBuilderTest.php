@@ -15,8 +15,10 @@ class DatabaseBuilderTest extends PHPUnit_Framework_TestCase {
             'port'     => '3307',
         ];
 
+        $socket = '/var/run/mysqld/mysqld.sock';
+
         $databaseBuilder = new DatabaseBuilder();
-        $database = $databaseBuilder->getDatabase($config);
+        $database = $databaseBuilder->getDatabase($config, $socket);
 
         $this->assertInstanceOf('Spatie\Backup\BackupHandlers\Database\Databases\MySQLDatabase', $database);
     }

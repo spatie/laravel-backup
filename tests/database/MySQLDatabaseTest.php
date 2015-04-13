@@ -15,7 +15,7 @@ class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
         $this->console = m::mock('Spatie\Backup\Console');
 
         $this->database = new MySQLDatabase(
-            $this->console, 'testDatabase', 'testUser', 'password', 'localhost', '3306'
+            $this->console, 'testDatabase', 'testUser', 'password', 'localhost', '3306', '/var/run/mysqld/mysqld.sock'
         );
     }
 
@@ -38,6 +38,21 @@ class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
                 $pattern = "/mysqldump --defaults-extra-file='(.*)' --skip-comments --skip-extended-insert 'testDatabase' > 'testfile.sql'/";
                 return preg_match($pattern, $parameter) == true;
             }))
+            ->once()
+            ->andReturn(true);
+
+        $this->assertTrue(
+            $this->database->dump('testfile.sql')
+        );
+    }
+
+    public function testCustomSocket()
+    {
+        $this->database = new MySQLDatabase(
+            $this->console, 'testDatabase', 'testUser', 'password', 'localhost', '3306', 'customSocket.sock'
+        );
+        $this->console->shouldReceive('run')
+            ->with("/mysqldump --defaults-extra-file='(.*)' --skip-comments --skip-extended-insert 'testDatabase' > 'testfile.sql' '--socket=customSocket.sock'/")
             ->once()
             ->andReturn(true);
 

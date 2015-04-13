@@ -11,6 +11,7 @@ class MySQLDatabase implements DatabaseInterface
     protected $password;
     protected $host;
     protected $port;
+    protected $socket;
 
     /**
      * @param Console $console
@@ -20,7 +21,7 @@ class MySQLDatabase implements DatabaseInterface
      * @param $host
      * @param $port
      */
-    public function __construct(Console $console, $database, $user, $password, $host, $port)
+    public function __construct(Console $console, $database, $user, $password, $host, $port, $socket)
     {
         $this->console = $console;
         $this->database = $database;
@@ -28,6 +29,7 @@ class MySQLDatabase implements DatabaseInterface
         $this->password = $password;
         $this->host = $host;
         $this->port = $port;
+        $this->socket = $socket;
     }
 
     /**
@@ -80,7 +82,7 @@ class MySQLDatabase implements DatabaseInterface
      */
     protected function getDumpCommandPath()
     {
-        return Config::get('laravel-backup.mysql.dump_command_path');
+        return config('laravel-backup.mysql.dump_command_path');
     }
 
     /**
@@ -88,9 +90,9 @@ class MySQLDatabase implements DatabaseInterface
      */
     protected function getSocketArgument()
     {
-        if(config('laravel-backup.unix_socket') != '')
+        if($this->socket != '')
         {
-            return '--socket=' . config('laravel-backup.unix_socket');
+            return '--socket=' . $this->socket;
         }
 
         return null;

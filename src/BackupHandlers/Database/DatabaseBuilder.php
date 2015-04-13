@@ -17,6 +17,7 @@ class DatabaseBuilder
 
     public function getDatabase(array $realConfig)
     {
+
         try {
             $this->buildMySQL($realConfig);
         } catch (Exception $e) {
@@ -28,6 +29,8 @@ class DatabaseBuilder
 
     protected function buildMySQL(array $config)
     {
+        $socket = isset($config['unix_socket']) ? $config['unix_socket'] : '';
+
         $port = isset($config['port']) ? $config['port'] : 3306;
 
         $this->database = new Databases\MySQLDatabase(
@@ -36,7 +39,8 @@ class DatabaseBuilder
             $config['username'],
             $config['password'],
             $config['host'],
-            $port
+            $port,
+            $socket
         );
     }
 }
