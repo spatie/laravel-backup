@@ -2,7 +2,10 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
-### 2.2.0
+### 2.2.1 
+- Fixes issues where not the whole db gets backed up when not using a socket
+
+### 2.2.0 (Warning: this version contains a critical bug that could cause an incomplete backup of the database. This issue has been fixed in version 2.2.1)
 - Add support for custom sockets
 
 ### 2.1.2
