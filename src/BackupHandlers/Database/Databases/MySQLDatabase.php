@@ -59,7 +59,7 @@ class MySQLDatabase implements DatabaseInterface
             escapeshellarg($temporaryCredentialsFile),
             escapeshellarg($this->database),
             escapeshellarg($destinationFile),
-            escapeshellarg($this->getSocketArgument())
+            escapeshellcmd($this->getSocketArgument())
         );
 
         return $this->console->run($command);

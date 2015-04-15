@@ -52,7 +52,7 @@ class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
             $this->console, 'testDatabase', 'testUser', 'password', 'localhost', '3306', 'customSocket.sock'
         );
         $this->console->shouldReceive('run')
-            ->with("/mysqldump --defaults-extra-file='(.*)' --skip-comments --skip-extended-insert 'testDatabase' > 'testfile.sql' '--socket=customSocket.sock'/")
+            ->with("/mysqldump --defaults-extra-file='(.*)' --skip-comments --skip-extended-insert 'testDatabase' > 'testfile.sql' --socket=customSocket.sock/")
             ->once()
             ->andReturn(true);
 
