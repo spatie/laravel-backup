@@ -12,7 +12,7 @@ This Laravel 5 package creates a backup of your application. The backup is a zip
 Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 
 ## Prerequisites
-To create a dump of a MySQL-db this packages uses the ```mysqldump```-binary. Make sure it is installed on your system.
+To create a dump of a MySQL-db this package uses the ```mysqldump```-binary. Make sure it is installed on your system.
 
 ## Install
 
