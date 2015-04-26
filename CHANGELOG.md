@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+### 2.3.0
+- Add options to specifify a suffix and a prefix for the backup-zip-file
+- Add support for laravel installation that have seperate hosts for reading a writing a db
+
 ### 2.2.1 
 - Fixes issues where not the whole db gets backed up when not using a socket
 
