@@ -48,6 +48,14 @@ return [
          * accidentally end up committing these backups.
          */
         'path' => 'backups',
+
+        /*
+         * By default the backups will be stored as a zipfile with a
+         * timestamp as the filename. With these options You can
+         * specify a prefix and a suffix for the filename.
+         */
+        'prefix' => '',
+        'suffix' => '',
     ],
 
     'clean' => [

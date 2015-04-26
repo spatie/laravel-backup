@@ -38,9 +38,31 @@ class DatabaseBuilder
             $config['database'],
             $config['username'],
             $config['password'],
-            $config['host'],
+            $this->determineHost($config),
             $port,
             $socket
         );
+    }
+
+    /**
+     * Determine the host from the given config
+     *
+     * @param array $config
+     * @return string
+     * @throws Exception
+     */
+    public function determineHost(array $config)
+    {
+        if (isset($config['host']))
+        {
+            return $config['host'];
+        }
+
+        if (isset($config['read']['host']))
+        {
+            return $config['read']['host'];
+        }
+
+        throw new Exception('could not determine host from config');
     }
 }

@@ -22,4 +22,15 @@ class DatabaseBuilderTest extends PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Spatie\Backup\BackupHandlers\Database\Databases\MySQLDatabase', $database);
     }
+
+    public function testDetermineHost()
+    {
+        $databaseBuilder = new DatabaseBuilder();
+
+        $determineHostResult = $databaseBuilder->determineHost(['host' => 'testhost']);
+        $this->assertSame('testhost', $determineHostResult);
+
+        $determineHostResult = $databaseBuilder->determineHost(['read' => ['host' => 'testhost']]);
+        $this->assertSame('testhost', $determineHostResult);
+    }
 }

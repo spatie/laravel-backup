@@ -91,12 +91,20 @@ return [
          * accidentally end up committing these backups.
          */
         'path' => 'backups',
+
+        /*
+         * By default the backups will be stored as a zipfile with a
+         * timestamp as the filename. With these options You can
+         * specify a prefix and a suffix for the filename.
+         */
+        'prefix' => '',
+        'suffix' => '',
     ],
-    
+
     'clean' => [
         /*
          * The clean command will remove all backups on all configured filesystems
-         * that are older than this amount of days.
+         * that are older then this amount of days.
          */
         'maxAgeInDays' => 90,
     ],
@@ -109,8 +117,6 @@ return [
         'dump_command_path' => '',
     ],
 ];
-
-
 ```
 
 ## Usage
@@ -123,12 +129,18 @@ Use this command start the backup and store the zipfile to the filesystem(s) you
 php artisan backup:run
 ```
 
+A zip-file, containing all files in the directories you specified along the dump of your database, will be created on the filesystem(s) you specified in the config-file.
+
 If you want to take a backup of only the db (without all other files that you might have configured) you can use this command:
 ``` bash
 php artisan backup:run --only-db
 ```
 
-A zip-file, containing all files in the directories you specified along the dump of your database, will be created on the filesystem(s) you specified in the config-file.
+You can also manually specify a prefix and suffix to be used in the filename of the zipfile.
+``` bash
+php artisan backup:run --prefix="backup-" --suffix="-manual".
+```
+These arguments take precedence over the prefix and suffix specified in the config file.
 
 ### Cleanup
 
