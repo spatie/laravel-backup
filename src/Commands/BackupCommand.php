@@ -173,7 +173,7 @@ class BackupCommand extends Command
     {
         $backupDirectory = config('laravel-backup.destination.path');
         $backupFilename = $this->getPrefix() . date('YmdHis') . $this->getSuffix() . '.zip';
-        return $backupDirectory . $backupFilename;
+        return $backupDirectory . '/' . $backupFilename;
     }
 
     /**

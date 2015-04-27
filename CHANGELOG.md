@@ -1,6 +1,8 @@
 # Changelog
 
 All Notable changes to `laravel-backup` will be documented in this file
+### 2.3.1
+- Fixed a bug where the backups would not be stored in the right directory
 
 ### 2.3.0
 - Add options to specifify a suffix and a prefix for the backup-zip-file
