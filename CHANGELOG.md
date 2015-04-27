@@ -1,6 +1,10 @@
 # Changelog
 
 All Notable changes to `laravel-backup` will be documented in this file
+
+### 2.3.2
+- Fixed a bug that caused a failure when backing up a large db
+
 ### 2.3.1
 - Fixed a bug where the backups would not be stored in the right directory
 
