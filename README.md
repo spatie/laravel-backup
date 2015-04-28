@@ -3,7 +3,7 @@
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-backup.svg?style=flat-square)](https://github.com/freekmurze/laravel-backup/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/freekmurze/laravel-backup/master.svg?style=flat-square)](https://travis-ci.org/freekmurze/laravel-backup)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3f243a38-a1c7-42f5-96c8-37526e807029/small.png)](https://insight.sensiolabs.com/projects/3f243a38-a1c7-42f5-96c8-37526e807029)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3f243a38-a1c7-42f5-96c8-37526e807029/mini.png)](https://insight.sensiolabs.com/projects/3f243a38-a1c7-42f5-96c8-37526e807029)
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-backup)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 
