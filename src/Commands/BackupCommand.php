@@ -66,8 +66,7 @@ class BackupCommand extends Command
             $this->comment('Database dumped');
         }
 
-        if($this->option('only-db'))
-        {
+        if ($this->option('only-db')) {
             return $files;
         }
 
@@ -172,13 +171,14 @@ class BackupCommand extends Command
     protected function getBackupDestinationFileName()
     {
         $backupDirectory = config('laravel-backup.destination.path');
-        $backupFilename = $this->getPrefix() . date('YmdHis') . $this->getSuffix() . '.zip';
-        return $backupDirectory . '/' . $backupFilename;
+        $backupFilename = $this->getPrefix().date('YmdHis').$this->getSuffix().'.zip';
+
+        return $backupDirectory.'/'.$backupFilename;
     }
 
     /**
      * Get the prefix to be used in the filename of the backup file.
-     * 
+     *
      * @return string
      */
     public function getPrefix()
@@ -186,7 +186,7 @@ class BackupCommand extends Command
         if ($this->option('prefix') != '') {
             return $this->option('prefix');
         }
-        
+
         return config('laravel-backup.destination.prefix');
     }
 
@@ -205,20 +205,20 @@ class BackupCommand extends Command
     }
 
     /**
-     * Copy the given file to given filesystem
+     * Copy the given file to given filesystem.
      *
      * @param string $file
      * @param $fileSystem
      */
     public function copyFileToFileSystem($file, $fileSystem)
     {
-        $this->comment('Start uploading backup to ' . $fileSystem . '-filesystem...');
+        $this->comment('Start uploading backup to '.$fileSystem.'-filesystem...');
 
         $disk = Storage::disk($fileSystem);
 
         $this->copyFile($file, $disk, $this->getBackupDestinationFileName(), $fileSystem == 'local');
 
-        $this->comment('Backup stored on ' . $fileSystem . '-filesystem in file "' . $this->getBackupDestinationFileName() . '"');
+        $this->comment('Backup stored on '.$fileSystem.'-filesystem in file "'.$this->getBackupDestinationFileName().'"');
     }
 
     /**

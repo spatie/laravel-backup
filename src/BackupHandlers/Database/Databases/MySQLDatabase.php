@@ -54,7 +54,7 @@ class MySQLDatabase implements DatabaseInterface
         );
         $temporaryCredentialsFile = stream_get_meta_data($tempFileHandle)['uri'];
 
-        $command = sprintf('%smysqldump --defaults-extra-file=%s --skip-comments --skip-extended-insert %s > %s %s',
+        $command = sprintf('%smysqldump --defaults-extra-file=%s --skip-comments '.($this->useExtendedInsert() ? '--extended-insert' : '--skip-extended-insert').' %s > %s %s',
             $this->getDumpCommandPath(),
             escapeshellarg($temporaryCredentialsFile),
             escapeshellarg($this->database),
@@ -86,15 +86,24 @@ class MySQLDatabase implements DatabaseInterface
     }
 
     /**
-     * Set the socket if one is specified in the configuration
+     * Determine if the dump should use extended-insert.
+     *
+     * @return string
+     */
+    protected function useExtendedInsert()
+    {
+        return config('laravel-backup.mysql.useExtendedInsert');
+    }
+
+    /**
+     * Set the socket if one is specified in the configuration.
      *
      * @return string
      */
     protected function getSocketArgument()
     {
-        if($this->socket != '')
-        {
-            return '--socket=' . $this->socket;
+        if ($this->socket != '') {
+            return '--socket='.$this->socket;
         }
 
         return '';

@@ -17,7 +17,6 @@ class DatabaseBuilder
 
     public function getDatabase(array $realConfig)
     {
-
         try {
             $this->buildMySQL($realConfig);
         } catch (Exception $e) {
@@ -45,21 +44,21 @@ class DatabaseBuilder
     }
 
     /**
-     * Determine the host from the given config
+     * Determine the host from the given config.
      *
      * @param array $config
+     *
      * @return string
+     *
      * @throws Exception
      */
     public function determineHost(array $config)
     {
-        if (isset($config['host']))
-        {
+        if (isset($config['host'])) {
             return $config['host'];
         }
 
-        if (isset($config['read']['host']))
-        {
+        if (isset($config['read']['host'])) {
             return $config['read']['host'];
         }
 

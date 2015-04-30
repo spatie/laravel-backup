@@ -109,12 +109,20 @@ return [
         'maxAgeInDays' => 90,
     ],
 
-    /*
-     * The path to the mysqldump binary. You can leave this empty
-     * if the binary is installed in the default location.
-     */
     'mysql' => [
+        /*
+         * The path to the mysqldump binary. You can leave this empty
+         * if the binary is installed in the default location.
+         */
         'dump_command_path' => '',
+
+        /*
+         * If your server supports it you can turn on extended insert.
+         * This will result in a smaller dump file and speeds up the backup process.
+         * 
+         * See: https://dev.mysql.com/doc/refman/5.1/en/mysqldump.html#option_mysqldump_extended-insert
+         */
+        'useExtendedInsert' => false,
     ],
 ];
 ```

@@ -6,8 +6,8 @@ use Storage;
 use Carbon\Carbon;
 use Spatie\Backup\FileHelpers\FileSelector;
 
-class CleanCommand extends Command {
-
+class CleanCommand extends Command
+{
     /**
      * The console command name.
      *
@@ -30,26 +30,22 @@ class CleanCommand extends Command {
 
         $this->info('Start cleaning up back-up files that are older than '.config('laravel-backup.clean.maxAgeInDays').' days...');
 
-        foreach($this->getTargetFileSystems() as $filesystem)
-        {
+        foreach ($this->getTargetFileSystems() as $filesystem) {
             $disk = Storage::disk($filesystem);
             $path = config('laravel-backup.destination.path');
 
             $filesToBeDeleted = (new FileSelector($disk, $path))->getFilesOlderThan($expireDate, ['zip']);
 
             $filesDeleted = 0;
-            foreach($filesToBeDeleted as $file)
-            {
+            foreach ($filesToBeDeleted as $file) {
                 $disk->delete($file);
                 $filesDeleted++;
             }
-            $this->comment('deleted '.$filesDeleted.' old backup(s) on the ' . $filesystem . '-filesystem.');
+            $this->comment('deleted '.$filesDeleted.' old backup(s) on the '.$filesystem.'-filesystem.');
             $this->comment($filesystem.'-filesystem cleaned up.');
         }
 
         $this->info('All done!');
-
-
     }
 
     /**
@@ -72,13 +68,11 @@ class CleanCommand extends Command {
     {
         $maxAgeInDays = config('laravel-backup.clean.maxAgeInDays');
 
-        if (! is_numeric($maxAgeInDays))
-        {
+        if (! is_numeric($maxAgeInDays)) {
             throw new Exception('maxAgeInDays should be numeric');
         }
 
-        if ($maxAgeInDays <= 0)
-        {
+        if ($maxAgeInDays <= 0) {
             throw new Exception('maxAgeInDays should be higher than 0');
         }
     }
