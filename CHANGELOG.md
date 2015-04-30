@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.4.0
+- Add option to enable mysqldump's extended insert 
+
 ### 2.3.2
 - Fixed a bug that caused a failure when backing up a large db
 
