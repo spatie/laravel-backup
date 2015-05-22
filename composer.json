@@ -9,7 +9,7 @@
         "spatie",
         "laravel-backup"
     ],
-    "homepage": "https://github.com/freekmurze/laravel-backup",
+    "homepage": "https://github.com/spatie/laravel-backup",
     "license": "MIT",
     "authors": [
         {
