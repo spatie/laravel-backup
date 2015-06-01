@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.4.1
+- Fixed an issue where the incorrect backup filename would be displayed
+
 ###2.4.0
 - Add option to enable mysqldump's extended insert 
 
