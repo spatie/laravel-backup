@@ -216,9 +216,11 @@ class BackupCommand extends Command
 
         $disk = Storage::disk($fileSystem);
 
-        $this->copyFile($file, $disk, $this->getBackupDestinationFileName(), $fileSystem == 'local');
+        $destBackupFilename = $this->getBackupDestinationFileName();
 
-        $this->comment('Backup stored on '.$fileSystem.'-filesystem in file "'.$this->getBackupDestinationFileName().'"');
+        $this->copyFile($file, $disk, $destBackupFilename, $fileSystem == 'local');
+
+        $this->comment('Backup stored on '.$fileSystem.'-filesystem in file "'.$destBackupFilename.'"');
     }
 
     /**
