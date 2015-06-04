@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.5.0
+- Added option to specify the timeout of the mysqldump command
+
 ###2.4.2
 - Fixed an issue where the incorrect backup filename would be displayed
 

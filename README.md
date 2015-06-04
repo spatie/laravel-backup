@@ -123,6 +123,12 @@ return [
          * See: https://dev.mysql.com/doc/refman/5.1/en/mysqldump.html#option_mysqldump_extended-insert
          */
         'useExtendedInsert' => false,
+        
+        /*
+         * If the dump of the db takes more seconds that the specified value,
+         * it will abort the backup.
+         */
+        'timeoutInSeconds' => 60,
     ],
 ];
 ```

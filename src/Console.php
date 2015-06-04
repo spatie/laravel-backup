@@ -4,11 +4,18 @@ use Symfony\Component\Process\Process;
 
 class Console
 {
-    public function run($command)
+    /**
+     * Run a command in the shell.
+     *
+     * @param $command
+     * @param $timeoutInSeconds
+     * @return bool|string
+     */
+    public function run($command, $timeoutInSeconds = 60)
     {
         $process = new Process($command);
 
-        $process->setTimeout(60 * 1);
+        $process->setTimeout($timeoutInSeconds);
 
         $process->run();
 

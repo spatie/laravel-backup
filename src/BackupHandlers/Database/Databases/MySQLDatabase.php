@@ -20,6 +20,7 @@ class MySQLDatabase implements DatabaseInterface
      * @param $password
      * @param $host
      * @param $port
+     * @param $socket
      */
     public function __construct(Console $console, $database, $user, $password, $host, $port, $socket)
     {
@@ -62,7 +63,9 @@ class MySQLDatabase implements DatabaseInterface
             escapeshellcmd($this->getSocketArgument())
         );
 
-        return $this->console->run($command);
+
+
+        return $this->console->run($command, config('laravel-backup.mysql.timeoutInSeconds'));
     }
 
     /**
