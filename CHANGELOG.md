@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.5.1
+- Fix tests
+
 ###2.5.0
 - Added option to specify the timeout of the mysqldump command
 
