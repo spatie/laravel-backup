@@ -11,6 +11,8 @@ This Laravel 5 package creates a backup of your application. The backup is a zip
 
 Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 
+Spatie is webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+
 ## Prerequisites
 To create a dump of a MySQL-db this package uses the ```mysqldump```-binary. Make sure it is installed on your system.
 
@@ -186,6 +188,9 @@ If you discover any security related issues, please email freek@spatie.be instea
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [Matthias De Winter](https://github.com/MatthiasDeWinter)
 - [All Contributors](../../contributors)
+
+## About Spatie
+Spatie is webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## License
 
