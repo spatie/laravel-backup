@@ -28,6 +28,11 @@ return [
          * Should the database be part of the back up.
          */
         'backup-db' => true,
+        
+        /*
+         * Should the database be the only item backed up.
+         */
+        'only-db' => false,
     ],
 
     'destination' => [
