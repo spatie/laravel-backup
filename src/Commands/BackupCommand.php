@@ -66,7 +66,7 @@ class BackupCommand extends Command
             $this->comment('Database dumped');
         }
 
-        if ($this->option('only-db')) {
+        if ($this->option('only-db') || config('laravel-backup.source.only-db')) {
             return $files;
         }
 
