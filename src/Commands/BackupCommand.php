@@ -40,6 +40,10 @@ class BackupCommand extends Command
 
         $backupZipFile = $this->createZip($files);
 
+        if (filesize($backupZipFile) == 0) {
+            $this->warn('The zipfile that will be backupped has a filesize of zero.');
+        }
+
         foreach ($this->getTargetFileSystems() as $fileSystem) {
             $this->copyFileToFileSystem($backupZipFile, $fileSystem);
         }
