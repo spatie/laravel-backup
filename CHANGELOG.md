@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.6.0
+- Display warning when backupping zero bytes
+
 ###2.5.1
 - Fix tests
 
@@ -13,10 +16,6 @@ All Notable changes to `laravel-backup` will be documented in this file
 
 ###2.4.1
 - Changed github repo location
-
-
-###2.5.0
-- Display warning when backupping zero bytes
 
 ###2.4.0
 - Add option to enable mysqldump's extended insert 
