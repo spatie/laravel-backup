@@ -9,6 +9,7 @@ class Console
      *
      * @param $command
      * @param $timeoutInSeconds
+     *
      * @return bool|string
      */
     public function run($command, $timeoutInSeconds = 60)

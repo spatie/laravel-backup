@@ -63,8 +63,6 @@ class MySQLDatabase implements DatabaseInterface
             escapeshellcmd($this->getSocketArgument())
         );
 
-
-
         return $this->console->run($command, config('laravel-backup.mysql.timeoutInSeconds'));
     }
 

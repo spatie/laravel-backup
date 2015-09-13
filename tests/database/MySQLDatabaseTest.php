@@ -3,8 +3,8 @@
 use Mockery as m;
 use Spatie\Backup\BackupHandlers\Database\Databases\MySQLDatabase;
 
-class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
-
+class MySQLDatabaseTest extends PHPUnit_Framework_TestCase
+{
     protected $console;
     protected $database;
 
@@ -34,8 +34,9 @@ class MySQLDatabaseTest extends PHPUnit_Framework_TestCase {
     public function testDump()
     {
         $this->console->shouldReceive('run')
-            ->with(m::on(function($parameter) {
+            ->with(m::on(function ($parameter) {
                 $pattern = "/mysqldump --defaults-extra-file='(.*)' --skip-comments --skip-extended-insert 'testDatabase' > 'testfile.sql'/";
+
                 return preg_match($pattern, $parameter) == true;
             }), null)
             ->once()

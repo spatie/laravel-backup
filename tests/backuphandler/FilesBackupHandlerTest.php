@@ -2,8 +2,8 @@
 
 use Spatie\Backup\BackupHandlers\Files\FilesBackupHandler;
 
-class FilesBackupHandlerTest extends Orchestra\Testbench\TestCase {
-
+class FilesBackupHandlerTest extends Orchestra\Testbench\TestCase
+{
     protected $backupHandler;
 
     public function setUp()
@@ -11,7 +11,6 @@ class FilesBackupHandlerTest extends Orchestra\Testbench\TestCase {
         parent::setUp();
         $this->backupHandler = new FilesBackupHandler();
     }
-
 
     public function test_if_correct_files_are_returned_using_fileInclude_noExclude()
     {
@@ -42,7 +41,6 @@ class FilesBackupHandlerTest extends Orchestra\Testbench\TestCase {
         $files = $this->backupHandler->getFilesToBeBackedUp();
 
         $this->assertEmpty($files);
-
     }
 
     public function test_if_correct_files_are_returned_using_directoryInclude_noExclude()

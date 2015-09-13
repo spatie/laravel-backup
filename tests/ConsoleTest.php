@@ -2,8 +2,8 @@
 
 use Spatie\Backup\Console;
 
-class ConsoleTest extends PHPUnit_Framework_TestCase {
-
+class ConsoleTest extends PHPUnit_Framework_TestCase
+{
     protected $console;
 
     public function setUp()

@@ -4,8 +4,8 @@ use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use Spatie\Backup\FileHelpers\FileSelector;
 
-class FileSelectorTest extends Orchestra\Testbench\TestCase {
-
+class FileSelectorTest extends Orchestra\Testbench\TestCase
+{
     protected $path;
 
     protected $disk;
@@ -24,13 +24,11 @@ class FileSelectorTest extends Orchestra\Testbench\TestCase {
 
         $this->path = 'backups';
 
-        $this->testFilesPath = realpath($this->root . '/' . $this->path);
+        $this->testFilesPath = realpath($this->root.'/'.$this->path);
 
         //make sure all files in our testdirectory are 5 days old
-        foreach (scandir($this->testFilesPath) as $file)
-        {
-
-            touch($this->testFilesPath . '/' . $file, time() - (60 * 60 * 24 * 5));
+        foreach (scandir($this->testFilesPath) as $file) {
+            touch($this->testFilesPath.'/'.$file, time() - (60 * 60 * 24 * 5));
         }
 
         $this->disk = new Illuminate\Filesystem\FilesystemAdapter(new Filesystem(new Local($this->root)));
@@ -66,7 +64,7 @@ class FileSelectorTest extends Orchestra\Testbench\TestCase {
     {
         $testFileName = 'test_it_gets_files_older_than_the_given_date.zip';
 
-        touch($this->testFilesPath . '/'  .$testFileName , time() - (60 * 60 * 24 * 10) + 60); //create a file that is 10 days and a minute old
+        touch($this->testFilesPath.'/'.$testFileName, time() - (60 * 60 * 24 * 10) + 60); //create a file that is 10 days and a minute old
 
         $oldFiles = $this->fileSelector->getFilesOlderThan((new DateTime())->sub(new DateInterval('P9D')), ['zip']);
 
@@ -88,20 +86,19 @@ class FileSelectorTest extends Orchestra\Testbench\TestCase {
 
         touch(realpath('tests/_data/disk/root/TomJones.zip'), time() - (60 * 60 * 24 * 10) + 60);
 
-        $this->assertFalse(in_array($this->path . '/' . 'TomJones.zip', $files));
-        $this->assertTrue(in_array($this->path . '/' . 'test.zip', $files));
+        $this->assertFalse(in_array($this->path.'/'.'TomJones.zip', $files));
+        $this->assertTrue(in_array($this->path.'/'.'test.zip', $files));
     }
 
     /**
      * Call artisan command and return code.
      *
      * @param string $command
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return int
      */
     public function artisan($command, $parameters = [])
     {
-
     }
 }
