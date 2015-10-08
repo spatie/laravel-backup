@@ -158,6 +158,13 @@ If you want to take a backup of only the db (without all other files that you mi
 php artisan backup:run --only-db
 ```
 
+Need only the files without the db? Sure:
+``` bash
+php artisan backup:run --only-files
+```
+
+Just don't use the `only-files` and `only-db` options at the same time and you're fine.
+
 You can also manually specify a prefix and suffix to be used in the filename of the zipfile.
 ``` bash
 php artisan backup:run --prefix="backup-" --suffix="-manual".

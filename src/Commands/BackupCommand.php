@@ -28,6 +28,8 @@ class BackupCommand extends Command
      */
     public function fire()
     {
+        $this->guardAgainstInvalidOptions();
+
         $this->info('Start backing up');
 
         $files = $this->getAllFilesToBeBackedUp();
@@ -62,24 +64,18 @@ class BackupCommand extends Command
     {
         $files = [];
 
-        if (config('laravel-backup.source.backup-db')) {
-            $databaseBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler');
-            foreach ($databaseBackupHandler->getFilesToBeBackedUp() as $file) {
-                $files[] = ['realFile' => $file, 'fileInZip' => 'db/dump.sql'];
+        if ((!$this->option('only-files')) && config('laravel-backup.source.backup-db')) {
+            $files[] = ['realFile' => $this->getDatabaseDump($files), 'fileInZip' => 'dump.sql'];
+        }
+
+        if (! $this->option('only-db')) {
+            $this->comment('Determining which files should be backed up...');
+            $fileBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Files\FilesBackupHandler')
+                ->setIncludedFiles(config('laravel-backup.source.files.include'))
+                ->setExcludedFiles(config('laravel-backup.source.files.exclude'));
+            foreach ($fileBackupHandler->getFilesToBeBackedUp() as $file) {
+                $files[] = ['realFile' => $file, 'fileInZip' => 'files/'.$file];
             }
-            $this->comment('Database dumped');
-        }
-
-        if ($this->option('only-db')) {
-            return $files;
-        }
-
-        $this->comment('Determining which files should be backed up...');
-        $fileBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Files\FilesBackupHandler')
-            ->setIncludedFiles(config('laravel-backup.source.files.include'))
-            ->setExcludedFiles(config('laravel-backup.source.files.exclude'));
-        foreach ($fileBackupHandler->getFilesToBeBackedUp() as $file) {
-            $files[] = ['realFile' => $file, 'fileInZip' => 'files/'.$file];
         }
 
         return $files;
@@ -236,8 +232,41 @@ class BackupCommand extends Command
     {
         return [
             ['only-db', null, InputOption::VALUE_NONE, 'Only backup the database.'],
+            ['only-files', null, InputOption::VALUE_NONE, 'Only backup the files.'],
             ['prefix', null, InputOption::VALUE_REQUIRED, 'The name of the zip file will get prefixed with this string.'],
             ['suffix', null, InputOption::VALUE_REQUIRED, 'The name of the zip file will get suffixed with this string.'],
         ];
+    }
+
+    /**
+     * Get a dump of the db.
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    protected function getDatabaseDump()
+    {
+        $databaseBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler');
+
+        $filesToBeBackedUp = $databaseBackupHandler->getFilesToBeBackedUp();
+
+        if (count($filesToBeBackedUp) != 1) {
+            throw new \Exception('could not backup db');
+        }
+
+        $this->comment('Database dumped');
+
+        return $databaseBackupHandler->getFilesToBeBackedUp[0];
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function guardAgainstInvalidOptions()
+    {
+        if ($this->option('only-db') && $this->option('only-files')) {
+            throw new \Exception('cannot use only-db and only-files together');
+        }
     }
 }
