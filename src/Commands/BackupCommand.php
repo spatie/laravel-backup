@@ -257,7 +257,7 @@ class BackupCommand extends Command
 
         $this->comment('Database dumped');
 
-        return $databaseBackupHandler->getFilesToBeBackedUp[0];
+        return $databaseBackupHandler->getFilesToBeBackedUp()[0];
     }
 
     /**
