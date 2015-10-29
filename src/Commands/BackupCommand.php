@@ -50,6 +50,8 @@ class BackupCommand extends Command
             $this->copyFileToFileSystem($backupZipFile, $fileSystem);
         }
 
+        unlink($backupZipFile);
+
         $this->info('Backup successfully completed');
 
         return true;
