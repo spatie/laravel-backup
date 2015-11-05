@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.8.1
+- Fixed determining the driver of the database.
+
 ###2.8.0
 - The temp backup file will now be explicitly deleted.
 

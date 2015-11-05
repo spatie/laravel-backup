@@ -15,7 +15,13 @@ class MySQLDatabaseTest extends Orchestra\Testbench\TestCase
         $this->console = m::mock('Spatie\Backup\Console');
 
         $this->database = new MySQLDatabase(
-            $this->console, 'testDatabase', 'testUser', 'password', 'localhost', '3306', '/var/run/mysqld/mysqld.sock'
+            $this->console,
+            'testDatabase',
+            'testUser',
+            'password',
+            'localhost',
+            '3306',
+            '/var/run/mysqld/mysqld.sock'
         );
     }
 

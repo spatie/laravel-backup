@@ -17,21 +17,23 @@ class DatabaseBackupHandler implements BackupHandlerInterface
     /**
      * Get database configuration.
      *
-     * @param string $database
+     * @param string $connectionName
      *
      * @return mixed
      *
      * @throws Exception
      */
-    public function getDatabase($database = '')
+    public function getDatabase($connectionName = '')
     {
-        $database = $database ?: config('database.default');
+        $connectionName = $connectionName ?: config('database.default');
 
-        if ($database != 'mysql') {
+        $dbDriver = config("database.connections.{$connectionName}.driver");
+
+        if ($dbDriver != 'mysql') {
             throw new Exception('laravel-backup can only backup mysql databases');
         }
 
-        return $this->databaseBuilder->getDatabase(config('database.connections.'.$database));
+        return $this->databaseBuilder->getDatabase(config("database.connections.{$connectionName}"));
     }
 
     public function getDumpedDatabase()
