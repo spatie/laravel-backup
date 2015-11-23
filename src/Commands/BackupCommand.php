@@ -270,7 +270,7 @@ class BackupCommand extends Command
 
         $this->comment('Database dumped');
 
-        $dbDumpFile = $databaseBackupHandler->getFilesToBeBackedUp()[0];
+        $dbDumpFile = $filesToBeBackedUp[0];
 
         $this->temporaryFiles[] = $dbDumpFile;
 
