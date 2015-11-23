@@ -288,7 +288,7 @@ class BackupCommand extends Command
     }
 
     /**
-     * re.
+     * Remove temporary files
      */
     protected function removeTemporaryFiles()
     {
