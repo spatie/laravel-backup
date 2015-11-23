@@ -2,7 +2,7 @@
 
 use Exception;
 use Illuminate\Console\Command;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Spatie\Backup\FileHelpers\FileSelector;
 
