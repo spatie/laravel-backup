@@ -1,4 +1,6 @@
-<?php namespace Spatie\Backup;
+<?php
+
+namespace Spatie\Backup;
 
 use Symfony\Component\Process\Process;
 

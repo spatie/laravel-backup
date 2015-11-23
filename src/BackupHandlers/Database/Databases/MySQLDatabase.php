@@ -1,4 +1,6 @@
-<?php namespace Spatie\Backup\BackupHandlers\Database\Databases;
+<?php
+
+namespace Spatie\Backup\BackupHandlers\Database\Databases;
 
 use Spatie\Backup\Console;
 use Config;
@@ -47,7 +49,7 @@ class MySQLDatabase implements DatabaseInterface
          */
         $tempFileHandle = tmpfile();
         fwrite($tempFileHandle,
-            "[client]".PHP_EOL.
+            '[client]'.PHP_EOL.
             "user = '".$this->user."'".PHP_EOL.
             "password = '".$this->password."'".PHP_EOL.
             "host = '".$this->host."'".PHP_EOL.

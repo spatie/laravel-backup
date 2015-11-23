@@ -1,4 +1,6 @@
-<?php namespace Spatie\Backup\Commands;
+<?php
+
+namespace Spatie\Backup\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
@@ -39,7 +41,7 @@ class CleanCommand extends Command
             $filesDeleted = 0;
             foreach ($filesToBeDeleted as $file) {
                 $disk->delete($file);
-                $filesDeleted++;
+                ++$filesDeleted;
             }
             $this->comment('deleted '.$filesDeleted.' old backup(s) on the '.$filesystem.'-filesystem.');
             $this->comment($filesystem.'-filesystem cleaned up.');
@@ -68,7 +70,7 @@ class CleanCommand extends Command
     {
         $maxAgeInDays = config('laravel-backup.clean.maxAgeInDays');
 
-        if (! is_numeric($maxAgeInDays)) {
+        if (!is_numeric($maxAgeInDays)) {
             throw new Exception('maxAgeInDays should be numeric');
         }
 

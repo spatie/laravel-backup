@@ -1,4 +1,6 @@
-<?php namespace Spatie\Backup\FileHelpers;
+<?php
+
+namespace Spatie\Backup\FileHelpers;
 
 use DateTime;
 

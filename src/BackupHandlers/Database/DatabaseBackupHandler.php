@@ -38,11 +38,11 @@ class DatabaseBackupHandler implements BackupHandlerInterface
 
     public function getDumpedDatabase()
     {
-        $tempFile = tempnam(sys_get_temp_dir(), "laravel-backup-db");
+        $tempFile = tempnam(sys_get_temp_dir(), 'laravel-backup-db');
 
         $success = $this->getDatabase()->dump($tempFile);
 
-        if (! $success || filesize($tempFile) == 0) {
+        if (!$success || filesize($tempFile) == 0) {
             throw new Exception('Could not create backup of db');
         }
 

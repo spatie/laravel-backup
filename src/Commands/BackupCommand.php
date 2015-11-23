@@ -1,4 +1,6 @@
-<?php namespace Spatie\Backup\Commands;
+<?php
+
+namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +24,13 @@ class BackupCommand extends Command
     protected $description = 'Run the backup';
 
     /**
+     * Files that will be remove at the end of the command.
+     *
+     * @var array
+     */
+    protected $temporaryFiles = [];
+
+    /**
      * Execute the console command.
      *
      * @return bool
@@ -42,6 +51,8 @@ class BackupCommand extends Command
 
         $backupZipFile = $this->createZip($files);
 
+        $this->temporaryFiles[] = $backupZipFile;
+
         if (filesize($backupZipFile) == 0) {
             $this->warn('The zipfile that will be backupped has a filesize of zero.');
         }
@@ -50,7 +61,7 @@ class BackupCommand extends Command
             $this->copyFileToFileSystem($backupZipFile, $fileSystem);
         }
 
-        unlink($backupZipFile);
+        $this->removeTemporaryFiles();
 
         $this->info('Backup successfully completed');
 
@@ -70,7 +81,7 @@ class BackupCommand extends Command
             $files[] = ['realFile' => $this->getDatabaseDump($files), 'fileInZip' => 'dump.sql'];
         }
 
-        if (! $this->option('only-db')) {
+        if (!$this->option('only-db')) {
             $this->comment('Determining which files should be backed up...');
             $fileBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Files\FilesBackupHandler')
                 ->setIncludedFiles(config('laravel-backup.source.files.include'))
@@ -94,7 +105,7 @@ class BackupCommand extends Command
     {
         $this->comment('Start zipping '.count($files).' files...');
 
-        $tempZipFile = tempnam(sys_get_temp_dir(), "laravel-backup-zip");
+        $tempZipFile = tempnam(sys_get_temp_dir(), 'laravel-backup-zip');
 
         $zip = new ZipArchive();
         $zip->open($tempZipFile, ZipArchive::CREATE);
@@ -259,7 +270,11 @@ class BackupCommand extends Command
 
         $this->comment('Database dumped');
 
-        return $databaseBackupHandler->getFilesToBeBackedUp()[0];
+        $dbDumpFile = $databaseBackupHandler->getFilesToBeBackedUp()[0];
+
+        $this->temporaryFiles[] = $dbDumpFile;
+
+        return $dbDumpFile;
     }
 
     /**
@@ -269,6 +284,18 @@ class BackupCommand extends Command
     {
         if ($this->option('only-db') && $this->option('only-files')) {
             throw new \Exception('cannot use only-db and only-files together');
+        }
+    }
+
+    /**
+     * re.
+     */
+    protected function removeTemporaryFiles()
+    {
+        foreach ($this->temporaryFiles as $temporaryFile) {
+            if (file_exists($temporaryFile)) {
+                unlink($temporaryFile);
+            }
         }
     }
 }

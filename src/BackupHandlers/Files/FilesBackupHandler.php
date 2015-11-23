@@ -52,7 +52,7 @@ class FilesBackupHandler implements BackupHandlerInterface
         $filesToBeExcluded = $this->getAllPathFromFileArray($this->excludedFiles);
 
         return array_filter($filesToBeIncluded, function ($file) use ($filesToBeExcluded) {
-            return ! in_array($file, $filesToBeExcluded);
+            return !in_array($file, $filesToBeExcluded);
         });
     }
 
