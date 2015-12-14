@@ -189,7 +189,7 @@ class BackupCommand extends Command
         $destination = $backupDirectory;
         
         if ($destination !='') {
-            $destination .= '/'
+            $destination .= '/';
         }
         
         $destination .= $backupFilename;
