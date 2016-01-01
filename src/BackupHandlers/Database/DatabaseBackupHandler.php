@@ -29,8 +29,8 @@ class DatabaseBackupHandler implements BackupHandlerInterface
 
         $dbDriver = config("database.connections.{$connectionName}.driver");
 
-        if ($dbDriver != 'mysql') {
-            throw new Exception('laravel-backup can only backup mysql databases');
+        if ($dbDriver != 'mysql' && $dbDriver != 'pgsql') {
+            throw new Exception('laravel-backup can only backup mysql / pgsql databases');
         }
 
         return $this->databaseBuilder->getDatabase(config("database.connections.{$connectionName}"));
