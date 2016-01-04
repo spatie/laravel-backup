@@ -187,11 +187,11 @@ class BackupCommand extends Command
         $backupFilename = $this->getPrefix().date('YmdHis').$this->getSuffix().'.zip';
 
         $destination = $backupDirectory;
-        
-        if ($destination !='') {
+
+        if ($destination != '') {
             $destination .= '/';
         }
-        
+
         $destination .= $backupFilename;
 
         return $destination;
@@ -296,7 +296,7 @@ class BackupCommand extends Command
     }
 
     /**
-     * Remove temporary files
+     * Remove temporary files.
      */
     protected function removeTemporaryFiles()
     {

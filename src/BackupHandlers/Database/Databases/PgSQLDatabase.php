@@ -21,7 +21,7 @@ class PgSQLDatabase implements DatabaseInterface
      * @param $username
      * @param $password
      * @param string $host
-     * @param int $port
+     * @param int    $port
      * @param string $socket
      */
     public function __construct(Console $console, $database, $schema, $username, $password, $host, $port)
@@ -55,7 +55,7 @@ class PgSQLDatabase implements DatabaseInterface
             'PGHOST' => $this->host,
             'PGUSER' => $this->username,
             'PGPASSWORD' => $this->password,
-            'PGPORT' => $this->port
+            'PGPORT' => $this->port,
         ];
 
         return $this->console->run($command, config('laravel-backup.pgsql.timeoutInSeconds'), $env);

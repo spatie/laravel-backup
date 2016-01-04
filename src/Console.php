@@ -10,7 +10,7 @@ class Console
      * Run a command in the shell.
      *
      * @param $command
-     * @param int $timeoutInSeconds
+     * @param int   $timeoutInSeconds
      * @param array $env
      *
      * @return bool|string

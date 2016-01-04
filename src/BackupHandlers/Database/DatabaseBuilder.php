@@ -17,7 +17,7 @@ class DatabaseBuilder
 
     public function getDatabase(array $realConfig)
     {
-        switch($realConfig['driver']) {
+        switch ($realConfig['driver']) {
             case 'mysql':
                 try {
                     $this->buildMySQL($realConfig);
@@ -57,6 +57,7 @@ class DatabaseBuilder
 
     /**
      * Build a PgSQLDatabase instance.
+     *
      * @param array $config
      */
     protected function buildPgSql(array $config)

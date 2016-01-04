@@ -105,5 +105,5 @@ return [
          * it will abort the backup.
          */
         'timeoutInSeconds' => 60,
-    ]
+    ],
 ];
