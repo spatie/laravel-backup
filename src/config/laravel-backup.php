@@ -87,4 +87,23 @@ return [
          */
         'timeoutInSeconds' => 60,
     ],
+
+    'pgsql' => [
+        /*
+         * The path to the pg_dump binary. You can leave this empty
+         * if the binary is installed in the default location.
+         */
+        'dump_command_path' => '',
+
+        /*
+         * Set to true to use pgsql 'COPY' statements instead of 'INSERT's.
+         */
+        'use_copy' => true,
+
+        /*
+         * If the dump of the db takes more seconds that the specified value,
+         * it will abort the backup.
+         */
+        'timeoutInSeconds' => 60,
+    ]
 ];

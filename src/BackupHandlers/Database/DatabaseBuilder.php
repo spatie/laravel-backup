@@ -17,10 +17,22 @@ class DatabaseBuilder
 
     public function getDatabase(array $realConfig)
     {
-        try {
-            $this->buildMySQL($realConfig);
-        } catch (Exception $e) {
-            throw new \Exception('Whoops, '.$e->getMessage());
+        switch($realConfig['driver']) {
+            case 'mysql':
+                try {
+                    $this->buildMySQL($realConfig);
+                } catch (Exception $e) {
+                    throw new \Exception('Whoops, '.$e->getMessage());
+                }
+                break;
+
+            case 'pgsql':
+                try {
+                    $this->buildPgSql($realConfig);
+                } catch (Exception $e) {
+                    throw new \Exception('Whoops, '.$e->getMessage());
+                }
+                break;
         }
 
         return $this->database;
@@ -40,6 +52,27 @@ class DatabaseBuilder
             $this->determineHost($config),
             $port,
             $socket
+        );
+    }
+
+    /**
+     * Build a PgSQLDatabase instance.
+     * @param array $config
+     */
+    protected function buildPgSql(array $config)
+    {
+        $port = isset($config['port']) ? $config['port'] : 5432;
+
+        $schema = isset($config['schema']) ? $config['schema'] : 'public';
+
+        $this->database = new Databases\PgSQLDatabase(
+            $this->console,
+            $config['database'],
+            $schema,
+            $config['username'],
+            $config['password'],
+            $this->determineHost($config),
+            $port
         );
     }
 
