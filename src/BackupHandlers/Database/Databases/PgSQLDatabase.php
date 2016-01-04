@@ -18,11 +18,10 @@ class PgSQLDatabase implements DatabaseInterface
      * @param Console $console
      * @param $database
      * @param string $schema
-     * @param $username
+     * @param string $username
      * @param $password
-     * @param string $host
-     * @param int    $port
-     * @param string $socket
+     * @param string string $host
+     * @param int $port
      */
     public function __construct(Console $console, $database, $schema, $username, $password, $host, $port)
     {

@@ -17,12 +17,12 @@ class MySQLDatabase implements DatabaseInterface
 
     /**
      * @param Console $console
-     * @param $database
-     * @param $user
-     * @param $password
-     * @param $host
-     * @param $port
-     * @param $socket
+     * @param string $database
+     * @param string $user
+     * @param string $password
+     * @param string $host
+     * @param int $port
+     * @param string $socket
      */
     public function __construct(Console $console, $database, $user, $password, $host, $port, $socket)
     {
