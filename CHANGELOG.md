@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.9.2
+- Fix installation error when using Symfony 3
+
 ###2.9.1
 - Fixed a bug that prevented to write directly into the root of an S3 bucket
 
