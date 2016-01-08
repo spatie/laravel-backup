@@ -135,7 +135,9 @@ class BackupCommand extends Command
     {
         $destinationDirectory = dirname($destination);
 
-        $disk->makeDirectory($destinationDirectory);
+        if ($destinationDirectory != '.') {
+            $disk->makeDirectory($destinationDirectory);
+        }
 
         if ($addIgnoreFile) {
             $this->writeIgnoreFile($disk, $destinationDirectory);
