@@ -1,37 +1,45 @@
 {
-    "name": "spatie/:package_name",
-    "description": ":package_description",
+    "name": "spatie/laravel-backup",
+    "description": "A Laravel 5 package to backup your application",
     "keywords": [
         "spatie",
-        ":package_name"
+        "backup",
+        "database",
+        "laravel-backup"
     ],
-    "homepage": "https://github.com/spatie/:package_name",
+    "homepage": "https://github.com/spatie/laravel-backup",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
         }
     ],
     "require": {
-        "php" : ">=7.0"
+        "php" : "^7.0",
+        "illuminate/support": "^5.1",
+        "illuminate/console": "^5.1",
+        "symfony/finder": "^3.0",
+        "spatie/db-dumper": "^1.0"
+
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*"
+        "phpunit/phpunit": "^5.0",
+        "orchestra/testbench": "^3.2"
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Spatie\\Backup\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Test\\": "tests"
+            "Spatie\\Backup\\Test\\": "tests"
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "vendor/bin/phpunit"
     }
 }
