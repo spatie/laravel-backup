@@ -93,7 +93,15 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $fileFinder->getSelectedFiles());
     }
 
-    public function getTestFiles(array $relativePaths) : array
+    /** @test */
+    public function it_provides_a_factory_method()
+    {
+        $fileFinder = FileFinder::create();
+
+        $this->assertInstanceOf(FileFinder::class, $fileFinder);
+    }
+
+    protected function getTestFiles(array $relativePaths) : array
     {
         $absolutePaths = array_map(function (string $path) {
              return "{$this->sourceDirectory}/{$path}";

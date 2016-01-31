@@ -20,6 +20,14 @@ class FileFinder
     /**
      * @param array|string $includeFilesAndDirectories
      */
+    public static function create($includeFilesAndDirectories) : FileFinder
+    {
+        return new static($includeFilesAndDirectories);
+    }
+
+    /**
+     * @param array|string $includeFilesAndDirectories
+     */
     public function __construct($includeFilesAndDirectories)
     {
         if (!is_array($includeFilesAndDirectories)) {
