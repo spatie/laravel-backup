@@ -19,7 +19,7 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_can_get_all_the_files_in_a_directory_and_subdirectories()
+    public function it_can_select_all_the_files_in_a_directory_and_subdirectories()
     {
         $fileFinder = new FileFinder($this->sourceDirectory);
 
@@ -64,6 +64,25 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
             'directory1/directory1/file2.txt',
             'directory2/directory1/file1.txt',
         ]), $fileFinder->getSelectedFiles());
+    }
+
+    /** @test */
+    public function it_can_exclude_files_from_multiple_directories()
+    {
+        $fileFinder = (new FileFinder($this->sourceDirectory))
+        ->excludeFilesFrom($this->getTestFiles([
+            'directory1/directory1',
+            'directory2',
+            'file2.txt',
+            ]));
+
+        $this->assertSame(
+            $this->getTestFiles([
+                'directory1/file1.txt',
+                'directory1/file2.txt',
+                'file1.txt',
+                'file3.txt',
+            ]), $fileFinder->getSelectedFiles());
     }
 
     public function getTestFiles(array $relativePaths) : array
