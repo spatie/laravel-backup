@@ -85,6 +85,13 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
             ]), $fileFinder->getSelectedFiles());
     }
 
+    public function it_returns_an_empty_array_when_not_specifing_any_directories()
+    {
+        $fileFinder = new FileFinder('');
+
+        $this->assertCount(0, $fileFinder->getSelectedFiles());
+    }
+
     public function getTestFiles(array $relativePaths) : array
     {
         $absolutePaths = array_map(function (string $path) {
