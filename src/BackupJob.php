@@ -44,7 +44,8 @@ class BackupJob
 
     protected function getFilesToBeBackupped() : array
     {
-        $files = FileFinder::create($this->includedPaths);
+        $files = FileFinder::create($this->includedPaths)
+         ->excludeFilesFrom($this->excludedPaths);
 
         return $files;
     }
