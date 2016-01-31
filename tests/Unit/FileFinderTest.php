@@ -85,6 +85,7 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
             ]), $fileFinder->getSelectedFiles());
     }
 
+    /** @test */
     public function it_returns_an_empty_array_when_not_specifing_any_directories()
     {
         $fileFinder = new FileFinder('');
