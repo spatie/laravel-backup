@@ -3,6 +3,7 @@
 namespace Spatie\Skeleton\Test\Unit;
 
 use Spatie\Backup\FileFinder;
+use Spatie\Backup\Test\TestHelper;
 
 class FileFinderTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +16,7 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->sourceDirectory = realpath(__DIR__.'/../testfiles/source');
+        $this->sourceDirectory = (new TestHelper())->getStubDirectory();
     }
 
     /** @test */
