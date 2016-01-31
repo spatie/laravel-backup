@@ -21,25 +21,16 @@ class BackupJob
      */
     protected $backupDestinations = [];
 
-    public function __construct(BackupJob $backupJob)
+    public function __construct()
     {
         $this->backupDestinations = new Collection();
     }
 
-    public static function create() : BackupJob
-    {
-        return new static();
-    }
 
     public function setBackupDestinations(array $backupDestinations) : BackupJob
     {
         $this->backupDestinations = Collection::make($backupDestinations);
 
-        return $this;
-    }
-
-    public function doNotIncludeAnyFiles()
-    {
         return $this;
     }
 
