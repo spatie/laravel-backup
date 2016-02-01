@@ -19,24 +19,28 @@ return [
              * You can specify individual files as well.
              */
             'exclude' => [
-                storage_path(),
                 base_path('vendor'),
             ],
         ],
 
         /*
-         * Should the database be part of the back up.
+         * The names of the connections to the databases
+         * that should be part of the backup.
          */
-        'backup-db' => true,
+        'databases' => [
+            'mysql'
+        ],
     ],
 
     'destination' => [
 
         /*
-         * The filesystem(s) you on which the backups will be stored. Choose one or more
+         * The filesystems you on which the backups will be stored. Choose one or more
          * of the filesystems you configured in app/config/filesystems.php
          */
-        'filesystem' => ['local'],
+        'filesystems' => [
+            'local'
+        ],
 
         /*
          * The path where the backups will be saved. This path
@@ -64,46 +68,5 @@ return [
          * that are older then this amount of days.
          */
         'maxAgeInDays' => 90,
-    ],
-
-    'mysql' => [
-        /*
-         * The path to the mysqldump binary. You can leave this empty
-         * if the binary is installed in the default location.
-         */
-        'dump_command_path' => '',
-
-        /*
-         * If your server supports it you can turn on extended insert.
-         * This will result in a smaller dump file and speeds up the backup process.
-         *
-         * See: https://dev.mysql.com/doc/refman/5.1/en/mysqldump.html#option_mysqldump_extended-insert
-         */
-        'useExtendedInsert' => false,
-
-        /*
-         * If the dump of the db takes more seconds that the specified value,
-         * it will abort the backup.
-         */
-        'timeoutInSeconds' => 60,
-    ],
-
-    'pgsql' => [
-        /*
-         * The path to the pg_dump binary. You can leave this empty
-         * if the binary is installed in the default location.
-         */
-        'dump_command_path' => '',
-
-        /*
-         * Set to true to use pgsql 'COPY' statements instead of 'INSERT's.
-         */
-        'use_copy' => true,
-
-        /*
-         * If the dump of the db takes more seconds that the specified value,
-         * it will abort the backup.
-         */
-        'timeoutInSeconds' => 60,
     ],
 ];

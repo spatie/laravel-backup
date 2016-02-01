@@ -2,10 +2,10 @@
 
 namespace Spatie\Skeleton\Test\Unit;
 
-use Spatie\Backup\FileFinder;
+use Spatie\Backup\FileSelection;
 use Spatie\Backup\Test\TestHelper;
 
-class FileFinderTest extends \PHPUnit_Framework_TestCase
+class FileSelectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @string
@@ -22,7 +22,7 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_select_all_the_files_in_a_directory_and_subdirectories()
     {
-        $fileFinder = new FileFinder($this->sourceDirectory);
+        $fileSelection = new FileSelection($this->sourceDirectory);
 
         $this->assertSame(
             $this->getTestFiles([
@@ -34,13 +34,13 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
                 'file1.txt',
                 'file2.txt',
                 'file3.txt',
-            ]), $fileFinder->getSelectedFiles());
+            ]), $fileSelection->getSelectedFiles());
     }
 
     /** @test */
     public function it_can_exclude_files_from_a_given_subdirectory()
     {
-        $fileFinder = (new FileFinder($this->sourceDirectory))
+        $fileSelection = (new FileSelection($this->sourceDirectory))
                         ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
 
         $this->getTestFiles([
@@ -48,13 +48,13 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
             'file1.txt',
             'file2.txt',
             'file3.txt',
-        ], $fileFinder->getSelectedFiles());
+        ], $fileSelection->getSelectedFiles());
     }
 
     /** @test */
     public function it_can_select_files_from_multiple_directories()
     {
-        $fileFinder = (new FileFinder([
+        $fileSelection = (new FileSelection([
             $this->sourceDirectory.'/directory1/directory1',
             $this->sourceDirectory.'/directory2/directory1',
         ]));
@@ -64,13 +64,13 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
             'directory1/directory1/file1.txt',
             'directory1/directory1/file2.txt',
             'directory2/directory1/file1.txt',
-        ]), $fileFinder->getSelectedFiles());
+        ]), $fileSelection->getSelectedFiles());
     }
 
     /** @test */
     public function it_can_exclude_files_from_multiple_directories()
     {
-        $fileFinder = (new FileFinder($this->sourceDirectory))
+        $fileSelection = (new FileSelection($this->sourceDirectory))
         ->excludeFilesFrom($this->getTestFiles([
             'directory1/directory1',
             'directory2',
@@ -83,23 +83,23 @@ class FileFinderTest extends \PHPUnit_Framework_TestCase
                 'directory1/file2.txt',
                 'file1.txt',
                 'file3.txt',
-            ]), $fileFinder->getSelectedFiles());
+            ]), $fileSelection->getSelectedFiles());
     }
 
     /** @test */
     public function it_returns_an_empty_array_when_not_specifing_any_directories()
     {
-        $fileFinder = new FileFinder('');
+        $fileSelection = new FileSelection('');
 
-        $this->assertCount(0, $fileFinder->getSelectedFiles());
+        $this->assertCount(0, $fileSelection->getSelectedFiles());
     }
 
     /** @test */
     public function it_provides_a_factory_method()
     {
-        $fileFinder = FileFinder::create();
+        $fileSelection = FileSelection::create();
 
-        $this->assertInstanceOf(FileFinder::class, $fileFinder);
+        $this->assertInstanceOf(FileSelection::class, $fileSelection);
     }
 
     protected function getTestFiles(array $relativePaths) : array

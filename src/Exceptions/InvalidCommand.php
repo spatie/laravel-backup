@@ -1,5 +1,7 @@
 <?php
 
+namespace Spatie\Backup\Exceptions;
+
 use Exception;
 
 class InvalidCommand extends Exception

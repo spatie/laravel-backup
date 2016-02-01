@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class FileFinder
+class FileSelection
 {
     /**
      * @var array
@@ -20,7 +20,7 @@ class FileFinder
     /**
      * @param array|string $includeFilesAndDirectories
      */
-    public static function create($includeFilesAndDirectories) : FileFinder
+    public static function create($includeFilesAndDirectories) : FileSelection
     {
         return new static($includeFilesAndDirectories);
     }
@@ -42,7 +42,7 @@ class FileFinder
      *
      * @param array|string $excludeFilesAndDirectories
      */
-    public function excludeFilesFrom($excludeFilesAndDirectories) : FileFinder
+    public function excludeFilesFrom($excludeFilesAndDirectories) : FileSelection
     {
         if (!is_array($excludeFilesAndDirectories)) {
             $excludeFilesAndDirectories = [$excludeFilesAndDirectories];

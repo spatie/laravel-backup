@@ -3,29 +3,65 @@
 namespace Spatie\Backup;
 
 use Illuminate\Support\Collection;
+use Spatie\DbDumper\DbDumper;
 
 class BackupJob
 {
     /**
-     * @var array
+     * @var FileSelection
      */
-    protected $includedPaths = [];
-
-    /**
-     * @var array
-     */
-    protected $excludedPaths = [];
+    protected $fileSelection;
 
     /**
      * @var Collection
      */
-    protected $backupDestinations = [];
+    protected $dbDumpers;
+
+    /**
+     * @var Collection
+     */
+    protected $backupDestinations;
+
+    /**
+     * @array
+     */
+    protected $temporaryFiles = [];
 
     public function __construct()
     {
+        $this->doNotBackupFilesystem();
+        $this->doNotBackupDatabases();
+
         $this->backupDestinations = new Collection();
     }
 
+    public function doNotBackupFilesystem() : BackupJob
+    {
+        $this->fileSelection = FileSelectionFactory::noFiles();
+
+        return $this;
+    }
+
+    public function doNotBackupDatabases() : BackupJob
+    {
+        $this->dbDumpers = new Collection();
+
+        return $this;
+    }
+
+    public function setFileSelection(FileSelection $fileSelection) : BackupJob
+    {
+        $this->fileSelection = $fileSelection;
+
+        return $this;
+    }
+
+    public function setDbDumpers(array $dbDumpers) : BackupJob
+    {
+        $this->dbDumpers = Collection::make($dbDumpers);
+
+        return $this;
+    }
 
     public function setBackupDestinations(array $backupDestinations) : BackupJob
     {
@@ -41,12 +77,24 @@ class BackupJob
         $zip = $this->createZip($files);
 
         $this->copyToConfiguredFilesystems($zip);
+
+        $this->deleteTemporaryFiles();
     }
 
     protected function getFilesToBeBackupped() : array
     {
-        $files = FileFinder::create($this->includedPaths)
-         ->excludeFilesFrom($this->excludedPaths);
+        $files = $this->fileSelection->getSelectedFiles();
+
+        $this->dbDumpers->each(function (DbDumper $dbDumper) use ($files) {
+
+            $fileName = $dbDumper->getDbName().'.sql';
+
+            $temporaryFile = $this->getTemporaryFile($fileName);
+
+            $dbDumper->dumpToFile($temporaryFile);
+
+            $files[] = $temporaryFile;
+        });
 
         return $files;
     }
@@ -69,6 +117,19 @@ class BackupJob
 
     protected function getTemporaryFile(string $fileName) : string
     {
-        return tempnam(sys_get_temp_dir(), $fileName);
+        $temporaryFile = tempnam(sys_get_temp_dir(), $fileName);
+
+        $this->temporaryFiles[] = $temporaryFile;
+
+        return $temporaryFile;
+    }
+
+    protected function deleteTemporaryFiles()
+    {
+        foreach ($this->temporaryFiles as $temporaryFile) {
+            if (file_exists($temporaryFile)) {
+                unlink($temporaryFile);
+            }
+        }
     }
 }

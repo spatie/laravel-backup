@@ -4,6 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
 use InvalidCommand;
+use Spatie\Backup\BackupJobFactory;
 
 class BackupCommand extends Command
 {
@@ -30,19 +31,17 @@ class BackupCommand extends Command
     {
         $this->guardAgainstInvalidOptions();
 
-        $backupJob = BackupJob::create();
+        $backupJob = BackupJobFactory::createFromArray(config('laravel-backup'));
 
         if ($this->option('only-db')) {
-            $backupJob->doNotIncludeAnyFiles();
+            $backupJob->doNotBackupFilesystem();
         }
 
         if ($this->option('only-files')) {
-            $backupJob->doNotIncludeDatabase();
+            $backupJob->doNotBackupDatabases();
         }
 
         $backupJob->run();
-
-        BackupManager::removeBackupsOlderThan();
     }
 
     protected function guardAgainstInvalidOptions()
