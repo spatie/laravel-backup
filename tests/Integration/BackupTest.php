@@ -4,7 +4,7 @@ namespace Spatie\Backup\Test\Integration;
 
 use Illuminate\Support\Facades\Artisan;
 
-class BackupJobTest extends TestCase
+class BackupTest extends TestCase
 {
     public function setUp()
     {

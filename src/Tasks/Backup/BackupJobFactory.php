@@ -11,9 +11,9 @@ class BackupJobFactory
     public static function createFromArray(array $config) : BackupJob
     {
         $backupJob = (new BackupJob())
-            ->setFileSelection(self::getFileSelection($config['source']['files']))
-            ->setDbDumpers(self::getDbDumpers($config['source']['databases']))
-            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['destination']));
+            ->setFileSelection(self::getFileSelection($config['backup']['source']['files']))
+            ->setDbDumpers(self::getDbDumpers($config['backup']['source']['databases']))
+            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']['destination']));
 
         return $backupJob;
     }

@@ -4,7 +4,9 @@ namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
 use InvalidCommand;
+use Spatie\Backup\Notifications\HandlesBackupNotifications;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
+use Throwable;
 
 class BackupCommand extends Command
 {
@@ -29,19 +31,27 @@ class BackupCommand extends Command
      */
     public function handle()
     {
-        $this->guardAgainstInvalidOptions();
+        try {
+            $this->guardAgainstInvalidOptions();
 
-        $backupJob = BackupJobFactory::createFromArray(config('laravel-backup'));
+            $backupJob = BackupJobFactory::createFromArray(config('laravel-backup'));
 
-        if ($this->option('only-db')) {
-            $backupJob->doNotBackupFilesystem();
+            if ($this->option('only-db')) {
+                $backupJob->doNotBackupFilesystem();
+            }
+
+            if ($this->option('only-files')) {
+                $backupJob->doNotBackupDatabases();
+            }
+
+            $backupJob->run();
+
+            $this->handleSucces();
+        }
+        catch(Throwable $error) {
+            $this->handleError($error);
         }
 
-        if ($this->option('only-files')) {
-            $backupJob->doNotBackupDatabases();
-        }
-
-        $backupJob->run();
     }
 
     protected function guardAgainstInvalidOptions()
@@ -49,5 +59,28 @@ class BackupCommand extends Command
         if ($this->option('only-db') && $this->option('only-files')) {
             throw InvalidCommand::create('cannot use only-db and only-files together');
         }
+    }
+
+    protected function handleSuccess()
+    {
+        $backupWasSuccessfulEvent = new \Spatie\Backup\Events\BackupWasSuccessful();
+
+        $this->getNotificationHandler()->whenBackupWasSuccessful($event);
+
+        event($backupWasSuccessfulEvent);
+    }
+
+    protected function handleError(Throwable $error)
+    {
+        $backupHasFailedEvent = new \Spatie\Backup\Events\BackupHasFailed();
+
+        $this->getNotificationHandler()->whenBackupHasFailed($backupHasFailedEvent);
+
+        event($backupHasFailedEvent);
+    }
+
+    protected function getNotificationHandler() : HandlesBackupNotifications
+    {
+        return app(config('laravel-backup.notifications.handler'));
     }
 }
