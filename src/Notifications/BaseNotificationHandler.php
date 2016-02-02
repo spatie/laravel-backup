@@ -8,7 +8,6 @@ use Spatie\Backup\Events\BackupWasSuccessful;
 
 abstract class BaseNotificationHandler implements HandlesBackupNotifications
 {
-
     public function whenBackupWasSuccessful(BackupWasSuccessful $event)
     {
         Log::info('backup was successful');
@@ -16,8 +15,6 @@ abstract class BaseNotificationHandler implements HandlesBackupNotifications
 
     public function whenBackupHasFailed(BackupHasFailed $event)
     {
-        Log::error('backup has failed because: ' . $event->error->getMessage());
+        Log::error('backup has failed because: '.$event->error->getMessage());
     }
-
-
 }

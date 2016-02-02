@@ -12,5 +12,4 @@ class BackupHasFailed
     {
         $this->error = $error;
     }
-
 }

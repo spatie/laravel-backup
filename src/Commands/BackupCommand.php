@@ -47,11 +47,9 @@ class BackupCommand extends Command
             $backupJob->run();
 
             $this->handleSuccess();
-        }
-        catch(Throwable $error) {
+        } catch (Throwable $error) {
             $this->handleError($error);
         }
-
     }
 
     protected function guardAgainstInvalidOptions()

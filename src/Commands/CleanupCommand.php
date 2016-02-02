@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Exceptions\InvalidCommand;
-use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 
 class CleanupCommand extends Command
 {

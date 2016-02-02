@@ -18,7 +18,6 @@ class CleanupTest extends TestCase
             'driver' => 'local',
             'root' => $this->testHelper->getTempDirectory(),
         ]);
-
     }
 
     /** @test */
