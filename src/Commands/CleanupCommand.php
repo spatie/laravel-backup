@@ -35,7 +35,7 @@ class CleanupCommand extends Command
 
         $this->guardAgainstInvalidConfiguration($config);
 
-        //$date = Carbon::now()->subDays($config['cleanup']['maxAgeInDays']);
+        $date = Carbon::now()->subDays($config['cleanup']['maxAgeInDays']);
 
         collect(BackupDestinationFactory::createFromArray($config['backup']['destination']))
             ->each(function (BackupDestination $backupDestination) use ($date) {
