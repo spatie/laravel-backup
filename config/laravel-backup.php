@@ -80,7 +80,8 @@ return [
 
         'email' =>  [
 
-            'to' => '',
+            'from' => 'freek@spatie.be',
+            'to' => 'freek@spatie.be',
 
         ]
     ]

@@ -46,7 +46,7 @@ class BackupCommand extends Command
 
             $backupJob->run();
 
-            $this->handleSucces();
+            $this->handleSuccess();
         }
         catch(Throwable $error) {
             $this->handleError($error);
@@ -65,7 +65,7 @@ class BackupCommand extends Command
     {
         $backupWasSuccessfulEvent = new \Spatie\Backup\Events\BackupWasSuccessful();
 
-        $this->getNotificationHandler()->whenBackupWasSuccessful($event);
+        $this->getNotificationHandler()->whenBackupWasSuccessful($backupWasSuccessfulEvent);
 
         event($backupWasSuccessfulEvent);
     }

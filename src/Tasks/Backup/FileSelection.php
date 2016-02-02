@@ -20,7 +20,7 @@ class FileSelection
     /**
      * @param array|string $includeFilesAndDirectories
      */
-    public static function create($includeFilesAndDirectories) : FileSelection
+    public static function create($includeFilesAndDirectories = []) : FileSelection
     {
         return new static($includeFilesAndDirectories);
     }

@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\BackupDestination;
 
+use DateTime;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 

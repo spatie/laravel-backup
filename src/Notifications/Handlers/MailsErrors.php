@@ -14,8 +14,13 @@ class MailsErrors extends BaseNotificationHandler
     {
         $message = 'backup has failed because ' . $event->error->getMessage();
 
-        Mail::send($message, function ($message) {
-            $message->to(config('laravel-backup.notifications.handlers.email.to'));
+        Mail::raw($message, function ($message) {
+
+            $emailConfig = config('laravel-backup.notifications.email');
+
+            $message
+                ->from($emailConfig['from'])
+                ->to($emailConfig['to']);
         });
     }
 }

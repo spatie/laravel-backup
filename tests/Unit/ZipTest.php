@@ -2,8 +2,8 @@
 
 namespace Spatie\Skeleton\Test\Unit;
 
+use Spatie\Backup\Tasks\Backup\Zip;
 use Spatie\Backup\Test\TestHelper;
-use Spatie\Backup\Zip;
 
 class ZipTest extends \PHPUnit_Framework_TestCase
 {
