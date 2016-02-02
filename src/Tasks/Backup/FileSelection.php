@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup;
+namespace Spatie\Backup\Tasks\Backup;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;

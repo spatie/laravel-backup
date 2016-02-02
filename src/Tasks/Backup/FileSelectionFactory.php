@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup;
+namespace Spatie\Backup\Tasks\Backup;
 
 class FileSelectionFactory
 {

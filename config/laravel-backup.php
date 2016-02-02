@@ -12,6 +12,7 @@ return [
              */
             'include' => [
                 base_path(),
+
             ],
 
             /*
@@ -20,6 +21,7 @@ return [
              */
             'exclude' => [
                 base_path('vendor'),
+                storage_path(),
             ],
         ],
 
@@ -59,7 +61,7 @@ return [
          * specify a prefix and a suffix for the filename.
          */
         'prefix' => '',
-        'suffix' => '',
+        'suffix' => config('app.name'),
     ],
 
     'clean' => [

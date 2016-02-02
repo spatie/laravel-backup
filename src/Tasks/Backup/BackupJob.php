@@ -1,8 +1,10 @@
 <?php
 
-namespace Spatie\Backup;
+namespace Spatie\Backup\Tasks\Backup;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\DbDumper\DbDumper;
 
 class BackupJob
@@ -21,11 +23,6 @@ class BackupJob
      * @var Collection
      */
     protected $backupDestinations;
-
-    /**
-     * @array
-     */
-    protected $temporaryFiles = [];
 
     public function __construct()
     {
@@ -78,7 +75,7 @@ class BackupJob
 
         $this->copyToConfiguredFilesystems($zip);
 
-        $this->deleteTemporaryFiles();
+        $this->deleteTemporaryDirectory();
     }
 
     protected function getFilesToBeBackupped() : array
@@ -101,35 +98,35 @@ class BackupJob
 
     protected function createZip(array $files) : string
     {
-        $tempZipFile = $this->getTemporaryFile('laravel-backup.zip');
+        $tempZipFile = $this->getTemporaryDirectory().'/'.date('Ymdhis').'.zip';
 
         Zip::create($tempZipFile, $files);
 
         return $tempZipFile;
     }
 
-    protected function copyToConfiguredFilesystems($zip) : bool
+    protected function copyToConfiguredFilesystems($zip)
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
             $backupDestination->write($zip);
         });
     }
 
-    protected function getTemporaryFile(string $fileName) : string
+    protected function getTemporaryDirectory()
     {
-        $temporaryFile = tempnam(sys_get_temp_dir(), $fileName);
+        $tempPath = storage_path('laravel-backups/temp');
 
-        $this->temporaryFiles[] = $temporaryFile;
+        $filesystem = new Filesystem();
 
-        return $temporaryFile;
+        $filesystem->makeDirectory($tempPath, 0777, true, true);
+
+        return $tempPath;
     }
 
-    protected function deleteTemporaryFiles()
+    protected function deleteTemporaryDirectory()
     {
-        foreach ($this->temporaryFiles as $temporaryFile) {
-            if (file_exists($temporaryFile)) {
-                unlink($temporaryFile);
-            }
-        }
+        $filesystem = new Filesystem();
+
+        $filesystem->deleteDirectory($this->getTemporaryDirectory());
     }
 }

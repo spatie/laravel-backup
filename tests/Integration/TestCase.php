@@ -2,19 +2,24 @@
 
 namespace Spatie\Backup\Test\Integration;
 
-use File;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Backup\BackupServiceProvider;
+use Spatie\Backup\Test\TestHelper;
 
 abstract class TestCase extends Orchestra
 {
+    /** @var \Spatie\Backup\Test\TestHelper */
+    protected $testHelper;
+
     public function setUp()
     {
+        $this->testHelper = new TestHelper();
+
         parent::setUp();
 
-        $this->setUpDatabase($this->app);
-
-        $this->setUpTempTestFiles();
+        //$this->setUpDatabase($this->app);
     }
 
     /**
@@ -25,7 +30,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            \Spatie\Backup\BackupServiceProvider::class,
+            BackupServiceProvider::class,
         ];
     }
 
@@ -34,28 +39,19 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
-        $this->initializeDirectory($this->getTempDirectory());
+        $this->testHelper->initializeTempDirectory();
 
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
-            'database' => $this->getTempDirectory().'/database.sqlite',
+            'database' => $this->testHelper->getTempDirectory().'/database.sqlite',
             'prefix' => '',
         ]);
 
-        $app['config']->set('filesystems.disks.media', [
+        $app['config']->set('filesystems.disks.local', [
             'driver' => 'local',
-            'root' => $this->getMediaDirectory(),
+            'root' => $this->testHelper->getTempDirectory(),
         ]);
-
-        $app['config']->set('filesystems.disks.secondMediaDisk', [
-            'driver' => 'local',
-            'root' => $this->getTempDirectory('media2'),
-        ]);
-
-        $app->bind('path.public', function () {
-            return $this->getTempDirectory();
-        });
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
     }
@@ -65,7 +61,7 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        file_put_contents($this->getTempDirectory().'/database.sqlite', null);
+        file_put_contents($this->testHelper->getTempDirectory().'/database.sqlite', null);
 
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
@@ -73,43 +69,19 @@ abstract class TestCase extends Orchestra
         });
 
         TestModel::create(['name' => 'test']);
-
-        include_once '__DIR__'.'/../resources/migrations/create_media_table.php.stub';
-
-        (new \CreateMediaTable())->up();
     }
 
-    protected function setUpTempTestFiles()
+    public function fileWithExtensionExistsInDirectoryOnDisk(string $extension, string $directory, string $diskName)
     {
-        $this->initializeDirectory($this->getTestFilesDirectory());
-        File::copyDirectory(__DIR__.'/../resources/testfiles', $this->getTestFilesDirectory());
-    }
+        $disk = Storage::disk($diskName);
 
-    protected function initializeDirectory($directory)
-    {
-        if (File::isDirectory($directory)) {
-            File::deleteDirectory($directory);
-        }
-        File::makeDirectory($directory);
-    }
+        $files = $disk->files($directory);
 
-    public function getTempDirectory($suffix = '')
-    {
-        return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);
-    }
+        $fileCount = collect($files)->filter(function (string $fileName) use ($extension) {
+            return pathinfo($fileName, PATHINFO_EXTENSION) == $extension;
+        })
+        ->count();
 
-    public function getMediaDirectory($suffix = '')
-    {
-        return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
-    }
-
-    public function getTestFilesDirectory($suffix = '')
-    {
-        return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
-    }
-
-    public function getTestJpg()
-    {
-        return $this->getTestFilesDirectory('test.jpg');
+        $this->assertTrue($fileCount > 0, "There are no files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
     }
 }

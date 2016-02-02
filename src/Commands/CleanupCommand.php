@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 use InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 
-class BackupCommand extends Command
+class CleanupCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'backup:run {--only-db} {--only-files}';
+    protected $signature = 'backup:clean';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Run the backup.';
+    protected $description = 'Remove all backups older than specified number of days in config.';
 
     /**
      * Execute the console command.
@@ -29,7 +29,7 @@ class BackupCommand extends Command
      */
     public function handle()
     {
-        $this->guardAgainstInvalidOptions();
+        $this->guardAgainstInvalidConfiguration();
 
         $backupJob = BackupJobFactory::createFromArray(config('laravel-backup'));
 
@@ -44,10 +44,15 @@ class BackupCommand extends Command
         $backupJob->run();
     }
 
-    protected function guardAgainstInvalidOptions()
+    protected function guardAgainstInvalidConfiguration()
     {
-        if ($this->option('only-db') && $this->option('only-files')) {
-            throw InvalidCommand::create('cannot use only-db and only-files together');
+        $maxAgeInDays = config('laravel-backup.clean.maxAgeInDays');
+
+        if (!is_numeric($maxAgeInDays)) {
+            throw InvalidCommand::create('maxAgeInDays should be numeric');
+        }
+        if ($maxAgeInDays <= 0) {
+            throw InvalidCommand::create('maxAgeInDays should be higher than 0');
         }
     }
 }
