@@ -11,7 +11,7 @@ class BackupDestination
     /** @var \Illuminate\Contracts\Filesystem\Filesystem */
     protected $disk;
 
-    /** @var string  */
+    /** @var string */
     protected $backupDirectory;
 
     public function __construct(Filesystem $disk, string $backupDirectory = '')
