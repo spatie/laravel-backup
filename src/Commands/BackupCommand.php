@@ -4,6 +4,8 @@ namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
 use InvalidCommand;
+use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Notifications\HandlesBackupNotifications;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Throwable;
@@ -61,7 +63,7 @@ class BackupCommand extends Command
 
     protected function handleSuccess()
     {
-        $backupWasSuccessfulEvent = new \Spatie\Backup\Events\BackupWasSuccessful();
+        $backupWasSuccessfulEvent = new BackupWasSuccessful();
 
         $this->getNotificationHandler()->whenBackupWasSuccessful($backupWasSuccessfulEvent);
 
@@ -70,7 +72,7 @@ class BackupCommand extends Command
 
     protected function handleError(Throwable $error)
     {
-        $backupHasFailedEvent = new \Spatie\Backup\Events\BackupHasFailed($error);
+        $backupHasFailedEvent = new BackupHasFailed($error);
 
         $this->getNotificationHandler()->whenBackupHasFailed($backupHasFailedEvent);
 
