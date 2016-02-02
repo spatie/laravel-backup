@@ -72,7 +72,7 @@ class BackupCommand extends Command
 
     protected function handleError(Throwable $error)
     {
-        $backupHasFailedEvent = new \Spatie\Backup\Events\BackupHasFailed();
+        $backupHasFailedEvent = new \Spatie\Backup\Events\BackupHasFailed($error);
 
         $this->getNotificationHandler()->whenBackupHasFailed($backupHasFailedEvent);
 

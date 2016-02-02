@@ -12,7 +12,7 @@ class BackupTest extends TestCase
     }
 
     /** @test */
-    public function it_can_run_backup_job()
+    public function it_can_run_a_backup()
     {
         Artisan::call('backup:run', ['--only-files' => true]);
 

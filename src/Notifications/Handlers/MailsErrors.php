@@ -5,8 +5,9 @@ namespace Spatie\Backup\Notifications\Handlers;
 use Mail;
 use Log;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Notifications\BaseNotificationHandler;
 
-class MailsErrors implements HandlesBackupNotifications
+class MailsErrors extends BaseNotificationHandler
 {
 
     public function whenBackupHasFailed(BackupHasFailed $event)

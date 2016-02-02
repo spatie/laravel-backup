@@ -59,13 +59,13 @@ class FileSelection
             return [];
         }
 
-        $filesToBeIncluded = $this->getAllFiles($this->includeFilesAndDirectories);
+        $filesToBeIncluded = $this->getAllFilesFromPaths($this->includeFilesAndDirectories);
 
         if (count($this->excludeFilesAndDirectories) === 0) {
             return $filesToBeIncluded;
         }
 
-        $filesToBeExcluded = $this->getAllFiles($this->excludeFilesAndDirectories);
+        $filesToBeExcluded = $this->getAllFilesFromPaths($this->excludeFilesAndDirectories);
 
         $selectedFiles = collect($filesToBeIncluded)->filter(function (string $file) use ($filesToBeExcluded) {
             return !in_array($file, $filesToBeExcluded);
@@ -80,7 +80,7 @@ class FileSelection
     /*
      * Make a unique array of all files from a given array of files and directories.
      */
-    protected function getAllFiles(array $paths) : array
+    protected function getAllFilesFromPaths(array $paths) : array
     {
         $allFiles = collect($paths)
             ->filter(function (string $path) {
