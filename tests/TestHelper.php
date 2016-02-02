@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Test;
 
+use DateTime;
 use Illuminate\Filesystem\Filesystem;
 
 class TestHelper
@@ -42,5 +43,14 @@ class TestHelper
     public function getTempDirectory()
     {
         return __DIR__.'/temp';
+    }
+
+    public function createTempFileWithAge($fileName, DateTime $date)
+    {
+        $directory = $this->getTempDirectory().'/'.dirname($fileName);
+
+        $this->filesystem->makeDirectory($directory, 0755, true, true);
+
+        touch($this->getTempDirectory().'/'.$fileName, $date->getTimeStamp());
     }
 }

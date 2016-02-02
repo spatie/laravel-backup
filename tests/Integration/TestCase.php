@@ -71,7 +71,7 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
     }
 
-    public function fileWithExtensionExistsInDirectoryOnDisk(string $extension, string $directory, string $diskName)
+    public function assertFileWithExtensionExistsInDirectoryOnDisk(string $extension, string $directory, string $diskName)
     {
         $disk = Storage::disk($diskName);
 
@@ -83,5 +83,23 @@ abstract class TestCase extends Orchestra
         ->count();
 
         $this->assertTrue($fileCount > 0, "There are no files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+    }
+
+    public function assertTempFilesExist(array $files)
+    {
+        foreach ($files as $file) {
+            $path = $this->testHelper->getTempDirectory().'/'.$file;
+
+            $this->assertFileExists($path);
+        }
+    }
+
+    public function assertTempFilesNotExist(array $files)
+    {
+        foreach ($files as $file) {
+            $path = $this->testHelper->getTempDirectory().'/'.$file;
+
+            $this->assertFileNotExists($path);
+        }
     }
 }

@@ -16,6 +16,6 @@ class BackupTest extends TestCase
     {
         Artisan::call('backup:run', ['--only-files' => true]);
 
-        $this->fileWithExtensionExistsInDirectoryOnDisk('zip', 'backups', 'local');
+        $this->assertFileWithExtensionExistsInDirectoryOnDisk('zip', 'backups', 'local');
     }
 }

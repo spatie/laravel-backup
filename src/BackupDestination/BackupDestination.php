@@ -38,6 +38,9 @@ class BackupDestination
 
     public function deleteBackupsOlderThan(DateTime $date) : int
     {
+
+        //dd(collect($this->disk->allFiles($this->backupDirectory)));
+
         $oldFiles = collect($this->disk->allFiles($this->backupDirectory))
             ->filter(function (string $path) {
                 return pathinfo($path, PATHINFO_EXTENSION) === 'zip';
