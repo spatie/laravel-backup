@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\BackupDestination;
 
-use DateTime;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 
 class BackupDestination
 {
@@ -36,22 +36,14 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-    public function deleteBackupsOlderThan(DateTime $date) : int
+    public function getBackups() : Collection
     {
-
-        //dd(collect($this->disk->allFiles($this->backupDirectory)));
-
-        $oldFiles = collect($this->disk->allFiles($this->backupDirectory))
+        return collect($this->disk->allFiles($this->backupDirectory))
             ->filter(function (string $path) {
                 return pathinfo($path, PATHINFO_EXTENSION) === 'zip';
             })
-            ->filter(function (string $path) use ($date) {
-                return $this->disk->lastModified($path) < $date->getTimeStamp();
-            })
-            ->each(function (string $path) {
-                $this->disk->delete($path);
+            ->map(function (string $path) {
+                return new Backup($this->disk, $path);
             });
-
-        return $oldFiles->count();
     }
 }
