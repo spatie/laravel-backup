@@ -17,6 +17,10 @@ class BackupDestination
     public function __construct(Filesystem $disk, string $backupName)
     {
         $this->disk = $disk;
+
+        /**
+         * @todo: replace this by validation + exception
+         */
         $this->backupName = str_slug(str_replace('.', '-', $backupName));
     }
 
