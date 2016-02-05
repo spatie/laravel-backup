@@ -12,6 +12,13 @@ class DefaultStrategy extends CleanupStrategy
 {
     public function deleteOldBackups(Collection $backups)
     {
+        $backups = $backups->sortByDesc(function(Backup $backup) {
+            return $backup->getDate()->timestamp;
+        });
+
+        //do not ever delete the youngest backup
+        $backups->shift();
+
         $dateRanges = $this->calculateDateRanges();
 
         $backupsPerPeriod = $dateRanges->map(function (Period $period) use ($backups) {
@@ -83,4 +90,6 @@ class DefaultStrategy extends CleanupStrategy
            $backup->delete();
         });
     }
+
+
 }
