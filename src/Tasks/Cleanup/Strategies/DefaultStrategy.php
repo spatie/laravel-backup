@@ -24,7 +24,7 @@ class DefaultStrategy extends CleanupStrategy
         $backupsPerPeriod['monthly'] = $this->groupByDateProperty($backupsPerPeriod['monthly'], 'month');
         $backupsPerPeriod['yearly'] = $this->groupByDateProperty($backupsPerPeriod['yearly'], 'year');
 
-        $this->remoteBackupsForAllPeriodsExceptOne($backupsPerPeriod);
+        $this->removeBackupsForAllPeriodsExceptOne($backupsPerPeriod);
 
         $this->removeBackupsOlderThan($dateRanges['yearly']->getEndDate(), $backups);
     }
@@ -62,7 +62,7 @@ class DefaultStrategy extends CleanupStrategy
         });
     }
 
-    protected function remoteBackupsForAllPeriodsExceptOne($backupsPerPeriod)
+    protected function removeBackupsForAllPeriodsExceptOne($backupsPerPeriod)
     {
         foreach ($backupsPerPeriod as $periodName => $groupedBackupsByDateProperty) {
             $groupedBackupsByDateProperty->each(function (Collection $group) {
