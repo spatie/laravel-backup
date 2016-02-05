@@ -27,6 +27,11 @@ class Backup
         return $this->path;
     }
 
+    public function exists() : bool
+    {
+        return $this->disk->exists($this->path);
+    }
+
     public function getDate() : Carbon
     {
         return Carbon::createFromTimestamp($this->disk->lastModified($this->path));

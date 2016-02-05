@@ -20,9 +20,9 @@ class DefaultStrategy extends CleanupStrategy
             });
         });
 
-        $backupsPerPeriod['weekly'] = $this->groupByDatePropery($backupsPerPeriod['weekly'], 'weekOfYear');
-        $backupsPerPeriod['monthly'] = $this->groupByDatePropery($backupsPerPeriod['monthly'], 'month');
-        $backupsPerPeriod['yearly'] = $this->groupByDatePropery($backupsPerPeriod['yearly'], 'year');
+        $backupsPerPeriod['weekly'] = $this->groupByDateProperty($backupsPerPeriod['weekly'], 'weekOfYear');
+        $backupsPerPeriod['monthly'] = $this->groupByDateProperty($backupsPerPeriod['monthly'], 'month');
+        $backupsPerPeriod['yearly'] = $this->groupByDateProperty($backupsPerPeriod['yearly'], 'year');
 
         $this->remoteBackupsForAllPeriodsExceptOne($backupsPerPeriod);
 
@@ -43,13 +43,13 @@ class DefaultStrategy extends CleanupStrategy
         $monthly = new Period(
             $weekly->getEndDate(),
             $weekly->getEndDate()
-                ->subMonths(['keepMonthlyBackupsForMonths'])
+                ->subMonths($config['keepMonthlyBackupsForMonths'])
         );
 
         $yearly = new Period(
             $monthly->getEndDate(),
             $monthly->getEndDate()
-                ->subMonths(['keepYearlyBackupsForYears'])
+                ->subYears($config['keepYearlyBackupsForYears'])
         );
 
         return collect(compact('weekly', 'monthly', 'yearly'));
@@ -78,7 +78,7 @@ class DefaultStrategy extends CleanupStrategy
     protected function removeBackupsOlderThan(Carbon $endDate, Collection $backups)
     {
         $backups->filter(function (Backup $backup) use ($endDate) {
-            return $backup->getDate()->lt($endDate);
+            return $backup->exists() && $backup->getDate()->lt($endDate);
         })->each(function (Backup $backup) {
            $backup->delete();
         });

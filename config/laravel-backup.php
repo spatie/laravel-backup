@@ -74,10 +74,10 @@ return [
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
         'defaultStrategy' => [
-            'keepDailyBackupsForDays' => 5,
-            'keepWeeklyBackupsForWeeks' => 6,
-            'keepMonthlyBackupsForMonths' => 5,
-            'keepYearlyBackupsForYears' => 2,
+            'keepDailyBackupsForDays'     => 16,
+            'keepWeeklyBackupsForWeeks'   =>  8,
+            'keepMonthlyBackupsForMonths' =>  4,
+            'keepYearlyBackupsForYears'   =>  2,
         ]
     ],
 

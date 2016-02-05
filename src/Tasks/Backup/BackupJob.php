@@ -60,9 +60,9 @@ class BackupJob
         return $this;
     }
 
-    public function setBackupDestinations(array $backupDestinations) : BackupJob
+    public function setBackupDestinations(Collection $backupDestinations) : BackupJob
     {
-        $this->backupDestinations = Collection::make($backupDestinations);
+        $this->backupDestinations = $backupDestinations;
 
         return $this;
     }

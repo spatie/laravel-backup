@@ -2,11 +2,9 @@
 
 namespace Spatie\Backup\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
-use Spatie\Backup\Exceptions\InvalidCommand;
+use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 
 class CleanupCommand extends Command
 {
@@ -33,25 +31,13 @@ class CleanupCommand extends Command
     {
         $config = config('laravel-backup');
 
-        $this->guardAgainstInvalidConfiguration($config);
+        $backupDestination = BackupDestinationFactory::createFromArray($config['backup']['destination']);
 
-        $date = Carbon::now()->subDays($config['cleanup']['maxAgeInDays']);
+        $strategy = app($config['cleanup']['strategy']);
 
-        collect(BackupDestinationFactory::createFromArray($config['backup']['destination']))
-            ->each(function (BackupDestination $backupDestination) use ($date) {
-                $backupDestination->deleteBackupsOlderThan($date);
-            });
+        $cleanupJob = new CleanupJob($backupDestination, $strategy);
+
+        $cleanupJob->run();
     }
 
-    protected function guardAgainstInvalidConfiguration(array $config)
-    {
-        $maxAgeInDays = $config['cleanup']['maxAgeInDays'];
-
-        if (!is_numeric($maxAgeInDays)) {
-            throw InvalidCommand::create('maxAgeInDays should be numeric');
-        }
-        if ($maxAgeInDays <= 0) {
-            throw InvalidCommand::create('maxAgeInDays should be higher than 0');
-        }
-    }
 }
