@@ -31,7 +31,7 @@ class CleanupCommand extends Command
     {
         $config = config('laravel-backup');
 
-        $backupDestination = BackupDestinationFactory::createFromArray($config['backup']['destination']);
+        $backupDestination = BackupDestinationFactory::createFromArray($config['backup']);
 
         $strategy = app($config['cleanup']['strategy']);
 

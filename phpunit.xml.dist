@@ -26,4 +26,7 @@
         <log type="coverage-text" target="build/coverage.txt"/>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
+    <php>
+        <env name="APP_URL" value="mysite.com"/>
+    </php>
 </phpunit>

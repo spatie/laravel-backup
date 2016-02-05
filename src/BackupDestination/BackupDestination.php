@@ -14,22 +14,22 @@ class BackupDestination
     /** @var string */
     protected $backupDirectory;
 
-    public function __construct(Filesystem $disk, string $backupDirectory = '')
+    public function __construct(Filesystem $disk, string $backupName)
     {
         $this->disk = $disk;
-        $this->backupDirectory = $backupDirectory;
+        $this->backupName = str_slug(str_replace('.', '-', $backupName));
     }
 
-    public static function create(string $filesystemName, string $backupDirectory) : BackupDestination
+    public static function create(string $filesystemName, string $backupName) : BackupDestination
     {
         $disk = app(Factory::class)->disk($filesystemName);
 
-        return new static($disk, $backupDirectory);
+        return new static($disk, $backupName);
     }
 
     public function write(string $file)
     {
-        $destination = $this->backupDirectory.'/'.pathinfo($file, PATHINFO_BASENAME);
+        $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
 
         $handle = fopen($file, 'r+');
 
@@ -38,7 +38,7 @@ class BackupDestination
 
     public function getBackups() : Collection
     {
-        return collect($this->disk->allFiles($this->backupDirectory))
+        return collect($this->disk->allFiles($this->backupName))
             ->filter(function (string $path) {
                 return pathinfo($path, PATHINFO_EXTENSION) === 'zip';
             })

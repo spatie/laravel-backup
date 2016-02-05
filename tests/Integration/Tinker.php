@@ -17,7 +17,7 @@ class TinkerTest extends TestCase
     {
         Artisan::call('backup:run', ['--only-files' => true]);
 
-        $dest = BackupDestinationFactory::createFromArray(config('laravel-backup.backup.destination'));
+        $dest = BackupDestinationFactory::createFromArray(config('laravel-backup.backup'));
 
         dd(
             collect(['a' => 1, 'b' => 3])->map(function ($test) {

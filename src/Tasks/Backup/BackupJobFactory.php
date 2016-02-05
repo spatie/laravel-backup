@@ -13,7 +13,7 @@ class BackupJobFactory
         $backupJob = (new BackupJob())
             ->setFileSelection(self::getFileSelection($config['backup']['source']['files']))
             ->setDbDumpers(self::getDbDumpers($config['backup']['source']['databases']))
-            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']['destination']));
+            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']));
 
         return $backupJob;
     }
