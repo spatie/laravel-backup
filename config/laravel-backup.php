@@ -84,6 +84,7 @@ return [
             'keepWeeklyBackupsForWeeks' => 8,
             'keepMonthlyBackupsForMonths' => 4,
             'keepYearlyBackupsForYears' => 2,
+            'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000
         ]
     ],
 
