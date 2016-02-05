@@ -7,7 +7,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 
 class CleanupJob
 {
-    /** @var \Illuminate\Support\Collectio */
+    /** @var \Illuminate\Support\Collection */
     protected $backupDestinations;
 
     /** @var \Spatie\Backup\Tasks\Cleanup\Strategies\CleanupStrategy */

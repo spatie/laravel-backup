@@ -4,6 +4,12 @@ return [
 
     'backup' => [
 
+        /*
+         * The name of this application. You can use this name to monitor
+         * the backups
+         */
+        'name' => env('APP_URL'),
+
         'source' => [
 
             'files' => [
@@ -68,24 +74,41 @@ return [
 
     'cleanup' => [
         /*
-         * The clean command will remove all backups on all configured filesystems
-         * that are older then this amount of days.
+         * The clean command will remove all old backups on all configured filesystems.
+         * The youngest backup wil never be deleted.
          */
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
         'defaultStrategy' => [
-            'keepDailyBackupsForDays'     => 16,
-            'keepWeeklyBackupsForWeeks'   =>  8,
-            'keepMonthlyBackupsForMonths' =>  4,
-            'keepYearlyBackupsForYears'   =>  2,
+            'keepDailyBackupsForDays' => 16,
+            'keepWeeklyBackupsForWeeks' => 8,
+            'keepMonthlyBackupsForMonths' => 4,
+            'keepYearlyBackupsForYears' => 2,
         ]
+    ],
+
+    'monitor' => [
+        [
+            'name' => 'spatie.be',
+            'filesystems' => ['local'],
+            'paths' => 'backup',
+            'newestBackupsShouldNotBeOlderThanDays' => 1,
+            'storageUsedMayNotBeHigherThanMegabytes' => 5000,
+        ],
+        [
+            'name' => 'laravel.com',
+            'filesystems' => ['local', 's3'],
+            'paths' => 'backup',
+            'newestBackupsShouldNotBeOlderThanDays' => 1,
+            'storageUsedMayNotBeHigherThanMegabytes' => 5000,
+        ],
     ],
 
     'notifications' => [
 
         'handler' => Spatie\Backup\Notifications\Handlers\MailsErrors::class,
 
-        'email' =>  [
+        'email' => [
 
             'from' => 'freek@spatie.be',
             'to' => 'freek@spatie.be',
