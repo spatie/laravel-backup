@@ -2,8 +2,6 @@
 
 namespace Spatie\Backup\Helpers;
 
-use Carbon\Carbon;
-
 class Format
 {
     public static function getHumanReadableSize(int $sizeInBytes) : string

@@ -11,10 +11,13 @@ use Spatie\Backup\Tasks\Cleanup\Period;
 
 class DefaultStrategy extends CleanupStrategy
 {
+    /** @var  \Spatie\Backup\BackupDestination\Backup */
+    protected $newestBackup;
+
     public function deleteOldBackups(BackupCollection $backups)
     {
         //do not ever delete the youngest backup
-        $backups->shift();
+        $this->newestBackup = $backups->shift();
 
         $dateRanges = $this->calculateDateRanges();
 
@@ -99,7 +102,7 @@ class DefaultStrategy extends CleanupStrategy
             return;
         }
 
-        if ($backups->getSize() <= $maximumSize ) {
+        if (($backups->getSize() + $this->newestBackup->getSize()) <= $maximumSize ) {
             return;
         }
 
