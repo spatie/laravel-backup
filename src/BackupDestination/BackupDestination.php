@@ -37,7 +37,8 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-    public function getBackupName() : string {
+    public function getBackupName() : string
+    {
         return $this->backupName;
     }
 

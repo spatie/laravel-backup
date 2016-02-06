@@ -27,6 +27,5 @@ class MonitorCommand extends Command
      */
     public function handle()
     {
-
     }
 }

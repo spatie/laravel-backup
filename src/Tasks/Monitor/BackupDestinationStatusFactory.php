@@ -9,7 +9,7 @@ class BackupDestinationStatusFactory
 {
     public static function createFromArray(array $monitorConfig) : Collection
     {
-        return collect($monitorConfig['filesystems'])->map(function(string $filesystemName) use ($monitorConfig) {
+        return collect($monitorConfig['filesystems'])->map(function (string $filesystemName) use ($monitorConfig) {
 
             $backupDestination = BackupDestination::create($filesystemName, $monitorConfig['name']);
 

@@ -58,11 +58,12 @@ class BackupDestinationStatus
     /**
      * @return \Carbon\Carbon|null
      */
-    public function getDateOfNewestBackup(){
+    public function getDateOfNewestBackup()
+    {
         $newestBackup = $this->backupDestination->getNewestBackup();
 
         if (is_null($newestBackup)) {
-            return null;
+            return;
         }
 
         return $newestBackup->getDate();
@@ -70,13 +71,13 @@ class BackupDestinationStatus
 
     public function newestBackupIsToolOld() : bool
     {
-        if (! count($this->backupDestination->getBackups())) {
+        if (!count($this->backupDestination->getBackups())) {
             return true;
         }
 
         $maximumDate = Carbon::now()->subDays($this->maximumAgeOfNewestBackupInDays);
 
-        return ! $this->backupDestination->isNewestBackupOlderThan($maximumDate);
+        return !$this->backupDestination->isNewestBackupOlderThan($maximumDate);
     }
 
     public function getUsedStorage() : int

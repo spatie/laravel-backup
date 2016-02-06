@@ -23,7 +23,7 @@ class BackupStatus
 
     public function newestBackupIsToolOld() : bool
     {
-        foreach($this->backupDestinationStatuses as $backupDestinationStatus) {
+        foreach ($this->backupDestinationStatuses as $backupDestinationStatus) {
             if ($backupDestinationStatus->newestBackupIsTooOld()) {
                 return true;
             }
@@ -34,7 +34,7 @@ class BackupStatus
 
     public function backupUsesTooMuchStorage() : bool
     {
-        foreach($this->backupDestinationStatuses as $backupDestinationStatus) {
+        foreach ($this->backupDestinationStatuses as $backupDestinationStatus) {
             if ($backupDestinationStatus->backupUsesTooMuchStorage()) {
                 return true;
             }

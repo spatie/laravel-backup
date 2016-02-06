@@ -42,7 +42,7 @@ class Backup
      */
     public function getSize() : int
     {
-        if (! $this->exists()) {
+        if (!$this->exists()) {
             return 0;
         }
 
