@@ -24,9 +24,17 @@ class BackupCollection extends Collection
     /**
      * @return \Spatie\Backup\BackupDestination\Backup|null
      */
-    public function getYoungestBackup()
+    public function getNewestBackup()
     {
         return collect($this->items)->first();
+    }
+
+    /**
+     * @return \Spatie\Backup\BackupDestination\Backup|null
+     */
+    public function getOldestBackup()
+    {
+        return collect($this->items)->last();
     }
 
     public function getSize() : int

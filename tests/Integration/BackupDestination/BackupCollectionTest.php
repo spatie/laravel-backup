@@ -83,7 +83,19 @@ class BackupCollectionTest extends TestCase
 
         $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
 
-        $this->assertSame('mysite.com/file2.zip', $backupCollection->getYoungestBackup()->getPath());
+        $this->assertSame('mysite.com/file2.zip', $backupCollection->getNewestBackup()->getPath());
+    }
+
+    /** @test */
+    public function it_can_determine_the_oldest_backup()
+    {
+        $this->createFileOnBackupDisk('file1.zip', 3);
+        $this->createFileOnBackupDisk('file2.zip', 1);
+        $this->createFileOnBackupDisk('file3.zip', 2);
+
+        $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertSame('mysite.com/file1.zip', $backupCollection->getOldestBackup()->getPath());
     }
 
     /** @test */

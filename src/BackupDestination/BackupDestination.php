@@ -43,4 +43,31 @@ class BackupDestination
             $this->disk->allFiles($this->backupName)
         );
     }
+
+    /*
+     * Return the used storage in bytes
+     */
+    public function getUsedStorage() : int
+    {
+        return $this->getBackups()->getSize();
+    }
+
+    /**
+     * @return \Spatie\Backup\BackupDestination\Backup|null
+     */
+    public function getNewestBackup()
+    {
+        return $this->getBackups()->getNewestBackup();
+    }
+
+    public function isNewestBackupOlderThan(Carbon $date) : bool
+    {
+        $newestBackup = $this->getNewestBackup();
+
+        if (is_null($newestBackup)) {
+            return true;
+        }
+
+        return $newestBackup->getDate()->gt($date);
+    }
 }
