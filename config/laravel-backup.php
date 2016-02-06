@@ -77,18 +77,16 @@ return [
         ]
     ],
 
-    'monitor' => [
+    'monitorBackups' => [
         [
             'name' => 'spatie.be',
             'filesystems' => ['local'],
-            'paths' => 'backup',
             'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],
         [
             'name' => 'laravel.com',
             'filesystems' => ['local', 's3'],
-            'paths' => 'backup',
             'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],

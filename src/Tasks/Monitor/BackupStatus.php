@@ -11,7 +11,14 @@ class BackupStatus
 
     public function __construct(array $monitorConfig)
     {
+        $this->name = $monitorConfig['name'];
+
         $this->backupDestinationStatuses = BackupDestinationStatusFactory::createFromArray($monitorConfig);
+    }
+
+    public function getName() : string
+    {
+        return $this->name;
     }
 
     public function newestBackupIsToolOld() : bool
