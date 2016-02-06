@@ -31,6 +31,8 @@ class DefaultStrategy extends CleanupStrategy
         $this->removeBackupsForAllPeriodsExceptOne($backupsPerPeriod);
 
         $this->removeBackupsOlderThan($dateRanges['yearly']->getEndDate(), $backups);
+
+        $this->removeOldestsBackupsUntilUsingMaximumStorage($backups);
     }
 
     protected function calculateDateRanges() : Collection
@@ -79,12 +81,30 @@ class DefaultStrategy extends CleanupStrategy
         }
     }
 
-    protected function removeBackupsOlderThan(Carbon $endDate, Collection $backups)
+    protected function removeBackupsOlderThan(Carbon $endDate, BackupCollection $backups)
     {
         $backups->filter(function (Backup $backup) use ($endDate) {
             return $backup->exists() && $backup->getDate()->lt($endDate);
         })->each(function (Backup $backup) {
            $backup->delete();
         });
+    }
+
+    protected function removeOldestsBackupsUntilUsingMaximumStorage(BackupCollection $backups)
+    {
+        $maximumSize = $this->config->get('laravel-backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan')
+         * 1024 * 1024;
+
+        if (!$oldestBackup = $backups->getOldestBackup()) {
+            return;
+        }
+
+        if ($backups->getSize() <= $maximumSize ) {
+            return;
+        }
+
+        $oldestBackup->delete();
+
+        $this->removeOldestsBackupsUntilUsingMaximumStorage($backups);
     }
 }

@@ -20,8 +20,4 @@ class Format
         return round($sizeInBytes, 2).' '.$units[$i];
     }
 
-    public static function ageInDays(Carbon $date) : float
-    {
-        return round($date->diffInMinutes(Carbon::now()) / (24 * 60), 2);
-    }
 }

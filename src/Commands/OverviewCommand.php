@@ -41,13 +41,13 @@ class OverviewCommand extends Command
                         $backupDestinationStatus->isHealty() ? Emoji::greenCheckMark() : Emoji::redCross(),
                         $backupDestinationStatus->getAmountOfBackups(),
                         $backupDestinationStatus->getDateOfNewestBackup()
-                            ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
-                            : '/',
+                            ? $backupDestinationStatus->getDateOfNewestBackup()->diffForHumans()
+                            : 'No backups present',
                         $backupDestinationStatus->getHumanReadableUsedStorage(),
                     ];
             }
         }
 
-        $this->table(['Name', 'Filesystem', 'Health', 'Amount of backups', 'Age of last backup', 'Used storage'], $backupOverview);
+        $this->table(['Name', 'Filesystem', 'Health', 'Amount of backups', 'Last backup', 'Used storage'], $backupOverview);
     }
 }

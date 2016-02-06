@@ -34,7 +34,9 @@ class BackupCollection extends Collection
      */
     public function getOldestBackup()
     {
-        return collect($this->items)->last();
+        return collect($this->items)->filter(function(Backup $backup) {
+            return $backup->exists();
+        })->last();
     }
 
     public function getSize() : int
