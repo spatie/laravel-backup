@@ -16,7 +16,7 @@ class DefaultStrategy extends CleanupStrategy
 
     public function deleteOldBackups(BackupCollection $backups)
     {
-        //do not ever delete the youngest backup
+        //do not ever delete the newest backup
         $this->newestBackup = $backups->shift();
 
         $dateRanges = $this->calculateDateRanges();
