@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\BackupDestination;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -34,6 +35,10 @@ class BackupDestination
         $handle = fopen($file, 'r+');
 
         $this->disk->getDriver()->writeStream($destination, $handle);
+    }
+
+    public function getBackupName() : string {
+        return $this->backupName;
     }
 
     public function getBackups() : BackupCollection

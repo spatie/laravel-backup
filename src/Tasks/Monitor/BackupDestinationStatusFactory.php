@@ -13,7 +13,7 @@ class BackupDestinationStatusFactory
 
             $backupDestination = BackupDestination::create($filesystemName, $monitorConfig['name']);
 
-            return (new BackupDestinationStatus($backupDestination))
+            return (new BackupDestinationStatus($backupDestination, $filesystemName))
                 ->setMaximumAgeOfNewestBackupInDays($monitorConfig['newestBackupsShouldNotBeOlderThanDays'])
                 ->setMaximumStorageUsageInMegabytes($monitorConfig['storageUsedMayNotBeHigherThanMegabytes']);
         });

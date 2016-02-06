@@ -5,6 +5,7 @@ namespace Spatie\Backup;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
+use Spatie\Backup\Commands\OverviewCommand;
 
 class BackupServiceProvider extends ServiceProvider
 {
@@ -27,10 +28,12 @@ class BackupServiceProvider extends ServiceProvider
 
         $this->app->bind('command.backup:run', BackupCommand::class);
         $this->app->bind('command.backup:clean', CleanupCommand::class);
+        $this->app->bind('command.backup:overview', OverviewCommand::class);
 
         $this->commands([
             'command.backup:run',
             'command.backup:clean',
+            'command.backup:overview',
         ]);
     }
 }

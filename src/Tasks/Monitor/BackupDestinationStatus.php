@@ -2,7 +2,9 @@
 
 namespace Spatie\Backup\Tasks\Monitor;
 
+use Carbon\Carbon;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Helpers\Format;
 
 class BackupDestinationStatus
 {
@@ -15,9 +17,13 @@ class BackupDestinationStatus
     /**  @var int */
     protected $maximumStorageUsageInMegabytes = 5000;
 
-    public function __construct(BackupDestination $backupDestination)
+    /** @var string */
+    protected $filesystemName;
+
+    public function __construct(BackupDestination $backupDestination, string $filesystemName)
     {
         $this->backupDestination = $backupDestination;
+        $this->filesystemName = $filesystemName;
     }
 
     public function setMaximumAgeOfNewestBackupInDays(int $days) : BackupDestinationStatus
@@ -34,21 +40,72 @@ class BackupDestinationStatus
         return $this;
     }
 
+    public function getBackupName()
+    {
+        return $this->backupDestination->getBackupName();
+    }
+
+    public function getFilesystemName() : string
+    {
+        return $this->filesystemName;
+    }
+
+    public function getAmountOfBackups() : int
+    {
+        return $this->backupDestination->getBackups()->count();
+    }
+
+    /**
+     * @return \Carbon\Carbon|null
+     */
+    public function getDateOfNewestBackup(){
+        $newestBackup = $this->backupDestination->getNewestBackup();
+
+        if (is_null($newestBackup)) {
+            return null;
+        }
+
+        return $newestBackup->getDate();
+    }
+
     public function newestBackupIsToolOld() : bool
     {
         if (! count($this->backupDestination->getBackups())) {
             return true;
         }
 
-        $maximumAgeOfYoungestBackups = $this->config['newestBackupsShouldNotBeOlderThanDays'];
+        $maximumDate = Carbon::now()->subDays($this->maximumAgeOfNewestBackupInDays);
 
-        return $this->backupDestination->isNewestBackupOlderThan($maximumAgeOfYoungestBackups);
+        return ! $this->backupDestination->isNewestBackupOlderThan($maximumDate);
+    }
+
+    public function getUsedStorage() : int
+    {
+        return $this->backupDestination->getUsedStorage();
+    }
+
+    public function getHumanReadableUsedStorage() : string
+    {
+        return Format::getHumanReadableSize($this->getUsedStorage());
     }
 
     public function backupUsesTooMuchStorage() : bool
     {
         $maximumUsageInBytes = $this->maximumStorageUsageInMegabytes * 1024 * 1024;
 
-        return $this->backupDestination->getUsedStorage() > $maximumUsageInBytes;
+        return $this->getUsedStorage() > $maximumUsageInBytes;
+    }
+
+    public function isHealty() : bool
+    {
+        if ($this->backupUsesTooMuchStorage()) {
+            return false;
+        }
+
+        if ($this->newestBackupIsToolOld()) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -2,7 +2,12 @@
 
 namespace Spatie\Backup\Commands;
 
-use Illuminate\Console\Command;
+use Carbon\Carbon;
+use \Illuminate\Console\Command;
+use Spatie\Backup\Helpers\Emoji;
+use Spatie\Backup\Helpers\Format;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 use Spatie\Backup\Tasks\Monitor\BackupStatus;
 
 class OverviewCommand extends Command
@@ -29,12 +34,25 @@ class OverviewCommand extends Command
     public function handle()
     {
 
-        $config = config('monitorBackups');
+        $backupOverview = [];
 
-        foreach($config as $monitorProperties) {
-            $backupStatus = new BackupStatus($monitorProperties);
+        foreach(config('laravel-backup.monitorBackups') as $monitorProperties) {
 
-            echo $backupStatus->getName();
+            foreach(BackupDestinationStatusFactory::createFromArray($monitorProperties) as $backupDestinationStatus) {
+
+                    $backupOverview[] =  [
+                        $backupDestinationStatus->getBackupName(),
+                        $backupDestinationStatus->getFilesystemName(),
+                        $backupDestinationStatus->isHealty() ? Emoji::greenCheckMark() : Emoji::redCross(),
+                        $backupDestinationStatus->getAmountOfBackups(),
+                        $backupDestinationStatus->getDateOfNewestBackup()
+                            ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
+                            : '/',
+                        $backupDestinationStatus->getHumanReadableUsedStorage(),
+                    ];
+            }
         }
+
+        $this->table(['Name', 'Filesystem', 'Health', 'Amount of backups', 'Age of last backup', 'Used storage'], $backupOverview);
     }
 }
