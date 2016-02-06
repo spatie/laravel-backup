@@ -51,6 +51,16 @@ class BackupTest extends TestCase
         $this->assertGreaterThan(0, $backup->getSize());
     }
 
+    /** @test */
+    public function it_can_determine_its_size_even_after_it_has_been_deleted()
+    {
+        $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
+
+        $backup->delete();
+
+        $this->assertSame(0, $backup->getSize());
+    }
+
     protected function getBackupForFile(string $name, int $ageInDays = 0, string $contents = '') : Backup
     {
         $disk = Storage::disk('local');

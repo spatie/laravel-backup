@@ -42,6 +42,10 @@ class Backup
      */
     public function getSize() : int
     {
+        if (! $this->exists()) {
+            return 0;
+        }
+
         return $this->disk->size($this->path);
     }
 
