@@ -39,5 +39,4 @@ class CleanupCommand extends Command
 
         $cleanupJob->run();
     }
-
 }

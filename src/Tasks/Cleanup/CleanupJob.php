@@ -21,7 +21,7 @@ class CleanupJob
 
     public function run()
     {
-        $this->backupDestinations->each(function(BackupDestination $backupDestination) {
+        $this->backupDestinations->each(function (BackupDestination $backupDestination) {
             $this->strategy->deleteOldBackups($backupDestination->getBackups());
         });
     }

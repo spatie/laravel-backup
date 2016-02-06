@@ -45,12 +45,16 @@ class TestHelper
         return __DIR__.'/temp';
     }
 
-    public function createTempFileWithAge($fileName, DateTime $date)
+    public function createTempFileWithAge($fileName, DateTime $date, $contents = '')
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);
 
         $this->filesystem->makeDirectory($directory, 0755, true, true);
 
-        touch($this->getTempDirectory().'/'.$fileName, $date->getTimeStamp());
+        $fullPath = $this->getTempDirectory().'/'.$fileName;
+
+        file_put_contents($fullPath, $contents);
+
+        touch($fullPath, $date->getTimeStamp());
     }
 }

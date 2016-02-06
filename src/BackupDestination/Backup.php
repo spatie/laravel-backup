@@ -37,6 +37,14 @@ class Backup
         return Carbon::createFromTimestamp($this->disk->lastModified($this->path));
     }
 
+    /*
+     * Get the size in bytes.
+     */
+    public function getSize() : int
+    {
+        return $this->disk->size($this->path);
+    }
+
     public function delete()
     {
         $this->disk->delete($this->path);

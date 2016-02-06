@@ -4,7 +4,7 @@ namespace Spatie\Backup\Test\Integration;
 
 use Illuminate\Support\Facades\Artisan;
 
-class BackupTest extends TestCase
+class BackupCommandTest extends TestCase
 {
     public function setUp()
     {
@@ -16,6 +16,6 @@ class BackupTest extends TestCase
     {
         Artisan::call('backup:run', ['--only-files' => true]);
 
-        $this->assertFileWithExtensionExistsInDirectoryOnDisk('zip', 'mysite-com', 'local');
+        $this->assertFileWithExtensionExistsInDirectoryOnDisk('zip', 'mysite.com', 'local');
     }
 }

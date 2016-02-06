@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Tasks\Cleanup;
 
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Support\Collection;
+use Spatie\Backup\BackupDestination\BackupCollection;
 
 abstract class CleanupStrategy
 {
@@ -17,5 +17,5 @@ abstract class CleanupStrategy
         $this->config = $config;
     }
 
-    abstract public function deleteOldBackups(Collection $backups);
+    abstract public function deleteOldBackups(BackupCollection $backups);
 }

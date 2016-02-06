@@ -5,7 +5,7 @@ namespace Spatie\Backup\Test\Integration;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
-class TinkerTest extends TestCase
+class Tinker extends TestCase
 {
     public function setUp()
     {

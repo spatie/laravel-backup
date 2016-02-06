@@ -4,7 +4,6 @@ namespace Spatie\Backup\BackupDestination;
 
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
 
 class BackupDestination
 {
@@ -18,10 +17,7 @@ class BackupDestination
     {
         $this->disk = $disk;
 
-        /**
-         * @todo: replace this by validation + exception
-         */
-        $this->backupName = str_slug(str_replace('.', '-', $backupName));
+        $this->backupName = preg_replace('/[^a-zA-Z0-9.]/', '-', $backupName);
     }
 
     public static function create(string $filesystemName, string $backupName) : BackupDestination
@@ -40,14 +36,11 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-    public function getBackups() : Collection
+    public function getBackups() : BackupCollection
     {
-        return collect($this->disk->allFiles($this->backupName))
-            ->filter(function (string $path) {
-                return pathinfo($path, PATHINFO_EXTENSION) === 'zip';
-            })
-            ->map(function (string $path) {
-                return new Backup($this->disk, $path);
-            });
+        return BackupCollection::createFromFiles(
+            $this->disk,
+            $this->disk->allFiles($this->backupName)
+        );
     }
 }
