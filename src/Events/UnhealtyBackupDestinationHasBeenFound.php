@@ -4,7 +4,7 @@ namespace Spatie\Backup\Events;
 
 use Spatie\Backup\BackupDestination\BackupDestination;
 
-class BackupDestinationHasBecomeUnhealty
+class UnhealtyBackupDestinationHasBeenFound
 {
     /** @var \Spatie\Backup\BackupDestination\BackupDestination */
     public $backupDestionation;
