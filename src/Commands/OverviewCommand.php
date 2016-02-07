@@ -3,9 +3,8 @@
 namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Backup\Helpers\Emoji;
-use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
+use Spatie\Emoji\Emoji;
 
 class OverviewCommand extends Command
 {
@@ -38,7 +37,9 @@ class OverviewCommand extends Command
                 $backupOverview[] = [
                         $backupDestinationStatus->getBackupName(),
                         $backupDestinationStatus->getFilesystemName(),
-                        $backupDestinationStatus->isHealty() ? Emoji::greenCheckMark() : Emoji::redCross(),
+                        $backupDestinationStatus->isHealty()
+                            ? Emoji::CHARACTER_HEAVY_CHECK_MARK
+                            : Emoji::CHARACTER_CROSS_MARK,
                         $backupDestinationStatus->getAmountOfBackups(),
                         $backupDestinationStatus->getDateOfNewestBackup()
                             ? $backupDestinationStatus->getDateOfNewestBackup()->diffForHumans()
