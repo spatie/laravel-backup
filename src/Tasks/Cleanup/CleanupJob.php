@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tasks\Cleanup;
 
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Events\CleanupWasSuccessFul;
 
 class CleanupJob
 {
@@ -23,6 +24,7 @@ class CleanupJob
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) {
             $this->strategy->deleteOldBackups($backupDestination->getBackups());
+            event(new CleanupWasSuccessFul($backupDestination));
         });
     }
 }

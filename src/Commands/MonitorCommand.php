@@ -35,7 +35,7 @@ class MonitorCommand extends Command
         });
     }
 
-    public function sendNotificationsFor(array $monitorProperties)
+    public function fireEventsForMonitor(array $monitorProperties)
     {
         $backupStatus = new BackupStatus($monitorProperties);
 

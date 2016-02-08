@@ -4,6 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 
 class CleanupCommand extends Command
@@ -29,14 +30,18 @@ class CleanupCommand extends Command
      */
     public function handle()
     {
-        $config = config('laravel-backup');
+        try {
+            $config = config('laravel-backup');
 
-        $backupDestination = BackupDestinationFactory::createFromArray($config['backup']);
+            $backupDestinations = BackupDestinationFactory::createFromArray($config['backup']);
 
-        $strategy = app($config['cleanup']['strategy']);
+            $strategy = app($config['cleanup']['strategy']);
 
-        $cleanupJob = new CleanupJob($backupDestination, $strategy);
+            $cleanupJob = new CleanupJob($backupDestinations, $strategy);
 
-        $cleanupJob->run();
+            $cleanupJob->run();
+        } catch (Exception $e) {
+            event(new CleanupHasFailed());
+        }
     }
 }
