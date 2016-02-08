@@ -49,6 +49,6 @@ class OverviewCommand extends Command
             }
         }
 
-        $this->table(['Name', 'Filesystem', 'Health', '# of backups', 'Last backup', 'Used storage'], $backupOverview);
+        $this->table(['Name', 'Diskname', 'Health', '# of backups', 'Last backup', 'Used storage'], $backupOverview);
     }
 }
