@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Helpers;
 
+use Carbon\Carbon;
+
 class Format
 {
     public static function getHumanReadableSize(int $sizeInBytes) : string
@@ -16,5 +18,10 @@ class Format
         }
 
         return round($sizeInBytes, 2).' '.$units[$i];
+    }
+
+    public static function ageInDays(Carbon $date) : string
+    {
+        return round($date->diffInMinutes() / (24 * 60), 2) . ' (' . $date->diffForHumans() . ')';
     }
 }

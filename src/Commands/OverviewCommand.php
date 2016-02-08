@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Commands;
 
 use Illuminate\Console\Command;
+use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
 class OverviewCommand extends Command
@@ -41,7 +42,7 @@ class OverviewCommand extends Command
                             : 'no',
                         $backupDestinationStatus->getAmountOfBackups(),
                         $backupDestinationStatus->getDateOfNewestBackup()
-                            ? $backupDestinationStatus->getDateOfNewestBackup()->diffForHumans()
+                            ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
                             : 'No backups present',
                         $backupDestinationStatus->getHumanReadableUsedStorage(),
                     ];
