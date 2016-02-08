@@ -102,7 +102,7 @@ class DefaultStrategy extends CleanupStrategy
             return;
         }
 
-        if (($backups->getSize() + $this->newestBackup->getSize()) <= $maximumSize ) {
+        if (($backups->getSize() + $this->newestBackup->getSize()) <= $maximumSize) {
             return;
         }
 

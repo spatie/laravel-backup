@@ -38,7 +38,7 @@ class OverviewCommand extends Command
                         $backupDestinationStatus->getBackupName(),
                         $backupDestinationStatus->getFilesystemName(),
                         $backupDestinationStatus->isHealty()
-                            ? Emoji::CHARACTER_HEAVY_CHECK_MARK
+                            ? Emoji::CHARACTER_WHITE_HEAVY_CHECK_MARK
                             : Emoji::CHARACTER_CROSS_MARK,
                         $backupDestinationStatus->getAmountOfBackups(),
                         $backupDestinationStatus->getDateOfNewestBackup()
@@ -49,6 +49,6 @@ class OverviewCommand extends Command
             }
         }
 
-        $this->table(['Name', 'Filesystem', 'Health', 'Number of backups', 'Last backup', 'Used storage'], $backupOverview);
+        $this->table(['Name', 'Filesystem', 'Health', '# of backups', 'Last backup', 'Used storage'], $backupOverview);
     }
 }

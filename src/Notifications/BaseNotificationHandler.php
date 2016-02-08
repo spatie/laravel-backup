@@ -3,10 +3,10 @@
 namespace Spatie\Backup\Notifications;
 
 use Log;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Events\UnhealtyBackupDestinationHasBeenFound;
+use Spatie\Backup\Events\HealtyBackupWasFound;
+use Spatie\Backup\Events\UnhealtyBackupWasFound;
 
 abstract class BaseNotificationHandler implements HandlesBackupNotifications
 {
@@ -20,8 +20,13 @@ abstract class BaseNotificationHandler implements HandlesBackupNotifications
         Log::error('backup has failed because: '.$event->error->getMessage());
     }
 
-    public function whenUnhealtyBackupDestinationHasBeenFound(UnhealtyBackupDestinationHasBeenFound $event)
+    public function whenHealtyBackupWasFound(HealtyBackupWasFound $event)
     {
-        Log::error('backup destination ' . $event->backupDestination->getBackupName() . 'has become unhealty');
+        Log::error('healthy backup was found: '.$event->backupStatus->getName());
+    }
+
+    public function whenUnHealtyBackupWasFound(UnhealtyBackupWasFound $event)
+    {
+        Log::error('unhealthy backup was found: '.$event->backupStatus->getName());
     }
 }

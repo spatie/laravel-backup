@@ -17,5 +17,4 @@ class Format
 
         return round($sizeInBytes, 2).' '.$units[$i];
     }
-
 }

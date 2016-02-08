@@ -21,6 +21,17 @@ class BackupStatus
         return $this->name;
     }
 
+    public function isHealty() : bool
+    {
+        foreach ($this->backupDestinationStatuses as $backupDestinationStatus) {
+            if (!$backupDestinationStatus->isHealty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function newestBackupIsToolOld() : bool
     {
         foreach ($this->backupDestinationStatuses as $backupDestinationStatus) {
