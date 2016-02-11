@@ -22,6 +22,6 @@ class Format
 
     public static function ageInDays(Carbon $date) : string
     {
-        return round($date->diffInMinutes() / (24 * 60), 2).' ('.$date->diffForHumans().')';
+        return number_format(round($date->diffInMinutes() / (24 * 60), 2),2).' ('.$date->diffForHumans().')';
     }
 }

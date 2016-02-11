@@ -71,11 +71,11 @@ class BackupJob
 
     public function run()
     {
-        ConsoleOutput::info('determining files to backup...');
+        ConsoleOutput::info('Determining files to backup...');
 
         $files = $this->getFilesToBeBackupped();
 
-        ConsoleOutput::info('zipping '.count($files).' files...');
+        ConsoleOutput::info('Zipping '.count($files).' files...');
 
         $zip = $this->createZip($files);
 
@@ -92,13 +92,13 @@ class BackupJob
 
             $fileName = $dbDumper->getDbName().'.sql';
 
-            ConsoleOutput::info("dumping database {$dbDumper->getDbName()}...");
+            ConsoleOutput::info("Dumping database {$dbDumper->getDbName()}...");
 
             $temporaryFile = $this->getTemporaryFile($fileName);
 
             $dbDumper->dumpToFile($temporaryFile);
 
-            ConsoleOutput::info("dumped database {$dbDumper->getDbName()}");
+            ConsoleOutput::info("Dumped database {$dbDumper->getDbName()}");
 
             $files[] = $temporaryFile;
         });
@@ -121,7 +121,7 @@ class BackupJob
 
             $fileSize = Format::getHumanReadableSize(filesize($path));
 
-            ConsoleOutput::info("copying zip (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem");
+            ConsoleOutput::info("Copying zip (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem...");
 
             $backupDestination->write($path);
         });

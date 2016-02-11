@@ -53,6 +53,6 @@ class Backup
     public function delete()
     {
         $this->disk->delete($this->path);
-        ConsoleOutput::info("deleted backup {$this->path}");
+        ConsoleOutput::info("Deleted backup {$this->path}");
     }
 }
