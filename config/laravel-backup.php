@@ -63,20 +63,47 @@ return [
 
     'cleanup' => [
         /*
-         * The clean command will remove all old backups on all configured filesystems.
+         * The strategy that will be used to cleanup old backups.
          * The youngest backup wil never be deleted.
          */
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
         'defaultStrategy' => [
+
+            /*
+             * The amount of days that daily backups must be kept
+             */
             'keepDailyBackupsForDays' => 16,
+
+            /*
+             * The amount of weeks of which one weekly backup must be kept
+             */
             'keepWeeklyBackupsForWeeks' => 8,
+
+            /*
+             * The amount of months of which one monthly backup must be kept
+             */
             'keepMonthlyBackupsForMonths' => 4,
+
+            /*
+             * The amount of years of which one yearly backup must be kept
+             */
             'keepYearlyBackupsForYears' => 2,
+
+            /*
+             * After clean up the backups remove the oldest backup until
+             * this amount of megabytes is reached.
+             */
             'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000
         ]
     ],
 
+
+    /*
+     *  In this array you can specify which backups should be monitored.
+     *  If a backup does not meet the specified requirements the
+     *  UnhealtyBackupWasFound-event will be fired.
+     */
     'monitorBackups' => [
         [
             'name' => 'spatie.be',
@@ -94,8 +121,15 @@ return [
 
     'notifications' => [
 
+        /*
+         * This class will be used to send all notifications.
+         */
         'handler' => Spatie\Backup\Notifications\Handlers\MailsErrors::class,
 
+        /*
+         * When using the MailsErrors class these values will be used
+         * to send mails.
+         */
         'email' => [
 
             'from' => 'freek@spatie.be',

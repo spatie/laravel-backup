@@ -92,9 +92,13 @@ class BackupJob
 
             $fileName = $dbDumper->getDbName().'.sql';
 
+            ConsoleOutput::info("dumping database {$dbDumper->getDbName()}...");
+
             $temporaryFile = $this->getTemporaryFile($fileName);
 
             $dbDumper->dumpToFile($temporaryFile);
+
+            ConsoleOutput::info("dumped database {$dbDumper->getDbName()}");
 
             $files[] = $temporaryFile;
         });

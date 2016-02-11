@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupCollection;
+use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 use Spatie\Backup\Tasks\Cleanup\Period;
 
