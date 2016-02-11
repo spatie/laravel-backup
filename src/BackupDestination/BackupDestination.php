@@ -21,6 +21,15 @@ class BackupDestination
         $this->backupName = preg_replace('/[^a-zA-Z0-9.]/', '-', $backupName);
     }
 
+    public function getFilesystemType() : string
+    {
+        $adapterClass = get_class($this->disk->getDriver()->getAdapter());
+
+        $filesystemType = last(explode('\\', $adapterClass));
+
+        return strtolower($filesystemType);
+    }
+
     public static function create(string $filesystemName, string $backupName) : BackupDestination
     {
         $disk = app(Factory::class)->disk($filesystemName);

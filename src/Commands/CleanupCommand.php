@@ -2,12 +2,11 @@
 
 namespace Spatie\Backup\Commands;
 
-use Illuminate\Console\Command;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 
-class CleanupCommand extends Command
+class CleanupCommand extends BaseCommand
 {
     /**
      * The console command name.

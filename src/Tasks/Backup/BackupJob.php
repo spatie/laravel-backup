@@ -5,6 +5,8 @@ namespace Spatie\Backup\Tasks\Backup;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Helpers\ConsoleOutput;
+use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
 
 class BackupJob
@@ -69,7 +71,11 @@ class BackupJob
 
     public function run()
     {
+        ConsoleOutput::info('determining files to backup...');
+
         $files = $this->getFilesToBeBackupped();
+
+        ConsoleOutput::info('zipping '.count($files).' files...');
 
         $zip = $this->createZip($files);
 
@@ -105,10 +111,15 @@ class BackupJob
         return $tempZipFile;
     }
 
-    protected function copyToConfiguredFilesystems($zip)
+    protected function copyToConfiguredFilesystems(string $path)
     {
-        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
-            $backupDestination->write($zip);
+        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($path) {
+
+            $fileSize = Format::getHumanReadableSize(filesize($path));
+
+            ConsoleOutput::info("copying zip (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem");
+
+            $backupDestination->write($path);
         });
     }
 

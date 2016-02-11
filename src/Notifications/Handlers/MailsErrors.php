@@ -4,6 +4,7 @@ namespace Spatie\Backup\Notifications\Handlers;
 
 use Mail;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Notifications\BaseNotificationHandler;
 
 class MailsErrors extends BaseNotificationHandler
@@ -11,6 +12,8 @@ class MailsErrors extends BaseNotificationHandler
     public function whenBackupHasFailed(BackupHasFailed $event)
     {
         $message = 'backup has failed because '.$event->error->getMessage();
+
+        ConsoleOutput::error($message);
 
         Mail::raw($message, function ($message) {
 

@@ -2,11 +2,10 @@
 
 namespace Spatie\Backup\Commands;
 
-use Illuminate\Console\Command;
 use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
-class OverviewCommand extends Command
+class OverviewCommand extends BaseCommand
 {
     /**
      * The console command name.

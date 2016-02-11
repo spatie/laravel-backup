@@ -7,6 +7,7 @@ use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\MonitorCommand;
 use Spatie\Backup\Commands\OverviewCommand;
+use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Notifications\HandlesBackupNotifications;
 
 class BackupServiceProvider extends ServiceProvider
@@ -39,6 +40,8 @@ class BackupServiceProvider extends ServiceProvider
 
             return $listener;
         });
+
+        $this->app->singleton(ConsoleOutput::class);
 
         $this->commands([
             'command.backup:run',

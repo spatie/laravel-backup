@@ -33,7 +33,10 @@
     "autoload": {
         "psr-4": {
             "Spatie\\Backup\\": "src"
-        }
+        },
+        "files": [
+            "src/Helpers/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

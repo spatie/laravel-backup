@@ -2,12 +2,11 @@
 
 namespace Spatie\Backup\Commands;
 
-use Illuminate\Console\Command;
 use Spatie\Backup\Events\HealtyBackupWasFound;
 use Spatie\Backup\Events\UnhealtyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\BackupStatus;
 
-class MonitorCommand extends Command
+class MonitorCommand extends BaseCommand
 {
     /**
      * The console command name.
