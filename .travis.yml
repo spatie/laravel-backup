@@ -5,8 +5,8 @@ php:
 
 env:
   matrix:
-    - PREFER_LOWEST="--prefer-lowest"
-    - PREFER_LOWEST=""
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
 
 before_script:
   - travis_retry composer self-update
