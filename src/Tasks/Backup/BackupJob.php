@@ -2,29 +2,24 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
 
 class BackupJob
 {
-    /**
-     * @var FileSelection
-     */
+    /**  @var \Spatie\Backup\Tasks\Backup\FileSelection */
     protected $fileSelection;
 
-    /**
-     * @var Collection
-     */
+    /** @var \Illuminate\Support\Collection */
     protected $dbDumpers;
 
-    /**
-     * @var Collection
-     */
+    /** @var \Illuminate\Support\Collection */
     protected $backupDestinations;
+
+    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory  */
+    protected $temporaryDirectory;
 
     public function __construct()
     {
@@ -71,48 +66,44 @@ class BackupJob
 
     public function run()
     {
-        ConsoleOutput::info('Determining files to backup...');
+        $this->temporaryDirectory = TemporaryDirectory::create();
 
-        $files = $this->getFilesToBeBackupped();
+        $zip = Zip::create($this->temporaryDirectory->getPath(date('Y-m-d-His').'.zip'));
 
-        ConsoleOutput::info('Zipping '.count($files).' files...');
+        $this->addDatabaseDumpsToZip($zip);
 
-        $zip = $this->createZip($files);
+        $this->addSelectedFilesToZip($zip);
 
-        $this->copyToConfiguredFilesystems($zip);
+        $this->copyToConfiguredFilesystems($zip->getPath());
 
-        $this->deleteTemporaryDirectory();
+        $this->temporaryDirectory->delete();
     }
 
-    protected function getFilesToBeBackupped() : array
+    protected function addSelectedFilesToZip(Zip $zip)
     {
+        consoleOutput()->info('Determining files to backup...');
+
         $files = $this->fileSelection->getSelectedFiles();
 
-        $this->dbDumpers->each(function (DbDumper $dbDumper) use ($files) {
+        consoleOutput()->info('Zipping '.count($files).' files...');
 
-            $fileName = $dbDumper->getDbName().'.sql';
-
-            ConsoleOutput::info("Dumping database {$dbDumper->getDbName()}...");
-
-            $temporaryFile = $this->getTemporaryFile($fileName);
-
-            $dbDumper->dumpToFile($temporaryFile);
-
-            ConsoleOutput::info("Dumped database {$dbDumper->getDbName()}");
-
-            $files[] = $temporaryFile;
-        });
-
-        return $files;
+        $zip->add($files);
     }
 
-    protected function createZip(array $files) : string
+    protected function addDatabaseDumpsToZip(Zip $zip)
     {
-        $tempZipFile = $this->getTemporaryDirectory().'/'.date('Ymdhis').'.zip';
+        $this->dbDumpers->each(function (DbDumper $dbDumper) use ($zip) {
 
-        Zip::create($tempZipFile, $files);
+            consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-        return $tempZipFile;
+            $fileName = $dbDumper->getDbName().'.sql';
+            $temporaryFile = $this->temporaryDirectory->getPath($fileName);
+            $dbDumper->dumpToFile($temporaryFile);
+
+            consoleOutput()->info("Dumped database {$dbDumper->getDbName()}");
+
+            $zip->add($temporaryFile, $fileName);
+        });
     }
 
     protected function copyToConfiguredFilesystems(string $path)
@@ -121,27 +112,11 @@ class BackupJob
 
             $fileSize = Format::getHumanReadableSize(filesize($path));
 
-            ConsoleOutput::info("Copying zip (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem...");
+            $fileName = pathinfo($path, PATHINFO_BASENAME);
+
+            consoleOutput()->info("Copying {$fileName} (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem...");
 
             $backupDestination->write($path);
         });
-    }
-
-    protected function getTemporaryDirectory()
-    {
-        $tempPath = storage_path('laravel-backups/temp');
-
-        $filesystem = new Filesystem();
-
-        $filesystem->makeDirectory($tempPath, 0777, true, true);
-
-        return $tempPath;
-    }
-
-    protected function deleteTemporaryDirectory()
-    {
-        $filesystem = new Filesystem();
-
-        $filesystem->deleteDirectory($this->getTemporaryDirectory());
     }
 }

@@ -4,7 +4,6 @@ namespace Spatie\Backup\BackupDestination;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Spatie\Backup\Helpers\ConsoleOutput;
 
 class Backup
 {
@@ -53,6 +52,6 @@ class Backup
     public function delete()
     {
         $this->disk->delete($this->path);
-        ConsoleOutput::info("Deleted backup {$this->path}");
+        consoleOutput()->info("Deleted backup {$this->path}");
     }
 }

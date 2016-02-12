@@ -6,18 +6,19 @@ use ZipArchive;
 
 class Zip
 {
-    /**
-     * @var \Spatie\Backup\ZipArchive
-     */
+    /** @var \ZipArchive */
     protected $zipFile;
+
+    /** @var string */
+    protected $pathToZip;
 
     /**
      * @param string       $pathToZip
      * @param string|array $files
      *
-     * @return \Spatie\Backup\Zip
+     * @return \Spatie\Backup\Tasks\Backup\Zip|\Spatie\Backup\Zip
      */
-    public static function create(string $pathToZip, $files) : Zip
+    public static function create(string $pathToZip, $files = []) : Zip
     {
         $zip = new static($pathToZip);
 
@@ -30,32 +31,50 @@ class Zip
     {
         $this->zipFile = new ZipArchive();
 
-        $this->zipFile->open($pathToZip, ZipArchive::CREATE);
+        $this->pathToZip = $pathToZip;
+
+        $this->open($pathToZip);
     }
 
     /**
      * @param string|array $files
+     * @param string       $nameInZip
+     *
+     * @return \Spatie\Backup\Tasks\Backup\Zip
      */
-    public function add($files) : Zip
+    public function add($files, string $nameInZip = null) : Zip
     {
+        if (is_array($files)) {
+            $nameInZip = null;
+        }
+
+        $this->open();
+
         collect($files)
             ->filter(function (string $file) {
                return is_file($file);
             })
-            ->each(function (string $file) {
-                $this->zipFile->addFile($file);
+            ->each(function (string $file) use ($nameInZip) {
+                $this->zipFile->addFile($file, $nameInZip);
             });
 
-        $this->zipFile->close();
+        $this->close();
 
         return $this;
     }
 
-    /*
-     * Get path to the zipfile
-     */
     public function getPath() : string
     {
-        return $this->zipFile->filename;
+        return $this->pathToZip;
+    }
+
+    protected function open($path = null)
+    {
+        $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
+    }
+
+    protected function close()
+    {
+        $this->zipFile->close();
     }
 }

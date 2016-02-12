@@ -4,6 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
+use Spatie\Emoji\Emoji;
 
 class OverviewCommand extends BaseCommand
 {
@@ -30,15 +31,15 @@ class OverviewCommand extends BaseCommand
     public function handle()
     {
         $backupOverview = [];
-
+        consoleOutput()->comment('test');
         foreach (config('laravel-backup.monitorBackups') as $monitorProperties) {
             foreach (BackupDestinationStatusFactory::createFromArray($monitorProperties) as $backupDestinationStatus) {
                 $backupOverview[] = [
                         $backupDestinationStatus->getBackupName(),
                         $backupDestinationStatus->getFilesystemName(),
                         $backupDestinationStatus->isHealty()
-                            ? 'yes'
-                            : 'no',
+                            ? Emoji::whiteHeavyCheckMark()
+                            : Emoji::crossMark(),
                         $backupDestinationStatus->getAmountOfBackups(),
                         $backupDestinationStatus->getDateOfNewestBackup()
                             ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())

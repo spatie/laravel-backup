@@ -4,17 +4,17 @@ namespace Spatie\Backup\Notifications\Handlers;
 
 use Mail;
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Notifications\BaseNotificationHandler;
 
 class MailsErrors extends BaseNotificationHandler
 {
     public function whenBackupHasFailed(BackupHasFailed $event)
     {
-        $message = 'backup has failed because '.$event->error->getMessage();
+        $message = 'backup has failed because '.$event->error->getMessage().$event->error->getTraceAsString();
 
-        ConsoleOutput::error($message);
+        consoleOutput()->error($message);
 
+        /*
         Mail::raw($message, function ($message) {
 
             $emailConfig = config('laravel-backup.notifications.email');
@@ -23,5 +23,6 @@ class MailsErrors extends BaseNotificationHandler
                 ->from($emailConfig['from'])
                 ->to($emailConfig['to']);
         });
+        */
     }
 }

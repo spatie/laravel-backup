@@ -4,7 +4,7 @@ namespace Spatie\Backup\Tasks\Cleanup;
 
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Events\CleanupWasSuccessFul;
+use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Helpers\Format;
 
@@ -26,13 +26,13 @@ class CleanupJob
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) {
 
-            ConsoleOutput::info("Cleaning backups of {$backupDestination->getBackupName()} on {$backupDestination->getFilesystemType()}-filesystem");
+            consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on {$backupDestination->getFilesystemType()}-filesystem");
 
             $this->strategy->deleteOldBackups($backupDestination->getBackups());
             event(new CleanupWasSuccessFul($backupDestination));
 
             $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
-            ConsoleOutput::info("Used storage after cleanup: {$usedStorage}");
+            consoleOutput()->info("Used storage after cleanup: {$usedStorage}");
         });
     }
 }

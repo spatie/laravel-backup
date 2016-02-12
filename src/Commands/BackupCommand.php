@@ -5,7 +5,6 @@ namespace Spatie\Backup\Commands;
 use InvalidCommand;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Notifications\HandlesBackupNotifications;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Throwable;
@@ -33,7 +32,7 @@ class BackupCommand extends BaseCommand
      */
     public function handle()
     {
-        ConsoleOutput::comment('Starting backup.');
+        consoleOutput()->comment('Starting backup.');
 
         try {
             $this->guardAgainstInvalidOptions();
@@ -50,7 +49,7 @@ class BackupCommand extends BaseCommand
 
             $backupJob->run();
 
-            ConsoleOutput::comment('Backup completed!');
+            consoleOutput()->comment('Backup completed!');
 
             $this->handleSuccess();
         } catch (Throwable $error) {
