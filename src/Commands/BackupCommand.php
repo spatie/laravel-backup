@@ -51,9 +51,12 @@ class BackupCommand extends BaseCommand
 
             consoleOutput()->comment('Backup completed!');
 
-            $this->handleSuccess();
+            event(new BackupWasSuccessful());
+
         } catch (Throwable $error) {
-            $this->handleError($error);
+
+            event(new BackupHasFailed());
+
         }
     }
 
@@ -62,28 +65,5 @@ class BackupCommand extends BaseCommand
         if ($this->option('only-db') && $this->option('only-files')) {
             throw InvalidCommand::create('cannot use only-db and only-files together');
         }
-    }
-
-    protected function handleSuccess()
-    {
-        $backupWasSuccessfulEvent = new BackupWasSuccessful();
-
-        $this->getNotificationHandler()->whenBackupWasSuccessful($backupWasSuccessfulEvent);
-
-        event($backupWasSuccessfulEvent);
-    }
-
-    protected function handleError(Throwable $error)
-    {
-        $backupHasFailedEvent = new BackupHasFailed($error);
-
-        $this->getNotificationHandler()->whenBackupHasFailed($backupHasFailedEvent);
-
-        event($backupHasFailedEvent);
-    }
-
-    protected function getNotificationHandler() : HandlesBackupNotifications
-    {
-        return app(config('laravel-backup.notifications.handler'));
     }
 }
