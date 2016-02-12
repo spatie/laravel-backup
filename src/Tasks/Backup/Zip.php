@@ -36,6 +36,21 @@ class Zip
         $this->open($pathToZip);
     }
 
+    public function getPath() : string
+    {
+        return $this->pathToZip;
+    }
+
+    protected function open()
+    {
+        $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
+    }
+
+    protected function close()
+    {
+        $this->zipFile->close();
+    }
+
     /**
      * @param string|array $files
      * @param string       $nameInZip
@@ -61,20 +76,5 @@ class Zip
         $this->close();
 
         return $this;
-    }
-
-    public function getPath() : string
-    {
-        return $this->pathToZip;
-    }
-
-    protected function open($path = null)
-    {
-        $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
-    }
-
-    protected function close()
-    {
-        $this->zipFile->close();
     }
 }
