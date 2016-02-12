@@ -8,10 +8,4 @@ class FileSelectionFactory
     {
         return new FileSelection([]);
     }
-
-    public function create(array $config)
-    {
-        $files = FileSelection::create($config)
-            ->excludeFilesFrom($this->excludedPaths);
-    }
 }
