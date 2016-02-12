@@ -102,7 +102,7 @@ return [
     /*
      *  In this array you can specify which backups should be monitored.
      *  If a backup does not meet the specified requirements the
-     *  UnhealtyBackupWasFound-event will be fired.
+     *  UnHealthyBackupWasFound-event will be fired.
      */
     'monitorBackups' => [
         [
@@ -124,19 +124,34 @@ return [
         /*
          * This class will be used to send all notifications.
          */
-        'handler' => Spatie\Backup\Notifications\Handlers\MailsErrors::class,
+        'handler' => Spatie\Backup\Notifications\Notifier::class,
 
         /*
-         * When using the MailsErrors class these values will be used
-         * to send mails.
+         * Here you can specify the ways you want to be notified. Possible values
+         * are "log", "mail" and "slack"
          */
-        'email' => [
+        'events' => [
+            'whenBackupWasSuccessFull'    => ['log'],
+            'whenCleanupWasSuccessFull'   => ['log'],
+            'whenHealthyBackupWasFound'   => ['log'],
+            'whenBackupHasFailed'         => ['log', 'mail'],
+            'whenCleanupHasFailed'        => ['log', 'mail'],
+            'whenUnHealthyBackupWasFound' => ['log', 'email']
+        ],
 
+        /*
+         * Here you can specify how mails should be sent
+         */
+        'mail' => [
             'from' => 'freek@spatie.be',
             'to' => 'freek@spatie.be',
+        ],
 
-        ]
+        /*
+         * Here you can specify how emails should be sent
+         */
+        'slack' => [
+            'channel' => '#backups',
+        ],
     ]
-
-
 ];

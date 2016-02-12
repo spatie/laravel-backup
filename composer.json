@@ -45,5 +45,9 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
+    },
+    "suggest": {
+        "maknz/slack": "Allows notifications to be sent via Slack"
     }
+
 }

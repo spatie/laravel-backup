@@ -1,6 +1,8 @@
 <?php
 
-function consoleOutput() : \Spatie\Backup\Helpers\ConsoleOutput
+use Spatie\Backup\Helpers\ConsoleOutput;
+
+function consoleOutput() : ConsoleOutput
 {
-    return app(\Spatie\Backup\Helpers\ConsoleOutput::class);
+    return app(ConsoleOutput::class);
 }

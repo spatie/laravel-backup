@@ -2,44 +2,50 @@
 
 namespace Spatie\Backup\Notifications;
 
-use Log;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessFul;
-use Spatie\Backup\Events\HealtyBackupWasFound;
-use Spatie\Backup\Events\UnhealtyBackupWasFound;
+use Spatie\Backup\Events\HealthyBackupWasFound;
+use Spatie\Backup\Events\UnHealthyBackupWasFound;
 
-abstract class BaseNotificationHandler implements HandlesBackupNotifications
+class EventHandler
 {
+    public function __construct()
+    {
+        $notifierClass = config('laravel-backup.notifications.handler');
+
+        $this->notifier = app($notifierClass);
+    }
+
     public function whenBackupWasSuccessful(BackupWasSuccessful $event)
     {
-        Log::info('backup was successful');
+        $this->notifier->backupWasSuccessful();
     }
 
     public function whenBackupHasFailed(BackupHasFailed $event)
     {
-        Log::error('backup has failed because: '.$event->error->getMessage());
+        $this->notifier->backupWasHasFailed($event->error);
     }
 
-    public function whenCleanupWasSucessFul(CleanupWasSuccessFul $event)
+    public function whenCleanupWasSuccessFul(CleanupWasSuccessFul $event)
     {
-        Log::error('cleanup was successful');
+        $this->notifier->cleanupWasSuccessFul($event->backupDestination);
     }
 
     public function whenCleanupHasFailed(CleanupHasFailed $event)
     {
-        Log::error('backup has failed because: '.$event->error->getMessage());
+        $this->notifier->cleanupHasFailed($event->error);
     }
 
-    public function whenHealtyBackupWasFound(HealtyBackupWasFound $event)
+    public function whenHealthyBackupWasFound(HealthyBackupWasFound $event)
     {
-        Log::error('healthy backup was found: '.$event->backupStatus->getName());
+        $this->notifier->healyBackupWasFound($event->backupStatus);
     }
 
-    public function whenUnhealtyBackupWasFound(UnhealtyBackupWasFound $event)
+    public function whenUnHealthyBackupWasFound(UnHealthyBackupWasFound $event)
     {
-        Log::error('unhealthy backup was found: '.$event->backupStatus->getName());
+        $this->notifier->unHealthyBackupWasFound($event->backupStatus);
     }
 
     /**
@@ -77,13 +83,13 @@ abstract class BaseNotificationHandler implements HandlesBackupNotifications
         );
 
         $events->listen(
-            HealtyBackupWasFound::class,
-            static::class.'@whenHealtyBackupWasFound'
+            HealthyBackupWasFound::class,
+            static::class.'@whenHealthyBackupWasFound'
         );
 
         $events->listen(
-            UnhealtyBackupWasFound::class,
-            static::class.'@whenUnhealtyBackupWasFound'
+            UnHealthyBackupWasFound::class,
+            static::class.'@whenUnHealthyBackupWasFound'
         );
     }
 }

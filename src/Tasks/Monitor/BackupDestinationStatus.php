@@ -97,7 +97,7 @@ class BackupDestinationStatus
         return $this->getUsedStorage() > $maximumUsageInBytes;
     }
 
-    public function isHealty() : bool
+    public function isHealthy() : bool
     {
         if ($this->backupUsesTooMuchStorage()) {
             return false;

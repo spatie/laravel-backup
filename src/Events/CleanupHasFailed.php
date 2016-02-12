@@ -5,12 +5,12 @@ namespace Spatie\Backup\Events;
 class CleanupHasFailed
 {
     /**
-     * @var \Exception
+     * @var \Throwable
      */
-    protected $exception;
+    public $error;
 
-    public function __construct(Exception $exception)
+    public function __construct(Throwable $error)
     {
-        $this->exception = $exception;
+        $this->$error = $error;
     }
 }

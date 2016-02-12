@@ -21,10 +21,10 @@ class BackupStatus
         return $this->name;
     }
 
-    public function isHealty() : bool
+    public function isHealthy() : bool
     {
         foreach ($this->backupDestinationStatuses as $backupDestinationStatus) {
-            if (!$backupDestinationStatus->isHealty()) {
+            if (!$backupDestinationStatus->isHealthy()) {
                 return false;
             }
         }

@@ -6,6 +6,7 @@ use Throwable;
 
 class BackupHasFailed
 {
+    /** @var \Throwable  */
     public $error;
 
     public function __construct(Throwable $error)

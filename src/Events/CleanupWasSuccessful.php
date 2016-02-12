@@ -9,7 +9,7 @@ class CleanupWasSuccessful
     /**
      * @var \Spatie\Backup\BackupDestination\BackupDestination
      */
-    protected $backupDestination;
+    public $backupDestination;
 
     public function __construct(BackupDestination $backupDestination)
     {

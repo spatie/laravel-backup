@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Commands;
 
-use Spatie\Backup\Events\HealtyBackupWasFound;
-use Spatie\Backup\Events\UnhealtyBackupWasFound;
+use Spatie\Backup\Events\HealthyBackupWasFound;
+use Spatie\Backup\Events\UnHealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\BackupStatus;
 
 class MonitorCommand extends BaseCommand
@@ -38,12 +38,12 @@ class MonitorCommand extends BaseCommand
     {
         $backupStatus = new BackupStatus($monitorProperties);
 
-        if ($backupStatus->isHealty()) {
-            event(new HealtyBackupWasFound($backupStatus));
+        if ($backupStatus->isHealthy()) {
+            event(new HealthyBackupWasFound($backupStatus));
 
             return;
         }
 
-        event(new UnhealtyBackupWasFound($backupStatus));
+        event(new UnHealthyBackupWasFound($backupStatus));
     }
 }

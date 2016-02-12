@@ -4,7 +4,7 @@ namespace Spatie\Backup\Events;
 
 use Spatie\Backup\Tasks\Monitor\BackupStatus;
 
-class UnhealtyBackupWasFound
+class HealthyBackupWasFound
 {
     /** @var \Spatie\Backup\BackupDestination\BackupStatus */
     public $backupStatus;

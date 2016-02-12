@@ -37,7 +37,7 @@ class OverviewCommand extends BaseCommand
                 $backupOverview[] = [
                         $backupDestinationStatus->getBackupName(),
                         $backupDestinationStatus->getFilesystemName(),
-                        $backupDestinationStatus->isHealty()
+                        $backupDestinationStatus->isHealthy()
                             ? Emoji::whiteHeavyCheckMark()
                             : Emoji::crossMark(),
                         $backupDestinationStatus->getAmountOfBackups(),
