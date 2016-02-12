@@ -31,7 +31,7 @@ class OverviewCommand extends BaseCommand
     public function handle()
     {
         $backupOverview = [];
-        consoleOutput()->comment('test');
+
         foreach (config('laravel-backup.monitorBackups') as $monitorProperties) {
             foreach (BackupDestinationStatusFactory::createFromArray($monitorProperties) as $backupDestinationStatus) {
                 $backupOverview[] = [
