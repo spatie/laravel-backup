@@ -49,6 +49,6 @@ class OverviewCommand extends BaseCommand
             }
         }
 
-        $this->table(['Name', 'Disk', 'Health', '# of backups', 'Last backup', 'Used storage'], $backupOverview);
+        $this->table(['Name', 'Disk', 'Health', '# of backups', 'Youngest backup', 'Used storage'], $backupOverview);
     }
 }
