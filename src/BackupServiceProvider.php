@@ -29,19 +29,11 @@ class BackupServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-backup.php', 'laravel-backup');
 
+
         $this->app->bind('command.backup:run', BackupCommand::class);
         $this->app->bind('command.backup:clean', CleanupCommand::class);
         $this->app->bind('command.backup:monitor', MonitorCommand::class);
         $this->app->bind('command.backup:overview', OverviewCommand::class);
-
-        $this->app->bind(HandlesBackupNotifications::class, function () {
-            $className = config('laravel-backup.notifications.handler');
-            $listener = new $className();
-
-            return $listener;
-        });
-
-        $this->app->singleton(ConsoleOutput::class);
 
         $this->commands([
             'command.backup:run',
@@ -49,5 +41,7 @@ class BackupServiceProvider extends ServiceProvider
             'command.backup:monitor',
             'command.backup:overview',
         ]);
+
+        $this->app->singleton(ConsoleOutput::class);
     }
 }

@@ -5,7 +5,7 @@ namespace Spatie\Backup\Notifications;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupHasFailed;
-use Spatie\Backup\Events\CleanupWasSuccessFul;
+use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnHealthyBackupWasFound;
 
@@ -28,7 +28,7 @@ class EventHandler
         $this->notifier->backupWasHasFailed($event->error);
     }
 
-    public function whenCleanupWasSuccessFul(CleanupWasSuccessFul $event)
+    public function whenCleanupWasSuccessful(CleanupWasSuccessFul $event)
     {
         $this->notifier->cleanupWasSuccessFul($event->backupDestination);
     }
@@ -40,7 +40,7 @@ class EventHandler
 
     public function whenHealthyBackupWasFound(HealthyBackupWasFound $event)
     {
-        $this->notifier->healyBackupWasFound($event->backupStatus);
+        $this->notifier->healthyBackupWasFound($event->backupStatus);
     }
 
     public function whenUnHealthyBackupWasFound(UnHealthyBackupWasFound $event)
@@ -68,7 +68,7 @@ class EventHandler
         );
 
         $events->listen(
-            CleanupWasSuccessFul::class,
+            CleanupWasSuccessful::class,
             static::class.'@whenCleanupWasSuccessful'
         );
 

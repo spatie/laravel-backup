@@ -39,7 +39,7 @@ class Notifier
     public function cleanupWasSuccessFul(BackupDestination $backupDestination)
     {
         $this->sendNotification(
-            'whenCleanupWasSuccessFul',
+            'whenCleanupWasSuccessful',
             $this->subject,
             "Successfully cleanup the backups on {$backupDestination->getFilesystemType()}",
             BaseSender::TYPE_SUCCESS
@@ -79,6 +79,8 @@ class Notifier
     protected function sendNotification(string $eventName, string $subject, string $message, string $type)
     {
         $senderNames = config("laravel-backup.notifications.events.{$eventName}");
+
+        //dd($senderNames, config("laravel-backup.notifications.events"), $eventName);
 
         collect($senderNames)
             ->map(function (string $senderName) {

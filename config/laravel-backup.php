@@ -131,12 +131,12 @@ return [
          * are "log", "mail" and "slack"
          */
         'events' => [
-            'whenBackupWasSuccessFull'    => ['log'],
-            'whenCleanupWasSuccessFull'   => ['log'],
+            'whenBackupWasSuccessful'    => ['log'],
+            'whenCleanupWasSuccessful'   => ['log'],
             'whenHealthyBackupWasFound'   => ['log'],
             'whenBackupHasFailed'         => ['log', 'mail'],
             'whenCleanupHasFailed'        => ['log', 'mail'],
-            'whenUnHealthyBackupWasFound' => ['log', 'email']
+            'whenUnHealthyBackupWasFound' => ['log', 'mail']
         ],
 
         /*
@@ -148,7 +148,7 @@ return [
         ],
 
         /*
-         * Here you can specify how emails should be sent
+         * Here you can specify which slack channel should be used
          */
         'slack' => [
             'channel' => '#backups',

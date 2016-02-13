@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Notifications\Sender;
+namespace Spatie\Backup\Notifications\Senders;
 
 use Spatie\Backup\Notifications\BaseSender;
 
