@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Notifications\Senders;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Mail\Message;
 use Spatie\Backup\Notifications\BaseSender;
@@ -11,8 +12,14 @@ class Mail extends BaseSender
     /** @var \Illuminate\Contracts\Mail\Mailer */
     protected $mailer;
 
-    public function __construct(Mailer $mailer)
+    /** @var array  */
+    protected $config;
+
+
+    public function __construct(Mailer $mailer, Repository $config)
     {
+        $this->config = $config->get('laravel-backup.notifications.mail');
+
         $this->mailer = $mailer;
     }
 
@@ -20,12 +27,10 @@ class Mail extends BaseSender
     {
         $this->mailer->raw($this->message, function (Message $message) {
 
-            $emailConfig = config('laravel-backup.notifications.mail');
-
             $message
                 ->subject($this->subject)
-                ->from($emailConfig['from'])
-                ->to($emailConfig['to']);
+                ->from($this->config['from'])
+                ->to($this->config['to']);
         });
     }
 }

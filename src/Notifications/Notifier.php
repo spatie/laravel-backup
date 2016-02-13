@@ -13,7 +13,7 @@ class Notifier
 
     public function __construct()
     {
-        $this->subject = config('laravel-backup.name').' backups';
+        $this->subject = config('laravel-backup.backup.name').' backups';
     }
 
     public function backupWasSuccessful()
@@ -31,7 +31,7 @@ class Notifier
         $this->sendNotification(
             'whenBackupWasFailed',
             "{$this->subject} : error",
-            "Failed to backup because {$error->getMessage()}",
+            "Failed to backup because: {$error->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }
@@ -41,7 +41,7 @@ class Notifier
         $this->sendNotification(
             'whenCleanupWasSuccessful',
             $this->subject,
-            "Successfully cleanup the backups on {$backupDestination->getFilesystemType()}",
+            "Successfully cleaned up the backups on {$backupDestination->getFilesystemType()}-filesystem",
             BaseSender::TYPE_SUCCESS
         );
     }
@@ -51,7 +51,7 @@ class Notifier
         $this->sendNotification(
             'whencleanupHasFailed',
             "{$this->subject} : error",
-            "Successfully cleanup the backups on {$backupDestination->getFilesystemType()}",
+            "Failed to cleanup the backuse because: {$error->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }

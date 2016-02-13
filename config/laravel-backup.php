@@ -151,7 +151,9 @@ return [
          * Here you can specify which slack channel should be used
          */
         'slack' => [
-            'channel' => '#backups',
+            'channel'  => '#backups',
+            'username' => 'Backup bot',
+            'icon'     => ':robot:',
         ],
     ]
 ];
