@@ -127,8 +127,8 @@ return [
         'handler' => Spatie\Backup\Notifications\Notifier::class,
 
         /*
-         * Here you can specify the ways you want to be notified. Possible values
-         * are "log", "mail" and "slack"
+         * Here you can specify the ways you want to be notified when certain
+         * events take place. Possible values are "log", "mail" and "slack".
          */
         'events' => [
             'whenBackupWasSuccessful'    => ['log'],
