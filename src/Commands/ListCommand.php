@@ -40,7 +40,7 @@ class ListCommand extends BaseCommand
 
     protected function displayOverview(Collection $backupDestinationStatuses)
     {
-        $headers = ['Name', 'Disk', 'Reachable', 'Health', '# of backups', 'Youngest backup', 'Used storage'];
+        $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Youngest backup', 'Used storage'];
 
         $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus) {
 
