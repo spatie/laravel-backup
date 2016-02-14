@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Notifications;
 
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Tasks\Monitor\BackupStatus;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Throwable;
 
 class Notifier
@@ -51,27 +51,30 @@ class Notifier
         $this->sendNotification(
             'whencleanupHasFailed',
             "{$this->subject} : error",
-            "Failed to cleanup the backuse because: {$error->getMessage()}",
+            "Failed to cleanup the backup because: {$error->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }
 
-    public function HealthyBackupWasFound(BackupStatus $backupStatus)
+    public function healthyBackupWasFound(BackupDestinationStatus $backupDestinationStatus)
     {
         $this->sendNotification(
             'whenHealthyBackupWasFound',
-            $this->subject,
-            "Healthy backup found {$backupStatus->getName()}",
+            "Healty backup found for {$backupDestinationStatus->getBackupName()} on {$backupDestinationStatus->getFilesystemName()}-filesystem",
+            "Backups on filesystem {$backupDestinationStatus->getFilesystemName()} are ok",
             BaseSender::TYPE_SUCCESS
         );
     }
 
-    public function unHealthyBackupWasFound(BackupStatus $backupStatus)
+    /**
+     * @param \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus $backupDestinationStatus
+     */
+    public function unHealthyBackupWasFound(BackupDestinationStatus $backupDestinationStatus)
     {
         $this->sendNotification(
             'whenUnHealthyBackupWasFound',
-            "{$this->subject} : error",
-            "Unhealthy backup found {$backupStatus->getName()}",
+            "Unhealthy backup found for {$backupDestinationStatus->getBackupName()} on {$backupDestinationStatus->getFilesystemName()}-filesystem",
+            UnhealthyBackupMessage::createForBackupDestinationStatus($backupDestinationStatus),
             BaseSender::TYPE_ERROR
         );
     }
@@ -79,8 +82,6 @@ class Notifier
     protected function sendNotification(string $eventName, string $subject, string $message, string $type)
     {
         $senderNames = config("laravel-backup.notifications.events.{$eventName}");
-
-        //dd($senderNames, config("laravel-backup.notifications.events"), $eventName);
 
         collect($senderNames)
             ->map(function (string $senderName) {

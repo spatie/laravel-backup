@@ -131,8 +131,8 @@ return [
          * events take place. Possible values are "log", "mail" and "slack".
          */
         'events' => [
-            'whenBackupWasSuccessful'    => ['log'],
-            'whenCleanupWasSuccessful'   => ['log'],
+            'whenBackupWasSuccessful'     => ['log'],
+            'whenCleanupWasSuccessful'    => ['log'],
             'whenHealthyBackupWasFound'   => ['log'],
             'whenBackupHasFailed'         => ['log', 'mail'],
             'whenCleanupHasFailed'        => ['log', 'mail'],
@@ -140,7 +140,7 @@ return [
         ],
 
         /*
-         * Here you can specify how mails should be sent
+         * Here you can specify how mails should be sent.
          */
         'mail' => [
             'from' => 'freek@spatie.be',
@@ -148,7 +148,7 @@ return [
         ],
 
         /*
-         * Here you can specify which slack channel should be used
+         * Here you can how messages should be sent to Slack.
          */
         'slack' => [
             'channel'  => '#backups',

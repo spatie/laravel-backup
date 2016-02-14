@@ -4,7 +4,8 @@ namespace Spatie\Backup\Commands;
 
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnHealthyBackupWasFound;
-use Spatie\Backup\Tasks\Monitor\BackupStatus;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
 class MonitorCommand extends BaseCommand
 {
@@ -29,21 +30,17 @@ class MonitorCommand extends BaseCommand
      */
     public function handle()
     {
-        collect(config('laravel-backup.monitorBackups'))->each(function (array $monitorProperties) {
-            $this->fireEventsForMonitor($monitorProperties);
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('laravel-backup.monitorBackups'));
+
+        $statuses->each(function (BackupDestinationStatus $backupDestinationStatus) {
+
+           if ($backupDestinationStatus->isHealthy()) {
+               event(new HealthyBackupWasFound($backupDestinationStatus));
+
+               return;
+           }
+
+            event(new UnHealthyBackupWasFound($backupDestinationStatus));
         });
-    }
-
-    public function fireEventsForMonitor(array $monitorProperties)
-    {
-        $backupStatus = new BackupStatus($monitorProperties);
-
-        if ($backupStatus->isHealthy()) {
-            event(new HealthyBackupWasFound($backupStatus));
-
-            return;
-        }
-
-        event(new UnHealthyBackupWasFound($backupStatus));
     }
 }

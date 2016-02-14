@@ -8,7 +8,6 @@ use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
 use Spatie\Backup\Commands\MonitorCommand;
 use Spatie\Backup\Helpers\ConsoleOutput;
-use Spatie\Backup\Notifications\HandlesBackupNotifications;
 
 class BackupServiceProvider extends ServiceProvider
 {

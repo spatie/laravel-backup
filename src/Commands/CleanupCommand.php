@@ -42,14 +42,9 @@ class CleanupCommand extends BaseCommand
 
             $cleanupJob->run();
 
-
-
             consoleOutput()->comment('Cleanup completed!');
-
         } catch (Exception $e) {
-
             event(new CleanupHasFailed());
-
         }
     }
 }

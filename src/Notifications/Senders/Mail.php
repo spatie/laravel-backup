@@ -15,7 +15,6 @@ class Mail extends BaseSender
     /** @var array  */
     protected $config;
 
-
     public function __construct(Mailer $mailer, Repository $config)
     {
         $this->config = $config->get('laravel-backup.notifications.mail');

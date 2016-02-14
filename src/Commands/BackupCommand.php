@@ -5,7 +5,6 @@ namespace Spatie\Backup\Commands;
 use InvalidCommand;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Notifications\HandlesBackupNotifications;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Throwable;
 
@@ -52,11 +51,9 @@ class BackupCommand extends BaseCommand
             consoleOutput()->comment('Backup completed!');
 
             event(new BackupWasSuccessful());
-
         } catch (Throwable $error) {
-
             event(new BackupHasFailed($error));
-echo $error->getTraceAsString();
+
             throw $error;
         }
     }

@@ -5,6 +5,7 @@ namespace Spatie\Backup\Tasks\Monitor;
 use Carbon\Carbon;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
+use Throwable;
 
 class BackupDestinationStatus
 {
@@ -20,10 +21,15 @@ class BackupDestinationStatus
     /** @var string */
     protected $filesystemName;
 
+    /** @var bool */
+    protected $reachable;
+
     public function __construct(BackupDestination $backupDestination, string $filesystemName)
     {
         $this->backupDestination = $backupDestination;
         $this->filesystemName = $filesystemName;
+
+        $this->reachable = $this->backupDestination->isReachable();
     }
 
     public function setMaximumAgeOfNewestBackupInDays(int $days) : BackupDestinationStatus
@@ -31,6 +37,11 @@ class BackupDestinationStatus
         $this->maximumAgeOfNewestBackupInDays = $days;
 
         return $this;
+    }
+
+    public function getMaximumAgeOfNewestBackupInDays() : int
+    {
+        return $this->maximumAgeOfNewestBackupInDays;
     }
 
     public function setMaximumStorageUsageInMegabytes(int $megabytes) : BackupDestinationStatus
@@ -85,20 +96,42 @@ class BackupDestinationStatus
         return $this->backupDestination->getUsedStorage();
     }
 
+    public function getHumanReadableAllowedStorage() : string
+    {
+        return Format::getHumanReadableSize($this->getMaximumAllowedUsageInBytes());
+    }
+
     public function getHumanReadableUsedStorage() : string
     {
         return Format::getHumanReadableSize($this->getUsedStorage());
     }
 
+    public function getConnectionError() : Throwable
+    {
+        return $this->backupDestination->getConnectionError();
+    }
+
+    public function isReachable() : bool
+    {
+        return $this->reachable;
+    }
+
+    public function getMaximumAllowedUsageInBytes() : int
+    {
+        return $this->maximumStorageUsageInMegabytes * 1024 * 1024;
+    }
+
     public function backupUsesTooMuchStorage() : bool
     {
-        $maximumUsageInBytes = $this->maximumStorageUsageInMegabytes * 1024 * 1024;
-
-        return $this->getUsedStorage() > $maximumUsageInBytes;
+        return $this->getUsedStorage() > $this->getMaximumAllowedUsageInBytes();
     }
 
     public function isHealthy() : bool
     {
+        if (!$this->backupDestination->isReachable()) {
+            return false;
+        }
+
         if ($this->backupUsesTooMuchStorage()) {
             return false;
         }

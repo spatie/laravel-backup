@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Helpers;
 
 use Carbon\Carbon;
+use Spatie\Emoji\Emoji;
 
 class Format
 {
@@ -18,6 +19,15 @@ class Format
         }
 
         return round($sizeInBytes, 2).' '.$units[$i];
+    }
+
+    public static function getEmoji(bool $bool) : string
+    {
+        if ($bool) {
+            return Emoji::whiteHeavyCheckMark();
+        }
+
+        return Emoji::crossMark();
     }
 
     public static function ageInDays(Carbon $date) : string

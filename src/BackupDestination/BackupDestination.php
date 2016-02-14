@@ -5,6 +5,7 @@ namespace Spatie\Backup\BackupDestination;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Throwable;
 
 class BackupDestination
 {
@@ -13,6 +14,9 @@ class BackupDestination
 
     /** @var string */
     protected $backupDirectory;
+
+    /** @var Throwable */
+    protected $connectionError;
 
     public function __construct(Filesystem $disk, string $backupName)
     {
@@ -53,10 +57,30 @@ class BackupDestination
 
     public function getBackups() : BackupCollection
     {
+        $files = $this->isReachable() ? $this->disk->allFiles($this->backupName) : [];
+
         return BackupCollection::createFromFiles(
             $this->disk,
-            $this->disk->allFiles($this->backupName)
+            $files
         );
+    }
+
+    public function getConnectionError() : Throwable
+    {
+        return $this->connectionError;
+    }
+
+    public function isReachable() : bool
+    {
+        try {
+            $this->disk->allFiles($this->backupName);
+
+            return true;
+        } catch (Throwable $error) {
+            $this->connectionError = $error;
+
+            return false;
+        }
     }
 
     /*

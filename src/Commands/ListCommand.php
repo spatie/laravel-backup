@@ -2,9 +2,10 @@
 
 namespace Spatie\Backup\Commands;
 
+use Illuminate\Support\Collection;
 use Spatie\Backup\Helpers\Format;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
-use Spatie\Emoji\Emoji;
 
 class ListCommand extends BaseCommand
 {
@@ -30,25 +31,63 @@ class ListCommand extends BaseCommand
      */
     public function handle()
     {
-        $backupOverview = [];
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('laravel-backup.monitorBackups'));
 
-        foreach (config('laravel-backup.monitorBackups') as $monitorProperties) {
-            foreach (BackupDestinationStatusFactory::createFromArray($monitorProperties) as $backupDestinationStatus) {
-                $backupOverview[] = [
-                        $backupDestinationStatus->getBackupName(),
-                        $backupDestinationStatus->getFilesystemName(),
-                        $backupDestinationStatus->isHealthy()
-                            ? Emoji::whiteHeavyCheckMark()
-                            : Emoji::crossMark(),
-                        $backupDestinationStatus->getAmountOfBackups(),
-                        $backupDestinationStatus->getDateOfNewestBackup()
-                            ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
-                            : 'No backups present',
-                        $backupDestinationStatus->getHumanReadableUsedStorage(),
-                    ];
+        $this->displayOverview($statuses);
+
+        $this->displayConnectionErrors($statuses);
+    }
+
+    protected function displayOverview(Collection $backupDestinationStatuses)
+    {
+        $headers = ['Name', 'Disk', 'Reachable', 'Health', '# of backups', 'Youngest backup', 'Used storage'];
+
+        $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus) {
+
+            $row = [
+                $backupDestinationStatus->getBackupName(),
+                $backupDestinationStatus->getFilesystemName(),
+                Format::getEmoji($backupDestinationStatus->isReachable()),
+                Format::getEmoji($backupDestinationStatus->isHealthy()),
+                'amount' => $backupDestinationStatus->getAmountOfBackups(),
+                'youngest' => $backupDestinationStatus->getDateOfNewestBackup()
+                    ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
+                    : 'No backups present',
+                'usedStorage' => $backupDestinationStatus->getHumanReadableUsedStorage(),
+            ];
+
+            if (!$backupDestinationStatus->isReachable()) {
+                foreach (['amount', 'youngest', 'usedStorage'] as $propertyName) {
+                    $row[$propertyName] = '/';
+                }
             }
+
+            return $row;
+        });
+
+        $this->table($headers, $rows);
+    }
+
+    protected function displayConnectionErrors(Collection $backupDestinationStatuses)
+    {
+        $unreachableBackupDestinationStatuses = $backupDestinationStatuses
+            ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
+                return !$backupDestinationStatus->isReachable();
+            });
+
+        if ($unreachableBackupDestinationStatuses->isEmpty()) {
+            return;
         }
 
-        $this->table(['Name', 'Disk', 'Health', '# of backups', 'Youngest backup', 'Used storage'], $backupOverview);
+        $this->warn('');
+        $this->warn('Unreachable backup destinations');
+        $this->warn('-------------------------------');
+
+        $unreachableBackupDestinationStatuses->each(function (BackupDestinationStatus $backupStatus) {
+
+            $this->warn("Could not reach backups for {$backupStatus->getBackupName()} on disk {$backupStatus->getFilesystemName()} because:");
+            $this->warn($backupStatus->getConnectionError()->getMessage());
+            $this->warn('');
+        });
     }
 }

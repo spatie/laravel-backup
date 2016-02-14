@@ -7,7 +7,7 @@ use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
-use Spatie\Backup\Events\UnHealthyBackupWasFound;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
 
 class EventHandler
 {
@@ -40,12 +40,12 @@ class EventHandler
 
     public function whenHealthyBackupWasFound(HealthyBackupWasFound $event)
     {
-        $this->notifier->healthyBackupWasFound($event->backupStatus);
+        $this->notifier->healthyBackupWasFound($event->backupDestinationStatus);
     }
 
-    public function whenUnHealthyBackupWasFound(UnHealthyBackupWasFound $event)
+    public function whenUnhealthyBackupWasFound(UnhealthyBackupWasFound $event)
     {
-        $this->notifier->unHealthyBackupWasFound($event->backupStatus);
+        $this->notifier->unHealthyBackupWasFound($event->backupDestinationStatus);
     }
 
     /**
@@ -89,7 +89,7 @@ class EventHandler
 
         $events->listen(
             UnHealthyBackupWasFound::class,
-            static::class.'@whenUnHealthyBackupWasFound'
+            static::class.'@whenUnhealthyBackupWasFound'
         );
     }
 }

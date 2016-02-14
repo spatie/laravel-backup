@@ -2,15 +2,15 @@
 
 namespace Spatie\Backup\Events;
 
-use Spatie\Backup\Tasks\Monitor\BackupStatus;
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 
 class HealthyBackupWasFound
 {
-    /** @var \Spatie\Backup\BackupDestination\BackupStatus */
-    public $backupStatus;
+    /** @var \Spatie\Backup\BackupDestination\BackupDestinationsStatus */
+    public $backupDestinationStatus;
 
-    public function __construct(BackupStatus $backupStatus)
+    public function __construct(BackupDestinationStatus $backupDestinationStatus)
     {
-        $this->backupStatus = $backupStatus;
+        $this->backupDestinationStatus = $backupDestinationStatus;
     }
 }

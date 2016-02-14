@@ -7,7 +7,19 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 
 class BackupDestinationStatusFactory
 {
-    public static function createFromArray(array $monitorConfig) : Collection
+    public static function createForMonitorConfig(array $monitorConfiguration) : Collection
+    {
+        return collect($monitorConfiguration)
+            ->map(function (array $monitorProperties) {
+                return BackupDestinationStatusFactory::createForSingleMonitor($monitorProperties);
+            })
+            ->flatten()
+            ->sortBy(function (BackupDestinationStatus $backupDestinationStatus) {
+                return "{$backupDestinationStatus->getBackupName()}-{$backupDestinationStatus->getFilesystemName()}";
+            });
+    }
+
+    public static function createForSingleMonitor(array $monitorConfig) : Collection
     {
         return collect($monitorConfig['filesystems'])->map(function (string $filesystemName) use ($monitorConfig) {
 
