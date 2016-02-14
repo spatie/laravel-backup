@@ -6,14 +6,14 @@ use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 use Spatie\Emoji\Emoji;
 
-class OverviewCommand extends BaseCommand
+class ListCommand extends BaseCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'backup:overview';
+    protected $signature = 'backup:list';
 
     /**
      * The console command description.
@@ -21,7 +21,7 @@ class OverviewCommand extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Display an overview of all backups.';
+    protected $description = 'Display a list of all backups.';
 
     /**
      * Execute the console command.

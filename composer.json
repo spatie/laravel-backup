@@ -22,7 +22,7 @@
         "illuminate/support": "^5.1",
         "illuminate/console": "^5.1",
         "symfony/finder": "^3.0",
-        "spatie/db-dumper": "^1.0",
+        "spatie/db-dumper": "^1.0.4",
         "spatie/emoji": "^1.0.1"
 
     },

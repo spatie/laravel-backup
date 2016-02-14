@@ -55,8 +55,9 @@ class BackupCommand extends BaseCommand
 
         } catch (Throwable $error) {
 
-            event(new BackupHasFailed());
-
+            event(new BackupHasFailed($error));
+echo $error->getTraceAsString();
+            throw $error;
         }
     }
 

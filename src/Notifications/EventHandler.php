@@ -25,7 +25,7 @@ class EventHandler
 
     public function whenBackupHasFailed(BackupHasFailed $event)
     {
-        $this->notifier->backupWasHasFailed($event->error);
+        $this->notifier->backupHasFailed($event->error);
     }
 
     public function whenCleanupWasSuccessful(CleanupWasSuccessFul $event)
