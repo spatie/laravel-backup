@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
@@ -109,6 +110,10 @@ class BackupJob
     protected function copyToConfiguredFilesystems(string $path)
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($path) {
+
+            if (! $backupDestination->isReachable()) {
+                   throw new Exception("Could not connect to {$backupDestination->getFilesystemType()}");
+            };
 
             $fileSize = Format::getHumanReadableSize(filesize($path));
 
