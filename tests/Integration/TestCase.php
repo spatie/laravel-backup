@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Test\Integration;
 
+use Event;
+use Exception;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -101,5 +103,18 @@ abstract class TestCase extends Orchestra
 
             $this->assertFileNotExists($path);
         }
+    }
+
+    protected function expectsEvent($eventClassName)
+    {
+        Event::listen($eventClassName, function ($event) use ($eventClassName) {
+            $this->firedEvents[] = $eventClassName;
+        });
+
+        $this->beforeApplicationDestroyed(function () use ($eventClassName) {
+            if (!in_array($eventClassName, $this->firedEvents)) {
+                throw new Exception("Event {$eventClassName} not fired");
+            }
+        });
     }
 }
