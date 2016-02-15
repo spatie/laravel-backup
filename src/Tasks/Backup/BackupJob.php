@@ -82,7 +82,6 @@ class BackupJob
             $this->copyToBackupDestinations($zip);
 
             $this->temporaryDirectory->delete();
-
         } catch (Throwable $thrown) {
             consoleOutput()->error("Backup failed because {$thrown->getMessage()}");
 
@@ -137,9 +136,7 @@ class BackupJob
                 consoleOutput()->info("Successfully copied zip to {$backupDestination->getFilesystemType()}-filesystem");
 
                 event(new BackupWasSuccessful($backupDestination));
-
             } catch (Throwable $thrown) {
-
                 consoleOutput()->error("Copying zip-file failed because: {$thrown->getMessage()}");
 
                 event(new BackupHasFailed($thrown));

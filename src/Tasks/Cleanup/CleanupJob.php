@@ -41,9 +41,7 @@ class CleanupJob
 
                 $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
                 consoleOutput()->info("Used storage after cleanup: {$usedStorage}");
-
             } catch (Throwable $thrown) {
-
                 consoleOutput()->error("Cleanup failed because: {$thrown->getMessage()}");
 
                 event(new CleanupHasFailed($thrown));
