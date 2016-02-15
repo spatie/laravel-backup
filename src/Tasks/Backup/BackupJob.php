@@ -79,7 +79,7 @@ class BackupJob
 
             $this->addSelectedFilesToZip($zip);
 
-            $this->copyZipToConfiguredFilesystems($zip);
+            $this->copyZipToBackupDestinations($zip);
 
             $this->temporaryDirectory->delete();
 
@@ -117,7 +117,7 @@ class BackupJob
         });
     }
 
-    protected function copyZipToConfiguredFilesystems(Zip $zip)
+    protected function copyZipToBackupDestinations(Zip $zip)
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
 
