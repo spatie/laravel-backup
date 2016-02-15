@@ -123,7 +123,7 @@ class BackupJob
 
             try {
                 if (!$backupDestination->isReachable()) {
-                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()}");
+                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()} because  {$backupDestination->getConnectionError()}");
                 };
 
                 $fileSize = Format::getHumanReadableSize($zip->getSize());
