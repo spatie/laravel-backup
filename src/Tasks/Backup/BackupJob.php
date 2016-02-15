@@ -82,10 +82,11 @@ class BackupJob
             $this->copyZipToConfiguredFilesystems($zip);
 
             $this->temporaryDirectory->delete();
-        } catch (Throwable $error) {
-            consoleOutput()->error("Backup failed because {$error->getMessage()}");
 
-            event(new BackupHasFailed($error));
+        } catch (Throwable $thrown) {
+            consoleOutput()->error("Backup failed because {$thrown->getMessage()}");
+
+            event(new BackupHasFailed($thrown));
         }
     }
 
@@ -136,10 +137,12 @@ class BackupJob
                 consoleOutput()->info("Successfully copied zip to {$backupDestination->getFilesystemType()}-filesystem");
 
                 event(new BackupWasSuccessful($backupDestination));
-            } catch (Throwable $error) {
-                consoleOutput()->error("Copying zip-file failed because {$error->getMessage()}");
 
-                event(new BackupHasFailed($error));
+            } catch (Throwable $thrown) {
+
+                consoleOutput()->error("Copying zip-file failed because {$thrown->getMessage()}");
+
+                event(new BackupHasFailed($thrown));
             }
         });
     }

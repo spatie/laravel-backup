@@ -26,14 +26,14 @@ class Notifier
         );
     }
 
-    public function backupHasFailed(Throwable $error, BackupDestination $backupDestination = null)
+    public function backupHasFailed(Throwable $thrown, BackupDestination $backupDestination = null)
     {
         $extraMessage = $backupDestination ? "to {$backupDestination->getFilesystemType()}-filesystem" : '';
 
         $this->sendNotification(
             'whenBackupWasFailed',
             "{$this->subject} : error",
-            "Failed to backup {$extraMessage} because: {$error->getMessage()}",
+            "Failed to backup {$extraMessage} because: {$thrown->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }
@@ -48,12 +48,12 @@ class Notifier
         );
     }
 
-    public function cleanupHasFailed(Throwable $error)
+    public function cleanupHasFailed(Throwable $thrown)
     {
         $this->sendNotification(
             'whencleanupHasFailed',
             "{$this->subject} : error",
-            "Failed to cleanup the backup because: {$error->getMessage()}",
+            "Failed to cleanup the backup because: {$thrown->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }

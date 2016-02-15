@@ -7,10 +7,10 @@ class CleanupHasFailed
     /**
      * @var \Throwable
      */
-    public $error;
+    public $thrown;
 
-    public function __construct(Throwable $error)
+    public function __construct(Throwable $thrown)
     {
-        $this->$error = $error;
+        $this->thrown = $thrown;
     }
 }

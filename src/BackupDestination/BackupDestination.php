@@ -76,8 +76,8 @@ class BackupDestination
             $this->disk->allFiles($this->backupName);
 
             return true;
-        } catch (Throwable $error) {
-            $this->connectionError = $error;
+        } catch (Throwable $thrown) {
+            $this->connectionError = $thrown;
 
             return false;
         }

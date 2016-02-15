@@ -38,10 +38,10 @@ class BackupCommand extends BaseCommand
             $backupJob->run();
 
             consoleOutput()->comment('Backup completed!');
-        } catch (Throwable $error) {
-            event(new BackupHasFailed($error));
+        } catch (Throwable $thrown) {
+            event(new BackupHasFailed($thrown));
 
-            throw $error;
+            throw $thrown;
         }
     }
 
