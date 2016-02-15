@@ -26,12 +26,14 @@ class Notifier
         );
     }
 
-    public function backupHasFailed(Throwable $error)
+    public function backupHasFailed(Throwable $error, BackupDestination $backupDestination = null)
     {
+        $extraMessage = $backupDestination ? "to {$backupDestination->getFilesystemType()}-filesystem" : '';
+
         $this->sendNotification(
             'whenBackupWasFailed',
             "{$this->subject} : error",
-            "Failed to backup because: {$error->getMessage()}",
+            "Failed to backup {$extraMessage} because: {$error->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }
