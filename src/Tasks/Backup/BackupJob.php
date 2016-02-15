@@ -5,8 +5,11 @@ namespace Spatie\Backup\Tasks\Backup;
 use Exception;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
+use Throwable;
 
 class BackupJob
 {
@@ -67,17 +70,23 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = TemporaryDirectory::create();
+        try {
+            $this->temporaryDirectory = TemporaryDirectory::create();
 
-        $zip = Zip::create($this->temporaryDirectory->getPath(date('Y-m-d-His').'.zip'));
+            $zip = Zip::create($this->temporaryDirectory->getPath(date('Y-m-d-His').'.zip'));
 
-        $this->addDatabaseDumpsToZip($zip);
+            $this->addDatabaseDumpsToZip($zip);
 
-        $this->addSelectedFilesToZip($zip);
+            $this->addSelectedFilesToZip($zip);
 
-        $this->copyToConfiguredFilesystems($zip->getPath());
+            $this->copyZipToConfiguredFilesystems($zip);
 
-        $this->temporaryDirectory->delete();
+            $this->temporaryDirectory->delete();
+        } catch (Throwable $error) {
+            consoleOutput()->error("Backup failed because {$error->getMessage()}");
+
+            event(new BackupHasFailed($error));
+        }
     }
 
     protected function addSelectedFilesToZip(Zip $zip)
@@ -107,21 +116,31 @@ class BackupJob
         });
     }
 
-    protected function copyToConfiguredFilesystems(string $path)
+    protected function copyZipToConfiguredFilesystems(Zip $zip)
     {
-        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($path) {
+        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
 
-            if (! $backupDestination->isReachable()) {
-                   throw new Exception("Could not connect to {$backupDestination->getFilesystemType()}");
-            };
+            try {
+                if (!$backupDestination->isReachable()) {
+                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()}");
+                };
 
-            $fileSize = Format::getHumanReadableSize(filesize($path));
+                $fileSize = Format::getHumanReadableSize($zip->getSize());
 
-            $fileName = pathinfo($path, PATHINFO_BASENAME);
+                $fileName = pathinfo($zip->getPath(), PATHINFO_BASENAME);
 
-            consoleOutput()->info("Copying {$fileName} (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem...");
+                consoleOutput()->info("Copying {$fileName} (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem...");
 
-            $backupDestination->write($path);
+                $backupDestination->write($zip->getPath());
+
+                consoleOutput()->info("Successfully copied zip to {$backupDestination->getFilesystemType()}-filesystem");
+
+                event(new BackupWasSuccessful($backupDestination));
+            } catch (Throwable $error) {
+                consoleOutput()->error("Copying zip-file failed because {$error->getMessage()}");
+
+                event(new BackupHasFailed($error));
+            }
         });
     }
 }

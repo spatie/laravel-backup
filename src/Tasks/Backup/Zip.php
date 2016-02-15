@@ -41,6 +41,11 @@ class Zip
         return $this->pathToZip;
     }
 
+    public function getSize() : int
+    {
+        return filesize($this->pathToZip);
+    }
+
     protected function open()
     {
         $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);

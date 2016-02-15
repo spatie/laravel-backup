@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Test\Integration\Events;
 
-use Exception;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Test\Integration\TestCase;
@@ -20,8 +19,6 @@ class BackupHasFailedTest extends TestCase
         $this->app['config']->set('laravel-backup.backup.destination.filesystems', [
             'ftp',
         ]);
-
-        $this->setExpectedException(Exception::class);
 
         $this->expectsEvent(BackupHasFailed::class);
 
