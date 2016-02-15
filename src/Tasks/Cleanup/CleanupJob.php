@@ -2,11 +2,14 @@
 
 namespace Spatie\Backup\Tasks\Cleanup;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Helpers\Format;
+use Throwable;
 
 class CleanupJob
 {
@@ -26,13 +29,25 @@ class CleanupJob
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) {
 
-            consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on {$backupDestination->getFilesystemType()}-filesystem");
+            try {
+                if (!$backupDestination->isReachable()) {
+                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()} because: {$backupDestination->getConnectionError()}");
+                };
 
-            $this->strategy->deleteOldBackups($backupDestination->getBackups());
-            event(new CleanupWasSuccessFul($backupDestination));
+                consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on {$backupDestination->getFilesystemType()}-filesystem");
 
-            $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
-            consoleOutput()->info("Used storage after cleanup: {$usedStorage}");
+                $this->strategy->deleteOldBackups($backupDestination->getBackups());
+                event(new CleanupWasSuccessFul($backupDestination));
+
+                $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
+                consoleOutput()->info("Used storage after cleanup: {$usedStorage}");
+
+            } catch (Throwable $thrown) {
+
+                consoleOutput()->error("Cleanup failed because: {$thrown->getMessage()}");
+
+                event(new CleanupHasFailed($thrown));
+            }
         });
     }
 }

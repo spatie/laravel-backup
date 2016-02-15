@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Events;
 
+use Throwable;
+
 class CleanupHasFailed
 {
     /**

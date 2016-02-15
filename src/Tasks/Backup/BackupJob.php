@@ -123,7 +123,7 @@ class BackupJob
 
             try {
                 if (!$backupDestination->isReachable()) {
-                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()} because  {$backupDestination->getConnectionError()}");
+                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()} because: {$backupDestination->getConnectionError()}");
                 };
 
                 $fileSize = Format::getHumanReadableSize($zip->getSize());
@@ -140,7 +140,7 @@ class BackupJob
 
             } catch (Throwable $thrown) {
 
-                consoleOutput()->error("Copying zip-file failed because {$thrown->getMessage()}");
+                consoleOutput()->error("Copying zip-file failed because: {$thrown->getMessage()}");
 
                 event(new BackupHasFailed($thrown));
             }
