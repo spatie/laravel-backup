@@ -8,6 +8,7 @@ Over time the amount of backups and the storage needed to keep them will grow. P
 to want to clean up old backups.
 
 You can backup your app by running:
+
 ```bash`
 php artisan backup:clean
 ```
@@ -102,3 +103,8 @@ $backup->delete(); //bye bye backup
 
 Do not forget to specify the full classname of your custom strategy in the `cleanup.strategy` key in the 
 `laravel-backup` config file.
+
+## Getting notified when a cleanup goes wrong
+
+You can receive a notification when a cleanup goes wrong. Read [the section on notifications](url naar notification page) to know more.
+

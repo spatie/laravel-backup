@@ -27,10 +27,10 @@ class DefaultStrategy extends CleanupStrategy
             });
         });
 
-        $backupsPerPeriod['daily'] = $this->groupByDateProperty($backupsPerPeriod['daily'], 'yearAndDays');
-        $backupsPerPeriod['weekly'] = $this->groupByDateProperty($backupsPerPeriod['weekly'], 'weekOfYear');
-        $backupsPerPeriod['monthly'] = $this->groupByDateProperty($backupsPerPeriod['monthly'], 'month');
-        $backupsPerPeriod['yearly'] = $this->groupByDateProperty($backupsPerPeriod['yearly'], 'year');
+        $backupsPerPeriod['daily'] = $this->groupByDateFormat($backupsPerPeriod['daily'], 'Ymd');
+        $backupsPerPeriod['weekly'] = $this->groupByDateFormat($backupsPerPeriod['weekly'], 'YW');
+        $backupsPerPeriod['monthly'] = $this->groupByDateFormat($backupsPerPeriod['monthly'], 'Ym');
+        $backupsPerPeriod['yearly'] = $this->groupByDateFormat($backupsPerPeriod['yearly'], 'Y');
 
         $this->removeBackupsForAllPeriodsExceptOne($backupsPerPeriod);
 
@@ -44,14 +44,15 @@ class DefaultStrategy extends CleanupStrategy
         $config = $this->config->get('laravel-backup.cleanup.defaultStrategy');
 
         $daily = new Period(
-            Carbon::now(),
-            Carbon::now()->subDays($config['keepAllBackupsForDays'])
+            Carbon::now()->subDays($config['keepAllBackupsForDays']),
+            Carbon::now()
+                ->subDays($config['keepAllBackupsForDays'])
+                ->subDays($config['keepDailyBackupsForDays'])
         );
 
         $weekly = new Period(
             $daily->getEndDate(),
-            Carbon::now()
-                ->subDays($config['keepDailyBackupsForDays'])
+            $daily->getEndDate()
                 ->subWeeks($config['keepWeeklyBackupsForWeeks'])
         );
 
@@ -70,10 +71,10 @@ class DefaultStrategy extends CleanupStrategy
         return collect(compact('daily', 'weekly', 'monthly', 'yearly'));
     }
 
-    protected function groupByDateProperty(Collection $backups, string $functionName) : Collection
+    protected function groupByDateFormat(Collection $backups, string $dateFormat) : Collection
     {
-        return $backups->groupBy(function (Backup $backup) use ($functionName) {
-            return $backup->getDate()->{$functionName};
+        return $backups->groupBy(function (Backup $backup) use ($dateFormat) {
+            return $backup->getDate()->format($dateFormat);
         });
     }
 

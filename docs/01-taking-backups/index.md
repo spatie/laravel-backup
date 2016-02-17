@@ -90,3 +90,7 @@ a destination filesystem for the backup. Those disks preferably use external ser
 If something goes wrong copying the zip file to a filesystem, we will still try to copy over to all other
 configured filesystems.
 
+## Getting notified when a backup goes wrong
+
+You can receive a notification when a backup goes wrong. Read [the section on notifications](url naar notification page) to know more.
+

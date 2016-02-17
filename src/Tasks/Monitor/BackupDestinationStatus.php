@@ -96,16 +96,6 @@ class BackupDestinationStatus
         return $this->backupDestination->getUsedStorage();
     }
 
-    public function getHumanReadableAllowedStorage() : string
-    {
-        return Format::getHumanReadableSize($this->getMaximumAllowedUsageInBytes());
-    }
-
-    public function getHumanReadableUsedStorage() : string
-    {
-        return Format::getHumanReadableSize($this->getUsedStorage());
-    }
-
     public function getConnectionError() : Throwable
     {
         return $this->backupDestination->getConnectionError();
@@ -123,7 +113,13 @@ class BackupDestinationStatus
 
     public function backupUsesTooMuchStorage() : bool
     {
-        return $this->getUsedStorage() > $this->getMaximumAllowedUsageInBytes();
+        $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
+
+        if ($maximumInBytes === 0) {
+            return false;
+        }
+
+        return $this->getUsedStorage() > $maximumInBytes;
     }
 
     public function isHealthy() : bool
@@ -141,5 +137,21 @@ class BackupDestinationStatus
         }
 
         return true;
+    }
+
+    public function getHumanReadableAllowedStorage() : string
+    {
+        $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
+
+        if ($maximumInBytes === 0) {
+            return 'unlimited';
+        }
+
+        return Format::getHumanReadableSize($maximumInBytes);
+    }
+
+    public function getHumanReadableUsedStorage() : string
+    {
+        return Format::getHumanReadableSize($this->getUsedStorage());
     }
 }

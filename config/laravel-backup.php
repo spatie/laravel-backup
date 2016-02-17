@@ -112,7 +112,7 @@ return [
         /*
         [
             'name' => 'name of the second app',
-            'filesystems' => ['local'],
+            'filesystems' => ['local', 's3'],
             'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],
