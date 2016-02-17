@@ -27,6 +27,7 @@ class DefaultStrategy extends CleanupStrategy
             });
         });
 
+        $backupsPerPeriod['daily'] = $this->groupByDateProperty($backupsPerPeriod['daily'], 'yearAndDays');
         $backupsPerPeriod['weekly'] = $this->groupByDateProperty($backupsPerPeriod['weekly'], 'weekOfYear');
         $backupsPerPeriod['monthly'] = $this->groupByDateProperty($backupsPerPeriod['monthly'], 'month');
         $backupsPerPeriod['yearly'] = $this->groupByDateProperty($backupsPerPeriod['yearly'], 'year');
@@ -42,8 +43,13 @@ class DefaultStrategy extends CleanupStrategy
     {
         $config = $this->config->get('laravel-backup.cleanup.defaultStrategy');
 
+        $daily = new Period(
+            Carbon::now(),
+            Carbon::now()->subDays($config['keepAllBackupsForDays'])
+        );
+
         $weekly = new Period(
-            Carbon::now()->subDays($config['keepDailyBackupsForDays']),
+            $daily->getEndDate(),
             Carbon::now()
                 ->subDays($config['keepDailyBackupsForDays'])
                 ->subWeeks($config['keepWeeklyBackupsForWeeks'])
@@ -61,7 +67,7 @@ class DefaultStrategy extends CleanupStrategy
                 ->subYears($config['keepYearlyBackupsForYears'])
         );
 
-        return collect(compact('weekly', 'monthly', 'yearly'));
+        return collect(compact('daily', 'weekly', 'monthly', 'yearly'));
     }
 
     protected function groupByDateProperty(Collection $backups, string $functionName) : Collection

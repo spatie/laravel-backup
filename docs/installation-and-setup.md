@@ -67,8 +67,8 @@ return [
             ],
 
             /*
-             * The names of the connections to the databases
-             * that should be part of the backup.
+             * The names of the connections to the databases  that should be part of the backup.
+             * Currently only MySQL-databases are supported.
              */
             'databases' => [
                 'mysql'
@@ -97,7 +97,12 @@ return [
         'defaultStrategy' => [
 
             /*
-             * The amount of days that all daily backups must be kept.
+             * The amount of days that all backups must be kept.
+             */
+            'keepAllBackupsForDays' => 7, 
+
+            /*
+             * The amount of days that daily backups must be kept.
              */
             'keepDailyBackupsForDays' => 16,
 
@@ -189,7 +194,6 @@ return [
     ]
 ];
 ```
-
 ## Scheduling
 
 After you have performed the basic installation you can using the `backup:run`, `backup:clean`,
@@ -205,8 +209,18 @@ protected function schedule(Schedule $schedule)
 {
    $schedule->command('backup:clean')->daily()->at('01:00');
    $schedule->command('backup:run')->daily()->at('02:00');
-   $schedule->command('backup:monitor')->daily()->at('03:00');
 }
 ```
 
 Of course, the hours used in the code above are just examples. Adjust them to your own liking.
+
+## Monitoring
+
+When your application is broken the scheduled jobs will obviously not run anymore. You can also simply forget
+to simply add a cron job needing to trigger Laravel's scheduling. You think you're taking backup when in fact
+nothing gets backed up.
+
+To notify you of such events the package contains monitoring functionality. It will
+inform you when then youngest backup becomes too old or when to backups use too much storage.
+
+[Learn how to set up monitoring](link naar monitoring docs).

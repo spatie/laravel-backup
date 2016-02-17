@@ -33,8 +33,8 @@ return [
             ],
 
             /*
-             * The names of the connections to the databases
-             * that should be part of the backup.
+             * The names of the connections to the databases  that should be part of the backup.
+             * Currently only MySQL-databases are supported.
              */
             'databases' => [
                 'mysql'
@@ -61,6 +61,11 @@ return [
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
         'defaultStrategy' => [
+
+            /*
+             * The amount of days that all daily backups must be kept.
+             */
+            'keepAllBackupsForDays' => 7,
 
             /*
              * The amount of days that all daily backups must be kept.
