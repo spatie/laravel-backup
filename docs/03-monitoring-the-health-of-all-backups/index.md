@@ -67,3 +67,11 @@ can use unlimited storage.
 
 You can receive notifications when the monitor finds an (un)healthy backup. 
 Read [the section on notifications](url naar notification page) to know more.
+
+## Seeing an overview of all backups
+
+You can perform this command to see the status of all monitored destination filesystems.
+
+```bash
+php artisan backup:list
+```

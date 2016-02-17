@@ -28,6 +28,8 @@ class BackupServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-backup.php', 'laravel-backup');
 
+        $this->app['events']->subscribe(\Spatie\Backup\Notifications\EventHandler::class);
+
         $this->app->bind('command.backup:run', BackupCommand::class);
         $this->app->bind('command.backup:clean', CleanupCommand::class);
         $this->app->bind('command.backup:list', ListCommand::class);
