@@ -1,3 +1,37 @@
+---
+title: Installation & setup
+---
+
+## Basic installation
+
+You can install this package via composer using:
+
+``` bash
+composer require spatie/laravel-backup
+```
+
+You must also install this service provider.
+
+```php
+
+// config/app.php
+
+'providers' => [
+    ...
+    'Spatie\Backup\BackupServiceProvider',
+    ...
+];
+```
+
+To publish the config file to ``app/config/laravel-backup.php`` run:
+
+``` bash
+php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
+```
+
+This is the default contents of the configuration.
+
+```php
 <?php
 
 return [
@@ -9,7 +43,7 @@ return [
          * the backups.
          */
         'name' => env('APP_URL'),
-
+        
         'source' => [
 
             'files' => [
@@ -40,7 +74,7 @@ return [
                 'mysql'
             ],
         ],
-
+        
         'destination' => [
 
             /*
@@ -103,7 +137,7 @@ return [
             'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],
-
+        
         /*
         [
             'name' => 'name of the second app',
@@ -124,7 +158,7 @@ return [
         /*
          * Here you can specify the ways you want to be notified when certain
          * events take place. Possible values are "log", "mail" and "slack".
-         *
+         * 
          * Slack requires the installation of the maknz/slack package
          */
         'events' => [
@@ -154,3 +188,25 @@ return [
         ],
     ]
 ];
+```
+
+## Scheduling
+
+After you have performed the basic installation you can using the `backup:run`, `backup:clean`,
+`backup:overview` and `backup:monitor`-commands. In most cases you want to scheduled these commands
+so you don't have to run `backup:run` everytime you need a new backup.
+
+The commands can, like an other command, be scheduled in Laravel's console kernel.
+
+```php
+//app/Console/Kernel.php
+
+protected function schedule(Schedule $schedule)
+{
+   $schedule->command('backup:clean')->daily()->at('01:00');
+   $schedule->command('backup:run')->daily()->at('02:00');
+   $schedule->command('backup:monitor')->daily()->at('03:00');
+}
+```
+
+Of course, the hours used in the code above are just examples. Adjust them to your own liking.
