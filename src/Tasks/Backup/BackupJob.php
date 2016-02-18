@@ -22,7 +22,7 @@ class BackupJob
     /** @var \Illuminate\Support\Collection */
     protected $backupDestinations;
 
-    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory  */
+    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
     protected $temporaryDirectory;
 
     public function __construct()

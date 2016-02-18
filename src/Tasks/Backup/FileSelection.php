@@ -8,13 +8,10 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class FileSelection
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $includeFilesAndDirectories = [];
-    /**
-     * @var array
-     */
+
+    /** @var array */
     protected $excludeFilesAndDirectories = [];
 
     /**

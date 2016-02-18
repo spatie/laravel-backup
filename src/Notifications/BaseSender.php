@@ -10,10 +10,10 @@ abstract class BaseSender implements SendsNotifications
     /** @var type */
     protected $type;
 
-    /** @var  string */
+    /** @var string */
     protected $subject;
 
-    /** @var  string */
+    /** @var string */
     protected $message;
 
     public function setType(string $type) : SendsNotifications

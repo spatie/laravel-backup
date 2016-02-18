@@ -7,13 +7,10 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class Backup
 {
-    /**
-     * @var \Spatie\Backup\BackupDestination\Disk
-     */
+    /** @var \Spatie\Backup\BackupDestination\Disk */
     protected $disk;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $path;
 
     public function __construct(Filesystem $disk, string $path)

@@ -12,7 +12,7 @@ class Mail extends BaseSender
     /** @var \Illuminate\Contracts\Mail\Mailer */
     protected $mailer;
 
-    /** @var array  */
+    /** @var array */
     protected $config;
 
     public function __construct(Mailer $mailer, Repository $config)
