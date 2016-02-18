@@ -4,8 +4,8 @@ title: Monitoring the health of all backups
 
 ## Overview
 
-The package can check the health of every application this package is installed into. A backup is considered unhealty if
-the date of the last backup is too far in the past of if the storage needed for all backups too large.
+The package can check the health of every application it is installed into. A backup is considered unhealty if
+the date of the last backup is too far in the past or if the storage needed for all backups too large.
 
 ## Installation
 
