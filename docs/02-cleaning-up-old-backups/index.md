@@ -9,7 +9,7 @@ to want to clean up old backups.
 
 You can backup your app by running:
 
-```bash`
+```bash
 php artisan backup:clean
 ```
 
