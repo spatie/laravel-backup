@@ -2,8 +2,6 @@
 title: High level overview
 ---
 
-The backup package can perform 3 tasks:
-
 ## Taking backups
 
 The backup is a zipfile that contains all files in the directories you specify along with a dump of your database. 
