@@ -91,11 +91,11 @@ where you can specify those destination filesystems.
         ],
 ```
 
-The default value of `config('laravel-backup.destination.filesytems)` is an array with only one key `local`.
-If you only use the local disk to take backups and that disk crashes you have nothing left but tears.
+The default value of `config('laravel-backup.destination.filesytems)` is an array with only one key: `local`.
+If you only use the local disk to take backups and that disk crashes you will have nothing left but tears.
 
 We highly recommend to configure some extra disks in `app/config/filesystems.php` and adding their names as
-a destination filesystem for the backup. Those disks preferably use external services or services (such as S3).
+a destination filesystem for the backup. Those disks preferably use external servers or services (such as S3).
 
 If something goes wrong copying the zip file to a filesystem, we will still try to copy over to all other
 configured filesystems.
