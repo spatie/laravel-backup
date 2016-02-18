@@ -5,8 +5,18 @@ title: Taking backups
 ## Overview
 
 You can backup your app by running:
-```bash`
+```bash
 php artisan backup:run
+```
+
+If you only need to backup the db run:
+```bash
+php artisan backup:run --only-db
+```
+
+If you only need to backup the files, and skip dumping databases, run:
+```bash
+php artisan backup:run --only-files
 ```
 
 ## Configuration
@@ -93,4 +103,3 @@ configured filesystems.
 ## Getting notified when a backup goes wrong
 
 You can receive a notification when a backup goes wrong. Read [the section on notifications](url naar notification page) to know more.
-
