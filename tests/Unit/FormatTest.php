@@ -22,11 +22,11 @@ class FormatTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_determine_the_age_in_days()
     {
-        Carbon::setTestNow(Carbon::create(2016, 1, 1));
+        Carbon::setTestNow(Carbon::create(2016, 1, 1)->startOfDay());
 
         $this->assertEquals('0.00 (1 second ago)', Format::ageInDays(Carbon::now()));
         $this->assertEquals('0.04 (1 hour ago)', Format::ageInDays(Carbon::now()->subHour(1)));
         $this->assertEquals('1.04 (1 day ago)', Format::ageInDays(Carbon::now()->subHour(1)->subDay(1)));
-        $this->assertEquals('31.04 (1 month ago)', Format::ageInDays(Carbon::now()->subHour(1)->subMonths(1)));
+        $this->assertEquals('30.04 (4 weeks ago)', Format::ageInDays(Carbon::now()->subHour(1)->subMonths(1)));
     }
 }

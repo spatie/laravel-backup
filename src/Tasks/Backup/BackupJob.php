@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
+use Spatie\Backup\Events\BackupZipHasBeenMade;
 use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
 use Throwable;
@@ -73,11 +74,7 @@ class BackupJob
         try {
             $this->temporaryDirectory = TemporaryDirectory::create();
 
-            $zip = Zip::create($this->temporaryDirectory->getPath(date('Y-m-d-His').'.zip'));
-
-            $this->addDatabaseDumpsToZip($zip);
-
-            $this->addSelectedFilesToZip($zip);
+            $zip = $this->createZipContainingAllFilesToBeBackedUp();
 
             $this->copyToBackupDestinations($zip);
 
@@ -87,6 +84,19 @@ class BackupJob
 
             event(new BackupHasFailed($thrown));
         }
+    }
+
+    protected function createZipContainingAllFilesToBeBackedUp() : Zip
+    {
+        $zip = Zip::create($this->temporaryDirectory->getPath(date('Y-m-d-His').'.zip'));
+
+        $this->addDatabaseDumpsToZip($zip);
+
+        $this->addSelectedFilesToZip($zip);
+
+        event(new BackupZipHasBeenMade($zip));
+
+        return $zip;
     }
 
     protected function addSelectedFilesToZip(Zip $zip)
@@ -143,4 +153,6 @@ class BackupJob
             }
         });
     }
+
+
 }

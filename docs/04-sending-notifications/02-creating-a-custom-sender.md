@@ -32,7 +32,7 @@ config file.
 
 ```php
 ...
-'whenBackupHasFailed'         => ['log', 'mail', App\BlaBla\MyCustomSender::class],
+'whenBackupHasFailed' => ['log', 'mail', App\BlaBla\MyCustomSender::class],
 ...
 ```
 
