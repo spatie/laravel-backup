@@ -7,12 +7,10 @@ use Throwable;
 
 class CleanupHasFailed
 {
-    /**
-     * @var \Throwable
-     */
+    /** @var \Throwable */
     public $thrown;
 
-    /**  @var \Spatie\Backup\BackupDestination\BackupDestination|null */
+    /** @var \Spatie\Backup\BackupDestination\BackupDestination|null */
     public $backupDestination;
 
     public function __construct(Throwable $thrown, BackupDestination $backupDestination = null)

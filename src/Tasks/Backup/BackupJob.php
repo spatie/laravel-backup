@@ -2,12 +2,11 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Exception;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Events\BackupZipHasBeenMade;
+use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
 use Throwable;
@@ -94,7 +93,7 @@ class BackupJob
 
         $this->addSelectedFilesToZip($zip);
 
-        event(new BackupZipHasBeenMade($zip));
+        event(new BackupZipWasCreated($zip));
 
         return $zip;
     }
@@ -153,6 +152,4 @@ class BackupJob
             }
         });
     }
-
-
 }

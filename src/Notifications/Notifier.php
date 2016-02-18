@@ -86,16 +86,16 @@ class Notifier
         $senderNames = config("laravel-backup.notifications.events.{$eventName}");
 
         collect($senderNames)
-            ->map(function (string $senderName) : SendsNotifications {
+            ->map(function (string $senderName) : SendsNotifications
+{
+    $className = $senderName;
 
-                $className = $senderName;
+    if (file_exists(__DIR__.'/Senders/'.ucfirst($senderName).'.php')) {
+        $className = '\\Spatie\\Backup\\Notifications\\Senders\\'.ucfirst($senderName);
+    }
 
-                if (file_exists(__DIR__ . '/Senders/' . ucfirst($senderName) . '.php')) {
-                    $className = '\\Spatie\\Backup\\Notifications\\Senders\\'.ucfirst($senderName);
-                }
-
-                return app($className);
-            })
+    return app($className);
+})
             ->each(function (SendsNotifications $sender) use ($subject, $message, $type) {
                 $sender
                     ->setSubject($subject)

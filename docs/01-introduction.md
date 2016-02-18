@@ -13,8 +13,9 @@ permalink: /
 </section>
 
 
-This Laravel 5 package creates a backup of your application. The backup is a zipfile that contains all files in the directories you specify along with a dump of your database. 
-The backup can be stored on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/5.0/filesystem).
+This Laravel 5 package creates a backup of your application. The backup is a zipfile that contains all 
+files in the directories you specify along with a dump of your database. The backup can be stored
+on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/5.0/filesystem).
 
 Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 

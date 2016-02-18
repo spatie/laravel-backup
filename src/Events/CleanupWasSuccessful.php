@@ -6,9 +6,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 
 class CleanupWasSuccessful
 {
-    /**
-     * @var \Spatie\Backup\BackupDestination\BackupDestination
-     */
+    /** @var \Spatie\Backup\BackupDestination\BackupDestination */
     public $backupDestination;
 
     public function __construct(BackupDestination $backupDestination)
