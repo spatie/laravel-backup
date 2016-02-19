@@ -4,7 +4,7 @@ title: Cleaning up old backups
 
 ## Overview
 
-Over time the amount of backups and the storage needed to keep them will grow. Probably you are going
+Over time the amount of backups and the storage needed to keep them will grow. At some point you are going
 to want to clean up old backups.
 
 You can backup your app by running:
@@ -13,10 +13,8 @@ You can backup your app by running:
 php artisan backup:clean
 ```
 
-Right of the bat we'll tell you that the package by default will never  delete the youngest backup regardless it's
+Right of the bat we'll tell you that the package by default will never delete the youngest backup regardless it's
 size or age.
-
-Read on to know how the package will determine which backups should be deleted.
 
 ## Determining which backups should be deleted
 
@@ -69,7 +67,7 @@ This is the portion of the configuration that will determine which backups shoul
 This package provides an opinionated method to determine which old backups should be deleted. We call
 this the `DefaultStrategy`. This is how it works:
 
-- rule #1: it will never ever delete the youngest backup regardless of it's size or age
+- rule #1: it will never delete the youngest backup regardless of it's size or age
 - rule #2: it will keep all backups for the amount of days specified in `keepAllBackupsForDays`
 - rule #3: it'll only keep daily backups for the amount of days specified in `keepDailyBackupsForDays` for all backups
 older than those that rule #2 takes care of
@@ -85,7 +83,7 @@ Of course the numbers used in the default configuration can be adjusted to your 
 ## Creating your own strategy
 
 If you are not happy with the `DefaultStrategy`, you can create your own custom strategy. You can do
-so by extending the abstract class `\Spatie\Backup\Tasks\CleanupCleanup\Strategy`.  You only need to 
+so by extending the abstract class `\Spatie\Backup\Tasks\CleanupCleanup\Strategy`. You only need to 
 implement this method:
 
 ```php 
@@ -93,11 +91,11 @@ public function deleteOldBackups(\Spatie\Backup\BackupDestination\BackupCollecti
 ```
 
 A `BackupCollection` is extended of `Illuminate\Support\Collection` and
-contains `Spatie\Backup\BackupDestination\Backup`-objects sorted on age. The youngest backup is the first.
+contains `Spatie\Backup\BackupDestination\Backup`-objects sorted on age. The youngest backup is the first one in the collection.
 
 To delete to oldest backup you can do this:
 ```php
-$backup = $backups->getOldestBackup() //returns instance of `Spatie\Backup\BackupDestination\Backup`
+$backup = $backups->getOldestBackup() //returns an instance of `Spatie\Backup\BackupDestination\Backup`
 $backup->delete(); //bye bye backup
 ```
 

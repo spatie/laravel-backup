@@ -10,10 +10,9 @@ You can install this package via composer using:
 composer require spatie/laravel-backup
 ```
 
-You must also install this service provider.
+You must install this service provider.
 
 ```php
-
 // config/app.php
 
 'providers' => [
@@ -23,7 +22,7 @@ You must also install this service provider.
 ];
 ```
 
-To publish the config file to ``app/config/laravel-backup.php`` run:
+To publish the config file to `app/config/laravel-backup.php` run:
 
 ``` bash
 php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
@@ -195,7 +194,7 @@ return [
 ## Scheduling
 
 After you have performed the basic installation you can using the `backup:run`, `backup:clean`,
-`backup:overview` and `backup:monitor`-commands. In most cases you want to scheduled these commands
+`backup:overview` and `backup:monitor`-commands. In most cases you want to schedule these commands
 so you don't have to run `backup:run` everytime you need a new backup.
 
 The commands can, like an other command, be scheduled in Laravel's console kernel.
@@ -215,7 +214,7 @@ Of course, the hours used in the code above are just examples. Adjust them to yo
 ## Monitoring
 
 When your application is broken the scheduled jobs will obviously not run anymore. You can also simply forget
-to simply add a cron job needing to trigger Laravel's scheduling. You think you're taking backup when in fact
+to simply add a cron job needed to trigger Laravel's scheduling. You think you're taking backup when in fact
 nothing gets backed up.
 
 To notify you of such events the package contains monitoring functionality. It will
