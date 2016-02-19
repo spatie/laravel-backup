@@ -16,7 +16,7 @@ class Zip
      * @param string       $pathToZip
      * @param string|array $files
      *
-     * @return \Spatie\Backup\Tasks\Backup\Zip|\Spatie\Backup\Zip
+     * @return \Spatie\Backup\Tasks\Backup\Zip
      */
     public static function create(string $pathToZip, $files = []) : Zip
     {
