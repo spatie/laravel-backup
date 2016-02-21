@@ -13,7 +13,7 @@ class Notifier
 
     public function __construct()
     {
-        $this->subject = config('laravel-backup.backup.name').' backups';
+        $this->subject = config('laravel-backup.backup.name') . ' backups';
     }
 
     public function backupWasSuccessful()
@@ -81,21 +81,26 @@ class Notifier
         );
     }
 
-    protected function sendNotification(string $eventName, string $subject, string $message, string $type)
+    /**
+     * @param string $eventName
+     * @param string $subject
+     * @param string $message
+     * @param string $type
+     */
+    protected function sendNotification($eventName, $subject, $message, $type)
     {
         $senderNames = config("laravel-backup.notifications.events.{$eventName}");
 
         collect($senderNames)
-            ->map(function (string $senderName) : SendsNotifications
-{
-    $className = $senderName;
+            ->map(function ($senderName) {
+                $className = $senderName;
 
-    if (file_exists(__DIR__.'/Senders/'.ucfirst($senderName).'.php')) {
-        $className = '\\Spatie\\Backup\\Notifications\\Senders\\'.ucfirst($senderName);
-    }
+                if (file_exists(__DIR__ . '/Senders/' . ucfirst($senderName) . '.php')) {
+                    $className = '\\Spatie\\Backup\\Notifications\\Senders\\' . ucfirst($senderName);
+                }
 
-    return app($className);
-})
+                return app($className);
+            })
             ->each(function (SendsNotifications $sender) use ($subject, $message, $type) {
                 $sender
                     ->setSubject($subject)
