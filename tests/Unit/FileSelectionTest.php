@@ -102,7 +102,11 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FileSelection::class, $fileSelection);
     }
 
-    protected function getTestFiles(array $relativePaths) : array
+    /**
+     * @param array $relativePaths
+     * @return array
+     */
+    protected function getTestFiles(array $relativePaths)
     {
         $absolutePaths = array_map(function (string $path) {
              return "{$this->sourceDirectory}/{$path}";
