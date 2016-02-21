@@ -88,7 +88,7 @@ class FileSelection
      *
      * @return array
      */
-    protected function getAllFilesFromPaths(array $paths) : array
+    protected function getAllFilesFromPaths(array $paths)
     {
         $allFiles = collect($paths)
             ->filter(function (string $path) {
@@ -120,7 +120,7 @@ class FileSelection
      *
      * @return array
      */
-    protected function getAllFilesFromDirectory(string $directory) : array
+    protected function getAllFilesFromDirectory(string $directory)
     {
         $finder = (new Finder())
             ->ignoreDotFiles(false)
