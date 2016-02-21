@@ -16,21 +16,36 @@ abstract class BaseSender implements SendsNotifications
     /** @var string */
     protected $message;
 
-    public function setType(string $type) : SendsNotifications
+    /**
+     * @param string $type
+     *
+     * @return \Spatie\Backup\Notifications\SendsNotifications
+     */
+    public function setType($type)
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function setSubject(string $subject) : SendsNotifications
+    /**
+     * @param string $subject
+     *
+     * @return \Spatie\Backup\Notifications\SendsNotifications
+     */
+    public function setSubject($subject)
     {
         $this->subject = $subject;
 
         return $this;
     }
 
-    public function setMessage(string $message) : SendsNotifications
+    /**
+     * @param string $message
+     *
+     * @return \Spatie\Backup\Notifications\SendsNotifications
+     */
+    public function setMessage($message)
     {
         $this->message = $message;
 

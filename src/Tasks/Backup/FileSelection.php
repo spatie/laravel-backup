@@ -16,8 +16,10 @@ class FileSelection
 
     /**
      * @param array|string $includeFilesAndDirectories
+     *
+     * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public static function create($includeFilesAndDirectories = []) : FileSelection
+    public static function create($includeFilesAndDirectories = [])
     {
         return new static($includeFilesAndDirectories);
     }
@@ -38,8 +40,10 @@ class FileSelection
      * Do not included the given files and directories.
      *
      * @param array|string $excludeFilesAndDirectories
+     *
+     * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public function excludeFilesFrom($excludeFilesAndDirectories) : FileSelection
+    public function excludeFilesFrom($excludeFilesAndDirectories)
     {
         if (!is_array($excludeFilesAndDirectories)) {
             $excludeFilesAndDirectories = [$excludeFilesAndDirectories];
@@ -50,7 +54,10 @@ class FileSelection
         return $this;
     }
 
-    public function getSelectedFiles() : array
+    /**
+     * @return array
+     */
+    public function getSelectedFiles()
     {
         if (count($this->includeFilesAndDirectories) === 0) {
             return [];
@@ -74,8 +81,12 @@ class FileSelection
         return $selectedFiles;
     }
 
-    /*
+    /**
      * Make a unique array of all files from a given array of files and directories.
+     *
+     * @param array $paths
+     *
+     * @return array
      */
     protected function getAllFilesFromPaths(array $paths) : array
     {
@@ -102,8 +113,12 @@ class FileSelection
         return $allFiles;
     }
 
-    /*
+    /**
      * Recursively get all the files within a given directory.
+     *
+     * @param string $directory
+     *
+     * @return array
      */
     protected function getAllFilesFromDirectory(string $directory) : array
     {

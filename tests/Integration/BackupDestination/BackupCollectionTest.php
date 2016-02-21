@@ -116,7 +116,10 @@ class BackupCollectionTest extends TestCase
         $this->assertSame($totalSize, $backupCollection->getSize());
     }
 
-    protected function getBackupCollectionForCurrentDiskContents() : BackupCollection
+    /**
+     * @return \Spatie\Backup\BackupDestination\BackupCollection
+     */
+    protected function getBackupCollectionForCurrentDiskContents()
     {
         $disk = Storage::disk('local');
 
@@ -125,7 +128,12 @@ class BackupCollectionTest extends TestCase
         return BackupCollection::createFromFiles($disk, $files);
     }
 
-    protected function createFileOnBackupDisk(string $name, int $ageInDays = 0, string $contents = '')
+    /**
+     * @param string $name
+     * @param int    $ageInDays
+     * @param string $contents
+     */
+    protected function createFileOnBackupDisk($name, $ageInDays = 0, $contents = '')
     {
         $this->testHelper->createTempFileWithAge(
             'mysite.com/'.$name,

@@ -73,7 +73,12 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
     }
 
-    public function assertFileWithExtensionExistsInDirectoryOnDisk(string $extension, string $directory, string $diskName)
+    /**
+     * @param string $extension
+     * @param string $directory
+     * @param string $diskName
+     */
+    public function assertFileWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName)
     {
         $disk = Storage::disk($diskName);
 

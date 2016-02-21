@@ -7,7 +7,13 @@ use Illuminate\Support\Collection;
 
 class BackupCollection extends Collection
 {
-    public static function createFromFiles(Filesystem $disk, array $files) : BackupCollection
+    /**
+     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
+     * @param array                                       $files
+     *
+     * @return \Spatie\Backup\BackupDestination\BackupCollection
+     */
+    public static function createFromFiles(Filesystem $disk, array $files)
     {
         return (new static($files))
             ->filter(function (string $path) {
@@ -39,7 +45,10 @@ class BackupCollection extends Collection
         })->last();
     }
 
-    public function getSize() : int
+    /**
+     * @return int
+     */
+    public function getSize()
     {
         return array_reduce($this->items, function (int $totalSize, Backup $backup) {
             return $totalSize + $backup->getSize();

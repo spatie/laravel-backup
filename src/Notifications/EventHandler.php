@@ -18,31 +18,49 @@ class EventHandler
         $this->notifier = app($notifierClass);
     }
 
+    /**
+     * @param \Spatie\Backup\Events\BackupWasSuccessful $event
+     */
     public function whenBackupWasSuccessful(BackupWasSuccessful $event)
     {
         $this->notifier->backupWasSuccessful();
     }
 
+    /**
+     * @param \Spatie\Backup\Events\BackupHasFailed $event
+     */
     public function whenBackupHasFailed(BackupHasFailed $event)
     {
         $this->notifier->backupHasFailed($event->thrown, $event->backupDestination);
     }
 
+    /**
+     * @param \Spatie\Backup\Events\CleanupWasSuccessful $event
+     */
     public function whenCleanupWasSuccessful(CleanupWasSuccessFul $event)
     {
         $this->notifier->cleanupWasSuccessFul($event->backupDestination);
     }
 
+    /**
+     * @param \Spatie\Backup\Events\CleanupHasFailed $event
+     */
     public function whenCleanupHasFailed(CleanupHasFailed $event)
     {
         $this->notifier->cleanupHasFailed($event->thrown);
     }
 
+    /**
+     * @param \Spatie\Backup\Events\HealthyBackupWasFound $event
+     */
     public function whenHealthyBackupWasFound(HealthyBackupWasFound $event)
     {
         $this->notifier->healthyBackupWasFound($event->backupDestinationStatus);
     }
 
+    /**
+     * @param \Spatie\Backup\Events\UnhealthyBackupWasFound $event
+     */
     public function whenUnhealthyBackupWasFound(UnhealthyBackupWasFound $event)
     {
         $this->notifier->unHealthyBackupWasFound($event->backupDestinationStatus);

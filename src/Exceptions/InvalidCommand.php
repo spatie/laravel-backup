@@ -6,7 +6,12 @@ use Exception;
 
 class InvalidCommand extends Exception
 {
-    public static function create(string $reason) : InvalidCommand
+    /**
+     * @param string $reason
+     *
+     * @return \Spatie\Backup\Exceptions\InvalidCommand
+     */
+    public static function create($reason)
     {
         return new static($reason);
     }

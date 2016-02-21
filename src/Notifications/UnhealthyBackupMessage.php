@@ -6,7 +6,12 @@ use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 
 class UnhealthyBackupMessage
 {
-    public static function createForBackupDestinationStatus(BackupDestinationStatus $backupDestinationStatus) : string
+    /**
+     * @param \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus $backupDestinationStatus
+     *
+     * @return string
+     */
+    public static function createForBackupDestinationStatus(BackupDestinationStatus $backupDestinationStatus)
     {
         if (!$backupDestinationStatus->isReachable()) {
             return "Could not reach {$backupDestinationStatus->getFilesystemName()}-filesystem because: {$backupDestinationStatus->getConnectionError()}";

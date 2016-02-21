@@ -9,7 +9,6 @@ use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Helpers\Format;
-use Throwable;
 
 class CleanupJob
 {
@@ -41,10 +40,10 @@ class CleanupJob
 
                 $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
                 consoleOutput()->info("Used storage after cleanup: {$usedStorage}");
-            } catch (Throwable $thrown) {
-                consoleOutput()->error("Cleanup failed because: {$thrown->getMessage()}");
+            } catch (Exception $exception) {
+                consoleOutput()->error("Cleanup failed because: {$exception->getMessage()}");
 
-                event(new CleanupHasFailed($thrown));
+                event(new CleanupHasFailed($exception));
             }
         });
     }

@@ -3,19 +3,19 @@
 namespace Spatie\Backup\Events;
 
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Throwable;
+use Exception;
 
 class BackupHasFailed
 {
-    /** @var \Throwable  */
-    public $thrown;
+    /** @var \Exception  */
+    public $exception;
 
     /**  @var \Spatie\Backup\BackupDestination\BackupDestination|null */
     public $backupDestination;
 
-    public function __construct(Throwable $thrown, BackupDestination $backupDestination = null)
+    public function __construct(Exception $exception, BackupDestination $backupDestination = null)
     {
-        $this->thrown = $thrown;
+        $this->thrown = $exception;
         $this->backupDestination = $backupDestination;
     }
 }

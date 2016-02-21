@@ -12,10 +12,18 @@ abstract class CleanupStrategy
      */
     protected $config;
 
+    /**
+     * @param \Illuminate\Contracts\Config\Repository $config
+     */
     public function __construct(Repository $config)
     {
         $this->config = $config;
     }
 
+    /**
+     * @param \Spatie\Backup\BackupDestination\BackupCollection $backups
+     *
+     * @return mixed
+     */
     abstract public function deleteOldBackups(BackupCollection $backups);
 }

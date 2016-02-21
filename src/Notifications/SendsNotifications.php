@@ -4,11 +4,26 @@ namespace Spatie\Backup\Notifications;
 
 interface SendsNotifications
 {
-    public function setType(string $type) : SendsNotifications;
+    /**
+     * @param string $type
+     *
+     * @return \Spatie\Backup\Notifications\SendsNotifications
+     */
+    public function setType($type);
 
-    public function setSubject(string $subject) : SendsNotifications;
+    /**
+     * @param string $subject
+     *
+     * @return \Spatie\Backup\Notifications\SendsNotifications
+     */
+    public function setSubject($subject);
 
-    public function setMessage(string $message) : SendsNotifications;
+    /**
+     * @param string $message
+     *
+     * @return \Spatie\Backup\Notifications\SendsNotifications
+     */
+    public function setMessage($message);
 
     public function send();
 }

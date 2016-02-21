@@ -2,11 +2,14 @@
 
 namespace Spatie\Backup\BackupDestination;
 
-use Illuminate\Support\Collection;
-
 class BackupDestinationFactory
 {
-    public static function createFromArray(array $backupConfig) : Collection
+    /**
+     * @param array $backupConfig
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function createFromArray(array $backupConfig)
     {
         $backupName = $backupConfig['name'];
 

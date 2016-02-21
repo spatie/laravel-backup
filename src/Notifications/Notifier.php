@@ -4,7 +4,7 @@ namespace Spatie\Backup\Notifications;
 
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
-use Throwable;
+use Exception;
 
 class Notifier
 {
@@ -26,14 +26,14 @@ class Notifier
         );
     }
 
-    public function backupHasFailed(Throwable $thrown, BackupDestination $backupDestination = null)
+    public function backupHasFailed(Exception $exception, BackupDestination $backupDestination = null)
     {
         $extraMessage = $backupDestination ? "to {$backupDestination->getFilesystemType()}-filesystem" : '';
 
         $this->sendNotification(
             'whenBackupWasFailed',
             "{$this->subject} : error",
-            "Failed to backup {$extraMessage} because: {$thrown->getMessage()}",
+            "Failed to backup {$extraMessage} because: {$exception->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }
@@ -48,12 +48,12 @@ class Notifier
         );
     }
 
-    public function cleanupHasFailed(Throwable $thrown)
+    public function cleanupHasFailed(Exception $exception)
     {
         $this->sendNotification(
             'whencleanupHasFailed',
             "{$this->subject} : error",
-            "Failed to cleanup the backup because: {$thrown->getMessage()}",
+            "Failed to cleanup the backup because: {$exception->getMessage()}",
             BaseSender::TYPE_ERROR
         );
     }

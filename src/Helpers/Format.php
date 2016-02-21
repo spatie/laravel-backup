@@ -3,11 +3,15 @@
 namespace Spatie\Backup\Helpers;
 
 use Carbon\Carbon;
-use Spatie\Emoji\Emoji;
 
 class Format
 {
-    public static function getHumanReadableSize(int $sizeInBytes) : string
+    /**
+     * @param int $sizeInBytes
+     *
+     * @return string
+     */
+    public static function getHumanReadableSize($sizeInBytes)
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
@@ -21,13 +25,18 @@ class Format
         return round($sizeInBytes, 2).' '.$units[$i];
     }
 
-    public static function getEmoji(bool $bool) : string
+    /**
+     * @param bool $bool
+     *
+     * @return string
+     */
+    public static function getEmoji($bool)
     {
         if ($bool) {
-            return Emoji::whiteHeavyCheckMark();
+            return 'yes';
         }
 
-        return Emoji::crossMark();
+        return 'NO';
     }
 
     public static function ageInDays(Carbon $date) : string

@@ -38,6 +38,9 @@ class ListCommand extends BaseCommand
         $this->displayConnectionErrors($statuses);
     }
 
+    /**
+     * @param \Illuminate\Support\Collection $backupDestinationStatuses
+     */
     protected function displayOverview(Collection $backupDestinationStatuses)
     {
         $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Youngest backup', 'Used storage'];
@@ -68,6 +71,9 @@ class ListCommand extends BaseCommand
         $this->table($headers, $rows);
     }
 
+    /**
+     * @param \Illuminate\Support\Collection $backupDestinationStatuses
+     */
     protected function displayConnectionErrors(Collection $backupDestinationStatuses)
     {
         $unreachableBackupDestinationStatuses = $backupDestinationStatuses

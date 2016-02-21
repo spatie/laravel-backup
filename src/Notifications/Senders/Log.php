@@ -10,6 +10,9 @@ class Log extends BaseSender
     /** @var \Illuminate\Contracts\Logging\Log */
     protected $log;
 
+    /**
+     * @param \Illuminate\Contracts\Logging\Log $log
+     */
     public function __construct(LogContract $log)
     {
         $this->log = $log;

@@ -9,11 +9,18 @@ class ConsoleOutput
     /** @var OutputStyle  */
     protected $output;
 
+    /**
+     * @param $output
+     */
     public function setOutput($output)
     {
         $this->output = $output;
     }
 
+    /**
+     * @param string $method
+     * @param array  $arguments
+     */
     public function __call($method, $arguments)
     {
         $consoleOutput = app(static::class);

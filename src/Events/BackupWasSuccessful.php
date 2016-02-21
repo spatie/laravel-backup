@@ -11,6 +11,9 @@ class BackupWasSuccessful
      */
     public $backupDestination;
 
+    /**
+     * @param \Spatie\Backup\BackupDestination\BackupDestination $backupDestination
+     */
     public function __construct(BackupDestination $backupDestination)
     {
         $this->backupDestination = $backupDestination;

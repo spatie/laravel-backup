@@ -2,12 +2,16 @@
 
 namespace Spatie\Backup\Tasks\Monitor;
 
-use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
 class BackupDestinationStatusFactory
 {
-    public static function createForMonitorConfig(array $monitorConfiguration) : Collection
+    /**
+     * @param array $monitorConfiguration
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function createForMonitorConfig(array $monitorConfiguration)
     {
         return collect($monitorConfiguration)
             ->map(function (array $monitorProperties) {
@@ -19,7 +23,12 @@ class BackupDestinationStatusFactory
             });
     }
 
-    public static function createForSingleMonitor(array $monitorConfig) : Collection
+    /**
+     * @param array $monitorConfig
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function createForSingleMonitor(array $monitorConfig)
     {
         return collect($monitorConfig['filesystems'])->map(function (string $filesystemName) use ($monitorConfig) {
 

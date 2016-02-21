@@ -27,7 +27,10 @@ class Zip
         return $zip;
     }
 
-    public function __construct(string $pathToZip)
+    /**
+     * @param string $pathToZip
+     */
+    public function __construct($pathToZip)
     {
         $this->zipFile = new ZipArchive();
 
@@ -36,12 +39,18 @@ class Zip
         $this->open($pathToZip);
     }
 
-    public function getPath() : string
+    /**
+     * @return string
+     */
+    public function getPath()
     {
         return $this->pathToZip;
     }
 
-    public function getSize() : int
+    /**
+     * @return int
+     */
+    public function getSize()
     {
         return filesize($this->pathToZip);
     }
@@ -62,7 +71,7 @@ class Zip
      *
      * @return \Spatie\Backup\Tasks\Backup\Zip
      */
-    public function add($files, string $nameInZip = null) : Zip
+    public function add($files, $nameInZip = null)
     {
         if (is_array($files)) {
             $nameInZip = null;

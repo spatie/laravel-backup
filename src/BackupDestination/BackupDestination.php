@@ -2,10 +2,9 @@
 
 namespace Spatie\Backup\BackupDestination;
 
-use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Throwable;
+use Exception;
 
 class BackupDestination
 {
@@ -15,17 +14,26 @@ class BackupDestination
     /** @var string */
     protected $backupDirectory;
 
-    /** @var Throwable */
+    /** @var Exception */
     protected $connectionError;
 
-    public function __construct(Filesystem $disk, string $backupName)
+    /**
+     * BackupDestination constructor.
+     *
+     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
+     * @param string                                      $backupName
+     */
+    public function __construct(Filesystem $disk, $backupName)
     {
         $this->disk = $disk;
 
         $this->backupName = preg_replace('/[^a-zA-Z0-9.]/', '-', $backupName);
     }
 
-    public function getFilesystemType() : string
+    /**
+     * @return string
+     */
+    public function getFilesystemType()
     {
         $adapterClass = get_class($this->disk->getDriver()->getAdapter());
 
@@ -34,14 +42,23 @@ class BackupDestination
         return strtolower($filesystemType);
     }
 
-    public static function create(string $filesystemName, string $backupName) : BackupDestination
+    /**
+     * @param string $filesystemName
+     * @param string $backupName
+     *
+     * @return \Spatie\Backup\BackupDestination\BackupDestination
+     */
+    public static function create($filesystemName, $backupName)
     {
         $disk = app(Factory::class)->disk($filesystemName);
 
         return new static($disk, $backupName);
     }
 
-    public function write(string $file)
+    /**
+     * @param string $file
+     */
+    public function write($file)
     {
         $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
 
@@ -50,12 +67,18 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-    public function getBackupName() : string
+    /**
+     * @return string
+     */
+    public function getBackupName()
     {
         return $this->backupName;
     }
 
-    public function getBackups() : BackupCollection
+    /**
+     * @return \Spatie\Backup\BackupDestination\BackupCollection
+     */
+    public function getBackups()
     {
         $files = $this->isReachable() ? $this->disk->allFiles($this->backupName) : [];
 
@@ -65,7 +88,10 @@ class BackupDestination
         );
     }
 
-    public function getConnectionError() : Throwable
+    /**
+     * @return \Exception
+     */
+    public function getConnectionError() : Exception
     {
         return $this->connectionError;
     }
@@ -76,8 +102,8 @@ class BackupDestination
             $this->disk->allFiles($this->backupName);
 
             return true;
-        } catch (Throwable $thrown) {
-            $this->connectionError = $thrown;
+        } catch (Exception $exception) {
+            $this->connectionError = $exception;
 
             return false;
         }
@@ -99,7 +125,12 @@ class BackupDestination
         return $this->getBackups()->getNewestBackup();
     }
 
-    public function isNewestBackupOlderThan(Carbon $date) : bool
+    /**
+     * @param \Carbon\Carbon $date
+     *
+     * @return bool
+     */
+    public function isNewestBackupOlderThan($date)
     {
         $newestBackup = $this->getNewestBackup();
 

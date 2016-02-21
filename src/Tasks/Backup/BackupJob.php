@@ -9,7 +9,7 @@ use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
-use Throwable;
+use Exception;
 
 class BackupJob
 {
@@ -33,35 +33,56 @@ class BackupJob
         $this->backupDestinations = new Collection();
     }
 
-    public function doNotBackupFilesystem() : BackupJob
+    /**
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     */
+    public function doNotBackupFilesystem()
     {
         $this->fileSelection = FileSelectionFactory::noFiles();
 
         return $this;
     }
 
-    public function doNotBackupDatabases() : BackupJob
+    /**
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     */
+    public function doNotBackupDatabases()
     {
         $this->dbDumpers = new Collection();
 
         return $this;
     }
 
-    public function setFileSelection(FileSelection $fileSelection) : BackupJob
+    /**
+     * @param \Spatie\Backup\Tasks\Backup\FileSelection $fileSelection
+     *
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     */
+    public function setFileSelection(FileSelection $fileSelection)
     {
         $this->fileSelection = $fileSelection;
 
         return $this;
     }
 
-    public function setDbDumpers(array $dbDumpers) : BackupJob
+    /**
+     * @param array $dbDumpers
+     *
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     */
+    public function setDbDumpers(array $dbDumpers)
     {
         $this->dbDumpers = Collection::make($dbDumpers);
 
         return $this;
     }
 
-    public function setBackupDestinations(Collection $backupDestinations) : BackupJob
+    /**
+     * @param \Illuminate\Support\Collection $backupDestinations
+     *
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     */
+    public function setBackupDestinations(Collection $backupDestinations)
     {
         $this->backupDestinations = $backupDestinations;
 
@@ -78,14 +99,17 @@ class BackupJob
             $this->copyToBackupDestinations($zip);
 
             $this->temporaryDirectory->delete();
-        } catch (Throwable $thrown) {
-            consoleOutput()->error("Backup failed because {$thrown->getMessage()}");
+        } catch (Exception $exception) {
+            consoleOutput()->error("Backup failed because {$exception->getMessage()}");
 
-            event(new BackupHasFailed($thrown));
+            event(new BackupHasFailed($exception));
         }
     }
 
-    protected function createZipContainingAllFilesToBeBackedUp() : Zip
+    /**
+     * @return \Spatie\Backup\Tasks\Backup\Zip
+     */
+    protected function createZipContainingAllFilesToBeBackedUp()
     {
         $zip = Zip::create($this->temporaryDirectory->getPath(date('Y-m-d-His').'.zip'));
 
@@ -98,6 +122,9 @@ class BackupJob
         return $zip;
     }
 
+    /**
+     * @param \Spatie\Backup\Tasks\Backup\Zip $zip
+     */
     protected function addSelectedFilesToZip(Zip $zip)
     {
         consoleOutput()->info('Determining files to backup...');
@@ -109,6 +136,9 @@ class BackupJob
         $zip->add($files);
     }
 
+    /**
+     * @param \Spatie\Backup\Tasks\Backup\Zip $zip
+     */
     protected function addDatabaseDumpsToZip(Zip $zip)
     {
         $this->dbDumpers->each(function (DbDumper $dbDumper) use ($zip) {
@@ -125,6 +155,9 @@ class BackupJob
         });
     }
 
+    /**
+     * @param \Spatie\Backup\Tasks\Backup\Zip $zip
+     */
     protected function copyToBackupDestinations(Zip $zip)
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
@@ -145,10 +178,10 @@ class BackupJob
                 consoleOutput()->info("Successfully copied zip to {$backupDestination->getFilesystemType()}-filesystem");
 
                 event(new BackupWasSuccessful($backupDestination));
-            } catch (Throwable $thrown) {
-                consoleOutput()->error("Copying zip-file failed because: {$thrown->getMessage()}");
+            } catch (Exception $exception) {
+                consoleOutput()->error("Copying zip-file failed because: {$exception->getMessage()}");
 
-                event(new BackupHasFailed($thrown));
+                event(new BackupHasFailed($exception));
             }
         });
     }
