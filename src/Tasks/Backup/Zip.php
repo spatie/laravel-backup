@@ -18,7 +18,7 @@ class Zip
      *
      * @return \Spatie\Backup\Tasks\Backup\Zip
      */
-    public static function create(string $pathToZip, $files = [])
+    public static function create($pathToZip, $files = [])
     {
         $zip = new static($pathToZip);
 
