@@ -39,7 +39,11 @@ class Format
         return 'NO';
     }
 
-    public static function ageInDays(Carbon $date) : string
+    /**
+     * @param \Carbon\Carbon $date
+     * @return string
+     */
+    public static function ageInDays(Carbon $date)
     {
         return number_format(round($date->diffInMinutes() / (24 * 60), 2), 2).' ('.$date->diffForHumans().')';
     }
