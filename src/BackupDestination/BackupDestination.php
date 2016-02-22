@@ -91,12 +91,15 @@ class BackupDestination
     /**
      * @return \Exception
      */
-    public function getConnectionError() : Exception
+    public function getConnectionError()
     {
         return $this->connectionError;
     }
 
-    public function isReachable() : bool
+    /**
+     * @return bool
+     */
+    public function isReachable()
     {
         try {
             $this->disk->allFiles($this->backupName);
@@ -109,10 +112,11 @@ class BackupDestination
         }
     }
 
-    /*
+    /**
      * Return the used storage in bytes
+     * @return int
      */
-    public function getUsedStorage() : int
+    public function getUsedStorage()
     {
         return $this->getBackups()->getSize();
     }
