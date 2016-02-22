@@ -21,6 +21,7 @@
         "php" : "^5.5|^7.0",
         "illuminate/support": "^5.1",
         "illuminate/console": "^5.1",
+        "illuminate/filesystem": "^5.1",
         "symfony/finder": "^2.7|^3.0",
         "spatie/db-dumper": "^1.1.0"
     },
