@@ -16,10 +16,10 @@ class BackupCollection extends Collection
     public static function createFromFiles(Filesystem $disk, array $files)
     {
         return (new static($files))
-            ->filter(function (string $path) {
+            ->filter(function ($path) {
                 return pathinfo($path, PATHINFO_EXTENSION) === 'zip';
             })
-            ->map(function (string $path) use ($disk) {
+            ->map(function ($path) use ($disk) {
                 return new Backup($disk, $path);
             })
             ->sortByDesc(function (Backup $backup) {

@@ -80,10 +80,10 @@ class Zip
         $this->open();
 
         collect($files)
-            ->filter(function (string $file) {
+            ->filter(function ($file) {
                return is_file($file);
             })
-            ->each(function (string $file) use ($nameInZip) {
+            ->each(function ($file) use ($nameInZip) {
                 $this->zipFile->addFile($file, $nameInZip);
             });
 

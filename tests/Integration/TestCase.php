@@ -84,7 +84,7 @@ abstract class TestCase extends Orchestra
 
         $files = $disk->files($directory);
 
-        $fileCount = collect($files)->filter(function (string $fileName) use ($extension) {
+        $fileCount = collect($files)->filter(function ($fileName) use ($extension) {
             return pathinfo($fileName, PATHINFO_EXTENSION) == $extension;
         })
         ->count();
