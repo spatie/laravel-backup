@@ -71,7 +71,7 @@ class FileSelection
 
         $filesToBeExcluded = $this->getAllFilesFromPaths($this->excludeFilesAndDirectories);
 
-        $selectedFiles = collect($filesToBeIncluded)->filter(function (string $file) use ($filesToBeExcluded) {
+        $selectedFiles = collect($filesToBeIncluded)->filter(function ($file) use ($filesToBeExcluded) {
             return !in_array($file, $filesToBeExcluded);
         })
         ->toArray();
@@ -91,15 +91,15 @@ class FileSelection
     protected function getAllFilesFromPaths(array $paths)
     {
         $allFiles = collect($paths)
-            ->filter(function (string $path) {
+            ->filter(function ($path) {
                 return file_exists($path);
             })
 
-            ->map(function (string $file) {
+            ->map(function ($file) {
                 return realpath($file);
             })
 
-            ->reduce(function (Collection $filePaths, string $path) {
+            ->reduce(function (Collection $filePaths, $path) {
                 if (is_dir($path)) {
                     return $filePaths->merge($this->getAllFilesFromDirectory($path));
                 }
@@ -120,7 +120,7 @@ class FileSelection
      *
      * @return array
      */
-    protected function getAllFilesFromDirectory(string $directory)
+    protected function getAllFilesFromDirectory($directory)
     {
         $finder = (new Finder())
             ->ignoreDotFiles(false)
