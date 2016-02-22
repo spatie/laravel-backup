@@ -14,7 +14,7 @@ class BackupDestinationFactory
         $backupName = $backupConfig['name'];
 
         $backupDestinations = collect($backupConfig['destination']['filesystems'])
-            ->map(function (string $filesystemName) use ($backupName) {
+            ->map(function ($filesystemName) use ($backupName) {
                 return BackupDestination::create($filesystemName, $backupName);
             });
 
