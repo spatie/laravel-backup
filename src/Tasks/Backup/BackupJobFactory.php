@@ -41,7 +41,7 @@ class BackupJobFactory
      */
     protected static function getDbDumpers(array $dbConnectionNames)
     {
-        $dbDumpers = array_map(function (string $dbConnectionName) {
+        $dbDumpers = array_map(function ($dbConnectionName) {
 
             $dbConfig = config("database.connections.{$dbConnectionName}");
 
