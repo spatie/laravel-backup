@@ -50,7 +50,7 @@ class BackupCollection extends Collection
      */
     public function getSize()
     {
-        return array_reduce($this->items, function (int $totalSize, Backup $backup) {
+        return array_reduce($this->items, function ($totalSize, Backup $backup) {
             return $totalSize + $backup->getSize();
         }, 0);
     }

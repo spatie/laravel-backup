@@ -27,7 +27,7 @@
         "spatie/db-dumper": "^1.1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8|5.0",
+        "phpunit/phpunit": "^4.8",
         "orchestra/testbench": "^3.2",
         "mockery/mockery": "^0.9.4"
     },
