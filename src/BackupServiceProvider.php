@@ -40,7 +40,13 @@ class BackupServiceProvider extends ServiceProvider
             }
         );
 
-        $this->commands(['command.backup:run', 'command.backup:clean']);
+        $this->app['command.backup:list'] = $this->app->share(
+            function ($app) {
+                return new Commands\ListCommand();
+            }
+        );
+
+        $this->commands(['command.backup:run', 'command.backup:clean', 'command.backup:list']);
     }
 
     /**
@@ -53,6 +59,7 @@ class BackupServiceProvider extends ServiceProvider
         return [
             'command.backup:run',
             'command.backup:clean',
+            'command.backup:list',
         ];
     }
 }
