@@ -77,8 +77,8 @@ class PgSQLDatabase implements DatabaseInterface
      */
     protected function getDumpCommandPath()
     {
-        $path = config('laravel-backup.pgsql.dump_command_path')
-            
+        $path = config('laravel-backup.pgsql.dump_command_path');
+
         if ($path != '') {
             $path = str_finish($path, '/');
         }
