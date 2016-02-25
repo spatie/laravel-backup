@@ -85,7 +85,11 @@ class MySQLDatabase implements DatabaseInterface
      */
     protected function getDumpCommandPath()
     {
-        return config('laravel-backup.mysql.dump_command_path');
+        if($path = config('laravel-backup.mysql.dump_command_path')) {
+            $path = str_finish($path, '/');
+        }
+
+        return $path;
     }
 
     /**
