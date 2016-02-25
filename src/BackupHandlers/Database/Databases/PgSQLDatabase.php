@@ -21,7 +21,7 @@ class PgSQLDatabase implements DatabaseInterface
      * @param string $username
      * @param $password
      * @param string string $host
-     * @param int $port
+     * @param int           $port
      */
     public function __construct(Console $console, $database, $schema, $username, $password, $host, $port)
     {
@@ -43,7 +43,7 @@ class PgSQLDatabase implements DatabaseInterface
      */
     public function dump($destinationFile)
     {
-        $command = sprintf('export PGHOST && %spg_dump ' . (!$this->useCopy() ? '--inserts' : '') . ' --schema=%s %s > %s',
+        $command = sprintf('export PGHOST && %spg_dump '.(!$this->useCopy() ? '--inserts' : '').' --schema=%s %s > %s',
             $this->getDumpCommandPath(),
             escapeshellarg($this->schema),
             escapeshellarg($this->database),

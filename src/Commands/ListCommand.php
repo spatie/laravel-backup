@@ -4,7 +4,6 @@ namespace Spatie\Backup\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class ListCommand extends Command
@@ -26,7 +25,8 @@ class ListCommand extends Command
     public function fire()
     {
         $path = config('laravel-backup.destination.path');
-        $collection = new Collection();
+
+        $collection = collect();
 
         foreach ($this->getTargetFileSystems() as $filesystem) {
             $disk = Storage::disk($filesystem);
@@ -49,12 +49,12 @@ class ListCommand extends Command
                 $lastModified = Carbon::createFromTimestamp($value['lastModified']);
 
                 $value['lastModified'] = $lastModified;
-                $value['age'] = $lastModified->diffForHumans();
+                $value['age'] = $this->getAgeInDays($lastModified);
 
                 return $value;
             });
 
-        $this->table(['Filesystem', 'Filename', 'Created at', 'Age'], $rows);
+        $this->table(['Filesystem', 'Filename', 'Created at', 'Age in days'], $rows);
     }
 
     /**
@@ -73,4 +73,8 @@ class ListCommand extends Command
         return [$fileSystems];
     }
 
+    protected function getAgeInDays(Carbon $date)
+    {
+        return number_format(round($date->diffInMinutes() / (24 * 60), 2), 2).' ('.$date->diffForHumans().')';
+    }
 }

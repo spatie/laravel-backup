@@ -48,7 +48,7 @@ class PgSQLDatabaseTest extends Orchestra\Testbench\TestCase
                 'PGHOST' => 'localhost',
                 'PGUSER' => 'testUser',
                 'PGPASSWORD' => 'password',
-                'PGPORT' => '5432'
+                'PGPORT' => '5432',
             ])
             ->once()
             ->andReturn(true);

@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-backup` will be documented in this file
 
+###2.10.0
+- Add `list`-command
+- Make the `dump_command_path`-option a bit more robust
+
 ###2.9.2
 - Fix installation error when using Symfony 3
 

@@ -180,6 +180,13 @@ php artisan backup:clean
 ```
 The clean up will happen on all configured filesystems.
 
+### List all backups
+
+You can view a list of all backups by running the list command:
+``` bash
+php artisan backup:list
+```
+
 ## Testing
 
 Run the tests with:

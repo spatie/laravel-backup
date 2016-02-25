@@ -7,12 +7,12 @@ class DatabaseBuilderTest extends PHPUnit_Framework_TestCase
     public function testMySQL()
     {
         $config = [
-            'driver'   => 'mysql',
-            'host'     => 'localhost',
+            'driver' => 'mysql',
+            'host' => 'localhost',
             'database' => 'database',
             'username' => 'root',
             'password' => '',
-            'port'     => '3307',
+            'port' => '3307',
         ];
 
         $socket = '/var/run/mysqld/mysqld.sock';
