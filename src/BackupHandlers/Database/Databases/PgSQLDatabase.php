@@ -43,7 +43,7 @@ class PgSQLDatabase implements DatabaseInterface
      */
     public function dump($destinationFile)
     {
-        $command = sprintf('export PGHOST && %spg_dump '.(!$this->useCopy() ? '--inserts' : '').' --schema=%s %s > %s',
+        $command = sprintf('export PGHOST && %spg_dump ' . (!$this->useCopy() ? '--inserts' : '') . ' --schema=%s %s > %s',
             $this->getDumpCommandPath(),
             escapeshellarg($this->schema),
             escapeshellarg($this->database),
@@ -77,9 +77,13 @@ class PgSQLDatabase implements DatabaseInterface
      */
     protected function getDumpCommandPath()
     {
-        if($path = config('laravel-backup.pgsql.dump_command_path')) {
+        $path = config('laravel-backup.pgsql.dump_command_path')
+            
+        if ($path != '') {
             $path = str_finish($path, '/');
         }
+
+        return $path;
 
         return $path;
     }

@@ -17,12 +17,12 @@ class MySQLDatabase implements DatabaseInterface
 
     /**
      * @param Console $console
-     * @param string $database
-     * @param string $user
-     * @param string $password
-     * @param string $host
-     * @param int $port
-     * @param string $socket
+     * @param string  $database
+     * @param string  $user
+     * @param string  $password
+     * @param string  $host
+     * @param int     $port
+     * @param string  $socket
      */
     public function __construct(Console $console, $database, $user, $password, $host, $port, $socket)
     {
@@ -85,7 +85,9 @@ class MySQLDatabase implements DatabaseInterface
      */
     protected function getDumpCommandPath()
     {
-        if($path = config('laravel-backup.mysql.dump_command_path')) {
+        $path = config('laravel-backup.mysql.dump_command_path');
+
+        if ($path != '') {
             $path = str_finish($path, '/');
         }
 
