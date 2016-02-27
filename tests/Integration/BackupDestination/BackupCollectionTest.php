@@ -83,7 +83,7 @@ class BackupCollectionTest extends TestCase
 
         $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
 
-        $this->assertSame('mysite.com/file2.zip', $backupCollection->getNewestBackup()->getPath());
+        $this->assertSame('mysite.com/file2.zip', $backupCollection->newest()->getPath());
     }
 
     /** @test */
@@ -95,7 +95,7 @@ class BackupCollectionTest extends TestCase
 
         $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
 
-        $this->assertSame('mysite.com/file1.zip', $backupCollection->getOldestBackup()->getPath());
+        $this->assertSame('mysite.com/file1.zip', $backupCollection->oldest()->getPath());
     }
 
     /** @test */
@@ -111,9 +111,9 @@ class BackupCollectionTest extends TestCase
 
         $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
 
-        $this->assertGreaterThan(0, $backupCollection->getSize());
+        $this->assertGreaterThan(0, $backupCollection->size());
 
-        $this->assertSame($totalSize, $backupCollection->getSize());
+        $this->assertSame($totalSize, $backupCollection->size());
     }
 
     /**

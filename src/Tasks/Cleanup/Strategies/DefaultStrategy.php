@@ -127,11 +127,11 @@ class DefaultStrategy extends CleanupStrategy
         $maximumSize = $this->config->get('laravel-backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan')
          * 1024 * 1024;
 
-        if (!$oldestBackup = $backups->getOldestBackup()) {
+        if (!$oldestBackup = $backups->oldest()) {
             return;
         }
 
-        if (($backups->getSize() + $this->newestBackup->getSize()) <= $maximumSize) {
+        if (($backups->size() + $this->newestBackup->getSize()) <= $maximumSize) {
             return;
         }
 

@@ -118,7 +118,7 @@ class BackupDestination
      */
     public function getUsedStorage()
     {
-        return $this->getBackups()->getSize();
+        return $this->getBackups()->size();
     }
 
     /**
@@ -126,7 +126,7 @@ class BackupDestination
      */
     public function getNewestBackup()
     {
-        return $this->getBackups()->getNewestBackup();
+        return $this->getBackups()->newest();
     }
 
     /**

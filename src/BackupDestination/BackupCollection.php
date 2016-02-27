@@ -24,34 +24,38 @@ class BackupCollection extends Collection
             })
             ->sortByDesc(function (Backup $backup) {
                 return $backup->getDate()->timestamp;
-            })->values();
+            })
+            ->values();
     }
 
     /**
      * @return \Spatie\Backup\BackupDestination\Backup|null
      */
-    public function getNewestBackup()
+    public function newest()
     {
-        return collect($this->items)->first();
+        return $this->first();
     }
 
     /**
      * @return \Spatie\Backup\BackupDestination\Backup|null
      */
-    public function getOldestBackup()
+    public function oldest()
     {
-        return collect($this->items)->filter(function (Backup $backup) {
-            return $backup->exists();
-        })->last();
+        return $this
+            ->filter(function (Backup $backup) {
+                return $backup->exists();
+            })
+            ->last();
     }
 
     /**
      * @return int
      */
-    public function getSize()
+    public function size()
     {
-        return array_reduce($this->items, function ($totalSize, Backup $backup) {
-            return $totalSize + $backup->getSize();
-        }, 0);
+        return $this
+            ->reduce(function ($totalSize, Backup $backup) {
+                return $totalSize + $backup->getSize();
+            }, 0);
     }
 }
