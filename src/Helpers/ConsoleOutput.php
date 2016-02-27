@@ -2,11 +2,9 @@
 
 namespace Spatie\Backup\Helpers;
 
-use Illuminate\Console\OutputStyle;
-
 class ConsoleOutput
 {
-    /** @var OutputStyle  */
+    /** @var \Illuminate\Console\OutputStyle  */
     protected $output;
 
     /**
@@ -21,7 +19,7 @@ class ConsoleOutput
      * @param string $method
      * @param array  $arguments
      */
-    public function __call($method, $arguments)
+    public function __call($method, array $arguments)
     {
         $consoleOutput = app(static::class);
 
