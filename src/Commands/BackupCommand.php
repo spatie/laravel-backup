@@ -2,20 +2,21 @@
 
 namespace Spatie\Backup\Commands;
 
-use InvalidCommand;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Exception;
 
 class BackupCommand extends BaseCommand
 {
     /**
-     * The console command name.
-     *
      * @var string
      */
     protected $signature = 'backup:run {--only-db} {--only-files}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Run the backup.';
 
     public function handle()
@@ -48,7 +49,7 @@ class BackupCommand extends BaseCommand
     protected function guardAgainstInvalidOptions()
     {
         if ($this->option('only-db') && $this->option('only-files')) {
-            throw InvalidCommand::create('cannot use only-db and only-files together');
+            throw InvalidCommand::create('Cannot use only-db and only-files together');
         }
     }
 }
