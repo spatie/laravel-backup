@@ -23,7 +23,7 @@ class BackupCollection extends Collection
                 return new Backup($disk, $path);
             })
             ->sortByDesc(function (Backup $backup) {
-                return $backup->getDate()->timestamp;
+                return $backup->date()->timestamp;
             })
             ->values();
     }
@@ -55,7 +55,7 @@ class BackupCollection extends Collection
     {
         return $this
             ->reduce(function ($totalSize, Backup $backup) {
-                return $totalSize + $backup->getSize();
+                return $totalSize + $backup->size();
             }, 0);
     }
 }

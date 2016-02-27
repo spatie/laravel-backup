@@ -102,7 +102,7 @@ class BackupDestinationStatus
             return;
         }
 
-        return $newestBackup->getDate();
+        return $newestBackup->date();
     }
 
     /**

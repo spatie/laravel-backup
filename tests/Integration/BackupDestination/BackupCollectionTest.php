@@ -52,7 +52,7 @@ class BackupCollectionTest extends TestCase
         $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
 
         $filePaths = $backupCollection->map(function (Backup $backup) {
-            return $backup->getPath();
+            return $backup->path();
         })->toArray();
 
         $this->assertSame([
@@ -83,7 +83,7 @@ class BackupCollectionTest extends TestCase
 
         $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
 
-        $this->assertSame('mysite.com/file2.zip', $backupCollection->newest()->getPath());
+        $this->assertSame('mysite.com/file2.zip', $backupCollection->newest()->path());
     }
 
     /** @test */
@@ -95,7 +95,7 @@ class BackupCollectionTest extends TestCase
 
         $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
 
-        $this->assertSame('mysite.com/file1.zip', $backupCollection->oldest()->getPath());
+        $this->assertSame('mysite.com/file1.zip', $backupCollection->oldest()->path());
     }
 
     /** @test */

@@ -26,7 +26,7 @@ class Backup
     /**
      * @return string
      */
-    public function getPath()
+    public function path()
     {
         return $this->path;
     }
@@ -42,7 +42,7 @@ class Backup
     /**
      * @return \Carbon\Carbon
      */
-    public function getDate()
+    public function date()
     {
         return Carbon::createFromTimestamp($this->disk->lastModified($this->path));
     }
@@ -52,7 +52,7 @@ class Backup
      *
      * @return int
      */
-    public function getSize()
+    public function size()
     {
         if (!$this->exists()) {
             return 0;
@@ -61,6 +61,9 @@ class Backup
         return $this->disk->size($this->path);
     }
 
+    /**
+     * Delete the backup from the disk.
+     */
     public function delete()
     {
         $this->disk->delete($this->path);

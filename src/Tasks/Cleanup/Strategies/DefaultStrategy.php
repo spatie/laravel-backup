@@ -26,7 +26,7 @@ class DefaultStrategy extends CleanupStrategy
 
         $backupsPerPeriod = $dateRanges->map(function (Period $period) use ($backups) {
             return $backups->filter(function (Backup $backup) use ($period) {
-               return $backup->getDate()->between($period->getStartDate(), $period->getEndDate());
+               return $backup->date()->between($period->getStartDate(), $period->getEndDate());
             });
         });
 
@@ -86,7 +86,7 @@ class DefaultStrategy extends CleanupStrategy
     protected function groupByDateFormat(Collection $backups, $dateFormat)
     {
         return $backups->groupBy(function (Backup $backup) use ($dateFormat) {
-            return $backup->getDate()->format($dateFormat);
+            return $backup->date()->format($dateFormat);
         });
     }
 
@@ -113,7 +113,7 @@ class DefaultStrategy extends CleanupStrategy
     protected function removeBackupsOlderThan(Carbon $endDate, BackupCollection $backups)
     {
         $backups->filter(function (Backup $backup) use ($endDate) {
-            return $backup->exists() && $backup->getDate()->lt($endDate);
+            return $backup->exists() && $backup->date()->lt($endDate);
         })->each(function (Backup $backup) {
            $backup->delete();
         });
@@ -131,7 +131,7 @@ class DefaultStrategy extends CleanupStrategy
             return;
         }
 
-        if (($backups->size() + $this->newestBackup->getSize()) <= $maximumSize) {
+        if (($backups->size() + $this->newestBackup->size()) <= $maximumSize) {
             return;
         }
 

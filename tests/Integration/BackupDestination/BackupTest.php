@@ -16,7 +16,7 @@ class BackupTest extends TestCase
 
         $backup = $this->getBackupForFile($fileName);
 
-        $this->assertSame("mysite.com/{$fileName}", $backup->getPath());
+        $this->assertSame("mysite.com/{$fileName}", $backup->path());
     }
 
     /** @test */
@@ -26,7 +26,7 @@ class BackupTest extends TestCase
 
         $backup = $this->getBackupForFile($fileName);
 
-        $fullPath = $this->testHelper->getTempDirectory().'/'.$backup->getPath();
+        $fullPath = $this->testHelper->getTempDirectory().'/'.$backup->path();
 
         $this->assertTrue($backup->exists());
 
@@ -44,11 +44,11 @@ class BackupTest extends TestCase
     {
         $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
 
-        $fileSize = filesize($this->testHelper->getTempDirectory().'/'.$backup->getPath());
+        $fileSize = filesize($this->testHelper->getTempDirectory().'/'.$backup->path());
 
-        $this->assertSame($fileSize, $backup->getSize());
+        $this->assertSame($fileSize, $backup->size());
 
-        $this->assertGreaterThan(0, $backup->getSize());
+        $this->assertGreaterThan(0, $backup->size());
     }
 
     /** @test */
@@ -58,7 +58,7 @@ class BackupTest extends TestCase
 
         $backup->delete();
 
-        $this->assertSame(0, $backup->getSize());
+        $this->assertSame(0, $backup->size());
     }
 
     /**
