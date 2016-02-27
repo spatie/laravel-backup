@@ -33,10 +33,10 @@ class Format
     public static function getEmoji($bool)
     {
         if ($bool) {
-            return 'yes';
+            return "\xe2\x9c\x85";
         }
 
-        return 'NO';
+        return "\xe2\x9d\x8c";
     }
 
     /**
