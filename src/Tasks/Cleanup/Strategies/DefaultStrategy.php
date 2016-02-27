@@ -96,7 +96,6 @@ class DefaultStrategy extends CleanupStrategy
     protected function removeBackupsForAllPeriodsExceptOne($backupsPerPeriod)
     {
         foreach ($backupsPerPeriod as $periodName => $groupedBackupsByDateProperty) {
-
             $groupedBackupsByDateProperty->each(function (Collection $group) {
                 $group->shift();
 

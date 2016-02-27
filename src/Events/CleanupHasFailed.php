@@ -16,7 +16,7 @@ class CleanupHasFailed
     /**
      * CleanupHasFailed constructor.
      *
-     * @param \Exception $exception
+     * @param \Exception                                              $exception
      * @param \Spatie\Backup\BackupDestination\BackupDestination|null $backupDestination
      */
     public function __construct(Exception $exception, BackupDestination $backupDestination = null)

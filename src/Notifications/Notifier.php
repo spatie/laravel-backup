@@ -13,7 +13,7 @@ class Notifier
 
     public function __construct()
     {
-        $this->subject = config('laravel-backup.backup.name') . ' backups';
+        $this->subject = config('laravel-backup.backup.name').' backups';
     }
 
     public function backupWasSuccessful()
@@ -95,8 +95,8 @@ class Notifier
             ->map(function ($senderName) {
                 $className = $senderName;
 
-                if (file_exists(__DIR__ . '/Senders/' . ucfirst($senderName) . '.php')) {
-                    $className = '\\Spatie\\Backup\\Notifications\\Senders\\' . ucfirst($senderName);
+                if (file_exists(__DIR__.'/Senders/'.ucfirst($senderName).'.php')) {
+                    $className = '\\Spatie\\Backup\\Notifications\\Senders\\'.ucfirst($senderName);
                 }
 
                 return app($className);

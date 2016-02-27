@@ -41,6 +41,7 @@ class Format
 
     /**
      * @param \Carbon\Carbon $date
+     *
      * @return string
      */
     public static function ageInDays(Carbon $date)

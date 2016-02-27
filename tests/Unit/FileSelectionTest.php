@@ -104,6 +104,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $relativePaths
+     *
      * @return array
      */
     protected function getTestFiles(array $relativePaths)
