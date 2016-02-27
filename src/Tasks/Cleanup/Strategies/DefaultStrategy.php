@@ -19,7 +19,7 @@ class DefaultStrategy extends CleanupStrategy
      */
     public function deleteOldBackups(BackupCollection $backups)
     {
-        //do not ever delete the newest backup
+        // Don't ever delete the newest backup.
         $this->newestBackup = $backups->shift();
 
         $dateRanges = $this->calculateDateRanges();
@@ -91,11 +91,12 @@ class DefaultStrategy extends CleanupStrategy
     }
 
     /**
-     * @param $backupsPerPeriod
+     * @param \Illuminate\Support\Collection $backupsPerPeriod
      */
     protected function removeBackupsForAllPeriodsExceptOne($backupsPerPeriod)
     {
         foreach ($backupsPerPeriod as $periodName => $groupedBackupsByDateProperty) {
+
             $groupedBackupsByDateProperty->each(function (Collection $group) {
                 $group->shift();
 

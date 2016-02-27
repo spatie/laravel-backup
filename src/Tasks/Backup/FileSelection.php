@@ -71,10 +71,11 @@ class FileSelection
 
         $filesToBeExcluded = $this->getAllFilesFromPaths($this->excludeFilesAndDirectories);
 
-        $selectedFiles = collect($filesToBeIncluded)->filter(function ($file) use ($filesToBeExcluded) {
-            return !in_array($file, $filesToBeExcluded);
-        })
-        ->toArray();
+        $selectedFiles = collect($filesToBeIncluded)
+            ->filter(function ($file) use ($filesToBeExcluded) {
+                return !in_array($file, $filesToBeExcluded);
+            })
+            ->toArray();
 
         $selectedFiles = array_values($selectedFiles);
 

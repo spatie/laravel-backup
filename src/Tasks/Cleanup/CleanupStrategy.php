@@ -22,8 +22,6 @@ abstract class CleanupStrategy
 
     /**
      * @param \Spatie\Backup\BackupDestination\BackupCollection $backups
-     *
-     * @return mixed
      */
     abstract public function deleteOldBackups(BackupCollection $backups);
 }

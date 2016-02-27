@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
-use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Helpers\Format;
 
 class CleanupJob
@@ -18,6 +17,10 @@ class CleanupJob
     /** @var \Spatie\Backup\Tasks\Cleanup\Strategies\CleanupStrategy */
     protected $strategy;
 
+    /**
+     * @param \Illuminate\Support\Collection $backupDestinations
+     * @param \Spatie\Backup\Tasks\Cleanup\CleanupStrategy $strategy
+     */
     public function __construct(Collection $backupDestinations, CleanupStrategy $strategy)
     {
         $this->backupDestinations = $backupDestinations;
