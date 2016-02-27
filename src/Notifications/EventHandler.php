@@ -11,6 +11,11 @@ use Spatie\Backup\Events\UnhealthyBackupWasFound;
 
 class EventHandler
 {
+    /**
+     * @var \Spatie\Backup\Notifications\Notifier
+     */
+    protected $notifier;
+
     public function __construct()
     {
         $notifierClass = config('laravel-backup.notifications.handler');
@@ -18,10 +23,7 @@ class EventHandler
         $this->notifier = app($notifierClass);
     }
 
-    /**
-     * @param \Spatie\Backup\Events\BackupWasSuccessful $event
-     */
-    public function whenBackupWasSuccessful(BackupWasSuccessful $event)
+    public function whenBackupWasSuccessful()
     {
         $this->notifier->backupWasSuccessful();
     }

@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Notifications\Senders;
 
-use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Mail\Message;
 use Spatie\Backup\Notifications\BaseSender;
 

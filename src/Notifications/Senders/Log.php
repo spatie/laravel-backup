@@ -20,7 +20,7 @@ class Log extends BaseSender
 
     public function send()
     {
-        $method = ($this->type === self::TYPE_SUCCESS ? 'info' : 'error');
+        $method = ($this->type === static::TYPE_SUCCESS ? 'info' : 'error');
 
         $this->log->$method("{$this->subject}: {$this->message}");
     }

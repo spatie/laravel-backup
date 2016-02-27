@@ -28,9 +28,12 @@ class Slack extends BaseSender
 
     public function send()
     {
-        $this->client->to($this->config['channel'])->attach([
-            'text' => $this->message,
-            'color' => $this->type === self::TYPE_SUCCESS ? 'good' : 'warning',
-        ])->send($this->subject);
+        $this->client
+            ->to($this->config['channel'])
+            ->attach([
+                'text' => $this->message,
+                'color' => $this->type === static::TYPE_SUCCESS ? 'good' : 'warning',
+            ])
+            ->send($this->subject);
     }
 }
