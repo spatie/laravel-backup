@@ -113,7 +113,8 @@ class BackupDestination
     }
 
     /**
-     * Return the used storage in bytes
+     * Return the used storage in bytes.
+     *
      * @return int
      */
     public function getUsedStorage()

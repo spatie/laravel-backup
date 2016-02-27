@@ -5,19 +5,15 @@ namespace Spatie\Backup\BackupDestination;
 class BackupDestinationFactory
 {
     /**
-     * @param array $backupConfig
+     * @param array $config
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function createFromArray(array $backupConfig)
+    public static function createFromArray(array $config)
     {
-        $backupName = $backupConfig['name'];
-
-        $backupDestinations = collect($backupConfig['destination']['filesystems'])
-            ->map(function ($filesystemName) use ($backupName) {
-                return BackupDestination::create($filesystemName, $backupName);
+        return collect($config['destination']['filesystems'])
+            ->map(function ($filesystemName) use ($config) {
+                return BackupDestination::create($filesystemName, $config['name']);
             });
-
-        return $backupDestinations;
     }
 }
