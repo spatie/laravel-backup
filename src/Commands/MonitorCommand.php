@@ -3,31 +3,22 @@
 namespace Spatie\Backup\Commands;
 
 use Spatie\Backup\Events\HealthyBackupWasFound;
-use Spatie\Backup\Events\UnHealthyBackupWasFound;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
 class MonitorCommand extends BaseCommand
 {
     /**
-     * The console command name.
-     *
      * @var string
      */
     protected $signature = 'backup:monitor';
 
     /**
-     * The console command description.
-     *
      * @var string
      */
     protected $description = 'Monitor the health of all backups.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('laravel-backup.monitorBackups'));

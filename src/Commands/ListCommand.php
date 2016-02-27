@@ -10,25 +10,15 @@ use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 class ListCommand extends BaseCommand
 {
     /**
-     * The console command name.
-     *
      * @var string
      */
     protected $signature = 'backup:list';
 
     /**
-     * The console command description.
-     *k.
-     *
      * @var string
      */
     protected $description = 'Display a list of all backups.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('laravel-backup.monitorBackups'));
