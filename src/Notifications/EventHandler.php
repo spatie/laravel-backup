@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Notifications;
 
+use Illuminate\Events\Dispatcher;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupHasFailed;
@@ -75,7 +76,7 @@ class EventHandler
      *
      * @return array
      */
-    public function subscribe($events)
+    public function subscribe(Dispatcher $events)
     {
         $events->listen(
             BackupWasSuccessful::class,

@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\BackupDestination;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Exception;
@@ -135,7 +136,7 @@ class BackupDestination
      *
      * @return bool
      */
-    public function isNewestBackupOlderThan($date)
+    public function isNewestBackupOlderThan(Carbon $date)
     {
         $newestBackup = $this->getNewestBackup();
 
