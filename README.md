@@ -1,4 +1,4 @@
-# A modern Laravel 5 package to backup your application
+# A Laravel 5 package to backup your application
 
 [![Latest Version](https://img.shields.io/github/release/spatie/laravel-backup.svg?style=flat-square)](https://github.com/spatie/laravel-backup/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
