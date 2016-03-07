@@ -37,6 +37,8 @@ class CleanupCommand extends BaseCommand
             consoleOutput()->comment('Cleanup completed!');
         } catch (Exception $exception) {
             event(new CleanupHasFailed($exception));
+
+            return -1;
         }
     }
 }

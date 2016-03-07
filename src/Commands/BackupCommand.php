@@ -42,7 +42,7 @@ class BackupCommand extends BaseCommand
         } catch (Exception $exception) {
             event(new BackupHasFailed($exception));
 
-            throw $exception;
+            return -1;
         }
     }
 

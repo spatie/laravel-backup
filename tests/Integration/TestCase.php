@@ -20,8 +20,6 @@ abstract class TestCase extends Orchestra
         $this->testHelper = new TestHelper();
 
         parent::setUp();
-
-        //$this->setUpDatabase($this->app);
     }
 
     /**

@@ -11,7 +11,7 @@ class CleanupCommandTest extends TestCase
     {
         parent::setUp();
 
-        Carbon::setTestNow(Carbon::create(2016, 1, 1, 22,00,00));
+        Carbon::setTestNow(Carbon::create(2016, 1, 1, 22, 00, 00));
 
         $this->testHelper->initializeTempDirectory();
 
