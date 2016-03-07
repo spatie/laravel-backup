@@ -24,7 +24,7 @@ Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all
 
 ## Installation and usage
 
-You'll find installation instructions and full documentations on https://docs.spatie.be/laravel-backup/v3.
+You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v3.
 
 
 
