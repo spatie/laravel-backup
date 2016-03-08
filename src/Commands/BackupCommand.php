@@ -40,6 +40,9 @@ class BackupCommand extends BaseCommand
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {
+
+            consoleOutput()->error("Backup failed because: {$exception->getMessage()}");
+
             event(new BackupHasFailed($exception));
 
             return -1;
