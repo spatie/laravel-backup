@@ -23,7 +23,7 @@ class UnhealthyBackupMessage
         }
 
         if ($backupDestinationStatus->newestBackupIsToolOld()) {
-            $messages[] = 'The newest backup is older than '.$backupDestinationStatus->getMaximumAgeOfNewestBackupInDays().'day(s).';
+            $messages[] = 'The newest backup is older than '.$backupDestinationStatus->getMaximumAgeOfNewestBackupInDays().' day(s).';
         }
 
         return implode(' ', $messages);
