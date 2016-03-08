@@ -16,15 +16,15 @@ class BackupDestination
     protected $backupDirectory;
 
     /** @var Exception */
-    protected $connectionError;
+    public $connectionError;
 
     /**
      * BackupDestination constructor.
      *
-     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param string                                      $backupName
+     * @param \Illuminate\Contracts\Filesystem\Filesystem|null $disk
+     * @param string                                           $backupName
      */
-    public function __construct(Filesystem $disk, $backupName)
+    public function __construct(Filesystem $disk = null, $backupName)
     {
         $this->disk = $disk;
 
@@ -36,6 +36,10 @@ class BackupDestination
      */
     public function getFilesystemType()
     {
+        if (is_null($this->disk)) {
+            return 'unknown';
+        }
+
         $adapterClass = get_class($this->disk->getDriver()->getAdapter());
 
         $filesystemType = last(explode('\\', $adapterClass));
@@ -51,9 +55,17 @@ class BackupDestination
      */
     public static function create($filesystemName, $backupName)
     {
-        $disk = app(Factory::class)->disk($filesystemName);
+        try {
+            $disk = app(Factory::class)->disk($filesystemName);
 
-        return new static($disk, $backupName);
+            return new static($disk, $backupName);
+        } catch (Exception $exception) {
+            $backupDestination = new static(null, $backupName);
+
+            $backupDestination->connectionError = $exception;
+
+            return $backupDestination;
+        }
     }
 
     /**
@@ -102,6 +114,10 @@ class BackupDestination
      */
     public function isReachable()
     {
+        if (is_null($this->disk)) {
+            return false;
+        }
+
         try {
             $this->disk->allFiles($this->backupName);
 

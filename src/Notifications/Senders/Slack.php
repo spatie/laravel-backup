@@ -15,8 +15,8 @@ class Slack extends BaseSender
     protected $config;
 
     /**
-     * @param \Maknz\Slack\Client                     $client
-     * @param Repository $config
+     * @param \Maknz\Slack\Client $client
+     * @param Repository          $config
      */
     public function __construct(Client $client, Repository $config)
     {

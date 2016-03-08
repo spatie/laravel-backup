@@ -2,18 +2,17 @@
 
 namespace Spatie\Backup\BackupDestination;
 
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 
 class BackupCollection extends Collection
 {
     /**
-     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param array                                       $files
+     * @param \Illuminate\Contracts\Filesystem\Filesystem|null $disk
+     * @param array                                            $files
      *
      * @return \Spatie\Backup\BackupDestination\BackupCollection
      */
-    public static function createFromFiles(Filesystem $disk, array $files)
+    public static function createFromFiles($disk, array $files)
     {
         return (new static($files))
             ->filter(function ($path) {

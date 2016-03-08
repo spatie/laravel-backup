@@ -16,7 +16,7 @@ class Mail extends BaseSender
     protected $config;
 
     /**
-     * @param Mailer       $mailer
+     * @param Mailer     $mailer
      * @param Repository $config
      */
     public function __construct(Mailer $mailer, Repository $config)
