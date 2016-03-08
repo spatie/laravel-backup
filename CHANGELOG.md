@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-### 3.0.0 - 2016-08-03
+### 3.0.0 - 2016-03-08
 
 Complete rewrite with lots of new features:
 
