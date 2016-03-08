@@ -146,7 +146,7 @@ return [
          */
         'mail' => [
             'from' => 'your@email.com',
-            'to' => 'your@email.com',
+            'to'   => 'your@email.com',
         ],
 
         /*
