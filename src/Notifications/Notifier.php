@@ -62,7 +62,7 @@ class Notifier
     {
         $this->sendNotification(
             'whenHealthyBackupWasFound',
-            "Healty backup found for {$backupDestinationStatus->getBackupName()} on {$backupDestinationStatus->getFilesystemName()}-filesystem",
+            "Healthy backup found for {$backupDestinationStatus->getBackupName()} on {$backupDestinationStatus->getFilesystemName()}-filesystem",
             "Backups on filesystem {$backupDestinationStatus->getFilesystemName()} are ok",
             BaseSender::TYPE_SUCCESS
         );
