@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.0.4 - 2016-03-08
+
+- fixed the monitor command in Laravel 5.1 apps
+
 ### 3.0.3 - 2016-03-08
 
 - make backup destinations more robust when using non existing file systems
