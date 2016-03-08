@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Notifications\Senders;
 
+use Illuminate\Contracts\Config\Repository;
+use Maknz\Slack\Client;
 use Spatie\Backup\Notifications\BaseSender;
 
 class Slack extends BaseSender
@@ -14,9 +16,9 @@ class Slack extends BaseSender
 
     /**
      * @param \Maknz\Slack\Client                     $client
-     * @param \Illuminate\Contracts\Config\Repository $config
+     * @param Repository $config
      */
-    public function __construct($client, $config)
+    public function __construct(Client $client, Repository $config)
     {
         $this->config = $config->get('laravel-backup.notifications.slack');
 
