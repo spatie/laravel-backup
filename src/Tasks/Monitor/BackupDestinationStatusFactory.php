@@ -17,7 +17,7 @@ class BackupDestinationStatusFactory
             ->map(function (array $monitorProperties) {
                 return BackupDestinationStatusFactory::createForSingleMonitor($monitorProperties);
             })
-            ->flatten()
+            ->collapse()
             ->sortBy(function (BackupDestinationStatus $backupDestinationStatus) {
                 return "{$backupDestinationStatus->getBackupName()}-{$backupDestinationStatus->getFilesystemName()}";
             });
