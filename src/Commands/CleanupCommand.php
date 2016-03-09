@@ -21,7 +21,7 @@ class CleanupCommand extends BaseCommand
 
     public function handle()
     {
-        consoleOutput()->comment('Starting cleanup.');
+        consoleOutput()->comment('Starting cleanup...');
 
         try {
             $config = config('laravel-backup');

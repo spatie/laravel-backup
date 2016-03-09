@@ -36,15 +36,15 @@ class CleanupJob
                     throw new Exception("Could not connect to {$backupDestination->getFilesystemType()} because: {$backupDestination->getConnectionError()}");
                 };
 
-                consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on {$backupDestination->getFilesystemType()}-filesystem");
+                consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on {$backupDestination->getFilesystemType()}-filesystem...");
 
                 $this->strategy->deleteOldBackups($backupDestination->getBackups());
                 event(new CleanupWasSuccessFul($backupDestination));
 
                 $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
-                consoleOutput()->info("Used storage after cleanup: {$usedStorage}");
+                consoleOutput()->info("Used storage after cleanup: {$usedStorage}.");
             } catch (Exception $exception) {
-                consoleOutput()->error("Cleanup failed because: {$exception->getMessage()}");
+                consoleOutput()->error("Cleanup failed because: {$exception->getMessage()}.");
 
                 event(new CleanupHasFailed($exception));
             }

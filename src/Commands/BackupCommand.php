@@ -21,7 +21,7 @@ class BackupCommand extends BaseCommand
 
     public function handle()
     {
-        consoleOutput()->comment('Starting backup.');
+        consoleOutput()->comment('Starting backup...');
 
         try {
             $this->guardAgainstInvalidOptions();
@@ -40,7 +40,7 @@ class BackupCommand extends BaseCommand
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because: {$exception->getMessage()}");
+            consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
             event(new BackupHasFailed($exception));
 
