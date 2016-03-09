@@ -100,7 +100,7 @@ class BackupJob
 
             $this->temporaryDirectory->delete();
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because {$exception->getMessage()}");
+            consoleOutput()->error("Backup failed because {$exception->getMessage()}.");
 
             event(new BackupHasFailed($exception));
         }
@@ -149,8 +149,6 @@ class BackupJob
             $temporaryFile = $this->temporaryDirectory->getPath($fileName);
             $dbDumper->dumpToFile($temporaryFile);
 
-            consoleOutput()->info("Dumped database {$dbDumper->getDbName()}");
-
             $zip->add($temporaryFile, $fileName);
         });
     }
@@ -175,11 +173,11 @@ class BackupJob
 
                 $backupDestination->write($zip->getPath());
 
-                consoleOutput()->info("Successfully copied zip to {$backupDestination->getFilesystemType()}-filesystem");
+                consoleOutput()->info("Successfully copied .zip file to {$backupDestination->getFilesystemType()}-filesystem.");
 
                 event(new BackupWasSuccessful($backupDestination));
             } catch (Exception $exception) {
-                consoleOutput()->error("Copying zip-file failed because: {$exception->getMessage()}");
+                consoleOutput()->error("Copying .zip file failed because: {$exception->getMessage()}.");
 
                 event(new BackupHasFailed($exception));
             }
