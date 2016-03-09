@@ -142,7 +142,7 @@ return [
         ],
 
         /*
-         * Here you can specify how mails should be sent.
+         * Here you can specify how emails should be sent.
          */
         'mail' => [
             'from' => 'your@email.com',
@@ -150,7 +150,7 @@ return [
         ],
 
         /*
-         * Here you can how messages should be sent to Slack.
+         * Here you can specify how messages should be sent to Slack.
          */
         'slack' => [
             'channel'  => '#backups',
