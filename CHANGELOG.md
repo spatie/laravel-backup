@@ -16,7 +16,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 
 ### 3.0.1 - 2016-03-08
 
-- fixed bug in the mail and slack notification senders
+- fixed a bug in the mail and slack notification senders
 
 ### 3.0.0 - 2016-03-08
 
