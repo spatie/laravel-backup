@@ -33,7 +33,7 @@ return [
             ],
 
             /*
-             * The names of the connections to the databases  that should be part of the backup.
+             * The names of the connections to the databases that should be part of the backup.
              * Currently only MySQL-databases are supported.
              */
             'databases' => [
@@ -88,8 +88,8 @@ return [
             'keepYearlyBackupsForYears' => 2,
 
             /*
-             * After clean up the backups remove the oldest backup until
-             * this amount of megabytes is reached.
+             * After cleaning up the backups remove the oldest backup until
+             * this amount of megabytes has been reached.
              */
             'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000
         ]
@@ -130,7 +130,7 @@ return [
          * Here you can specify the ways you want to be notified when certain
          * events take place. Possible values are "log", "mail" and "slack".
          *
-         * Slack requires the installation of the maknz/slack package
+         * Slack requires the installation of the maknz/slack package.
          */
         'events' => [
             'whenBackupWasSuccessful'     => ['log'],
