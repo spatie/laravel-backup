@@ -18,19 +18,19 @@ class BackupDestinationStatus
     protected $maximumStorageUsageInMegabytes = 5000;
 
     /** @var string */
-    protected $filesystemName;
+    protected $diskName;
 
     /** @var bool */
     protected $reachable;
 
     /**
      * @param \Spatie\Backup\BackupDestination\BackupDestination $backupDestination
-     * @param string                                             $filesystemName
+     * @param string                                             $diskName
      */
-    public function __construct(BackupDestination $backupDestination, $filesystemName)
+    public function __construct(BackupDestination $backupDestination, $diskName)
     {
         $this->backupDestination = $backupDestination;
-        $this->filesystemName = $filesystemName;
+        $this->diskName = $diskName;
 
         $this->reachable = $this->backupDestination->isReachable();
     }
@@ -76,11 +76,21 @@ class BackupDestinationStatus
     }
 
     /**
+     * @deprecated
+     *
      * @return string
      */
     public function getFilesystemName()
     {
-        return $this->filesystemName;
+        return $this->getDiskName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDiskName()
+    {
+        return $this->diskName;
     }
 
     /**

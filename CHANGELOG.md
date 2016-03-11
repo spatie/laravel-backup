@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.1.0 - 2016-XX-XX
+
+- added an option to the backup command to backup only to a specified diskname
+- renamed `filesystems`  to `disks` in the config file, console output, events and error messages
+
 ### 3.0.5 - 2016-03-09
 
 - improve the console output
