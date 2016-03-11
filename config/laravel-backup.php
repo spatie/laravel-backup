@@ -44,8 +44,7 @@ return [
         'destination' => [
 
             /*
-             * The disk names you on which the backups will be stored. Choose one or more
-             * names of disks you configured in app/config/filesystems.php
+             * The disk names on which the backups will be stored.
              */
             'disks' => [
                 'local',
