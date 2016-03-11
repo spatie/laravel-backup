@@ -28,6 +28,8 @@ class BackupServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-backup.php', 'laravel-backup');
 
+        $this->handleDeprecatedConfigValues();
+
         $this->app['events']->subscribe(\Spatie\Backup\Notifications\EventHandler::class);
 
         $this->app->bind('command.backup:run', BackupCommand::class);
@@ -43,5 +45,19 @@ class BackupServiceProvider extends ServiceProvider
         ]);
 
         $this->app->singleton(ConsoleOutput::class);
+    }
+
+    protected function handleDeprecatedConfigValues()
+    {
+        /*
+         * Earlier versions of the package used filesystems instead of disks
+         */
+        if (config('laravel-backup.destination.filesystems')) {
+            config(['laravel-backup.destination.disks' => config('laravel-backup.destination.filesystems')]);
+        }
+
+        if (config('laravel-backup.monitorBackups.filesystems')) {
+            config(['laravel-backup.monitorBackups.disks' => config('laravel-backup.monitorBackups.filesystems')]);
+        }
     }
 }

@@ -12,7 +12,7 @@ class BackupCommand extends BaseCommand
     /**
      * @var string
      */
-    protected $signature = 'backup:run {--only-db} {--only-files}';
+    protected $signature = 'backup:run {--only-db} {--only-files} {--backup-to}';
 
     /**
      * @var string
@@ -34,6 +34,10 @@ class BackupCommand extends BaseCommand
 
             if ($this->option('only-files')) {
                 $backupJob->doNotBackupDatabases();
+            }
+
+            if ($this->option('backup-to')) {
+                $backupJob->backupOnlyTo($this->option('backup-to'));
             }
 
             $backupJob->run();

@@ -13,6 +13,9 @@ class BackupDestination
     protected $disk;
 
     /** @var string */
+    protected $diskName;
+
+    /** @var string */
     protected $backupDirectory;
 
     /** @var Exception */
@@ -23,12 +26,23 @@ class BackupDestination
      *
      * @param \Illuminate\Contracts\Filesystem\Filesystem|null $disk
      * @param string                                           $backupName
+     * @param string                                           $diskName
      */
-    public function __construct(Filesystem $disk = null, $backupName)
+    public function __construct(Filesystem $disk = null, $backupName, $diskName)
     {
         $this->disk = $disk;
 
+        $this->diskName = $diskName;
+
         $this->backupName = preg_replace('/[^a-zA-Z0-9.]/', '-', $backupName);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDiskName()
+    {
+        return $this->diskName;
     }
 
     /**
@@ -48,19 +62,19 @@ class BackupDestination
     }
 
     /**
-     * @param string $filesystemName
+     * @param string $diskName
      * @param string $backupName
      *
      * @return \Spatie\Backup\BackupDestination\BackupDestination
      */
-    public static function create($filesystemName, $backupName)
+    public static function create($diskName, $backupName)
     {
         try {
-            $disk = app(Factory::class)->disk($filesystemName);
+            $disk = app(Factory::class)->disk($diskName);
 
-            return new static($disk, $backupName);
+            return new static($disk, $backupName, $diskName);
         } catch (Exception $exception) {
-            $backupDestination = new static(null, $backupName);
+            $backupDestination = new static(null, $backupName, $diskName);
 
             $backupDestination->connectionError = $exception;
 

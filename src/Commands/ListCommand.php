@@ -39,7 +39,7 @@ class ListCommand extends BaseCommand
 
             $row = [
                 $backupDestinationStatus->getBackupName(),
-                $backupDestinationStatus->getFilesystemName(),
+                $backupDestinationStatus->getDiskName(),
                 Format::getEmoji($backupDestinationStatus->isReachable()),
                 Format::getEmoji($backupDestinationStatus->isHealthy()),
                 'amount' => $backupDestinationStatus->getAmountOfBackups(),

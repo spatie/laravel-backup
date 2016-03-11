@@ -14,7 +14,7 @@ class UnhealthyBackupMessage
     public static function createForBackupDestinationStatus(BackupDestinationStatus $backupDestinationStatus)
     {
         if (!$backupDestinationStatus->isReachable()) {
-            return "Could not reach {$backupDestinationStatus->getFilesystemName()}-filesystem because: {$backupDestinationStatus->getConnectionError()}";
+            return "Could not reach {$backupDestinationStatus->getDiskName()}-disk because: {$backupDestinationStatus->getConnectionError()}";
         }
 
         $messages = [];

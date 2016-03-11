@@ -3,10 +3,12 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use Illuminate\Support\Collection;
+use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
+use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
 use Exception;
@@ -78,6 +80,26 @@ class BackupJob
     }
 
     /**
+     * @param string $diskName
+     *
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     *
+     * @throws \Spatie\Backup\Exceptions\InvalidBackupJob
+     */
+    public function backupOnlyTo($diskName)
+    {
+        $this->backupDestinations = $this->backupDestinations->filter(function (BackupDestination $backupDestination) use ($diskName) {
+           return $backupDestination->getDiskName() === $diskName;
+        });
+
+        if (!count($this->backupDestinations)) {
+            throw InvalidBackupJob::destinationDoesNotExist($diskName);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param \Illuminate\Support\Collection $backupDestinations
      *
      * @return \Spatie\Backup\Tasks\Backup\BackupJob
@@ -92,6 +114,10 @@ class BackupJob
     public function run()
     {
         try {
+            if (!count($this->backupDestinations)) {
+                throw InvalidBackupJob::noDestinationsSpecified();
+            }
+
             $this->temporaryDirectory = TemporaryDirectory::create();
 
             $zip = $this->createZipContainingAllFilesToBeBackedUp();
@@ -162,7 +188,7 @@ class BackupJob
 
             try {
                 if (!$backupDestination->isReachable()) {
-                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()} because: {$backupDestination->getConnectionError()}");
+                    throw new Exception("Could not connect to disk {$backupDestination->getDiskName()} because: {$backupDestination->getConnectionError()}");
                 };
 
                 $fileSize = Format::getHumanReadableSize($zip->getSize());
