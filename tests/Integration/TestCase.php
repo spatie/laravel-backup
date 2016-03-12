@@ -4,6 +4,7 @@ namespace Spatie\Backup\Test\Integration;
 
 use Event;
 use Exception;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -49,6 +50,11 @@ abstract class TestCase extends Orchestra
         ]);
 
         $app['config']->set('filesystems.disks.local', [
+            'driver' => 'local',
+            'root' => $this->testHelper->getTempDirectory(),
+        ]);
+
+        $app['config']->set('filesystems.disks.secondLocal', [
             'driver' => 'local',
             'root' => $this->testHelper->getTempDirectory(),
         ]);
@@ -121,5 +127,19 @@ abstract class TestCase extends Orchestra
                 throw new Exception("Event {$eventClassName} not fired");
             }
         });
+    }
+
+    protected function seeInConsoleOutput($expectedText)
+    {
+        $consoleOutput = $this->app[Kernel::class]->output();
+
+        $this->assertContains($expectedText, $consoleOutput, "Did not see `{$expectedText}` in console output: `$consoleOutput`");
+    }
+
+    protected function doNotSeeInConsoleOutput($unExpectedText)
+    {
+        $consoleOutput = $this->app[Kernel::class]->output();
+
+        $this->assertNotContains($unExpectedText, $consoleOutput, "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`");
     }
 }
