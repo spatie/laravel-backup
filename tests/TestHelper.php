@@ -19,11 +19,16 @@ class TestHelper
 
     public function initializeTempDirectory()
     {
-        $this->filesystem->deleteDirectory($this->getTempDirectory());
+        $this->initializeDirectory($this->getTempDirectory());
+    }
 
-        $this->filesystem->makeDirectory($this->getTempDirectory());
+    public function initializeDirectory($directory) {
 
-        $this->addGitignoreTo($this->getTempDirectory());
+        $this->filesystem->deleteDirectory($directory);
+
+        $this->filesystem->makeDirectory($directory);
+
+        $this->addGitignoreTo($directory);
     }
 
     public function addGitignoreTo($directory)

@@ -9,6 +9,11 @@ class BackupCommandTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->app['config']->set('laravel-backup.backup.destination.disks', [
+            'local',
+            'secondLocal',
+        ]);
     }
 
     /** @test */
@@ -18,7 +23,19 @@ class BackupCommandTest extends TestCase
 
         $this->assertEquals(0, $resultCode);
 
-        $this->assertFileWithExtensionExistsInDirectoryOnDisk('zip', 'mysite.com', 'local');
+        $this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
+        $this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
+    }
+
+    /** @test */
+    public function it_can_backup_to_a_specific_disk()
+    {
+        $resultCode = Artisan::call('backup:run', ['--backup-only-to' => 'secondLocal']);
+
+        $this->assertEquals(0, $resultCode);
+
+        //$this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
+        //$this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
     }
 
     /** @test */
@@ -32,6 +49,9 @@ class BackupCommandTest extends TestCase
         $this->assertEquals(-1, $resultCode);
 
         $this->seeInConsoleOutput('Cannot use only-db and only-files together');
+
+        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
+        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
     }
 
     /** @test */
@@ -44,5 +64,8 @@ class BackupCommandTest extends TestCase
         $this->assertEquals(-1, $resultCode);
 
         $this->seeInConsoleOutput('There is not backup destination with a disk named');
+
+        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
+        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
     }
 }

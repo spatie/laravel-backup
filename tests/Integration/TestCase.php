@@ -56,7 +56,7 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.secondLocal', [
             'driver' => 'local',
-            'root' => $this->testHelper->getTempDirectory(),
+            'root' => $this->testHelper->getTempDirectory() . '/secondDisk',
         ]);
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
@@ -82,7 +82,32 @@ abstract class TestCase extends Orchestra
      * @param string $directory
      * @param string $diskName
      */
-    public function assertFileWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName)
+    public function assertFileWithExtensionExistInDirectoryOnDisk($extension, $directory, $diskName)
+    {
+        $fileCount = $this->countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName);
+
+        $this->assertTrue($fileCount > 0, "There are no files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+    }
+
+    /**
+     * @param string $extension
+     * @param string $directory
+     * @param string $diskName
+     */
+    public function assertFileWithExtensionDoNotExistInDirectoryOnDisk($extension, $directory, $diskName)
+    {
+        $fileCount = $this->countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName);
+
+        $this->assertTrue($fileCount === 0, "There are files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+    }
+
+    /**
+     * @param string $extension
+     * @param string $directory
+     * @param string $diskName
+     * @return int
+     */
+    protected function countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName)
     {
         $disk = Storage::disk($diskName);
 
@@ -91,9 +116,9 @@ abstract class TestCase extends Orchestra
         $fileCount = collect($files)->filter(function ($fileName) use ($extension) {
             return pathinfo($fileName, PATHINFO_EXTENSION) == $extension;
         })
-        ->count();
+            ->count();
 
-        $this->assertTrue($fileCount > 0, "There are no files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+        return $fileCount;
     }
 
     public function assertTempFilesExist(array $files)
