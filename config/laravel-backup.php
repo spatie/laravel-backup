@@ -34,7 +34,7 @@ return [
 
             /*
              * The names of the connections to the databases that should be part of the backup.
-             * Currently only MySQL-databases are supported.
+             * Currently only MySQL- and PostgreSQL-databases are supported.
              */
             'databases' => [
                 'mysql'
@@ -127,7 +127,7 @@ return [
 
         /*
          * Here you can specify the ways you want to be notified when certain
-         * events take place. Possible values are "log", "mail" and "slack".
+         * events take place. Possible values are "log", "mail", "slack" and "pushover".
          *
          * Slack requires the installation of the maknz/slack package.
          */

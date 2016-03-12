@@ -45,8 +45,16 @@ class BackupJobFactory
 
             $dbConfig = config("database.connections.{$dbConnectionName}");
 
-            if ($dbConfig['driver'] != 'mysql') {
+            if (! in_array($dbConfig['driver'], ['mysql', 'pgsql'])) {
                 throw InvalidConfiguration::cannotUseUnsupportedDriver($dbConnectionName, $dbConfig['driver']);
+            }
+
+            if ($dbConfig['driver'] === 'pgsql') {
+
+                /**
+                 * @todo: add postgres dumper
+                 */
+                return;
             }
 
             return MySql::create()

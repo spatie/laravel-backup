@@ -14,6 +14,6 @@ class InvalidConfiguration extends Exception
      */
     public static function cannotUseUnsupportedDriver($connectionName, $driverName)
     {
-        return new static("Db connection `{$connectionName}` uses an unsupported driver `{$driverName}`. Only `mysql` is supported");
+        return new static("Db connection `{$connectionName}` uses an unsupported driver `{$driverName}`. Only `mysql` and `pgsql` are supported");
     }
 }
