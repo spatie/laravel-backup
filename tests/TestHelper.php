@@ -22,8 +22,8 @@ class TestHelper
         $this->initializeDirectory($this->getTempDirectory());
     }
 
-    public function initializeDirectory($directory) {
-
+    public function initializeDirectory($directory)
+    {
         $this->filesystem->deleteDirectory($directory);
 
         $this->filesystem->makeDirectory($directory);

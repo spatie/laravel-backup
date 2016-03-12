@@ -56,7 +56,7 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.secondLocal', [
             'driver' => 'local',
-            'root' => $this->testHelper->getTempDirectory() . '/secondDisk',
+            'root' => $this->testHelper->getTempDirectory().'/secondDisk',
         ]);
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
@@ -105,6 +105,7 @@ abstract class TestCase extends Orchestra
      * @param string $extension
      * @param string $directory
      * @param string $diskName
+     *
      * @return int
      */
     protected function countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName)

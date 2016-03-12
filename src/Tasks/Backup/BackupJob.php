@@ -195,11 +195,11 @@ class BackupJob
 
                 $fileName = pathinfo($zip->getPath(), PATHINFO_BASENAME);
 
-                consoleOutput()->info("Copying {$fileName} (size: {$fileSize}) to {$backupDestination->getFilesystemType()}-filesystem...");
+                consoleOutput()->info("Copying {$fileName} (size: {$fileSize}) to disk named {$backupDestination->getDiskName()}...");
 
                 $backupDestination->write($zip->getPath());
 
-                consoleOutput()->info("Successfully copied .zip file to {$backupDestination->getFilesystemType()}-filesystem.");
+                consoleOutput()->info("Successfully copied .zip file to disk named {$backupDestination->getDiskName()}.");
 
                 event(new BackupWasSuccessful($backupDestination));
             } catch (Exception $exception) {

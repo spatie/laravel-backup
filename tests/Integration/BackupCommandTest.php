@@ -30,12 +30,15 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_can_backup_to_a_specific_disk()
     {
-        $resultCode = Artisan::call('backup:run', ['--backup-only-to-disk' => 'secondLocal']);
+        $resultCode = Artisan::call('backup:run', [
+            '--only-files' => true,
+            '--only-to-disk' => 'secondLocal',
+        ]);
 
         $this->assertEquals(0, $resultCode);
 
-        //$this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
-        //$this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
+        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
+        $this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
     }
 
     /** @test */
@@ -55,10 +58,21 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_will_fail_when_trying_to_backup_a_non_existing_database()
+    {
+        //since our test environment did not set up a db, this will fail
+        $resultCode = Artisan::call('backup:run', [
+            '--only-db' => true,
+        ]);
+
+        $this->seeInConsoleOutput('Backup failed');
+    }
+
+    /** @test */
     public function it_will_fail_when_trying_to_backup_to_an_non_existing_diskname()
     {
         $resultCode = Artisan::call('backup:run', [
-            '--backup-only-to-disk' => 'non existing disk',
+            '--only-to-disk' => 'non existing disk',
         ]);
 
         $this->assertEquals(-1, $resultCode);
