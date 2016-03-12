@@ -33,10 +33,10 @@ class CleanupJob
 
             try {
                 if (!$backupDestination->isReachable()) {
-                    throw new Exception("Could not connect to {$backupDestination->getFilesystemType()} because: {$backupDestination->getConnectionError()}");
+                    throw new Exception("Could not connect to disk {$backupDestination->getDiskName()} because: {$backupDestination->getConnectionError()}");
                 };
 
-                consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on {$backupDestination->getFilesystemType()}-filesystem...");
+                consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on disk {$backupDestination->getDiskName()}...");
 
                 $this->strategy->deleteOldBackups($backupDestination->getBackups());
                 event(new CleanupWasSuccessFul($backupDestination));
