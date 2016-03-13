@@ -52,8 +52,8 @@ class BackupServiceProvider extends ServiceProvider
         /*
          * Earlier versions of the package used filesystems instead of disks
          */
-        if (config('laravel-backup.destination.filesystems')) {
-            config(['laravel-backup.destination.disks' => config('laravel-backup.destination.filesystems')]);
+        if (config('laravel-backup.backup.destination.filesystems')) {
+            config(['laravel-backup.backup.destination.disks' => config('laravel-backup.backup.destination.filesystems')]);
         }
 
         if (config('laravel-backup.monitorBackups.filesystems')) {

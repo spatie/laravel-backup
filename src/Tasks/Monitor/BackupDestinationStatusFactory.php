@@ -30,11 +30,11 @@ class BackupDestinationStatusFactory
      */
     public static function createForSingleMonitor(array $monitorConfig)
     {
-        return collect($monitorConfig['filesystems'])->map(function ($filesystemName) use ($monitorConfig) {
+        return collect($monitorConfig['disks'])->map(function ($diskName) use ($monitorConfig) {
 
-            $backupDestination = BackupDestination::create($filesystemName, $monitorConfig['name']);
+            $backupDestination = BackupDestination::create($diskName, $monitorConfig['name']);
 
-            return (new BackupDestinationStatus($backupDestination, $filesystemName))
+            return (new BackupDestinationStatus($backupDestination, $diskName))
                 ->setMaximumAgeOfNewestBackupInDays($monitorConfig['newestBackupsShouldNotBeOlderThanDays'])
                 ->setMaximumStorageUsageInMegabytes($monitorConfig['storageUsedMayNotBeHigherThanMegabytes']);
         });
