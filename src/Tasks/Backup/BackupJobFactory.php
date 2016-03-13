@@ -5,6 +5,7 @@ namespace Spatie\Backup\Tasks\Backup;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Exceptions\InvalidConfiguration;
 use Spatie\DbDumper\Databases\MySql;
+use Spatie\DbDumper\Databases\PostgreSql;
 
 class BackupJobFactory
 {
@@ -45,24 +46,27 @@ class BackupJobFactory
 
             $dbConfig = config("database.connections.{$dbConnectionName}");
 
-            if (! in_array($dbConfig['driver'], ['mysql', 'pgsql'])) {
-                throw InvalidConfiguration::cannotUseUnsupportedDriver($dbConnectionName, $dbConfig['driver']);
+            switch ($dbConfig['driver']) {
+                case 'mysql':
+                    return MySql::create()
+                        ->setHost($dbConfig['host'])
+                        ->setDbName($dbConfig['database'])
+                        ->setUserName($dbConfig['username'])
+                        ->setPassword($dbConfig['password']);
+                    break;
+
+                case 'pgsql':
+                    return PostgreSql::create()
+                        ->setHost($dbConfig['host'])
+                        ->setDbName($dbConfig['database'])
+                        ->setUserName($dbConfig['username'])
+                        ->setPassword($dbConfig['password']);
+                    break;
+
+                default:
+                    throw InvalidConfiguration::cannotUseUnsupportedDriver($dbConnectionName, $dbConfig['driver']);
+                    break;
             }
-
-            if ($dbConfig['driver'] === 'pgsql') {
-
-                /**
-                 * @todo: add postgres dumper
-                 */
-                return;
-            }
-
-            return MySql::create()
-                ->setHost($dbConfig['host'])
-                ->setDbName($dbConfig['database'])
-                ->setUserName($dbConfig['username'])
-                ->setPassword($dbConfig['password']);
-
         }, $dbConnectionNames);
 
         return $dbDumpers;
