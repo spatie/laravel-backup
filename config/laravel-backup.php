@@ -34,7 +34,7 @@ return [
 
             /*
              * The names of the connections to the databases that should be part of the backup.
-             * Currently only MySQL-databases are supported.
+             * Currently only MySQL databases are supported.
              */
             'databases' => [
                 'mysql'
@@ -44,7 +44,7 @@ return [
         'destination' => [
 
             /*
-             * The filesystems you on which the backups will be stored. Choose one or more
+             * The filesystems on which the backups will be stored. Choose one or more
              * of the filesystems you configured in app/config/filesystems.php
              */
             'filesystems' => [
@@ -56,7 +56,7 @@ return [
     'cleanup' => [
         /*
          * The strategy that will be used to cleanup old backups.
-         * The youngest backup wil never be deleted.
+         * The youngest backup will never be deleted.
          */
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
@@ -73,17 +73,17 @@ return [
             'keepDailyBackupsForDays' => 16,
 
             /*
-             * The amount of weeks of which one weekly backup must be kept.
+             * The amount of weeks that one weekly backup must be kept.
              */
             'keepWeeklyBackupsForWeeks' => 8,
 
             /*
-             * The amount of months of which one monthly backup must be kept.
+             * The amount of months that one monthly backup must be kept.
              */
             'keepMonthlyBackupsForMonths' => 4,
 
             /*
-             * The amount of years of which one yearly backup must be kept
+             * The amount of years that one yearly backup must be kept.
              */
             'keepYearlyBackupsForYears' => 2,
 
@@ -98,8 +98,8 @@ return [
 
     /*
      *  In this array you can specify which backups should be monitored.
-     *  If a backup does not meet the specified requirements the
-     *  UnHealthyBackupWasFound-event will be fired.
+     *  If a backup does not meet the specified requirements, the
+     *  UnHealthyBackupWasFound event will be fired.
      */
     'monitorBackups' => [
         [
