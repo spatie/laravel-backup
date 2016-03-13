@@ -12,7 +12,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 - added an option to the backup command to backup only to a specified diskname
 - renamed `filesystems`  to `disks` in the config file, console output, events and error messages (in a non-breaking way, the old "filesystems" key will still work)
 
-*This version contains a bug, that pops up when running `backup:list`. Please upgrade to 3.1.1*
+**This version contains a bug, that pops up when running `backup:list`. Please upgrade to 3.1.1**
 
 ### 3.0.5 - 2016-03-09
 
