@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-### 3.1.0 - 2016-XX-XX
+### 3.1.0 - 2016-03-13
 
 - added support for PostgreSQL
 - added an option to the backup command to backup only to a specified diskname
