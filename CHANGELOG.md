@@ -5,7 +5,6 @@ All notable changes to `laravel-backup` will be documented in this file.
 ### 3.1.0 - 2016-XX-XX
 
 - added support for PostgreSQL
-- notifications can now be sent via Pushover
 - added an option to the backup command to backup only to a specified diskname
 - renamed `filesystems`  to `disks` in the config file, console output, events and error messages
 

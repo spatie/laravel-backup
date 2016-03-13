@@ -127,7 +127,7 @@ return [
 
         /*
          * Here you can specify the ways you want to be notified when certain
-         * events take place. Possible values are "log", "mail", "slack" and "pushover".
+         * events take place. Possible values are "log", "mail" and "slack".
          *
          * Slack requires the installation of the maknz/slack package.
          */
