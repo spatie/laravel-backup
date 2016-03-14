@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-### 3.1.1
+### 3.1.2- 2016-03-14
+
+- upped the required version of db-dumper to a bug free version
+
+### 3.1.1 - 2016-03-13
 
 - fixed `backup:list`-command
 
