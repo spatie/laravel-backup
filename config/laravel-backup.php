@@ -55,7 +55,7 @@ return [
     'cleanup' => [
         /*
          * The strategy that will be used to cleanup old backups.
-         * The youngest backup wil never be deleted.
+         * The youngest backup will never be deleted.
          */
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
