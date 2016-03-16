@@ -17,7 +17,7 @@ class BackupServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/laravel-backup.php' => config_path('laravel-backup.php'),
+            __DIR__.'/../config/laravel-backup.php' => config_path('laravel-backup.php'),
         ], 'config');
     }
 
@@ -26,7 +26,7 @@ class BackupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/laravel-backup.php', 'laravel-backup');
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-backup.php', 'laravel-backup');
 
         $this->handleDeprecatedConfigValues();
 
@@ -56,12 +56,12 @@ class BackupServiceProvider extends ServiceProvider
              */
             [
                 'oldName' => 'laravel-backup.backup.destination.filesystems',
-                'newName' => 'laravel-backup.backup.destination.disks'
+                'newName' => 'laravel-backup.backup.destination.disks',
             ],
 
             [
                 'oldName' => 'laravel-backup.monitorBackups.filesystems',
-                'newName' => 'laravel-backup.monitorBackups.disks'
+                'newName' => 'laravel-backup.monitorBackups.disks',
             ],
 
             /*
@@ -69,16 +69,14 @@ class BackupServiceProvider extends ServiceProvider
              */
             [
                 'oldName' => 'laravel-backup.notifications.whenUnHealthyBackupWasFound',
-                'newName' => 'laravel-backup.notifications.whenUnhealthyBackupWasFound'
+                'newName' => 'laravel-backup.notifications.whenUnhealthyBackupWasFound',
             ],
         ];
-
 
         foreach ($renamedConfigValues as $renamedConfigValue) {
             if (config($renamedConfigValue['oldName'])) {
                 config([$renamedConfigValue['newName'] => config($renamedConfigValue['oldName'])]);
             }
         }
-
     }
 }
