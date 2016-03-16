@@ -51,7 +51,7 @@ class Notifier
     public function cleanupHasFailed(Exception $exception)
     {
         $this->sendNotification(
-            'whencleanupHasFailed',
+            'whenCleanupHasFailed',
             "{$this->subject} : error",
             "Failed to cleanup the backup because: {$exception->getMessage()}",
             BaseSender::TYPE_ERROR
