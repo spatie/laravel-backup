@@ -158,7 +158,7 @@ return [
         ],
 
         /*
-         * Here you can how messages should be sent to Pushover.
+         * Here you can specify how messages should be sent to Pushover.
          */
         'pushover' => [
             'token' => env('PUSHOVER_APP_TOKEN'),
