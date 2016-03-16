@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.1.3 - 2016-03-16
+
+- added an option to specify a custom mysqldump or pg_dump path, by adding "dump_path" in the database configuration file, for that particular database
+
 ### 3.1.2 - 2016-03-14
 
 - upped the required version of db-dumper to a bug free version
