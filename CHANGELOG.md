@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.2.0 - 2016-03-16
+
+- added pushover sender
+
 ### 3.1.4 - 2016-03-16
 
 - added an option to specify a timeout for the database dumpers
