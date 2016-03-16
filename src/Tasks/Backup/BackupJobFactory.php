@@ -50,7 +50,7 @@ class BackupJobFactory
                 case 'mysql':
                     return MySql::create()
                         ->setHost($dbConfig['host'])
-                        ->setDumpBinaryPath(isset($dbConfig['dump_path'])?$dbConfig['dump_path']:'')
+                        ->setDumpBinaryPath(isset($dbConfig['dump_command_path'])?$dbConfig['dump_command_path']:'')
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
                         ->setPassword($dbConfig['password']);
@@ -59,7 +59,7 @@ class BackupJobFactory
                 case 'pgsql':
                     return PostgreSql::create()
                         ->setHost($dbConfig['host'])
-                        ->setDumpBinaryPath(isset($dbConfig['dump_path'])?$dbConfig['dump_path']:'')
+                        ->setDumpBinaryPath(isset($dbConfig['dump_command_path'])?$dbConfig['dump_command_path']:'')
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
                         ->setPassword($dbConfig['password']);
