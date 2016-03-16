@@ -5,6 +5,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 ### 3.1.4 - 2016-03-16
 
 - added an option to specify a timeout for the database dumpers
+- fixed a bug where notifications for certain events would not be sent
 
 ### 3.1.3 - 2016-03-16
 
