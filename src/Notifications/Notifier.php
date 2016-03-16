@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Notifications;
 
+use Illuminate\Contracts\Logging\Log as LogContract;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Exception;
@@ -11,8 +12,16 @@ class Notifier
     /** @var array */
     protected $config;
 
-    public function __construct()
+    /** @var \Illuminate\Contracts\Logging\Log */
+    protected $log;
+
+    /**
+     * @param \Illuminate\Contracts\Logging\Log $log
+     */
+    public function __construct(LogContract $log)
     {
+        $this->log = $log;
+
         $this->subject = config('laravel-backup.backup.name').' backups';
     }
 
@@ -102,11 +111,15 @@ class Notifier
                 return app($className);
             })
             ->each(function (SendsNotifications $sender) use ($subject, $message, $type) {
-                $sender
-                    ->setSubject($subject)
-                    ->setMessage($message)
-                    ->setType($type)
-                    ->send();
+                try {
+                    $sender
+                        ->setSubject($subject)
+                        ->setMessage($message)
+                        ->setType($type)
+                        ->send();
+                } catch (Exception $e) {
+                    $this->log->error("Laravel-backup notifier failed. Message: {$e->getMessage()}. File: {$e->getFile()}. Line: {$e->getLine()}.");
+                }
             });
     }
 }
