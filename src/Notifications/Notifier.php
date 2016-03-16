@@ -71,10 +71,10 @@ class Notifier
     /**
      * @param \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus $backupDestinationStatus
      */
-    public function unHealthyBackupWasFound(BackupDestinationStatus $backupDestinationStatus)
+    public function unhealthyBackupWasFound(BackupDestinationStatus $backupDestinationStatus)
     {
         $this->sendNotification(
-            'whenUnHealthyBackupWasFound',
+            'whenUnhealthyBackupWasFound',
             "Unhealthy backup found for {$backupDestinationStatus->getBackupName()} on {$backupDestinationStatus->getFilesystemName()}-filesystem",
             UnhealthyBackupMessage::createForBackupDestinationStatus($backupDestinationStatus),
             BaseSender::TYPE_ERROR

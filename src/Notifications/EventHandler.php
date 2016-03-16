@@ -109,7 +109,7 @@ class EventHandler
         );
 
         $events->listen(
-            UnHealthyBackupWasFound::class,
+            UnhealthyBackupWasFound::class,
             static::class.'@whenUnhealthyBackupWasFound'
         );
     }

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.2.1 - 2016-03-16
+
+- fixed a typo in the config file
+
 ### 3.2.0 - 2016-03-16
 
 - added pushover sender
