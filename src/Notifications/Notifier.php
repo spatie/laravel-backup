@@ -31,7 +31,7 @@ class Notifier
         $extraMessage = $backupDestination ? "to {$backupDestination->getFilesystemType()}-filesystem" : '';
 
         $this->sendNotification(
-            'whenBackupWasFailed',
+            'whenBackupHasFailed',
             "{$this->subject} : error",
             "Failed to backup {$extraMessage} because: {$exception->getMessage()}",
             BaseSender::TYPE_ERROR
@@ -51,7 +51,7 @@ class Notifier
     public function cleanupHasFailed(Exception $exception)
     {
         $this->sendNotification(
-            'whencleanupHasFailed',
+            'whenCleanupHasFailed',
             "{$this->subject} : error",
             "Failed to cleanup the backup because: {$exception->getMessage()}",
             BaseSender::TYPE_ERROR
