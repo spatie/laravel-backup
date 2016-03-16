@@ -118,7 +118,7 @@ class Notifier
                         ->setType($type)
                         ->send();
                 } catch (Exception $e) {
-                    $this->log->error("Laravel-backup notifier failed. Message: {$e->getMessage()}. File: {$e->getFile()}. Line: {$e->getLine()}.");
+                    $this->log->error("Laravel-backup notifier failed. Message: {$e->getMessage()}.".PHP_EOL.$e->getTraceAsString());
                 }
             });
     }
