@@ -137,7 +137,7 @@ return [
             'whenHealthyBackupWasFound'   => ['log'],
             'whenBackupHasFailed'         => ['log', 'mail'],
             'whenCleanupHasFailed'        => ['log', 'mail'],
-            'whenUnhealthyBackupWasFound' => ['log', 'mail']
+            'whenUnhealthyBackupWasFound' => ['log', 'mail'],
         ],
 
         /*
