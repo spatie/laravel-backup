@@ -11,17 +11,6 @@ class Pushover extends BaseSender
     protected $config;
 
     /**
-     * Sounds the api supports by default
-     * @see https://pushover.net/api#sounds
-     * @var array
-     */
-    private $sounds = array(
-        'pushover', 'bike', 'bugle', 'cashregister', 'classical', 'cosmic', 'falling', 'gamelan', 'incoming',
-        'intermission', 'magic', 'mechanical', 'pianobar', 'siren', 'spacealarm', 'tugboat', 'alien', 'climb',
-        'persistent', 'echo', 'updown', 'none',
-    );
-
-    /**
      * @param Repository $config
      */
     public function __construct(Repository $config)
@@ -60,19 +49,7 @@ class Pushover extends BaseSender
 
         $sound = $this->type === static::TYPE_SUCCESS ? $sounds['success'] : $sounds['error'];
 
-        if(!$this->isSupportedSound($sound)){
-            $sound = 'pushover';
-        }
-
         return $sound;
     }
 
-    /**
-     * Checks if the sound is supported by Pushover
-     * @param  string  $sound The sound string to check
-     * @return boolean        [description]
-     */
-    private function isSupportedSound($sound){
-        return in_array($sound, $this->sounds);
-    }
 }
