@@ -4,7 +4,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 
 ### 3.3.1 - 2016-03-29
 
-- made the pushover sounds configurable
+- fix bug in service provider
 
 ### 3.3.0 - 2016-03-29
 
