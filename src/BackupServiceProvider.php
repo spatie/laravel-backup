@@ -29,7 +29,6 @@ class BackupServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-backup.php', 'laravel-backup');
 
         $this->handleDeprecatedConfigValues();
-        $this->setDefaultValuesForNewConfigValues();
 
         $this->app['events']->subscribe(\Spatie\Backup\Notifications\EventHandler::class);
 
