@@ -40,16 +40,13 @@ class Pushover extends BaseSender
     }
 
     /**
-     * Returns the proper sound for the notification type according to the config file
-     * @return string The sound string to use
+     * @return string
      */
-    private function getSound()
+    protected function getSound()
     {
-        $sounds = isset($this->config['sounds']) ? $this->config['sounds'] : ['success' => 'pushover', 'error' => 'siren'];
-
-        $sound = $this->type === static::TYPE_SUCCESS ? $sounds['success'] : $sounds['error'];
-
-        return $sound;
+        return $this->type === static::TYPE_SUCCESS 
+            ? $this->config['sounds']['success'] 
+            : $this->config['sounds']['error'];
     }
 
 }

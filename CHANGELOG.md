@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.3.0 - 2016-03-29
+
+- made the pushover sounds configurable
+
 ### 3.2.2 - 2016-03-16
 
 - made sure that, when a notifier fails, the other notifiers wil still get called
