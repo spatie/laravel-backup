@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.3.2 - 2016-03-30
+
+- excluded node_modules in default backup configuration
+
 ### 3.3.1 - 2016-03-29
 
 - fix bug in service provider
