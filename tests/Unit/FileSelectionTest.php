@@ -34,7 +34,9 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file1.txt',
                 'file2.txt',
                 'file3.txt',
-            ]), $fileSelection->getSelectedFiles());
+            ]),
+            $fileSelection->getSelectedFiles()
+        );
     }
 
     /** @test */
@@ -43,12 +45,15 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $fileSelection = (new FileSelection($this->sourceDirectory))
                         ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
 
-        $this->getTestFiles([
-            'directory2/directory1/file1.txt',
-            'file1.txt',
-            'file2.txt',
-            'file3.txt',
-        ], $fileSelection->getSelectedFiles());
+        $this->assertSame(
+            $this->getTestFiles([
+                'directory2/directory1/file1.txt',
+                'file1.txt',
+                'file2.txt',
+                'file3.txt',
+            ]),
+            $fileSelection->getSelectedFiles()
+        );
     }
 
     /** @test */
@@ -60,21 +65,22 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         ]));
 
         $this->assertSame(
-        $this->getTestFiles([
-            'directory1/directory1/file1.txt',
-            'directory1/directory1/file2.txt',
-            'directory2/directory1/file1.txt',
-        ]), $fileSelection->getSelectedFiles());
+            $this->getTestFiles([
+                'directory1/directory1/file1.txt',
+                'directory1/directory1/file2.txt',
+                'directory2/directory1/file1.txt',
+            ]),
+            $fileSelection->getSelectedFiles());
     }
 
     /** @test */
     public function it_can_exclude_files_from_multiple_directories()
     {
         $fileSelection = (new FileSelection($this->sourceDirectory))
-        ->excludeFilesFrom($this->getTestFiles([
-            'directory1/directory1',
-            'directory2',
-            'file2.txt',
+            ->excludeFilesFrom($this->getTestFiles([
+                'directory1/directory1',
+                'directory2',
+                'file2.txt',
             ]));
 
         $this->assertSame(
@@ -83,7 +89,9 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'directory1/file2.txt',
                 'file1.txt',
                 'file3.txt',
-            ]), $fileSelection->getSelectedFiles());
+            ]),
+            $fileSelection->getSelectedFiles()
+        );
     }
 
     /** @test */
@@ -91,7 +99,16 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     {
         $fileSelection = new FileSelection('');
 
-        $this->assertCount(0, $fileSelection->getSelectedFiles());
+        $this->assertEmpty($fileSelection->getSelectedFiles());
+    }
+
+    /** @test */
+    public function it_returns_an_empty_array_if_everything_is_excluded()
+    {
+        $fileSelection = (new FileSelection($this->sourceDirectory))
+            ->excludeFilesFrom($this->sourceDirectory);
+
+        $this->assertEmpty($fileSelection->getSelectedFiles());
     }
 
     /** @test */
