@@ -34,7 +34,7 @@ class EventHandler
      */
     public function whenBackupHasFailed(BackupHasFailed $event)
     {
-        $this->notifier->backupHasFailed($event->thrown, $event->backupDestination);
+        $this->notifier->backupHasFailed($event->exception, $event->backupDestination);
     }
 
     /**
@@ -50,7 +50,7 @@ class EventHandler
      */
     public function whenCleanupHasFailed(CleanupHasFailed $event)
     {
-        $this->notifier->cleanupHasFailed($event->thrown);
+        $this->notifier->cleanupHasFailed($event->exception);
     }
 
     /**
