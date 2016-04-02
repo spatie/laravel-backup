@@ -33,6 +33,7 @@ class Pushover extends BaseSender
                 'message' => $this->message,
                 'sound' => $this->getSound(),
             ],
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SAFE_UPLOAD => true,
         ]);
         curl_exec($ch);
