@@ -28,6 +28,7 @@ return [
                  */
                 'exclude' => [
                     base_path('vendor'),
+                    base_path('node_modules'),
                     storage_path(),
                 ],
             ],
@@ -161,8 +162,12 @@ return [
          * Here you can specify how messages should be sent to Pushover.
          */
         'pushover' => [
-            'token' => env('PUSHOVER_APP_TOKEN'),
-            'user'  => env('PUSHOVER_USER_KEY'),
+            'token'  => env('PUSHOVER_APP_TOKEN'),
+            'user'   => env('PUSHOVER_USER_KEY'),
+            'sounds' => [
+                'success' => env('PUSHOVER_SOUND_SUCCESS','pushover'),
+                'error'   => env('PUSHOVER_SOUND_ERROR','siren'),
+            ],
         ],
     ]
 ];

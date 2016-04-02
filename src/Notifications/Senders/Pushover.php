@@ -18,6 +18,10 @@ class Pushover extends BaseSender
         $this->config = $config->get('laravel-backup.notifications.pushover');
     }
 
+    /**
+     * Sends the message to the Pushover API
+     * @return void
+     */
     public function send()
     {
         curl_setopt_array($ch = curl_init(), [
@@ -27,11 +31,22 @@ class Pushover extends BaseSender
                 'user' => $this->config['user'],
                 'title' => $this->subject,
                 'message' => $this->message,
-                'sound' => $this->type === static::TYPE_SUCCESS ? 'pushover' : 'siren',
+                'sound' => $this->getSound(),
             ],
             CURLOPT_SAFE_UPLOAD => true,
         ]);
         curl_exec($ch);
         curl_close($ch);
     }
+
+    /**
+     * @return string
+     */
+    protected function getSound()
+    {
+        return $this->type === static::TYPE_SUCCESS 
+            ? $this->config['sounds']['success'] 
+            : $this->config['sounds']['error'];
+    }
+
 }

@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.3.3 - 2016-04-01
+
+- fixed a bug where the error events would not hold the exceptions in the right variable
+
+### 3.3.2 - 2016-03-30
+
+- excluded node_modules in default backup configuration
+
+### 3.3.1 - 2016-03-29
+
+- fix bug in service provider
+
+### 3.3.0 - 2016-03-29
+
+## This version contains a bug in the service provider. Please upgrade to 3.3.1
+
+- made the pushover sounds configurable
+
 ### 3.2.2 - 2016-03-16
 
 - made sure that, when a notifier fails, the other notifiers wil still get called
