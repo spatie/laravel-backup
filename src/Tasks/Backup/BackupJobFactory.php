@@ -58,13 +58,19 @@ class BackupJobFactory
                     break;
 
                 case 'pgsql':
-                    return PostgreSql::create()
+                    $dbDumper =  PostgreSql::create()
                         ->setHost($dbConfig['host'])
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
                         ->setPassword($dbConfig['password'])
                         ->setDumpBinaryPath(isset($dbConfig['dump_command_path']) ? $dbConfig['dump_command_path'] : '')
                         ->setTimeout(isset($dbConfig['dump_command_timeout']) ? $dbConfig['dump_command_timeout'] : null);
+
+                    if (isset($dbConfig['use_inserts']) && $dbConfig['use_inserts'] == true) {
+                        $dbDumper->useInserts();
+                    }
+
+                    return $dbDumper;
                     break;
 
                 default :
