@@ -66,7 +66,7 @@ class BackupJobFactory
                         ->setDumpBinaryPath(isset($dbConfig['dump_command_path']) ? $dbConfig['dump_command_path'] : '')
                         ->setTimeout(isset($dbConfig['dump_command_timeout']) ? $dbConfig['dump_command_timeout'] : null);
 
-                    if (isset($dbConfig['use_inserts']) && $dbConfig['use_inserts'] == true) {
+                    if (isset($dbConfig['dump_use_inserts']) && $dbConfig['dump_use_inserts'] == true) {
                         $dbDumper->useInserts();
                     }
 
