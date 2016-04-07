@@ -12,7 +12,7 @@ class BackupCommand extends BaseCommand
     /**
      * @var string
      */
-    protected $signature = 'backup:run {--only-db} {--only-files} {--only-to-disk}';
+    protected $signature = 'backup:run {--only-db} {--only-files} {--only-to-disk=}';
 
     /**
      * @var string
