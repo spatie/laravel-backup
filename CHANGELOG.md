@@ -4,7 +4,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 
 ### 3.4.0 - 2016-04-07
 
-- fixed the `--only-yo-disk` option in `backup:run`
+- fixed the `--only-to-disk` option in `backup:run`
 
 ### 3.4.0 - 2016-04-03
 
