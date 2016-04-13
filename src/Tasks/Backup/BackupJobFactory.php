@@ -48,13 +48,19 @@ class BackupJobFactory
 
             switch ($dbConfig['driver']) {
                 case 'mysql':
-                    return MySql::create()
+                    $dbDumper =  MySql::create()
                         ->setHost($dbConfig['host'])
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
                         ->setPassword($dbConfig['password'])
                         ->setDumpBinaryPath(isset($dbConfig['dump_command_path']) ? $dbConfig['dump_command_path'] : '')
                         ->setTimeout(isset($dbConfig['dump_command_timeout']) ? $dbConfig['dump_command_timeout'] : null);
+
+                    if (isset($dbConfig['port'])) {
+                        $dbDumper->setPort($dbConfig['port']);
+                    }
+
+                    return $dbDumper;
                     break;
 
                 case 'pgsql':
