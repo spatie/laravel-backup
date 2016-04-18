@@ -76,6 +76,10 @@ class BackupJobFactory
                         $dbDumper->useInserts();
                     }
 
+                    if (isset($dbConfig['port'])) {
+                        $dbDumper->setPort($dbConfig['port']);
+                    }
+
                     return $dbDumper;
                     break;
 

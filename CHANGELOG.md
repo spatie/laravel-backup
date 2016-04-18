@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.4.3 - 2016-04-18
+
+- the `port` configuration of a postgresql db will now be used when dumping the db
+
 ### 3.4.2 - 2016-04-13
 
 - the `port` configuration of a mysql db will now be used when dumping the db
