@@ -47,7 +47,7 @@ class Notifier
         );
     }
 
-    public function cleanupWasSuccessFul(BackupDestination $backupDestination)
+    public function cleanupWasSuccessful(BackupDestination $backupDestination)
     {
         $this->sendNotification(
             'whenCleanupWasSuccessful',

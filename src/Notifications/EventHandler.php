@@ -40,9 +40,9 @@ class EventHandler
     /**
      * @param \Spatie\Backup\Events\CleanupWasSuccessful $event
      */
-    public function whenCleanupWasSuccessful(CleanupWasSuccessFul $event)
+    public function whenCleanupWasSuccessful(CleanupWasSuccessful $event)
     {
-        $this->notifier->cleanupWasSuccessFul($event->backupDestination);
+        $this->notifier->cleanupWasSuccessful($event->backupDestination);
     }
 
     /**

@@ -39,7 +39,7 @@ class CleanupJob
                 consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on disk {$backupDestination->getDiskName()}...");
 
                 $this->strategy->deleteOldBackups($backupDestination->getBackups());
-                event(new CleanupWasSuccessFul($backupDestination));
+                event(new CleanupWasSuccessful($backupDestination));
 
                 $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
                 consoleOutput()->info("Used storage after cleanup: {$usedStorage}.");

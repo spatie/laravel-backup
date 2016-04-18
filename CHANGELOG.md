@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.4.4 - 2016-04-18
+
+- fixed the capitalization of `CleanupWasSuccessful`
+
 ### 3.4.3 - 2016-04-18
 
 - the `port` configuration of a postgresql db will now be used when dumping the db
