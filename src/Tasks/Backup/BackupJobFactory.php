@@ -60,6 +60,10 @@ class BackupJobFactory
                         $dbDumper->setPort($dbConfig['port']);
                     }
 
+                    if (isset($dbConfig['dump_using_single_transaction']) && $dbConfig['dump_using_single_transaction'] == true) {
+                        $dbDumper->useSingleTransaction();
+                    }
+
                     return $dbDumper;
                     break;
 

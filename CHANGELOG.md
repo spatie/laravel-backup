@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.5.0 - 2016-04-27
+
+- add support for dumping a mysql db using a single transaction
+
 ### 3.4.4 - 2016-04-18
 
 - fixed the capitalization of `CleanupWasSuccessful`
