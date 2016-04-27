@@ -126,6 +126,7 @@ class FileSelection
         $finder = (new Finder())
             ->ignoreDotFiles(false)
             ->ignoreVCS(false)
+            ->followLinks()
             ->files()
             ->in($directory);
 
