@@ -19,8 +19,7 @@ class Pushover extends BaseSender
     }
 
     /**
-     * Sends the message to the Pushover API
-     * @return void
+     * Sends the message to the Pushover API.
      */
     public function send()
     {
@@ -45,9 +44,8 @@ class Pushover extends BaseSender
      */
     protected function getSound()
     {
-        return $this->type === static::TYPE_SUCCESS 
-            ? $this->config['sounds']['success'] 
+        return $this->type === static::TYPE_SUCCESS
+            ? $this->config['sounds']['success']
             : $this->config['sounds']['error'];
     }
-
 }

@@ -48,7 +48,7 @@ class BackupJobFactory
 
             switch ($dbConfig['driver']) {
                 case 'mysql':
-                    $dbDumper =  MySql::create()
+                    $dbDumper = MySql::create()
                         ->setHost($dbConfig['host'])
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
@@ -68,7 +68,7 @@ class BackupJobFactory
                     break;
 
                 case 'pgsql':
-                    $dbDumper =  PostgreSql::create()
+                    $dbDumper = PostgreSql::create()
                         ->setHost($dbConfig['host'])
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
