@@ -126,9 +126,12 @@ class FileSelection
         $finder = (new Finder())
             ->ignoreDotFiles(false)
             ->ignoreVCS(false)
-            ->followLinks()
             ->files()
             ->in($directory);
+
+        if (config('laravel-backup.backup.source.files.followLinks')) {
+            $finder->followLinks();
+        }
 
         $filePaths = array_map(function (SplFileInfo $fileInfo) {
             return $fileInfo->getPathname();
