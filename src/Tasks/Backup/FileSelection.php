@@ -14,6 +14,9 @@ class FileSelection
     /** @var array */
     protected $excludeFilesAndDirectories = [];
 
+    /** @var bool */
+    protected $shouldFollowLinks = false;
+
     /**
      * @param array|string $includeFilesAndDirectories
      *
@@ -50,6 +53,20 @@ class FileSelection
         }
 
         $this->excludeFilesAndDirectories = $excludeFilesAndDirectories;
+
+        return $this;
+    }
+
+    /**
+     * Enable or disable the following of symlinks.
+     *
+     * @param bool $shouldFollowLinks
+     *
+     * @return \Spatie\Backup\Tasks\Backup\FileSelection
+     */
+    public function shouldFollowLinks($shouldFollowLinks)
+    {
+        $this->shouldFollowLinks = $shouldFollowLinks;
 
         return $this;
     }
@@ -129,7 +146,7 @@ class FileSelection
             ->files()
             ->in($directory);
 
-        if (config('laravel-backup.backup.source.files.followLinks')) {
+        if ($this->shouldFollowLinks) {
             $finder->followLinks();
         }
 
