@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.6.0 - 2016-05-10
+
+- add support for wildcards in excluding paths
+
 ### 3.5.0 - 2016-04-27
 
 - add support for dumping a mysql db using a single transaction
