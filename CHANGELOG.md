@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.6.1 - 2016-05-10
+
+- refactored wildcard support
+
 ### 3.6.0 - 2016-05-10
 
 - add support for wildcards in excluding paths
