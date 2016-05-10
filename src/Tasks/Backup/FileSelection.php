@@ -91,6 +91,8 @@ class FileSelection
      */
     protected function getAllFilesFromPaths(array $paths)
     {
+        $paths = $this->checkForWildcardPaths($paths);
+
         $allFiles = collect($paths)
             ->filter(function ($path) {
                 return file_exists($path);
@@ -136,5 +138,23 @@ class FileSelection
         $filePaths = array_values($filePaths);
 
         return $filePaths;
+    }
+
+    /**
+     * Check all paths in array for a wildcard (*) and build a new array from the results.
+     *
+     * @param $paths
+     *
+     * @return array
+     */
+    private function checkForWildcardPaths($paths)
+    {
+        $paths_new = [];
+        foreach ($paths as $path) {
+            $paths_new[] = glob($path);
+        }
+        $paths_new = array_flatten($paths_new);
+
+        return $paths_new;
     }
 }
