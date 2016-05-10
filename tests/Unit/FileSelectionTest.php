@@ -57,6 +57,24 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function it_can_exclude_files_with_wildcards_from_a_given_subdirectory()
+    {
+        $fileSelection = (new FileSelection($this->sourceDirectory))
+            ->excludeFilesFrom("{$this->sourceDirectory}/*/directory1");
+
+        $this->assertSame(
+            $this->getTestFiles([
+                'directory1/file1.txt',
+                'directory1/file2.txt',
+                'file1.txt',
+                'file2.txt',
+                'file3.txt',
+            ]),
+            $fileSelection->getSelectedFiles()
+        );
+    }
+
+    /** @test */
     public function it_can_select_files_from_multiple_directories()
     {
         $fileSelection = (new FileSelection([
