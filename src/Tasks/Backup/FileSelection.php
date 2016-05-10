@@ -140,7 +140,7 @@ class FileSelection
     /**
      * Check all paths in array for a wildcard (*) and build a new array from the results.
      *
-     * @param array $paths 
+     * @param array $paths
      *
      * @return array
      */
