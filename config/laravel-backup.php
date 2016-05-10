@@ -25,10 +25,6 @@ return [
                 /*
                  * These directories will be excluded from the backup.
                  * You can specify individual files as well.
-                 *
-                 * You can use a wildcard (*) to exclude some paths. Example: */
-                 // base_path('public/media/*/conversions')
-                 /* This will exclude all media conversions in the backup.
                  */
                 'exclude' => [
                     base_path('vendor'),

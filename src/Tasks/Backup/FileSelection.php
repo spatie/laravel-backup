@@ -91,17 +91,15 @@ class FileSelection
      */
     protected function getAllFilesFromPaths(array $paths)
     {
-        $paths = $this->checkForWildcardPaths($paths);
+        $paths = $this->expandWildCardPaths($paths);
 
         $allFiles = collect($paths)
             ->filter(function ($path) {
                 return file_exists($path);
             })
-
             ->map(function ($file) {
                 return realpath($file);
             })
-
             ->reduce(function (Collection $filePaths, $path) {
                 if (is_dir($path)) {
                     return $filePaths->merge($this->getAllFilesFromDirectory($path));
@@ -109,7 +107,6 @@ class FileSelection
 
                 return $filePaths->push($path);
             }, collect())
-
             ->unique()
             ->toArray();
 
@@ -143,18 +140,17 @@ class FileSelection
     /**
      * Check all paths in array for a wildcard (*) and build a new array from the results.
      *
-     * @param $paths
+     * @param array $paths
      *
      * @return array
      */
-    private function checkForWildcardPaths($paths)
+    protected function expandWildCardPaths(array $paths)
     {
-        $paths_new = [];
-        foreach ($paths as $path) {
-            $paths_new[] = glob($path);
-        }
-        $paths_new = array_flatten($paths_new);
-
-        return $paths_new;
+        return collect($paths)
+            ->map(function ($path) {
+                return glob($path);
+            })
+            ->flatten()
+            ->toArray();
     }
 }
