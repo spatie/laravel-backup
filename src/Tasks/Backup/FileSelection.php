@@ -14,6 +14,9 @@ class FileSelection
     /** @var array */
     protected $excludeFilesAndDirectories = [];
 
+    /** @var bool */
+    protected $shouldFollowLinks = false;
+
     /**
      * @param array|string $includeFilesAndDirectories
      *
@@ -50,6 +53,20 @@ class FileSelection
         }
 
         $this->excludeFilesAndDirectories = $excludeFilesAndDirectories;
+
+        return $this;
+    }
+
+    /**
+     * Enable or disable the following of symlinks.
+     *
+     * @param bool $shouldFollowLinks
+     *
+     * @return \Spatie\Backup\Tasks\Backup\FileSelection
+     */
+    public function shouldFollowLinks($shouldFollowLinks)
+    {
+        $this->shouldFollowLinks = $shouldFollowLinks;
 
         return $this;
     }
@@ -127,6 +144,10 @@ class FileSelection
             ->ignoreVCS(false)
             ->files()
             ->in($directory);
+
+        if ($this->shouldFollowLinks) {
+            $finder->followLinks();
+        }
 
         $filePaths = array_map(function (SplFileInfo $fileInfo) {
             return $fileInfo->getPathname();

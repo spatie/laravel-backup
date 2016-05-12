@@ -32,7 +32,8 @@ class BackupJobFactory
     protected static function getFileSelection(array $sourceFiles)
     {
         return (new FileSelection($sourceFiles['include']))
-            ->excludeFilesFrom($sourceFiles['exclude']);
+            ->excludeFilesFrom($sourceFiles['exclude'])
+            ->shouldFollowLinks($sourceFiles['followLinks']);
     }
 
     /**

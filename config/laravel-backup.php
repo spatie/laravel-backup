@@ -31,6 +31,11 @@ return [
                     base_path('node_modules'),
                     storage_path(),
                 ],
+
+                /*
+                 * Forces the following of symlinks if set to true.
+                 */
+                'followLinks' => false,
             ],
 
             /*
