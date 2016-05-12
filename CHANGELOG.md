@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.70 - 2016-05-12
+
+- added an option to determine if symlinks should be followed when selecting files
+
 ### 3.6.1 - 2016-05-10
 
 - refactored wildcard support

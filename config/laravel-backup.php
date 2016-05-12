@@ -33,7 +33,7 @@ return [
                 ],
 
                 /*
-                 * Forces the following of symlinks if set to true.
+                 * Determines if symlinks should be followed.
                  */
                 'followLinks' => false,
             ],
