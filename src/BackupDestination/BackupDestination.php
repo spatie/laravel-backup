@@ -16,14 +16,12 @@ class BackupDestination
     protected $diskName;
 
     /** @var string */
-    protected $backupDirectory;
+    protected $backupName;
 
     /** @var Exception */
     public $connectionError;
 
     /**
-     * BackupDestination constructor.
-     *
      * @param \Illuminate\Contracts\Filesystem\Filesystem|null $disk
      * @param string                                           $backupName
      * @param string                                           $diskName
