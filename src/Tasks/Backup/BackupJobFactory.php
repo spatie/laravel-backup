@@ -33,7 +33,7 @@ class BackupJobFactory
     {
         return (new FileSelection($sourceFiles['include']))
             ->excludeFilesFrom($sourceFiles['exclude'])
-            ->shouldFollowLinks($sourceFiles['followLinks']);
+            ->shouldFollowLinks(isset($sourceFiles['followLinks']) && $sourceFiles['followLinks']);
     }
 
     /**
