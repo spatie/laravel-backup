@@ -79,7 +79,7 @@ class CleanupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_can_will_leave_non_zip_files_alone()
+    public function it_will_leave_non_zip_files_alone()
     {
         $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
         $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));
@@ -97,7 +97,7 @@ class CleanupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_wil_never_delete_the_youngest_backup()
+    public function it_will_never_delete_the_youngest_backup()
     {
         foreach (range(5, 10) as $numberOfDays) {
             $date = Carbon::now()->subYears($numberOfDays);
