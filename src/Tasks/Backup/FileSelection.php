@@ -71,11 +71,8 @@ class FileSelection
     public function getSelectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
-            echo 'empty';
             return collect();
         }
-
-        var_dump($this->includeFilesAndDirectories->all());
 
         $filesToBeIncluded = $this->getAllFilesFromPaths($this->includeFilesAndDirectories);
 
@@ -155,6 +152,9 @@ class FileSelection
     protected function createPathCollection($paths)
     {
         return collect($paths)
+            ->reject(function ($path) {
+                return $path == '';
+            })
             ->flatMap(function ($path) {
                 return glob($path);
             })
