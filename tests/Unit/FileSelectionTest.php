@@ -117,8 +117,6 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     {
         $fileSelection = new FileSelection('');
 
-        print_r($fileSelection->getSelectedFiles()->toArray());
-
         $this->assertEmpty($fileSelection->getSelectedFiles()->toArray());
     }
 

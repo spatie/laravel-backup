@@ -33,6 +33,7 @@ class FileSelection
     public function __construct($includeFilesAndDirectories)
     {
         $this->includeFilesAndDirectories = $this->createPathCollection($includeFilesAndDirectories);
+
         $this->excludeFilesAndDirectories = collect();
     }
 
@@ -46,7 +47,7 @@ class FileSelection
     public function excludeFilesFrom($excludeFilesAndDirectories)
     {
         $this->excludeFilesAndDirectories = $this->createPathCollection($excludeFilesAndDirectories);
-
+        
         return $this;
     }
 
@@ -70,8 +71,11 @@ class FileSelection
     public function getSelectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
+            echo 'empty';
             return collect();
         }
+
+        var_dump($this->includeFilesAndDirectories->all());
 
         $filesToBeIncluded = $this->getAllFilesFromPaths($this->includeFilesAndDirectories);
 
