@@ -8,11 +8,11 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class FileSelection
 {
-    /** @var array */
-    protected $includeFilesAndDirectories = [];
+    /** @var \Illuminate\Support\Collection */
+    protected $includeFilesAndDirectories;
 
-    /** @var array */
-    protected $excludeFilesAndDirectories = [];
+    /** @var \Illuminate\Support\Collection */
+    protected $excludeFilesAndDirectories;
 
     /** @var bool */
     protected $shouldFollowLinks = false;
@@ -32,11 +32,8 @@ class FileSelection
      */
     public function __construct($includeFilesAndDirectories)
     {
-        if (!is_array($includeFilesAndDirectories)) {
-            $includeFilesAndDirectories = [$includeFilesAndDirectories];
-        }
-
-        $this->includeFilesAndDirectories = $includeFilesAndDirectories;
+        $this->includeFilesAndDirectories = $this->createPathCollection($includeFilesAndDirectories);
+        $this->excludeFilesAndDirectories = collect();
     }
 
     /**
@@ -48,11 +45,7 @@ class FileSelection
      */
     public function excludeFilesFrom($excludeFilesAndDirectories)
     {
-        if (!is_array($excludeFilesAndDirectories)) {
-            $excludeFilesAndDirectories = [$excludeFilesAndDirectories];
-        }
-
-        $this->excludeFilesAndDirectories = $excludeFilesAndDirectories;
+        $this->excludeFilesAndDirectories = $this->createPathCollection($excludeFilesAndDirectories);
 
         return $this;
     }
@@ -72,45 +65,40 @@ class FileSelection
     }
 
     /**
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function getSelectedFiles()
     {
-        if (count($this->includeFilesAndDirectories) === 0) {
-            return [];
+        if ($this->includeFilesAndDirectories->isEmpty()) {
+            return collect();
         }
 
         $filesToBeIncluded = $this->getAllFilesFromPaths($this->includeFilesAndDirectories);
 
-        if (count($this->excludeFilesAndDirectories) === 0) {
+        if ($this->excludeFilesAndDirectories->isEmpty()) {
             return $filesToBeIncluded;
         }
 
-        $filesToBeExcluded = $this->getAllFilesFromPaths($this->excludeFilesAndDirectories);
-
-        $selectedFiles = collect($filesToBeIncluded)
-            ->filter(function ($file) use ($filesToBeExcluded) {
-                return !in_array($file, $filesToBeExcluded);
+        return $filesToBeIncluded
+            ->reject(function ($path) {
+                return $this->excludeFilesAndDirectories
+                    ->contains(function ($key, $excludedPath) use ($path) {
+                        return starts_with($path, $excludedPath);
+                    });
             })
-            ->toArray();
-
-        $selectedFiles = array_values($selectedFiles);
-
-        return $selectedFiles;
+            ->values();
     }
 
     /**
      * Make a unique array of all files from a given array of files and directories.
      *
-     * @param array $paths
+     * @param \Illuminate\Support\Collection $paths
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    protected function getAllFilesFromPaths(array $paths)
+    protected function getAllFilesFromPaths(Collection $paths)
     {
-        $paths = $this->expandWildCardPaths($paths);
-
-        $allFiles = collect($paths)
+        return $paths
             ->filter(function ($path) {
                 return file_exists($path);
             })
@@ -124,10 +112,7 @@ class FileSelection
 
                 return $filePaths->push($path);
             }, collect())
-            ->unique()
-            ->toArray();
-
-        return $allFiles;
+            ->unique();
     }
 
     /**
@@ -135,7 +120,7 @@ class FileSelection
      *
      * @param string $directory
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     protected function getAllFilesFromDirectory($directory)
     {
@@ -149,29 +134,31 @@ class FileSelection
             $finder->followLinks();
         }
 
-        $filePaths = array_map(function (SplFileInfo $fileInfo) {
-            return $fileInfo->getPathname();
-        }, iterator_to_array($finder));
-
-        $filePaths = array_values($filePaths);
-
-        return $filePaths;
+        return collect(iterator_to_array($finder))
+            ->map(function (SplFileInfo $fileInfo) {
+                return $fileInfo->getPathname();
+            })
+            ->values();
     }
 
     /**
-     * Check all paths in array for a wildcard (*) and build a new array from the results.
+     * Fully expand paths, and reject non-existing paths.
      *
-     * @param array $paths
+     * @param $paths
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    protected function expandWildCardPaths(array $paths)
+    protected function createPathCollection($paths)
     {
         return collect($paths)
-            ->map(function ($path) {
+            ->flatMap(function ($path) {
                 return glob($path);
             })
-            ->flatten()
-            ->toArray();
+            ->map(function ($path) {
+                return realpath($path);
+            })
+            ->reject(function ($path) {
+                return $path === false;
+            });
     }
 }
