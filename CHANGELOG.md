@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.7.2 - 2016-05-28
+
+- refactor `FileSelection` in an attempt to reduce memory usage
+
 ### 3.7.1 - 2016-05-13
 
 - fix for missing `followLinks` option after running `composer update`
