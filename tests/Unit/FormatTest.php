@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Skeleton\Test\Unit;
+namespace Spatie\Backup\Test\Unit;
 
 use Carbon\Carbon;
 use Spatie\Backup\Helpers\Format;

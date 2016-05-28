@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Skeleton\Test\Unit;
+namespace Spatie\Backup\Test\Unit;
 
 use Spatie\Backup\Tasks\Backup\FileSelection;
 use Spatie\Backup\Test\TestHelper;
