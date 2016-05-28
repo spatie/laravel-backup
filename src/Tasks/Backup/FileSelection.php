@@ -32,7 +32,7 @@ class FileSelection
      */
     public function __construct($includeFilesAndDirectories)
     {
-        $this->includeFilesAndDirectories = collect($includeFilesAndDirectories);
+        $this->includeFilesAndDirectories = $this->createPathCollection($includeFilesAndDirectories);
         $this->excludeFilesAndDirectories = collect();
     }
 
@@ -45,7 +45,7 @@ class FileSelection
      */
     public function excludeFilesFrom($excludeFilesAndDirectories)
     {
-        $this->excludeFilesAndDirectories = collect($excludeFilesAndDirectories);
+        $this->excludeFilesAndDirectories = $this->createPathCollection($excludeFilesAndDirectories);
 
         return $this;
     }
@@ -70,7 +70,7 @@ class FileSelection
     public function getSelectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
-            return [];
+            return collect();
         }
 
         $filesToBeIncluded = $this->getAllFilesFromPaths($this->includeFilesAndDirectories);
@@ -79,11 +79,12 @@ class FileSelection
             return $filesToBeIncluded;
         }
 
-        $filesToBeExcluded = $this->getAllFilesFromPaths($this->excludeFilesAndDirectories);
-
         return $filesToBeIncluded
-            ->filter(function ($file) use ($filesToBeExcluded) {
-                return !$filesToBeExcluded->contains($file);
+            ->reject(function ($path) {
+                return $this->excludeFilesAndDirectories
+                    ->contains(function ($key, $excludedPath) use ($path) {
+                        return starts_with($path, $excludedPath);
+                    });
             })
             ->values();
     }
@@ -97,8 +98,6 @@ class FileSelection
      */
     protected function getAllFilesFromPaths(Collection $paths)
     {
-        $paths = $this->expandWildCardPaths($paths);
-
         return $paths
             ->filter(function ($path) {
                 return file_exists($path);
@@ -143,18 +142,23 @@ class FileSelection
     }
 
     /**
-     * Check all paths in array for a wildcard (*) and build a new array from the results.
+     * Fully expand paths, and reject non-existing paths.
      *
-     * @param \Illuminate\Support\Collection $paths
+     * @param $paths
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function expandWildCardPaths(Collection $paths)
+    protected function createPathCollection($paths)
     {
         return collect($paths)
-            ->map(function ($path) {
+            ->flatMap(function ($path) {
                 return glob($path);
             })
-            ->flatten();
+            ->map(function ($path) {
+                return realpath($path);
+            })
+            ->reject(function ($path) {
+                return $path === false;
+            });
     }
 }
