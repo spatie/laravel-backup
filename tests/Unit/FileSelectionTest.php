@@ -113,7 +113,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_returns_an_empty_array_when_not_specifing_any_directories()
+    public function it_returns_an_empty_array_when_not_specifying_any_directories()
     {
         $fileSelection = new FileSelection('');
 
