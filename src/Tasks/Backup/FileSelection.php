@@ -47,7 +47,7 @@ class FileSelection
     public function excludeFilesFrom($excludeFilesAndDirectories)
     {
         $this->excludeFilesAndDirectories = $this->createPathCollection($excludeFilesAndDirectories);
-        
+
         return $this;
     }
 

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.8.0 - 2016-06-16
+
+- the backup lists command now highlights the problems with a backupdestination when it is unhealty
+
 ### 3.7.2 - 2016-05-28
 
 - refactor `FileSelection` in an attempt to reduce memory usage

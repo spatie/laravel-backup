@@ -36,29 +36,59 @@ class ListCommand extends BaseCommand
         $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Youngest backup', 'Used storage'];
 
         $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus) {
-
-            $row = [
-                $backupDestinationStatus->getBackupName(),
-                $backupDestinationStatus->getDiskName(),
-                Format::getEmoji($backupDestinationStatus->isReachable()),
-                Format::getEmoji($backupDestinationStatus->isHealthy()),
-                'amount' => $backupDestinationStatus->getAmountOfBackups(),
-                'youngest' => $backupDestinationStatus->getDateOfNewestBackup()
-                    ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
-                    : 'No backups present',
-                'usedStorage' => $backupDestinationStatus->getHumanReadableUsedStorage(),
-            ];
-
-            if (!$backupDestinationStatus->isReachable()) {
-                foreach (['amount', 'youngest', 'usedStorage'] as $propertyName) {
-                    $row[$propertyName] = '/';
-                }
-            }
-
-            return $row;
+            return $this->convertToRow($backupDestinationStatus);
         });
 
         $this->table($headers, $rows);
+    }
+
+    /**
+     * @param \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus $backupDestinationStatus
+     *
+     * @return array
+     */
+    public function convertToRow(BackupDestinationStatus $backupDestinationStatus)
+    {
+        $row = [
+            $backupDestinationStatus->getBackupName(),
+            $backupDestinationStatus->getDiskName(),
+            Format::getEmoji($backupDestinationStatus->isReachable()),
+            Format::getEmoji($backupDestinationStatus->isHealthy()),
+            'amount' => $backupDestinationStatus->getAmountOfBackups(),
+            'youngest' => $backupDestinationStatus->getDateOfNewestBackup()
+                ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
+                : 'No backups present',
+            'usedStorage' => $backupDestinationStatus->getHumanReadableUsedStorage(),
+        ];
+
+        if (!$backupDestinationStatus->isReachable()) {
+            foreach (['amount', 'youngest', 'usedStorage'] as $propertyName) {
+                $row[$propertyName] = '/';
+            }
+        }
+
+        $row = $this->applyStylingToRow($row, $backupDestinationStatus);
+
+        return $row;
+    }
+
+    /**
+     * @param array                                                $row
+     * @param \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus $backupDestinationStatus
+     *
+     * @return array
+     */
+    protected function applyStylingToRow($row, BackupDestinationStatus $backupDestinationStatus)
+    {
+        if ($backupDestinationStatus->newestBackupIsToolOld() || (!$backupDestinationStatus->getDateOfNewestBackup())) {
+            $row['youngest'] = "<error>{$row['youngest']}</error>";
+        }
+
+        if ($backupDestinationStatus->backupUsesTooMuchStorage()) {
+            $row['usedStorage'] = "<error>{$row['usedStorage']} </error>";
+        }
+
+        return $row;
     }
 
     /**
