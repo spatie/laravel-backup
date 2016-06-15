@@ -88,7 +88,7 @@ return [
             'keepMonthlyBackupsForMonths' => 4,
 
             /*
-             * The amount of years of which one yearly backup must be kept
+             * The amount of years of which one yearly backup must be kept.
              */
             'keepYearlyBackupsForYears' => 2,
 
