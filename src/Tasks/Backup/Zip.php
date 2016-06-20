@@ -91,4 +91,35 @@ class Zip
 
         return $this;
     }
+
+    /**
+     * @param string $fileName
+     *
+     * @return boolean
+     */
+    public function fileExists($fileName)
+    {
+        $this->open();
+
+        $index = $this->zipFile->locateName($fileName);
+    
+        $this->close();
+
+        return $index !== false;
+    }
+
+     /**
+     * @param string $fileName
+     *
+     * @return boolean
+     */
+    public function getFile($fileName)
+    {
+        $this->open();
+
+        $stream = $this->zipFile->getStream($fileName);
+        $this->close();
+
+        return $stream;
+    }
 }

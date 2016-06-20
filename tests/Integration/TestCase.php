@@ -4,12 +4,13 @@ namespace Spatie\Backup\Test\Integration;
 
 use Event;
 use Exception;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Storage;
-use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Backup\BackupServiceProvider;
 use Spatie\Backup\Test\TestHelper;
+use Spatie\Backup\Tasks\Backup\Zip;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Console\Kernel;
+use Spatie\Backup\BackupServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
@@ -75,7 +76,35 @@ abstract class TestCase extends Orchestra
         });
 
         TestModel::create(['name' => 'test']);
+        
     }
+
+    /**
+     * @param string $directory
+     * @param string $pathToZip
+     */
+    protected function assertFileExistsInZipFile( $fileName, $pathToZip )
+    {
+        $zip = new Zip($pathToZip);
+        
+        $fileExists = $zip->fileExists( $fileName );
+             
+        $this->assertEquals( true , $fileExists );
+    } 
+
+    /**
+     * @param string $directory
+     * @param string $pathToZip
+     */
+    protected function assertFileDoesNotExistsInZipFile( $fileName, $pathToZip )
+    {
+        $zip = new Zip($pathToZip);
+        
+        $fileExists = $zip->fileExists( $fileName );
+             
+        $this->assertEquals( false , $fileExists );
+    }
+
 
     /**
      * @param string $extension
@@ -168,4 +197,5 @@ abstract class TestCase extends Orchestra
 
         $this->assertNotContains($unExpectedText, $consoleOutput, "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`");
     }
+
 }

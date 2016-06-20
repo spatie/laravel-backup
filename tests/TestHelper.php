@@ -3,7 +3,9 @@
 namespace Spatie\Backup\Test;
 
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
 
 class TestHelper
 {
@@ -50,6 +52,12 @@ class TestHelper
         return __DIR__.'/temp';
     }
 
+    public function getMigrationDirectory()
+    {
+        return __DIR__.'/migrations';
+    }
+
+    
     public function createTempFileWithAge($fileName, DateTime $date, $contents = '')
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);
@@ -62,4 +70,35 @@ class TestHelper
 
         touch($fullPath, $date->getTimeStamp());
     }
+
+    /**
+     * @param string $directory
+     * @param string $diskName
+     */
+    public function getFirstZipFileFromPath( $directory, $diskName )
+    {
+
+        $files = Storage::disk( $diskName )->files( $directory );
+
+        $filePath = '';
+
+        foreach ($files as $file) {
+            if( pathinfo($file, PATHINFO_EXTENSION) == 'zip' )
+            {
+                $filePath = $file;
+                break;
+            }
+        }
+        
+        if( empty($filePath))
+        {
+            return false;
+        }
+
+        $pathToZip = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix().$filePath;
+
+        return $pathToZip;
+    }
+
+   
 }

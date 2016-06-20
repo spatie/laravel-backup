@@ -44,6 +44,21 @@ return [
              */
             'databases' => [
                 'mysql',
+                
+                /*
+                * You can use some options to database backups
+                * includeTables - Incluide only these tables in backup
+                * excludeTables - Ingnore these tables in backup
+                * NOTE - You can't use includeTables and excludeTables at the same time.
+                * NOTE - Don't prefix the schema name. It'll be done automatically  
+                *'mysql' => [
+                *    'excludeTables' => [
+                *        'table_one' ,
+                *        'table_two'
+                *    ]
+                *]
+                * Currently only MySQL (includeTables and excludeTables) options are supported.
+                */
             ],
         ],
 

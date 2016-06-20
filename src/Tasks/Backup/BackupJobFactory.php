@@ -14,11 +14,13 @@ class BackupJobFactory
      *
      * @return \Spatie\Backup\Tasks\Backup\BackupJob
      */
-    public static function createFromArray(array $config)
-    {
+    public static function createFromArray(array $config, $options = [])
+    {   
+
+
         $backupJob = (new BackupJob())
             ->setFileSelection(static::getFileSelection($config['backup']['source']['files']))
-            ->setDbDumpers(static::getDbDumpers($config['backup']['source']['databases']))
+            ->setDbDumpers(static::getDbDumpers($config['backup']['source']['databases'] , $options) )
             ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']));
 
         return $backupJob;
@@ -41,9 +43,20 @@ class BackupJobFactory
      *
      * @return array
      */
-    protected static function getDbDumpers(array $dbConnectionNames)
+    protected static function getDbDumpers(array $dbConnectionNames , $parametersOptions)
     {
-        $dbDumpers = array_map(function ($dbConnectionName) {
+
+        $dbDumpers = [];
+        
+        foreach( $dbConnectionNames as $dbConnectionName => $options )
+        {
+
+            //To fits when there are no options
+            if( ! is_array($options) )
+            {
+                $dbConnectionName = $options;
+                $options = [];
+            }
 
             $dbConfig = config("database.connections.{$dbConnectionName}");
 
@@ -65,7 +78,30 @@ class BackupJobFactory
                         $dbDumper->useSingleTransaction();
                     }
 
-                    return $dbDumper;
+                    if( array_key_exists('exclude-tables', $parametersOptions) )
+                    {
+                        $excludeTables = static::prefixDbName( $dbConfig['database'] , $parametersOptions['exclude-tables'] );
+                        
+                        $dbDumper->excludeTables( $excludeTables );
+                    }
+                    else if( array_key_exists('excludeTables', $options) )
+                    {
+                        #prepend database name
+                        $excludeTables = static::prefixDbName( $dbConfig['database'] , $options['excludeTables'] );
+                        
+                        $dbDumper->excludeTables( $excludeTables );
+                    }
+                    
+                    if( array_key_exists('includeTables', $options) )
+                    {
+                        #prepend database name
+                        $includeTables =  static::prefixDbName( $dbConfig['database'] , $options['includeTables'] );
+                        
+                        $dbDumper->includeTables( $includeTables );
+                    }
+
+
+                    $dbDumpers[] = $dbDumper;
                     break;
 
                 case 'pgsql':
@@ -85,15 +121,20 @@ class BackupJobFactory
                         $dbDumper->setPort($dbConfig['port']);
                     }
 
-                    return $dbDumper;
+                    $dbDumpers[] = $dbDumper;
                     break;
 
                 default :
                     throw InvalidConfiguration::cannotUseUnsupportedDriver($dbConnectionName, $dbConfig['driver']);
                     break;
             }
-        }, $dbConnectionNames);
+         }
 
         return $dbDumpers;
+    }
+
+    private static function prefixDbName( $dbName , $tables )
+    {
+        return array_map(function($value) use ($dbName) { return $dbName.'.'.$value; }, $tables);
     }
 }

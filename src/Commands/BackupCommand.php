@@ -12,7 +12,7 @@ class BackupCommand extends BaseCommand
     /**
      * @var string
      */
-    protected $signature = 'backup:run {--only-db} {--only-files} {--only-to-disk=}';
+    protected $signature = 'backup:run {--only-db} {--only-files} {--only-to-disk=} {--exclude-tables=}';
 
     /**
      * @var string
@@ -26,7 +26,13 @@ class BackupCommand extends BaseCommand
         try {
             $this->guardAgainstInvalidOptions();
 
-            $backupJob = BackupJobFactory::createFromArray(config('laravel-backup'));
+            $options = [];
+
+            if ($this->option('exclude-tables')) {
+                $options['exclude-tables'] = explode( ',' , $this->option('exclude-tables') );
+            }
+
+            $backupJob = BackupJobFactory::createFromArray(config('laravel-backup') , $options);
 
             if ($this->option('only-db')) {
                 $backupJob->doNotBackupFilesystem();

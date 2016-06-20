@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.7.3 - 2016-06-21
+
+- added support to mysql '--ignore-table' mysqldump option
+- added tests to mysqldump
+
 ### 3.7.2 - 2016-05-28
 
 - refactor `FileSelection` in an attempt to reduce memory usage
