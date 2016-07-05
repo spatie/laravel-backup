@@ -9,6 +9,9 @@ class Zip
     /** @var \ZipArchive */
     protected $zipFile;
 
+    /** @var int */
+    protected $fileCount = 0;
+
     /** @var string */
     protected $pathToZip;
 
@@ -77,18 +80,24 @@ class Zip
             $nameInZip = null;
         }
 
+        if (is_string($files)) {
+            $files = [$files];
+        }
+
         $this->open();
 
-        collect($files)
-            ->filter(function ($file) {
-               return is_file($file);
-            })
-            ->each(function ($file) use ($nameInZip) {
-                $this->zipFile->addFile($file, $nameInZip);
-            });
+        foreach ($files as $file) {
+            $this->zipFile->addFile($file, $nameInZip);
+            $this->fileCount++;
+        }
 
         $this->close();
 
         return $this;
+    }
+
+    public function count()
+    {
+        return $this->fileCount;
     }
 }
