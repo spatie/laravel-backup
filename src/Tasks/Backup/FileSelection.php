@@ -132,7 +132,7 @@ class FileSelection
     /**
      * @param $paths
      *
-     * @return static
+     * @return \Illuminate\Support\Collection
      */
     protected function createPathCollection($paths)
     {
