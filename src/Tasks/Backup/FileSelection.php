@@ -30,7 +30,7 @@ class FileSelection
      */
     public function __construct($includeFilesAndDirectories)
     {
-        $this->includeFilesAndDirectories = $this->createPathCollection($includeFilesAndDirectories);
+        $this->includeFilesAndDirectories = $this->sanitize($includeFilesAndDirectories);
 
         $this->excludeFilesAndDirectories = collect();
     }
@@ -44,7 +44,7 @@ class FileSelection
      */
     public function excludeFilesFrom($excludeFilesAndDirectories)
     {
-        $this->excludeFilesAndDirectories = $this->createPathCollection($excludeFilesAndDirectories);
+        $this->excludeFilesAndDirectories = $this->sanitize($excludeFilesAndDirectories);
 
         return $this;
     }
@@ -134,7 +134,7 @@ class FileSelection
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function createPathCollection($paths)
+    protected function sanitize($paths)
     {
         return collect($paths)
             ->reject(function ($path) {

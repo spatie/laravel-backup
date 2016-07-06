@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.8.1 - 2016-07-06
+
+-  vastly reduce memory usage and speed up backup
+
 ### 3.8.0 - 2016-06-16
 
 - the backup:list command now highlights the problems with a backupdestination when it is unhealty
