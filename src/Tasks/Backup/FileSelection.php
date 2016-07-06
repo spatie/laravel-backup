@@ -2,9 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 class FileSelection
 {
@@ -66,88 +64,75 @@ class FileSelection
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Generator|string
      */
     public function getSelectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
-            return collect();
+            return;
         }
 
-        $filesToBeIncluded = $this->getAllFilesFromPaths($this->includeFilesAndDirectories);
-
-        if ($this->excludeFilesAndDirectories->isEmpty()) {
-            return $filesToBeIncluded;
-        }
-
-        return $filesToBeIncluded
-            ->reject(function ($path) {
-                return $this->excludeFilesAndDirectories
-                    ->contains(function ($key, $excludedPath) use ($path) {
-                        return starts_with($path, $excludedPath);
-                    });
-            })
-            ->values();
-    }
-
-    /**
-     * Make a unique array of all files from a given array of files and directories.
-     *
-     * @param \Illuminate\Support\Collection $paths
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    protected function getAllFilesFromPaths(Collection $paths)
-    {
-        return $paths
-            ->filter(function ($path) {
-                return file_exists($path);
-            })
-            ->map(function ($file) {
-                return realpath($file);
-            })
-            ->reduce(function (Collection $filePaths, $path) {
-                if (is_dir($path)) {
-                    return $filePaths->merge($this->getAllFilesFromDirectory($path));
-                }
-
-                return $filePaths->push($path);
-            }, collect())
-            ->unique();
-    }
-
-    /**
-     * Recursively get all the files within a given directory.
-     *
-     * @param string $directory
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    protected function getAllFilesFromDirectory($directory)
-    {
         $finder = (new Finder())
             ->ignoreDotFiles(false)
             ->ignoreVCS(false)
-            ->files()
-            ->in($directory);
+            ->files();
 
         if ($this->shouldFollowLinks) {
             $finder->followLinks();
         }
 
-        return collect(iterator_to_array($finder))
-            ->map(function (SplFileInfo $fileInfo) {
-                return $fileInfo->getPathname();
-            })
-            ->values();
+        $finder->in($this->includedDirectories());
+
+        foreach ($this->includedFiles() as $includedFile) {
+            yield $includedFile;
+        }
+
+        foreach ($finder->getIterator() as $file) {
+
+            if ($this->shouldExclude($file)) {
+                continue;
+            }
+
+            yield $file->getPathname();
+        }
     }
 
     /**
-     * Fully expand paths, and reject non-existing paths.
+     * @return array
+     */
+    protected function includedFiles()
+    {
+        return $this->includeFilesAndDirectories->filter(function ($path) {
+            return is_file($path);
+        })->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    protected function includedDirectories()
+    {
+        return $this->includeFilesAndDirectories->reject(function ($path) {
+            return is_file($path);
+        })->toArray();
+    }
+
+    /**
+     * @param string $path
      *
+     * @return bool
+     */
+    protected function shouldExclude($path)
+    {
+        return $this->excludeFilesAndDirectories->contains(function ($key, $excludedPath) use ($path) {
+            return starts_with($path, $excludedPath);
+        });
+    }
+
+    /**
      * @param $paths
      *
-     * @return \Illuminate\Support\Collection
+     * @return static
      */
     protected function createPathCollection($paths)
     {
