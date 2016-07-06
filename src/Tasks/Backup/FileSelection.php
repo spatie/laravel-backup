@@ -64,12 +64,12 @@ class FileSelection
     }
 
     /**
-     * @return \Iterator
+     * @return Generator|string
      */
     public function getSelectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
-            return [];
+            return;
         }
 
         $finder = (new Finder())
@@ -97,13 +97,19 @@ class FileSelection
         }
     }
 
+    /**
+     * @return array
+     */
     protected function includedFiles()
     {
         return $this->includeFilesAndDirectories->filter(function ($path) {
             return is_file($path);
-        });
+        })->toArray();
     }
 
+    /**
+     * @return array
+     */
     protected function includedDirectories()
     {
         return $this->includeFilesAndDirectories->reject(function ($path) {
@@ -111,13 +117,11 @@ class FileSelection
         })->toArray();
     }
 
-    protected function excludedFiles()
-    {
-        return $this->excludeFilesAndDirectories->filter(function ($path) {
-            return is_file($path);
-        });
-    }
-
+    /**
+     * @param string $path
+     *
+     * @return bool
+     */
     protected function shouldExclude($path)
     {
         return $this->excludeFilesAndDirectories->contains(function ($key, $excludedPath) use ($path) {
@@ -125,6 +129,11 @@ class FileSelection
         });
     }
 
+    /**
+     * @param $paths
+     *
+     * @return static
+     */
     protected function createPathCollection($paths)
     {
         return collect($paths)
