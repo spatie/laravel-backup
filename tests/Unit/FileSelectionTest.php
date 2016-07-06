@@ -137,12 +137,6 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FileSelection::class, $fileSelection);
     }
 
-    /** @test */
-    public function memory_test_thing()
-    {
-        $files = FileSelection::create([__DIR__ . '/../../../blender/node_modules'])->getSelectedFiles();
-    }
-
     /**
      * @param array $relativePaths
      *
