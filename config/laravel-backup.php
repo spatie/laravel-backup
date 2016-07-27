@@ -68,7 +68,7 @@ return [
         'defaultStrategy' => [
 
             /*
-             * The amount of days that all daily backups must be kept.
+             * The amount of days that all backups must be kept.
              */
             'keepAllBackupsForDays' => 7,
 
