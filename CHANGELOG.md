@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.8.2 - 2016-07-27
+
+-  fixed wrong comment in the config file
+
 ### 3.8.1 - 2016-07-06
 
 -  vastly reduce memory usage and speed up backup
