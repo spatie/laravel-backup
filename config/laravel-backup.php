@@ -137,6 +137,7 @@ return [
          * "pushover", and "telegram".
          *
          * Slack requires the installation of the maknz/slack package.
+         * Telegram requires the installation of the irazasyed/telegram-bot-sdk package.
          */
         'events' => [
             'whenBackupWasSuccessful'     => ['log'],
