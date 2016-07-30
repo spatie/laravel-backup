@@ -174,5 +174,14 @@ return [
                 'error'   => env('PUSHOVER_SOUND_ERROR','siren'),
             ],
         ],
+        
+        /*
+         * Here you can specify how messages should be sent to Telegram Bot API.
+         */
+        'telegram' => [
+            'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+            'chat_id'   => env('TELEGRAM_CHAT_ID'),
+            'async_requests' => env('TELEGRAM_ASYNC_REQUESTS', false),
+        ],
     ]
 ];
