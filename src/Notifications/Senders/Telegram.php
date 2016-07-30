@@ -13,13 +13,13 @@ class Telegram extends BaseSender
 
     /** @var array */
     protected $config;
-    
+
     /** @var string */
     protected $chat_id;
 
     /**
      * @param \Telegram\Bot\Api $api
-     * @param Repository          $config
+     * @param Repository        $config
      */
     public function __construct(Api $api, Repository $config)
     {
@@ -38,7 +38,7 @@ class Telegram extends BaseSender
            'text' => $this->message,
            'disable_web_page_preview' => true,
         ];
-        
-        $this->api->sendMessage($params);;
+
+        $this->api->sendMessage($params);
     }
 }
