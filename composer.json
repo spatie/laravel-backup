@@ -48,7 +48,8 @@
         "test": "vendor/bin/phpunit"
     },
     "suggest": {
-        "maknz/slack": "Allows notifications to be sent via Slack"
+        "maknz/slack": "Allows notifications to be sent via Slack",
+        "irazasyed/telegram-bot-sdk": "Allows notifications to be sent using Telegram Bot"
     }
 
 }
