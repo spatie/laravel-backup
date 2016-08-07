@@ -9,36 +9,36 @@ use Spatie\Backup\Notifications\BaseSender;
 class Telegram extends BaseSender
 {
     /** @var \Telegram\Bot\Api */
-    protected $api;
+    protected $telegram;
 
     /** @var array */
     protected $config;
 
     /** @var string */
-    protected $chat_id;
+    protected $chatId;
 
     /**
-     * @param \Telegram\Bot\Api $api
+     * @param \Telegram\Bot\Api $telegram
      * @param Repository        $config
      */
-    public function __construct(Api $api, Repository $config)
+    public function __construct(Api $telegram, Repository $config)
     {
         $this->config = $config->get('laravel-backup.notifications.telegram');
 
-        $api->setAccessToken($this->config['bot_token']);
-        $this->chat_id = $this->config['chat_id'];
+        $telegram->setAccessToken($this->config['bot_token']);
+        $this->chatId = $this->config['chat_id'];
 
-        $this->api = $api;
+        $this->telegram = $telegram;
     }
 
     public function send()
     {
-        $params = [
-           'chat_id' => $this->chat_id,
+        $parameters = [
+           'chat_id' => $this->chatId,
            'text' => $this->message,
-           'disable_web_page_preview' => true,
+           'disable_web_page_preview' => $this->config['disable_web_page_preview'],
         ];
 
-        $this->api->sendMessage($params);
+        $this->telegram->sendMessage($parameters);
     }
 }
