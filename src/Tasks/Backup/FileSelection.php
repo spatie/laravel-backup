@@ -88,7 +88,6 @@ class FileSelection
         }
 
         foreach ($finder->getIterator() as $file) {
-
             if ($this->shouldExclude($file)) {
                 continue;
             }

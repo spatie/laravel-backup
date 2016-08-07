@@ -88,7 +88,7 @@ class Zip
 
         foreach ($files as $file) {
             $this->zipFile->addFile($file, $nameInZip);
-            $this->fileCount++;
+            ++$this->fileCount;
         }
 
         $this->close();

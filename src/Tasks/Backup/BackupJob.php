@@ -156,7 +156,7 @@ class BackupJob
         consoleOutput()->info('Determining files to backup...');
 
         $zip->add($this->fileSelection->getSelectedFiles());
-        
+
         consoleOutput()->info("Zipped {$zip->count()} files...");
     }
 
