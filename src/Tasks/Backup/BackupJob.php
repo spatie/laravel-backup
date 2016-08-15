@@ -27,10 +27,14 @@ class BackupJob
     /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
     protected $temporaryDirectory;
 
+    /** @var string  */
+    protected $filename;
+
     public function __construct()
     {
         $this->doNotBackupFilesystem();
         $this->doNotBackupDatabases();
+        $this->setDefaultFilename();
 
         $this->backupDestinations = new Collection();
     }
@@ -51,6 +55,16 @@ class BackupJob
     public function doNotBackupDatabases()
     {
         $this->dbDumpers = new Collection();
+
+        return $this;
+    }
+
+    /**
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     */
+    public function setDefaultFilename()
+    {
+        $this->filename = date('Y-m-d-His').'.zip';
 
         return $this;
     }
@@ -80,6 +94,18 @@ class BackupJob
     }
 
     /**
+     * @param string $filename
+     *
+     * @return \Spatie\Backup\Tasks\Backup\BackupJob
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
      * @param string $diskName
      *
      * @return \Spatie\Backup\Tasks\Backup\BackupJob
@@ -89,7 +115,7 @@ class BackupJob
     public function backupOnlyTo($diskName)
     {
         $this->backupDestinations = $this->backupDestinations->filter(function (BackupDestination $backupDestination) use ($diskName) {
-           return $backupDestination->getDiskName() === $diskName;
+            return $backupDestination->getDiskName() === $diskName;
         });
 
         if (!count($this->backupDestinations)) {
@@ -137,7 +163,7 @@ class BackupJob
      */
     protected function createZipContainingAllFilesToBeBackedUp()
     {
-        $zip = Zip::create($this->temporaryDirectory->getPath(date('Y-m-d-His').'.zip'));
+        $zip = Zip::create($this->temporaryDirectory->getPath($this->filename));
 
         $this->addDatabaseDumpsToZip($zip);
 
