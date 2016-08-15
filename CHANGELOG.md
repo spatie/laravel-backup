@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.10.0 - 2016-08-16
+
+- made backup filename configurable
+
 ### 3.9.0 - 2016-08-07
 
 - added telegram sender
