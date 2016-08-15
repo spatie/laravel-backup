@@ -185,10 +185,6 @@ class BackupJob
         $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
 
             try {
-                if (!$backupDestination->isReachable()) {
-                    throw new Exception("Could not connect to disk {$backupDestination->getDiskName()} because: {$backupDestination->getConnectionError()}");
-                };
-
                 $fileSize = Format::getHumanReadableSize($zip->getSize());
 
                 $fileName = pathinfo($zip->getPath(), PATHINFO_BASENAME);
