@@ -85,6 +85,10 @@ class BackupDestination
      */
     public function write($file)
     {
+        if (is_null($this->disk)) {
+            throw new Exception("Could not connect to disk {$this->diskName} because the disk is not set.");
+        }
+
         $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
 
         $handle = fopen($file, 'r+');
