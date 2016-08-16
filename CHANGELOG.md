@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.10.1 - 2016-08-16
+
+- refactored some code so backing up only writes to a disk without reading from it
+
 ### 3.10.0 - 2016-08-16
 
 - made backup filename configurable
