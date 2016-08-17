@@ -44,7 +44,6 @@ class BackupJobFactory
     protected static function getDbDumpers(array $dbConnectionNames)
     {
         $dbDumpers = array_map(function ($dbConnectionName) {
-
             $dbConfig = config("database.connections.{$dbConnectionName}");
 
             switch ($dbConfig['driver']) {
@@ -88,7 +87,7 @@ class BackupJobFactory
                     return $dbDumper;
                     break;
 
-                default :
+                default:
                     throw InvalidConfiguration::cannotUseUnsupportedDriver($dbConnectionName, $dbConfig['driver']);
                     break;
             }

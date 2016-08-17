@@ -96,8 +96,8 @@ return [
              * After cleaning up the backups remove the oldest backup until
              * this amount of megabytes has been reached.
              */
-            'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000
-        ]
+            'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000,
+        ],
     ],
 
 
@@ -133,7 +133,7 @@ return [
 
         /*
          * Here you can specify the ways you want to be notified when certain
-         * events take place. Possible values are "log", "mail", "slack", 
+         * events take place. Possible values are "log", "mail", "slack",
          * "pushover", and "telegram".
          *
          * Slack requires the installation of the maknz/slack package.
@@ -176,7 +176,7 @@ return [
                 'error'   => env('PUSHOVER_SOUND_ERROR', 'siren'),
             ],
         ],
-        
+
         /*
          * Here you can specify how messages should be sent to Telegram Bot API.
          */
@@ -186,5 +186,5 @@ return [
             'async_requests' => env('TELEGRAM_ASYNC_REQUESTS', false),
             'disable_web_page_preview' => env('TELEGRAM_DISABLE_WEB_PAGE_PREVIEW', true),
         ],
-    ]
+    ],
 ];
