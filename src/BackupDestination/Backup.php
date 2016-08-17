@@ -54,7 +54,7 @@ class Backup
      */
     public function size()
     {
-        if (!$this->exists()) {
+        if (! $this->exists()) {
             return 0;
         }
 

@@ -4,7 +4,7 @@ namespace Spatie\Backup\Helpers;
 
 class ConsoleOutput
 {
-    /** @var \Illuminate\Console\OutputStyle  */
+    /** @var \Illuminate\Console\OutputStyle */
     protected $output;
 
     /**
@@ -23,7 +23,7 @@ class ConsoleOutput
     {
         $consoleOutput = app(static::class);
 
-        if (!$consoleOutput->output) {
+        if (! $consoleOutput->output) {
             return;
         }
 

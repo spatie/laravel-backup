@@ -145,8 +145,8 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     protected function getTestFiles(array $relativePaths)
     {
         $absolutePaths = array_map(function ($path) {
-             return "{$this->sourceDirectory}/{$path}";
-         }, $relativePaths);
+            return "{$this->sourceDirectory}/{$path}";
+        }, $relativePaths);
 
         return $absolutePaths;
     }
