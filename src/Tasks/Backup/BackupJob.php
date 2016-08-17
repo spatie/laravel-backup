@@ -15,7 +15,7 @@ use Exception;
 
 class BackupJob
 {
-    /**  @var \Spatie\Backup\Tasks\Backup\FileSelection */
+    /** @var \Spatie\Backup\Tasks\Backup\FileSelection */
     protected $fileSelection;
 
     /** @var \Illuminate\Support\Collection */
@@ -27,7 +27,7 @@ class BackupJob
     /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
     protected $temporaryDirectory;
 
-    /** @var string  */
+    /** @var string */
     protected $filename;
 
     public function __construct()
@@ -118,7 +118,7 @@ class BackupJob
             return $backupDestination->getDiskName() === $diskName;
         });
 
-        if (!count($this->backupDestinations)) {
+        if (! count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -140,7 +140,7 @@ class BackupJob
     public function run()
     {
         try {
-            if (!count($this->backupDestinations)) {
+            if (! count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
@@ -192,7 +192,6 @@ class BackupJob
     protected function addDatabaseDumpsToZip(Zip $zip)
     {
         $this->dbDumpers->each(function (DbDumper $dbDumper) use ($zip) {
-
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
             $fileName = $dbDumper->getDbName().'.sql';
@@ -209,7 +208,6 @@ class BackupJob
     protected function copyToBackupDestinations(Zip $zip)
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
-
             try {
                 $fileSize = Format::getHumanReadableSize($zip->getSize());
 

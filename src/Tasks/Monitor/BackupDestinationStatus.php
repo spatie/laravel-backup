@@ -11,10 +11,10 @@ class BackupDestinationStatus
     /** @var \Spatie\Backup\BackupDestination\BackupDestination */
     protected $backupDestination;
 
-    /**  @var int */
+    /** @var int */
     protected $maximumAgeOfNewestBackupInDays = 1;
 
-    /**  @var int */
+    /** @var int */
     protected $maximumStorageUsageInMegabytes = 5000;
 
     /** @var string */
@@ -120,13 +120,13 @@ class BackupDestinationStatus
      */
     public function newestBackupIsToolOld()
     {
-        if (!count($this->backupDestination->getBackups())) {
+        if (! count($this->backupDestination->getBackups())) {
             return true;
         }
 
         $maximumDate = Carbon::now()->subDays($this->maximumAgeOfNewestBackupInDays);
 
-        return !$this->backupDestination->isNewestBackupOlderThan($maximumDate);
+        return ! $this->backupDestination->isNewestBackupOlderThan($maximumDate);
     }
 
     /**
@@ -180,7 +180,7 @@ class BackupDestinationStatus
      */
     public function isHealthy()
     {
-        if (!$this->backupDestination->isReachable()) {
+        if (! $this->backupDestination->isReachable()) {
             return false;
         }
 

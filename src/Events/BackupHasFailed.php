@@ -7,10 +7,10 @@ use Exception;
 
 class BackupHasFailed
 {
-    /** @var \Exception  */
+    /** @var \Exception */
     public $exception;
 
-    /**  @var \Spatie\Backup\BackupDestination\BackupDestination|null */
+    /** @var \Spatie\Backup\BackupDestination\BackupDestination|null */
     public $backupDestination;
 
     /**

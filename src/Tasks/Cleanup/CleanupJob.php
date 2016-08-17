@@ -30,11 +30,10 @@ class CleanupJob
     public function run()
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) {
-
             try {
-                if (!$backupDestination->isReachable()) {
+                if (! $backupDestination->isReachable()) {
                     throw new Exception("Could not connect to disk {$backupDestination->getDiskName()} because: {$backupDestination->getConnectionError()}");
-                };
+                }
 
                 consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on disk {$backupDestination->getDiskName()}...");
 

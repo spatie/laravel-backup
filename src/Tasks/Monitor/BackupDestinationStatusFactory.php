@@ -31,7 +31,6 @@ class BackupDestinationStatusFactory
     public static function createForSingleMonitor(array $monitorConfig)
     {
         return collect($monitorConfig['disks'])->map(function ($diskName) use ($monitorConfig) {
-
             $backupDestination = BackupDestination::create($diskName, $monitorConfig['name']);
 
             return (new BackupDestinationStatus($backupDestination, $diskName))
