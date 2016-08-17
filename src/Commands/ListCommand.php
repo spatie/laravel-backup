@@ -61,7 +61,7 @@ class ListCommand extends BaseCommand
             'usedStorage' => $backupDestinationStatus->getHumanReadableUsedStorage(),
         ];
 
-        if (!$backupDestinationStatus->isReachable()) {
+        if (! $backupDestinationStatus->isReachable()) {
             foreach (['amount', 'youngest', 'usedStorage'] as $propertyName) {
                 $row[$propertyName] = '/';
             }
@@ -80,7 +80,7 @@ class ListCommand extends BaseCommand
      */
     protected function applyStylingToRow($row, BackupDestinationStatus $backupDestinationStatus)
     {
-        if ($backupDestinationStatus->newestBackupIsToolOld() || (!$backupDestinationStatus->getDateOfNewestBackup())) {
+        if ($backupDestinationStatus->newestBackupIsToolOld() || (! $backupDestinationStatus->getDateOfNewestBackup())) {
             $row['youngest'] = "<error>{$row['youngest']}</error>";
         }
 
@@ -98,7 +98,7 @@ class ListCommand extends BaseCommand
     {
         $unreachableBackupDestinationStatuses = $backupDestinationStatuses
             ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
-                return !$backupDestinationStatus->isReachable();
+                return ! $backupDestinationStatus->isReachable();
             });
 
         if ($unreachableBackupDestinationStatuses->isEmpty()) {
@@ -110,7 +110,6 @@ class ListCommand extends BaseCommand
         $this->warn('-------------------------------');
 
         $unreachableBackupDestinationStatuses->each(function (BackupDestinationStatus $backupStatus) {
-
             $this->warn("Could not reach backups for {$backupStatus->getBackupName()} on disk {$backupStatus->getFilesystemName()} because:");
             $this->warn($backupStatus->getConnectionError()->getMessage());
             $this->warn('');
