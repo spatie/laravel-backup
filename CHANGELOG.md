@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.10.2 - 2016-08-24
+
+- added L5.3 compatibility
+
 ### 3.10.1 - 2016-08-16
 
 - refactored some code so backing up only writes to a disk without reading from it
