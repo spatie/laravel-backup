@@ -7,7 +7,6 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class BackupWasSuccessful extends Notification
 {
-
     /**
      * Create a new notification instance.
      *
