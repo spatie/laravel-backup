@@ -64,12 +64,12 @@ class BackupJobFactory
                         $dbDumper->useSingleTransaction();
                     }
 
-					if (!empty($dbConfig['dump_exclude_tables'])) {
-						if (!is_array($dbConfig['dump_exclude_tables'])) {
-							$dbConfig['dump_exclude_tables'] = [$dbConfig['dump_exclude_tables']];
-						}
-						$dbDumper->excludeTables($dbConfig['dump_exclude_tables']);
-					}
+                    if (!empty($dbConfig['dump_exclude_tables'])) {
+                        if (!is_array($dbConfig['dump_exclude_tables'])) {
+                            $dbConfig['dump_exclude_tables'] = [$dbConfig['dump_exclude_tables']];
+                        }
+                        $dbDumper->excludeTables($dbConfig['dump_exclude_tables']);
+                    }
 
                     return $dbDumper;
                     break;
