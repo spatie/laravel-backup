@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Notifications;
+namespace Spatie\Backup\Notifications;
 
 use Illuminate\Config\Repository;
 use Illuminate\Notifications\Notification;
-use Spatie\Backup\Notifications\PackageUser;
 
 abstract class BaseNotification extends Notification
 {
@@ -29,6 +28,6 @@ abstract class BaseNotification extends Notification
      */
     public function via($notifiable)
     {
-        return $this->config['laravel.backup.notifications.' . static::class];
+        return $this->config->get('laravel-backup.notifications.events.' . static::class);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace Spatie\Backup\Notifications\Notifications;
 
-use App\Notifications\BaseNotification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupWasSuccessful extends BaseNotification
 {
@@ -18,9 +19,14 @@ class BackupWasSuccessful extends BaseNotification
     {
         return (new MailMessage)
             ->success()
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', 'https://laravel.com')
-            ->line('Thank you for using our application!');
+            ->line('A backup was made! Hurray!');
+    }
+
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+            ->success()
+            ->content('A backup was made! Hurray!');
     }
 
     /**

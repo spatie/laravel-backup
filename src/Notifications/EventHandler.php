@@ -31,19 +31,21 @@ class EventHandler
         });
     }
 
-    protected function determineNotifiable(): Notifiable
+    protected function determineNotifiable()
     {
         $notifiableClass = $this->config->get('laravel-backup.notifications.notifiable');
 
-        return  app($notifiableClass);
+        return app($notifiableClass);
     }
 
     protected function determineNotification($event): Notification
     {
         $eventName = class_basename($event);
 
-        $notificationClass = collect($this->config->get('laravel-backup.notifications.notifiable'))
-            ->first(function ($channels, $notificationClass) use ($eventName) {
+        $notificationClass = collect($this->config->get('laravel-backup.notifications.events'))
+            ->keys()
+            ->first(function ($notificationClass) use ($eventName) {
+
                     $notificationName = class_basename($notificationClass);
 
                     return $notificationName === $eventName;

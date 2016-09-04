@@ -125,12 +125,19 @@ return [
     ],
 
     'notifications' => [
+        
+        'events' => [
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['mail']
+        ],
 
         'notifiable' => \Spatie\Backup\Notifications\PackageUser::class,
 
-        'events' => [
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['log', 'mail', 'slack']
-        ]
+        'mail' => [
+            'to' => 'your@email.com',
+        ],
 
+        'slack' => [
+            'webhook_url' => '',
+        ],
     ],
 ];
