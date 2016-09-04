@@ -28,6 +28,6 @@ abstract class BaseNotification extends Notification
      */
     public function via($notifiable)
     {
-        return $this->config->get('laravel-backup.notifications.events.' . static::class);
+        return $this->config->get('laravel-backup.notifications.events.'.static::class);
     }
 }
