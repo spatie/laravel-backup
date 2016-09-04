@@ -15,7 +15,6 @@ class EventHandler
 
     public function __construct(Repository $config)
     {
-
         $this->config = $config['laravel-backup'];
     }
 
@@ -43,13 +42,13 @@ class EventHandler
 
         $notificationClass = collect($this->config['notifications.notifications'])
             ->first(function ($channels, $notificationClass) use ($eventName) {
-                    $notificationName = class_basename($notificationClass);
+                $notificationName = class_basename($notificationClass);
 
-                    return $notificationName === $eventName;
+                return $notificationName === $eventName;
             });
 
         if (! $notificationClass) {
-            /**
+            /*
              * @TODO: throw notification.
              */
         }
@@ -57,4 +56,3 @@ class EventHandler
         return app($notificationClass);
     }
 }
-
