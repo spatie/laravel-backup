@@ -1,33 +1,12 @@
 <?php
 
-namespace App\Notifications;
+namespace Spatie\Backup\Notifications\Notifications;
 
-use Illuminate\Notifications\Notification;
+use App\Notifications\BaseNotification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class BackupWasSuccessful extends Notification
+class BackupWasSuccessful extends BaseNotification
 {
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
-    }
 
     /**
      * Get the mail representation of the notification.
@@ -38,6 +17,7 @@ class BackupWasSuccessful extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->success()
             ->line('The introduction to the notification.')
             ->action('Notification Action', 'https://laravel.com')
             ->line('Thank you for using our application!');

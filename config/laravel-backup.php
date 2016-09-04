@@ -126,7 +126,11 @@ return [
 
     'notifications' => [
 
-        'user' => \Spatie\Backup\Notifications\PackageUser::class,
+        'notifiable' => \Spatie\Backup\Notifications\PackageUser::class,
 
+        'events' => [
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['log', 'mail', 'slack']
+        ]
 
+    ],
 ];

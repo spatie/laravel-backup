@@ -20,6 +20,7 @@ class BackupHasFailed
     public function __construct(Exception $exception, BackupDestination $backupDestination = null)
     {
         $this->exception = $exception;
+
         $this->backupDestination = $backupDestination;
     }
 }
