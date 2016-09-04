@@ -12,7 +12,7 @@ class BackupCollection extends Collection
      *
      * @return \Spatie\Backup\BackupDestination\BackupCollection
      */
-    public static function createFromFiles($disk, array $files)
+    public static function createFromFiles($disk, array $files): BackupCollection
     {
         return (new static($files))
             ->filter(function ($path) {
@@ -47,10 +47,7 @@ class BackupCollection extends Collection
             ->last();
     }
 
-    /**
-     * @return int
-     */
-    public function size()
+    public function size(): int
     {
         return $this
             ->reduce(function ($totalSize, Backup $backup) {

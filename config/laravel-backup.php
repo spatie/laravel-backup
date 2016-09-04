@@ -125,7 +125,7 @@ return [
     ],
 
     'notifications' => [
-        
+
         'events' => [
             \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['mail']
         ],

@@ -13,46 +13,31 @@ class Backup
     /** @var string */
     protected $path;
 
-    /**
-     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param string                                      $path
-     */
-    public function __construct(Filesystem $disk, $path)
+    public function __construct(Filesystem $disk, string $path)
     {
         $this->disk = $disk;
         $this->path = $path;
     }
 
-    /**
-     * @return string
-     */
-    public function path()
+    public function path(): string
     {
         return $this->path;
     }
 
-    /**
-     * @return bool
-     */
-    public function exists()
+    public function exists(): bool
     {
         return $this->disk->exists($this->path);
     }
 
-    /**
-     * @return \Carbon\Carbon
-     */
-    public function date()
+    public function date(): Carbon
     {
         return Carbon::createFromTimestamp($this->disk->lastModified($this->path));
     }
 
     /**
      * Get the size in bytes.
-     *
-     * @return int
      */
-    public function size()
+    public function size(): int
     {
         if (! $this->exists()) {
             return 0;

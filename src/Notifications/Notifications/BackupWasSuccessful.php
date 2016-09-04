@@ -28,17 +28,4 @@ class BackupWasSuccessful extends BaseNotification
             ->success()
             ->content('A backup was made! Hurray!');
     }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
 }

@@ -9,14 +9,10 @@ use Exception;
 
 class BackupCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'backup:run {--filename=} {--only-db} {--only-files} {--only-to-disk=}';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Run the backup.';
 
     public function handle()

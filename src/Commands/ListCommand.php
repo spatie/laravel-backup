@@ -9,14 +9,10 @@ use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
 class ListCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'backup:list';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Display a list of all backups.';
 
     public function handle()
@@ -28,9 +24,6 @@ class ListCommand extends BaseCommand
         $this->displayConnectionErrors($statuses);
     }
 
-    /**
-     * @param \Illuminate\Support\Collection $backupDestinationStatuses
-     */
     protected function displayOverview(Collection $backupDestinationStatuses)
     {
         $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Youngest backup', 'Used storage'];
@@ -42,12 +35,7 @@ class ListCommand extends BaseCommand
         $this->table($headers, $rows);
     }
 
-    /**
-     * @param \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus $backupDestinationStatus
-     *
-     * @return array
-     */
-    public function convertToRow(BackupDestinationStatus $backupDestinationStatus)
+    public function convertToRow(BackupDestinationStatus $backupDestinationStatus): array
     {
         $row = [
             $backupDestinationStatus->getBackupName(),
@@ -72,13 +60,7 @@ class ListCommand extends BaseCommand
         return $row;
     }
 
-    /**
-     * @param array                                                $row
-     * @param \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus $backupDestinationStatus
-     *
-     * @return array
-     */
-    protected function applyStylingToRow($row, BackupDestinationStatus $backupDestinationStatus)
+    protected function applyStylingToRow(array $row, BackupDestinationStatus $backupDestinationStatus): array
     {
         if ($backupDestinationStatus->newestBackupIsToolOld() || (! $backupDestinationStatus->getDateOfNewestBackup())) {
             $row['youngest'] = "<error>{$row['youngest']}</error>";
@@ -91,9 +73,6 @@ class ListCommand extends BaseCommand
         return $row;
     }
 
-    /**
-     * @param \Illuminate\Support\Collection $backupDestinationStatuses
-     */
     protected function displayConnectionErrors(Collection $backupDestinationStatuses)
     {
         $unreachableBackupDestinationStatuses = $backupDestinationStatuses
