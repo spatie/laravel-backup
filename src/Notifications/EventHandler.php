@@ -15,13 +15,11 @@ class EventHandler
 
     public function __construct(Repository $config)
     {
-
         $this->config = $config;
     }
 
     public function subscribe(Dispatcher $events)
     {
-
         $events->listen([BackupWasSuccessful::class], function ($event) {
             $notifiable = $this->determineNotifiable();
 
@@ -44,13 +42,13 @@ class EventHandler
 
         $notificationClass = collect($this->config->get('laravel-backup.notifications.notifiable'))
             ->first(function ($channels, $notificationClass) use ($eventName) {
-                    $notificationName = class_basename($notificationClass);
+                $notificationName = class_basename($notificationClass);
 
-                    return $notificationName === $eventName;
+                return $notificationName === $eventName;
             });
 
         if (! $notificationClass) {
-            /**
+            /*
              * @TODO: throw notification.
              */
         }
@@ -58,4 +56,3 @@ class EventHandler
         return app($notificationClass);
     }
 }
-
