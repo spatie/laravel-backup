@@ -2,14 +2,15 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
 
 class FileSelection
 {
-    /** @var \Illuminate\Support\Collection */
+    /** @var Collection */
     protected $includeFilesAndDirectories;
 
-    /** @var \Illuminate\Support\Collection */
+    /** @var Collection */
     protected $excludeFilesAndDirectories;
 
     /** @var bool */
@@ -20,7 +21,7 @@ class FileSelection
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public static function create($includeFilesAndDirectories = [])
+    public static function create($includeFilesAndDirectories = []): FileSelection
     {
         return new static($includeFilesAndDirectories);
     }
@@ -42,7 +43,7 @@ class FileSelection
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public function excludeFilesFrom($excludeFilesAndDirectories)
+    public function excludeFilesFrom($excludeFilesAndDirectories): FileSelection
     {
         $this->excludeFilesAndDirectories = $this->sanitize($excludeFilesAndDirectories);
 
@@ -56,7 +57,7 @@ class FileSelection
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public function shouldFollowLinks($shouldFollowLinks)
+    public function shouldFollowLinks(bool $shouldFollowLinks): FileSelection
     {
         $this->shouldFollowLinks = $shouldFollowLinks;
 
@@ -96,32 +97,21 @@ class FileSelection
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function includedFiles()
+    protected function includedFiles(): array
     {
         return $this->includeFilesAndDirectories->filter(function ($path) {
             return is_file($path);
         })->toArray();
     }
 
-    /**
-     * @return array
-     */
-    protected function includedDirectories()
+    protected function includedDirectories(): array
     {
         return $this->includeFilesAndDirectories->reject(function ($path) {
             return is_file($path);
         })->toArray();
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-     */
-    protected function shouldExclude($path)
+    protected function shouldExclude(string $path): bool
     {
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
             if (starts_with($path, $excludedPath)) {
@@ -132,12 +122,12 @@ class FileSelection
         return false;
     }
 
+
     /**
-     * @param $paths
-     *
+     * @param string|array $paths
      * @return \Illuminate\Support\Collection
      */
-    protected function sanitize($paths)
+    protected function sanitize($paths): Collection
     {
         return collect($paths)
             ->reject(function ($path) {

@@ -9,12 +9,7 @@ use Spatie\DbDumper\Databases\PostgreSql;
 
 class BackupJobFactory
 {
-    /**
-     * @param array $config
-     *
-     * @return \Spatie\Backup\Tasks\Backup\BackupJob
-     */
-    public static function createFromArray(array $config)
+    public static function createFromArray(array $config): BackupJob
     {
         $backupJob = (new BackupJob())
             ->setFileSelection(static::getFileSelection($config['backup']['source']['files']))
@@ -24,24 +19,14 @@ class BackupJobFactory
         return $backupJob;
     }
 
-    /**
-     * @param array $sourceFiles
-     *
-     * @return \Spatie\Backup\Tasks\Backup\FileSelection
-     */
-    protected static function getFileSelection(array $sourceFiles)
+    protected static function getFileSelection(array $sourceFiles): FileSelection
     {
         return (new FileSelection($sourceFiles['include']))
             ->excludeFilesFrom($sourceFiles['exclude'])
             ->shouldFollowLinks(isset($sourceFiles['followLinks']) && $sourceFiles['followLinks']);
     }
 
-    /**
-     * @param array $dbConnectionNames
-     *
-     * @return array
-     */
-    protected static function getDbDumpers(array $dbConnectionNames)
+    protected static function getDbDumpers(array $dbConnectionNames): array
     {
         $dbDumpers = array_map(function ($dbConnectionName) {
             $dbConfig = config("database.connections.{$dbConnectionName}");

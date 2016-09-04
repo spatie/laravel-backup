@@ -17,7 +17,7 @@ class TemporaryDirectory
      *
      * @return mixed
      */
-    public static function create($path = '')
+    public static function create(string $path = '')
     {
         $fileSystem = new FileSystem();
 
@@ -37,7 +37,7 @@ class TemporaryDirectory
      *
      * @return string
      */
-    public function getPath($fileName)
+    public function getPath(string $fileName): string
     {
         if ($fileName === '') {
             return $this->path;
@@ -46,12 +46,7 @@ class TemporaryDirectory
         return "{$this->path}/{$fileName}";
     }
 
-    /**
-     * @param string $path
-     *
-     * @return \Spatie\Backup\Tasks\Backup\TemporaryDirectory
-     */
-    protected function setPath($path = '')
+    protected function setPath(string $path = ''): TemporaryDirectory
     {
         $tempPath = storage_path('laravel-backups/temp');
 
@@ -66,10 +61,7 @@ class TemporaryDirectory
         return $this;
     }
 
-    /**
-     * @param string $path
-     */
-    protected function createTemporaryDirectory($path)
+    protected function createTemporaryDirectory(string $path)
     {
         $this->filesystem->makeDirectory($path, 0777, true, true);
     }
