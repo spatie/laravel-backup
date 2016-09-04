@@ -17,13 +17,10 @@ class CleanupJob
     /** @var \Spatie\Backup\Tasks\Cleanup\Strategies\CleanupStrategy */
     protected $strategy;
 
-    /**
-     * @param \Illuminate\Support\Collection               $backupDestinations
-     * @param \Spatie\Backup\Tasks\Cleanup\CleanupStrategy $strategy
-     */
     public function __construct(Collection $backupDestinations, CleanupStrategy $strategy)
     {
         $this->backupDestinations = $backupDestinations;
+
         $this->strategy = $strategy;
     }
 

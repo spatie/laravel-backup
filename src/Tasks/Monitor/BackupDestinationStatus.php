@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tasks\Monitor;
 
 use Carbon\Carbon;
+use Exception;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
 
@@ -23,11 +24,7 @@ class BackupDestinationStatus
     /** @var bool */
     protected $reachable;
 
-    /**
-     * @param \Spatie\Backup\BackupDestination\BackupDestination $backupDestination
-     * @param string                                             $diskName
-     */
-    public function __construct(BackupDestination $backupDestination, $diskName)
+    public function __construct(BackupDestination $backupDestination, string $diskName)
     {
         $this->backupDestination = $backupDestination;
         $this->diskName = $diskName;
@@ -35,68 +32,36 @@ class BackupDestinationStatus
         $this->reachable = $this->backupDestination->isReachable();
     }
 
-    /**
-     * @param int $days
-     *
-     * @return \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus
-     */
-    public function setMaximumAgeOfNewestBackupInDays($days)
+    public function setMaximumAgeOfNewestBackupInDays(int $days): BackupDestinationStatus
     {
         $this->maximumAgeOfNewestBackupInDays = $days;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaximumAgeOfNewestBackupInDays()
+    public function getMaximumAgeOfNewestBackupInDays(): int
     {
         return $this->maximumAgeOfNewestBackupInDays;
     }
 
-    /**
-     * @param int $megabytes
-     *
-     * @return \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus
-     */
-    public function setMaximumStorageUsageInMegabytes($megabytes)
+    public function setMaximumStorageUsageInMegabytes(int $megabytes): BackupDestinationStatus
     {
         $this->maximumStorageUsageInMegabytes = $megabytes;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getBackupName()
+    public function getBackupName(): string
     {
         return $this->backupDestination->getBackupName();
     }
 
-    /**
-     * @deprecated
-     *
-     * @return string
-     */
-    public function getFilesystemName()
-    {
-        return $this->getDiskName();
-    }
-
-    /**
-     * @return string
-     */
-    public function getDiskName()
+    public function getDiskName(): string
     {
         return $this->diskName;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmountOfBackups()
+    public function getAmountOfBackups(): int
     {
         return $this->backupDestination->getBackups()->count();
     }
@@ -115,10 +80,7 @@ class BackupDestinationStatus
         return $newestBackup->date();
     }
 
-    /**
-     * @return bool
-     */
-    public function newestBackupIsToolOld()
+    public function newestBackupIsToolOld(): bool
     {
         if (! count($this->backupDestination->getBackups())) {
             return true;
@@ -129,42 +91,27 @@ class BackupDestinationStatus
         return ! $this->backupDestination->isNewestBackupOlderThan($maximumDate);
     }
 
-    /**
-     * @return int
-     */
-    public function getUsedStorage()
+    public function getUsedStorage(): int
     {
         return $this->backupDestination->getUsedStorage();
     }
 
-    /**
-     * @return \Exception
-     */
-    public function getConnectionError()
+    public function getConnectionError(): Exception
     {
         return $this->backupDestination->getConnectionError();
     }
 
-    /**
-     * @return bool
-     */
-    public function isReachable()
+    public function isReachable(): bool
     {
         return $this->reachable;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaximumAllowedUsageInBytes()
+    public function getMaximumAllowedUsageInBytes(): int
     {
         return $this->maximumStorageUsageInMegabytes * 1024 * 1024;
     }
 
-    /**
-     * @return bool
-     */
-    public function backupUsesTooMuchStorage()
+    public function backupUsesTooMuchStorage(): bool
     {
         $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
 
@@ -175,10 +122,7 @@ class BackupDestinationStatus
         return $this->getUsedStorage() > $maximumInBytes;
     }
 
-    /**
-     * @return bool
-     */
-    public function isHealthy()
+    public function isHealthy(): bool
     {
         if (! $this->backupDestination->isReachable()) {
             return false;
@@ -195,10 +139,7 @@ class BackupDestinationStatus
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function getHumanReadableAllowedStorage()
+    public function getHumanReadableAllowedStorage(): string
     {
         $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
 
@@ -209,10 +150,7 @@ class BackupDestinationStatus
         return Format::getHumanReadableSize($maximumInBytes);
     }
 
-    /**
-     * @return string
-     */
-    public function getHumanReadableUsedStorage()
+    public function getHumanReadableUsedStorage(): string
     {
         return Format::getHumanReadableSize($this->getUsedStorage());
     }

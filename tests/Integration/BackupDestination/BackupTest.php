@@ -61,14 +61,7 @@ class BackupTest extends TestCase
         $this->assertSame(0, $backup->size());
     }
 
-    /**
-     * @param string $name
-     * @param int    $ageInDays
-     * @param string $contents
-     *
-     * @return \Spatie\Backup\BackupDestination\Backup
-     */
-    protected function getBackupForFile($name, $ageInDays = 0, $contents = '')
+    protected function getBackupForFile(string $name, int $ageInDays = 0, string $contents = ''): Backup
     {
         $disk = Storage::disk('local');
 

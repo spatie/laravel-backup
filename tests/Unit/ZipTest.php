@@ -7,9 +7,7 @@ use Spatie\Backup\Test\TestHelper;
 
 class ZipTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Spatie\Backup\Test\TestHelper
-     */
+    /** @var \Spatie\Backup\Test\TestHelper */
     protected $testHelper;
 
     public function setUp()

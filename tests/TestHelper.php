@@ -7,9 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class TestHelper
 {
-    /**
-     * @var \Illuminate\Filesystem\Filesystem
-     */
+    /** @var \Illuminate\Filesystem\Filesystem */
     protected $filesystem;
 
     public function __construct()

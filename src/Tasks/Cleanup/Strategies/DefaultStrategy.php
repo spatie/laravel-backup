@@ -14,9 +14,6 @@ class DefaultStrategy extends CleanupStrategy
     /** @var \Spatie\Backup\BackupDestination\Backup */
     protected $newestBackup;
 
-    /**
-     * @param \Spatie\Backup\BackupDestination\BackupCollection $backups
-     */
     public function deleteOldBackups(BackupCollection $backups)
     {
         // Don't ever delete the newest backup.
@@ -42,10 +39,7 @@ class DefaultStrategy extends CleanupStrategy
         $this->removeOldestsBackupsUntilUsingMaximumStorage($backups);
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function calculateDateRanges()
+    protected function calculateDateRanges(): Collection
     {
         $config = $this->config->get('laravel-backup.cleanup.defaultStrategy');
 
@@ -77,23 +71,14 @@ class DefaultStrategy extends CleanupStrategy
         return collect(compact('daily', 'weekly', 'monthly', 'yearly'));
     }
 
-    /**
-     * @param \Illuminate\Support\Collection $backups
-     * @param string                         $dateFormat
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    protected function groupByDateFormat(Collection $backups, $dateFormat)
+    protected function groupByDateFormat(Collection $backups, string $dateFormat): Collection
     {
         return $backups->groupBy(function (Backup $backup) use ($dateFormat) {
             return $backup->date()->format($dateFormat);
         });
     }
 
-    /**
-     * @param \Illuminate\Support\Collection $backupsPerPeriod
-     */
-    protected function removeBackupsForAllPeriodsExceptOne($backupsPerPeriod)
+    protected function removeBackupsForAllPeriodsExceptOne(Collection $backupsPerPeriod)
     {
         foreach ($backupsPerPeriod as $periodName => $groupedBackupsByDateProperty) {
             $groupedBackupsByDateProperty->each(function (Collection $group) {
@@ -106,10 +91,6 @@ class DefaultStrategy extends CleanupStrategy
         }
     }
 
-    /**
-     * @param \Carbon\Carbon                                    $endDate
-     * @param \Spatie\Backup\BackupDestination\BackupCollection $backups
-     */
     protected function removeBackupsOlderThan(Carbon $endDate, BackupCollection $backups)
     {
         $backups->filter(function (Backup $backup) use ($endDate) {
@@ -119,9 +100,6 @@ class DefaultStrategy extends CleanupStrategy
         });
     }
 
-    /**
-     * @param \Spatie\Backup\BackupDestination\BackupCollection $backups
-     */
     protected function removeOldestsBackupsUntilUsingMaximumStorage(BackupCollection $backups)
     {
         $maximumSize = $this->config->get('laravel-backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan')

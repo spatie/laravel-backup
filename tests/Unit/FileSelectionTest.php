@@ -7,9 +7,7 @@ use Spatie\Backup\Test\TestHelper;
 
 class FileSelectionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @string
-     */
+    /** @string */
     protected $sourceDirectory;
 
     public function setUp()
@@ -137,12 +135,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FileSelection::class, $fileSelection);
     }
 
-    /**
-     * @param array $relativePaths
-     *
-     * @return array
-     */
-    protected function getTestFiles(array $relativePaths)
+    protected function getTestFiles(array $relativePaths): array
     {
         $absolutePaths = array_map(function ($path) {
             return "{$this->sourceDirectory}/{$path}";

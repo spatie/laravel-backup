@@ -2,16 +2,12 @@
 
 namespace Spatie\Backup\Tasks\Monitor;
 
+use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
 class BackupDestinationStatusFactory
 {
-    /**
-     * @param array $monitorConfiguration
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function createForMonitorConfig(array $monitorConfiguration)
+    public static function createForMonitorConfig(array $monitorConfiguration): Collection
     {
         return collect($monitorConfiguration)
             ->map(function (array $monitorProperties) {
@@ -19,16 +15,11 @@ class BackupDestinationStatusFactory
             })
             ->collapse()
             ->sortBy(function (BackupDestinationStatus $backupDestinationStatus) {
-                return "{$backupDestinationStatus->getBackupName()}-{$backupDestinationStatus->getFilesystemName()}";
+                return "{$backupDestinationStatus->getBackupName()}-{$backupDestinationStatus->getDiskName()}";
             });
     }
 
-    /**
-     * @param array $monitorConfig
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function createForSingleMonitor(array $monitorConfig)
+    public static function createForSingleMonitor(array $monitorConfig): Collection
     {
         return collect($monitorConfig['disks'])->map(function ($diskName) use ($monitorConfig) {
             $backupDestination = BackupDestination::create($diskName, $monitorConfig['name']);
