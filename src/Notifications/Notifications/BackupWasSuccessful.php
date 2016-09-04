@@ -7,7 +7,6 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class BackupWasSuccessful extends BaseNotification
 {
-
     /**
      * Get the mail representation of the notification.
      *
