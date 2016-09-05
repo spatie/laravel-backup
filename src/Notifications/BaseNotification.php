@@ -16,4 +16,14 @@ abstract class BaseNotification extends Notification
     {
         return config('laravel-backup.notifications.notifications.' . static::class);
     }
+
+    public function getApplicationName(): string
+    {
+        return config('app.name');
+    }
+
+    public function getDiskname(): string
+    {
+        return $this->event->backupDestination->getDiskName();
+    }
 }

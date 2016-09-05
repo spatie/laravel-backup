@@ -22,8 +22,7 @@ class BackupHasFailed extends BaseNotification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->success()
-            ->subject("Party!!")
+            ->error()
             ->line("A backup was made of {$this->event->backupDestination->getBackupName()}! Hurray!");
     }
 
