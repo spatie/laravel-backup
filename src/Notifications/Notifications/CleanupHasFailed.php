@@ -9,7 +9,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class CleanupHasFailed extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\CleanupHasFailed */
     protected $event;
 
@@ -23,8 +22,8 @@ class CleanupHasFailed extends BaseNotification
     {
         return (new MailMessage)
             ->success()
-            ->subject("Party!!")
-            ->line("Cleanup has failed");
+            ->subject('Party!!')
+            ->line('Cleanup has failed');
     }
 
     public function toSlack($notifiable)
