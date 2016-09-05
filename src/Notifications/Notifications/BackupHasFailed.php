@@ -8,7 +8,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailed extends BaseNotification
 {
-
     /**
      * Get the mail representation of the notification.
      *
