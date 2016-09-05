@@ -4,10 +4,13 @@ namespace Spatie\Backup\Notifications\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Spatie\Backup\Events\BackupWasSuccessful as BackupWasSuccessfulEvent;
 use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupWasSuccessful extends BaseNotification
 {
+    /** @var \Spatie\Backup\Events\BackupWasSuccessful */
+    protected $event;
 
     /**
      * Get the mail representation of the notification.
@@ -17,9 +20,11 @@ class BackupWasSuccessful extends BaseNotification
      */
     public function toMail($notifiable)
     {
+        $diskName = $this->event->backupDestination->getDiskName();
+
         return (new MailMessage)
-            ->success()
-            ->line('A backup was made! Hurray!');
+
+            ->line("A backup was made to the disk named {$diskName}! Hurray!");
     }
 
     public function toSlack($notifiable)
@@ -27,5 +32,12 @@ class BackupWasSuccessful extends BaseNotification
         return (new SlackMessage)
             ->success()
             ->content('A backup was made! Hurray!');
+    }
+
+    public function setEvent(BackupWasSuccessfulEvent $event)
+    {
+        $this->event = $event;
+
+        return $this;
     }
 }

@@ -57,7 +57,7 @@ class EventHandler
              */
         }
 
-        return app($notificationClass);
+        return app($notificationClass)->setEvent($event);
     }
 }
 

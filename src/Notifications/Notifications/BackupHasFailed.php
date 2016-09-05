@@ -4,10 +4,14 @@ namespace Spatie\Backup\Notifications\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Spatie\Backup\Events\BackupHasFailed as BackupHasFailedEvent;
 use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailed extends BaseNotification
 {
+
+    /** @var \Spatie\Backup\Events\BackupHasFailed */
+    protected $event;
 
     /**
      * Get the mail representation of the notification.
@@ -19,13 +23,21 @@ class BackupHasFailed extends BaseNotification
     {
         return (new MailMessage)
             ->success()
-            ->line('A backup was made! Hurray!');
+            ->subject("Party!!")
+            ->line("A backup was made of {$this->event->backupDestination->getBackupName()}! Hurray!");
     }
 
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
             ->success()
-            ->content('A backup was made! Hurray!');
+            ->line("A backup was made of {$this->event->backupDestination->getBackupName()}! Hurray!");
+    }
+
+    public function setEvent(BackupHasFailedEvent $event)
+    {
+        $this->event = $event;
+
+        return $this;
     }
 }

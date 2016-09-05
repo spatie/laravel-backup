@@ -58,6 +58,54 @@ return [
         ],
     ],
 
+
+    'notifications' => [
+
+        'notifications' => [
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class         => ['log', 'mail'],
+            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['log', 'mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class        => ['log', 'mail'],
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class     => ['log'],
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class   => ['log'],
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['log'],
+        ],
+
+        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
+
+        'mail' => [
+            'to' => 'your@email.com',
+        ],
+
+        'slack' => [
+            'webhook_url' => '',
+        ],
+    ],
+
+
+    /*
+     *  Here you can specify which backups should be monitored.
+     *  If a backup does not meet the specified requirements the
+     *  UnHealthyBackupWasFound-event will be fired.
+     */
+    'monitorBackups' => [
+        [
+            'name' => env('APP_URL'),
+            'disks' => ['local'],
+            'newestBackupsShouldNotBeOlderThanDays' => 1,
+            'storageUsedMayNotBeHigherThanMegabytes' => 5000,
+        ],
+
+        /*
+        [
+            'name' => 'name of the second app',
+            'disks' => ['local', 's3'],
+            'newestBackupsShouldNotBeOlderThanDays' => 1,
+            'storageUsedMayNotBeHigherThanMegabytes' => 5000,
+        ],
+        */
+    ],
+
+
     'cleanup' => [
         /*
          * The strategy that will be used to cleanup old backups.
@@ -97,47 +145,6 @@ return [
              * this amount of megabytes has been reached.
              */
             'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000,
-        ],
-    ],
-
-
-    /*
-     *  In this array you can specify which backups should be monitored.
-     *  If a backup does not meet the specified requirements the
-     *  UnHealthyBackupWasFound-event will be fired.
-     */
-    'monitorBackups' => [
-        [
-            'name' => env('APP_URL'),
-            'disks' => ['local'],
-            'newestBackupsShouldNotBeOlderThanDays' => 1,
-            'storageUsedMayNotBeHigherThanMegabytes' => 5000,
-        ],
-
-        /*
-        [
-            'name' => 'name of the second app',
-            'disks' => ['local', 's3'],
-            'newestBackupsShouldNotBeOlderThanDays' => 1,
-            'storageUsedMayNotBeHigherThanMegabytes' => 5000,
-        ],
-        */
-    ],
-
-    'notifications' => [
-
-        'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['mail']
-        ],
-
-        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
-
-        'mail' => [
-            'to' => 'your@email.com',
-        ],
-
-        'slack' => [
-            'webhook_url' => '',
         ],
     ],
 ];
