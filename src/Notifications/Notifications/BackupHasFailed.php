@@ -9,7 +9,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailed extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\BackupHasFailed */
     protected $event;
 
@@ -23,7 +22,7 @@ class BackupHasFailed extends BaseNotification
     {
         return (new MailMessage)
             ->success()
-            ->subject("Party!!")
+            ->subject('Party!!')
             ->line("A backup was made of {$this->event->backupDestination->getBackupName()}! Hurray!");
     }
 
