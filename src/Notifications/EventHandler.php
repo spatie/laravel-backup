@@ -42,7 +42,7 @@ class EventHandler
     {
         $eventName = class_basename($event);
 
-        $notificationClass = collect($this->config->get('laravel-backup.notifications.events'))
+        $notificationClass = collect($this->config->get('laravel-backup.notifications.notifications'))
             ->keys()
             ->first(function ($notificationClass) use ($eventName) {
 

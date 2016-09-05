@@ -2,11 +2,11 @@
 
 namespace Spatie\Backup\Notifications;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notifiable as NotifiableTrait;
 
-class PackageUser
+class Notifiable
 {
-    use Notifiable;
+    use NotifiableTrait;
 
     /**
      * Route notifications for the mail channel.

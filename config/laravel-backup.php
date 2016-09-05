@@ -126,11 +126,11 @@ return [
 
     'notifications' => [
 
-        'events' => [
+        'notifications' => [
             \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['mail']
         ],
 
-        'notifiable' => \Spatie\Backup\Notifications\PackageUser::class,
+        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
             'to' => 'your@email.com',
