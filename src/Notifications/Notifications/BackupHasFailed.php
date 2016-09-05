@@ -9,7 +9,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailed extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\BackupHasFailed */
     protected $event;
 
