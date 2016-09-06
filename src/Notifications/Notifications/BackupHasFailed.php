@@ -27,14 +27,14 @@ class BackupHasFailed extends BaseNotification
             ->subject("Could not back up {$this->getApplicationName()}")
             ->line("An error occurred while backing up {$this->getApplicationName()}")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
-            ->line("Exception trace: `" . nl2br($this->event->exception->getTraceAsString()) . "`");
+            ->ou("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
     }
 
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
             ->error()
-            ->line("An error occurred while backing up {$this->getApplicationName()}")
+            ->content("An error occurred while backing up {$this->getApplicationName()}")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
                     ->title('Exception message')
@@ -42,7 +42,7 @@ class BackupHasFailed extends BaseNotification
             })
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
-                    ->title('Exception message')
+                    ->title('Exception trace')
                     ->content($this->event->exception->getTraceAsString());
             });
     }
