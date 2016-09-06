@@ -59,7 +59,7 @@ class UnhealthyBackupWasFound extends BaseNotification
         }
 
         if ($backupStatus->backupUsesTooMuchStorage()) {
-            return "The backups are using too much storage. Currently using {$backupStatus->getHumanReadableAllowedStorage()} which is highter than the allowed {$backupStatus->getHumanReadableUsedStorage()}.";
+            return "The backups are using too much storage. Currently using {$backupStatus->getHumanReadableUsedStorage()} which is higher than the allowed {$backupStatus->getHumanReadableAllowedStorage()}.";
         }
 
         if ($backupStatus->newestBackupIsToolOld()) {
