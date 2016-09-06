@@ -9,7 +9,6 @@ use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Spatie\Backup\Helpers\Format;
-use Spatie\DbDumper\DbDumper;
 use Exception;
 
 class BackupJob

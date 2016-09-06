@@ -13,7 +13,7 @@ class DbDumperFactory
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
-        $dbDumper = DbDumperFactory::create($dbConfig['driver'])
+        $dbDumper = self::create($dbConfig['driver'])
             ->setHost($dbConfig['host'])
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'])
@@ -23,7 +23,7 @@ class DbDumperFactory
 
         if (isset($dbConfig['dump'])) {
             $dbDumper = static::processExtraDumpParameters($dbConfig['dump'], $dbDumper);
-        };
+        }
 
         return $dbDumper;
     }
@@ -39,7 +39,7 @@ class DbDumperFactory
     {
         collect($dumpConfiguration)->filter(function (string $configValue, string $configName) use ($dbDumper) {
             return method_exists($dbDumper, self::getDumperMethodName($configName));
-        })->each(function (string $configValue, string $configName) use ($dbDumper)  {
+        })->each(function (string $configValue, string $configName) use ($dbDumper) {
             $methodName = self::getDumperMethodName($configName);
 
             $dbDumper->$methodName($configValue);
@@ -50,8 +50,6 @@ class DbDumperFactory
 
     protected function getDumperMethodName(string $configName): string
     {
-        return 'set' . studly_case($configName);
+        return 'set'.studly_case($configName);
     }
-
 }
-
