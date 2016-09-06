@@ -32,7 +32,7 @@ class BackupWasSuccessful extends BaseNotification
         return (new SlackMessage)
             ->success()
             ->content('Successfully created a new backup!')
-            ->attachment(function(SlackAttachment $attachment) {
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields([
                     'Application' => $this->getApplicationName(),
                     'Disk' => $this->getDiskname(),
