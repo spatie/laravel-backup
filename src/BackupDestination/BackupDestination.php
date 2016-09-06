@@ -63,7 +63,7 @@ class BackupDestination
         }
     }
 
-    public function write(string $file)
+    public function writeOriginal(string $file)
     {
         if (is_null($this->disk)) {
             throw new Exception("Could not connect to disk {$this->diskName} because the disk is not set.");
@@ -76,14 +76,36 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-    public function writeVoodo(string $file)
+    public function write(string $file)
     {
         //voodoo
-        $destination = $this->backupName.'/'.pathinfo('voodoo.zip', PATHINFO_BASENAME);
+        $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
 
-        $stream = popen('tar cf - "/Users/freek/dev/test/test1.txt" | gzip -c', 'r');
+        $allFiles = collect(\File::allFiles(base_path('vendor')))->map(function(\Symfony\Component\Finder\SplFileInfo $file) {
+            return $file->getRealPath();
+        })
+            //->take(3000)
+        //->map(function(string $fileName) {
+        //    return substr($fileName, 1);
+        //})
+            /**
+             * Use the "-T" option to pass a file to tar that contains the filenames to tar up.
 
-        $this->disk->getDriver->writeStream($destination, $stream);
+            tar -cv -T file_list.txt -f tarball.tar
+             */
+
+            ->reduce(function($carry, $fileName) {
+            $carry .= '"' . $fileName . '" ';
+
+                return $carry;
+            },'');
+
+
+        $stream = popen('tar cf - ' . $allFiles .' | gzip -c', 'r');
+
+        echo $stream;
+
+        $this->disk->getDriver()->writeStream($destination, $stream);
     }
 
 
