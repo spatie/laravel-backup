@@ -35,18 +35,21 @@ abstract class BaseNotification extends Notification
         $backupDestination = $this->getBackupDestination();
 
         if (! $backupDestination) {
-            return null;
+            return collect();
         }
+
+        $newestBackup = $backupDestination->getNewestBackup();
+        $oldestBackup = $backupDestination->getOldestBackup();
 
         return collect([
             'Application name' => $this->getApplicationName(),
             'Disk' => $backupDestination->getDiskName(),
-            'Newest backup size' => Format::getHumanReadableSize($backupDestination->getNewestBackup()->size()),
+            'Newest backup size' => $newestBackup ? Format::getHumanReadableSize($newestBackup->size()) : 0,
             'Amount of backups' => $backupDestination->getBackups()->count(),
             'Total storage used' => Format::getHumanReadableSize($backupDestination->getBackups()->size()),
-            'Newest backup date' => $backupDestination->getNewestBackup()->date()->format('Y/m/d H:i:s'),
-            'Oldest backup date' => $backupDestination->getOldestBackup()->date()->format('Y/m/d H:i:s'),
-        ]);
+            'Newest backup date' => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : '',
+            'Oldest backup date' => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : '',
+        ])->filter();
     }
 
     /**

@@ -16,6 +16,7 @@ class Backup
     public function __construct(Filesystem $disk, string $path)
     {
         $this->disk = $disk;
+
         $this->path = $path;
     }
 

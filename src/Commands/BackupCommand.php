@@ -22,7 +22,7 @@ class BackupCommand extends BaseCommand
         try {
             $this->guardAgainstInvalidOptions();
 
-            $backupJob = BackupJobFactory::createFromDisk(config('laravel-backup'), config('app.name'));
+            $backupJob = BackupJobFactory::createFromArray(config('laravel-backup'));
 
             if ($this->option('only-db')) {
                 $backupJob->doNotBackupFilesystem();
@@ -43,6 +43,7 @@ class BackupCommand extends BaseCommand
 
 
             $backupJob->run();
+
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {
