@@ -6,6 +6,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\BackupWasSuccessful as BackupWasSuccessfulEvent;
+use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupWasSuccessful extends BaseNotification
@@ -30,11 +31,13 @@ class BackupWasSuccessful extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
-            ->content('A backup was made!')
+            ->content('Successfully created a new backup!')
             ->attachment(function(SlackAttachment $attachment) {
                 $attachment->fields([
-                    'application' => $this->getApplicationName(),
-                    'disk' => $this->getDiskname(),
+                    'Application' => $this->getApplicationName(),
+                    'Disk' => $this->getDiskname(),
+                    'Backup size' => Format::getHumanReadableSize($this->event->backupDestination->getBackups()->last()->size()),
+                    'Total storage used' => Format::getHumanReadableSize($this->event->backupDestination->getUsedStorage()),
                 ]);
             });
     }

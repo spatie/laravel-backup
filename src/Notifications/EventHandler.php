@@ -4,8 +4,8 @@ namespace Spatie\Backup\Notifications;
 
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
+use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 
 class EventHandler
@@ -22,7 +22,10 @@ class EventHandler
     public function subscribe(Dispatcher $events)
     {
 
-        $events->listen([BackupWasSuccessful::class], function ($event) {
+        $events->listen([
+            BackupWasSuccessful::class,
+            BackupHasFailed::class,
+        ], function ($event) {
             $notifiable = $this->determineNotifiable();
 
             $notification = $this->determineNotification($event);
