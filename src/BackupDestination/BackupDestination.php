@@ -86,7 +86,6 @@ class BackupDestination
         $this->disk->getDriver->writeStream($destination, $stream);
     }
 
-
     public function getBackupName(): string
     {
         return $this->backupName;
@@ -155,5 +154,4 @@ class BackupDestination
 
         return $newestBackup->date()->gt($date);
     }
-
 }
