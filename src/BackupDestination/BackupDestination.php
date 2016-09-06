@@ -81,33 +81,32 @@ class BackupDestination
         //voodoo
         $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
 
-        $allFiles = collect(\File::allFiles(base_path('vendor')))->map(function(\Symfony\Component\Finder\SplFileInfo $file) {
+        $allFiles = collect(\File::allFiles(base_path('vendor')))->map(function (\Symfony\Component\Finder\SplFileInfo $file) {
             return $file->getRealPath();
         })
             //->take(3000)
         //->map(function(string $fileName) {
         //    return substr($fileName, 1);
         //})
-            /**
+            /*
              * Use the "-T" option to pass a file to tar that contains the filenames to tar up.
 
             tar -cv -T file_list.txt -f tarball.tar
              */
 
-            ->reduce(function($carry, $fileName) {
-            $carry .= '"' . $fileName . '" ';
+            ->reduce(function ($carry, $fileName) {
+                $carry .= '"'.$fileName.'" ';
 
                 return $carry;
-            },'');
+            }, '');
 
 
-        $stream = popen('tar cf - ' . $allFiles .' | gzip -c', 'r');
+        $stream = popen('tar cf - '.$allFiles.' | gzip -c', 'r');
 
         echo $stream;
 
         $this->disk->getDriver()->writeStream($destination, $stream);
     }
-
 
     public function getBackupName(): string
     {
@@ -177,5 +176,4 @@ class BackupDestination
 
         return $newestBackup->date()->gt($date);
     }
-
 }
