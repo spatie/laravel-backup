@@ -9,12 +9,12 @@ use Spatie\DbDumper\Databases\PostgreSql;
 
 class BackupJobFactory
 {
-    public static function createFromArray(array $config): BackupJob
+    public static function createFromArray(array $config, string $backupName): BackupJob
     {
         $backupJob = (new BackupJob())
             ->setFileSelection(static::getFileSelection($config['backup']['source']['files']))
             ->setDbDumpers(static::getDbDumpers($config['backup']['source']['databases']))
-            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']));
+            ->setBackupDestinations(BackupDestinationFactory::createForDiskNames($config['backup']['destination']['disks'],$backupName));
 
         return $backupJob;
     }

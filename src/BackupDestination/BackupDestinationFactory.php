@@ -6,11 +6,11 @@ use Illuminate\Support\Collection;
 
 class BackupDestinationFactory
 {
-    public static function createFromArray(array $config): Collection
+    public static function createForDiskNames(array $diskNames, string $backupName): Collection
     {
-        return collect($config['destination']['disks'])
-            ->map(function ($filesystemName) use ($config) {
-                return BackupDestination::create($filesystemName, $config['name']);
+        return collect($diskNames)
+            ->map(function ($diskName) use ($backupName) {
+                return BackupDestination::create($diskName, $backupName);
             });
     }
 }

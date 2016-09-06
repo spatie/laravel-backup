@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use Illuminate\Support\Collection;
-use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
