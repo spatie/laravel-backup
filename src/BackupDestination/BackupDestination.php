@@ -76,6 +76,17 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
+    public function writeVoodo(string $file)
+    {
+        //voodoo
+        $destination = $this->backupName.'/'.pathinfo('voodoo.zip', PATHINFO_BASENAME);
+
+        $stream = popen('tar cf - "/Users/freek/dev/test/test1.txt" | gzip -c', 'r');
+
+        $this->disk->getDriver->writeStream($destination, $stream);
+    }
+
+
     public function getBackupName(): string
     {
         return $this->backupName;

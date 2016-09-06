@@ -41,8 +41,7 @@ class BackupHasFailed extends BaseNotification
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-            ->error()
-            ->content("An error occurred while backing up `{$this->getApplicationName()}`")
+            ->errofgfgffgfg->content("An error occurred while backing up `{$this->getApplicationName()}`")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
                     ->title('Exception message')
