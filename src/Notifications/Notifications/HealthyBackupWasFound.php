@@ -25,7 +25,7 @@ class HealthyBackupWasFound extends BaseNotification
             ->subject("The backups for `{$this->getApplicationName()}` are healthy")
             ->line("The backups for `{$this->getApplicationName()}` are considered healthy. Good job!");
 
-        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line($value, $name);
         });
 
@@ -37,7 +37,7 @@ class HealthyBackupWasFound extends BaseNotification
         return (new SlackMessage)
             ->success()
             ->content("The backups for `{$this->getApplicationName()}` are healthy")
-            ->attachment(function(SlackAttachment $attachment) {
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
     }

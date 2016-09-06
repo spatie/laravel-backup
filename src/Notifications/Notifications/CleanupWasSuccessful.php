@@ -25,7 +25,7 @@ class CleanupWasSuccessful extends BaseNotification
             ->subject("Successfully cleaned up the backups of `{$this->getApplicationName()}`")
             ->line("Successfully cleaned up the backups of {$this->getApplicationName()} on the disk named {$this->getDiskname()}.");
 
-        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line($value, $name);
         });
 
@@ -37,10 +37,9 @@ class CleanupWasSuccessful extends BaseNotification
         return (new SlackMessage)
             ->success()
             ->content('Successfully cleaned up the backups!')
-            ->attachment(function(SlackAttachment $attachment) {
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
-
     }
 
     public function setEvent(CleanupWasSuccessfulEvent $event)

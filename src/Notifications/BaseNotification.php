@@ -17,7 +17,7 @@ abstract class BaseNotification extends Notification
      */
     public function via($notifiable)
     {
-        return config('laravel-backup.notifications.notifications.' . static::class);
+        return config('laravel-backup.notifications.notifications.'.static::class);
     }
 
     public function getApplicationName(): string
@@ -35,7 +35,7 @@ abstract class BaseNotification extends Notification
         $backupDestination = $this->getBackupDestination();
 
         if (! $backupDestination) {
-            return null;
+            return;
         }
 
         return collect([
@@ -61,7 +61,5 @@ abstract class BaseNotification extends Notification
         if ($this->event->backupDestinationStatus) {
             return $this->event->backupDestinationStatus->backupDestination;
         }
-
-        return null;
     }
 }

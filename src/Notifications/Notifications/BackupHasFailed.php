@@ -10,7 +10,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailed extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\BackupHasFailed */
     protected $event;
 
@@ -22,16 +21,15 @@ class BackupHasFailed extends BaseNotification
      */
     public function toMail($notifiable)
     {
-
         $mailMessage = (new MailMessage)
             ->error()
             ->subject("Could not back up `{$this->getApplicationName()}`")
             ->line("An error occurred while backing up `{$this->getApplicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
-            ->line("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
+            ->line('Exception trace: `'.$this->event->exception->getTraceAsString().'`');
 
 
-        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line($value, $name);
         });
 
@@ -53,10 +51,9 @@ class BackupHasFailed extends BaseNotification
                     ->title('Exception trace')
                     ->content($this->event->exception->getTraceAsString());
             })
-            ->attachment(function(SlackAttachment $attachment) {
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
-
     }
 
     public function setEvent(BackupHasFailedEvent $event)
