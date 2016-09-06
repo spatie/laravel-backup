@@ -10,7 +10,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class CleanupHasFailed extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\CleanupHasFailed */
     protected $event;
 
@@ -27,9 +26,9 @@ class CleanupHasFailed extends BaseNotification
             ->subject("Could not clean up the backups of `{$this->getApplicationName()}`")
             ->line("An error occurred while cleaning up the backups of `{$this->getApplicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
-            ->line("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
+            ->line('Exception trace: `'.$this->event->exception->getTraceAsString().'`');
 
-        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
         });
 
@@ -51,10 +50,9 @@ class CleanupHasFailed extends BaseNotification
                     ->title('Exception trace')
                     ->content($this->event->exception->getTraceAsString());
             })
-            ->attachment(function(SlackAttachment $attachment) {
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
-
     }
 
     public function setEvent(CleanupHasFailedEvent $event)
