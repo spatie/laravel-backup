@@ -10,7 +10,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailed extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\BackupHasFailed */
     protected $event;
 
@@ -27,7 +26,7 @@ class BackupHasFailed extends BaseNotification
             ->subject("Could not back up {$this->getApplicationName()}")
             ->line("An error occurred while backing up {$this->getApplicationName()}")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
-            ->ou("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
+            ->ou('Exception trace: `'.$this->event->exception->getTraceAsString().'`');
     }
 
     public function toSlack($notifiable)
