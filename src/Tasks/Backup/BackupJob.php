@@ -66,9 +66,9 @@ class BackupJob
         return $this;
     }
 
-    public function setDbDumpers(array $dbDumpers): BackupJob
+    public function setDbDumpers(Collection $dbDumpers): BackupJob
     {
-        $this->dbDumpers = Collection::make($dbDumpers);
+        $this->dbDumpers = $dbDumpers;
 
         return $this;
     }
@@ -145,7 +145,7 @@ class BackupJob
 
     protected function addDatabaseDumpsToZip(Zip $zip)
     {
-        $this->dbDumpers->each(function (DbDumper $dbDumper) use ($zip) {
+        $this->dbDumpers->each(function ($dbDumper) use ($zip) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
             $fileName = $dbDumper->getDbName().'.sql';

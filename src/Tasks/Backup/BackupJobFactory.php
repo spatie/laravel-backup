@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class BackupJobFactory
@@ -23,7 +24,7 @@ class BackupJobFactory
             ->shouldFollowLinks(isset($sourceFiles['followLinks']) && $sourceFiles['followLinks']);
     }
 
-    protected static function getDbDumpers(array $dbConnectionNames): array
+    protected static function getDbDumpers(array $dbConnectionNames): Collection
     {
         return collect($dbConnectionNames)->map(function(string $dbConnectionName) {
            return DbDumperFactory::create($dbConnectionName);
