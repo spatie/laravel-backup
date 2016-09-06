@@ -3,6 +3,9 @@
 namespace Spatie\Backup\Notifications;
 
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Collection;
+use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Helpers\Format;
 
 abstract class BaseNotification extends Notification
 {
@@ -22,8 +25,43 @@ abstract class BaseNotification extends Notification
         return config('app.name');
     }
 
-    public function getDiskname(): string
+    public function getDiskName(): string
     {
-        return $this->event->backupDestination->getDiskName();
+        return $this->getBackupDestination()->getDiskName();
+    }
+
+    protected function getBackupDestinationProperties(): Collection
+    {
+        $backupDestination = $this->getBackupDestination();
+
+        if (! $backupDestination) {
+            return null;
+        }
+
+        return collect([
+            'Application name' => $this->getApplicationName(),
+            'Disk' => $backupDestination->getDiskName(),
+            'Newest backup size' => Format::getHumanReadableSize($backupDestination->getNewestBackup()->size()),
+            'Amount of backups' => $backupDestination->getBackups()->count(),
+            'Total storage used' => Format::getHumanReadableSize($backupDestination->getBackups()->size()),
+            'Newest backup date' => $backupDestination->getNewestBackup()->date()->format('Y/m/d H:i:s'),
+            'Oldest backup date' => $backupDestination->getOldestBackup()->date()->format('Y/m/d H:i:s'),
+        ]);
+    }
+
+    /**
+     * @return \Spatie\Backup\BackupDestination\BackupDestination|null
+     */
+    public function getBackupDestination()
+    {
+        if ($this->event->backupDestination) {
+            return $this->event->backupDestination;
+        }
+
+        if ($this->event->backupDestinationStatus) {
+            return $this->event->backupDestinationStatus->backupDestination;
+        }
+
+        return null;
     }
 }

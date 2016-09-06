@@ -6,7 +6,6 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\BackupWasSuccessful as BackupWasSuccessfulEvent;
-use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupWasSuccessful extends BaseNotification
@@ -22,9 +21,15 @@ class BackupWasSuccessful extends BaseNotification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject("Successfully created a new backup of {$this->getApplicationName()}")
+        $mailMessage = (new MailMessage)
+            ->subject("Successfully created a new backup of `{$this->getApplicationName()}`")
             ->line("Successfully created a new backup of {$this->getApplicationName()} to the disk named {$this->getDiskname()}.");
+
+        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+            $mailMessage->line($value, $name);
+        });
+
+        return $mailMessage;
     }
 
     public function toSlack($notifiable)
@@ -33,13 +38,9 @@ class BackupWasSuccessful extends BaseNotification
             ->success()
             ->content('Successfully created a new backup!')
             ->attachment(function(SlackAttachment $attachment) {
-                $attachment->fields([
-                    'Application' => $this->getApplicationName(),
-                    'Disk' => $this->getDiskname(),
-                    'Backup size' => Format::getHumanReadableSize($this->event->backupDestination->getBackups()->last()->size()),
-                    'Total storage used' => Format::getHumanReadableSize($this->event->backupDestination->getUsedStorage()),
-                ]);
+                $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
+
     }
 
     public function setEvent(BackupWasSuccessfulEvent $event)

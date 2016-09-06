@@ -126,6 +126,14 @@ class BackupDestination
         return $this->getBackups()->newest();
     }
 
+    /**
+     * @return \Spatie\Backup\BackupDestination\Backup|null
+     */
+    public function getOldestBackup()
+    {
+        return $this->getBackups()->oldest();
+    }
+
     public function isNewestBackupOlderThan(Carbon $date): bool
     {
         $newestBackup = $this->getNewestBackup();

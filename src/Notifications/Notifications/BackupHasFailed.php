@@ -22,19 +22,27 @@ class BackupHasFailed extends BaseNotification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+
+        $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Could not back up {$this->getApplicationName()}")
-            ->line("An error occurred while backing up {$this->getApplicationName()}")
+            ->subject("Could not back up `{$this->getApplicationName()}`")
+            ->line("An error occurred while backing up `{$this->getApplicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
-            ->ou("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
+            ->line("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
+
+
+        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+            $mailMessage->line($value, $name);
+        });
+
+        return $mailMessage;
     }
 
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
             ->error()
-            ->content("An error occurred while backing up {$this->getApplicationName()}")
+            ->content("An error occurred while backing up `{$this->getApplicationName()}`")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
                     ->title('Exception message')
@@ -44,7 +52,11 @@ class BackupHasFailed extends BaseNotification
                 $attachment
                     ->title('Exception trace')
                     ->content($this->event->exception->getTraceAsString());
+            })
+            ->attachment(function(SlackAttachment $attachment) {
+                $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
+
     }
 
     public function setEvent(BackupHasFailedEvent $event)

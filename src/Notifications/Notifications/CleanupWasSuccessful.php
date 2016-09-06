@@ -3,35 +3,44 @@
 namespace Spatie\Backup\Notifications\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\CleanupWasSuccessful as CleanupWasSuccessfulEvent;
 use Spatie\Backup\Notifications\BaseNotification;
 
 class CleanupWasSuccessful extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\CleanupWasSuccessful */
     protected $event;
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->success()
-            ->subject("Party!!")
-            ->line("Cleanup has failed");
+        $mailMessage = (new MailMessage)
+            ->subject("Successfully cleaned up the backups of `{$this->getApplicationName()}`")
+            ->line("Successfully cleaned up the backups of {$this->getApplicationName()} on the disk named {$this->getDiskname()}.");
+
+        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+            $mailMessage->line($value, $name);
+        });
+
+        return $mailMessage;
     }
 
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
             ->success()
-            ->line("A backup was made of {$this->event->backupDestination->getBackupName()}! Hurray!");
+            ->content('Successfully cleaned up the backups!')
+            ->attachment(function(SlackAttachment $attachment) {
+                $attachment->fields($this->getBackupDestinationProperties()->toArray());
+            });
+
     }
 
     public function setEvent(CleanupWasSuccessfulEvent $event)
