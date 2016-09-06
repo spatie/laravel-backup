@@ -122,7 +122,6 @@ class FileSelection
         return false;
     }
 
-
     /**
      * @param string|array $paths
      * @return \Illuminate\Support\Collection
