@@ -32,7 +32,7 @@ class BackupHasFailed extends BaseNotification
 
 
         $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
-            $mailMessage->line($value, $name);
+            $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;

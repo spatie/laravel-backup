@@ -7,6 +7,10 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Notifications\Notification;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
+use Spatie\Backup\Events\CleanupHasFailed;
+use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Events\HealthyBackupWasFound;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
 
 class EventHandler
 {
@@ -22,10 +26,7 @@ class EventHandler
     public function subscribe(Dispatcher $events)
     {
 
-        $events->listen([
-            BackupWasSuccessful::class,
-            BackupHasFailed::class,
-        ], function ($event) {
+        $events->listen($this->allBackupEventClasses(), function ($event) {
             $notifiable = $this->determineNotifiable();
 
             $notification = $this->determineNotification($event);
@@ -49,18 +50,30 @@ class EventHandler
             ->keys()
             ->first(function ($notificationClass) use ($eventName) {
 
-                    $notificationName = class_basename($notificationClass);
+                $notificationName = class_basename($notificationClass);
 
-                    return $notificationName === $eventName;
+                return $notificationName === $eventName;
             });
 
-        if (! $notificationClass) {
+        if (!$notificationClass) {
             /**
              * @TODO: throw notification.
              */
         }
 
         return app($notificationClass)->setEvent($event);
+    }
+
+    protected function allBackupEventClasses(): array
+    {
+        return [
+            BackupHasFailed::class,
+            BackupWasSuccessful::class,
+            CleanupHasFailed::class,
+            CleanupWasSuccessful::class,
+            HealthyBackupWasFound::class,
+            UnhealthyBackupWasFound::class,
+        ];
     }
 }
 

@@ -30,7 +30,7 @@ class CleanupHasFailed extends BaseNotification
             ->line("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
 
         $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
-            $mailMessage->line($value, $name);
+            $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;

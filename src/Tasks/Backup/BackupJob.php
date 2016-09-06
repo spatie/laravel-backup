@@ -171,8 +171,6 @@ class BackupJob
 
                 consoleOutput()->info("Successfully copied .zip file to disk named {$backupDestination->getDiskName()}.");
 
-                throw new \Exception("Could not write to disk");
-
                 event(new BackupWasSuccessful($backupDestination));
             } catch (Exception $exception) {
                 consoleOutput()->error("Copying .zip file failed because: {$exception->getMessage()}.");

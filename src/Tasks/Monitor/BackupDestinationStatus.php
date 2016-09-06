@@ -154,4 +154,9 @@ class BackupDestinationStatus
     {
         return Format::getHumanReadableSize($this->getUsedStorage());
     }
+
+    public function getBackupDestination(): BackupDestination
+    {
+        return $this->backupDestination;
+    }
 }

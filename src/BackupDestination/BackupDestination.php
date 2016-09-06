@@ -144,4 +144,5 @@ class BackupDestination
 
         return $newestBackup->date()->gt($date);
     }
+
 }

@@ -21,11 +21,13 @@ class MonitorCommand extends BaseCommand
 
         $statuses->each(function (BackupDestinationStatus $backupDestinationStatus) {
             if ($backupDestinationStatus->isHealthy()) {
+                $this->info("The backups on {$backupDestinationStatus->getDiskName()} are considered healthy.");
                 event(new HealthyBackupWasFound($backupDestinationStatus));
 
                 return;
             }
 
+            $this->error("The backups on {$backupDestinationStatus->getDiskName()} are considered unhealthy!");
             event(new UnHealthyBackupWasFound($backupDestinationStatus));
         });
     }

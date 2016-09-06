@@ -16,6 +16,7 @@ class CleanupHasFailed
     public function __construct(Exception $exception, BackupDestination $backupDestination = null)
     {
         $this->exception = $exception;
+
         $this->backupDestination = $backupDestination;
     }
 }

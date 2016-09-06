@@ -26,7 +26,7 @@ class CleanupWasSuccessful extends BaseNotification
             ->line("Successfully cleaned up the backups of {$this->getApplicationName()} on the disk named {$this->getDiskname()}.");
 
         $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
-            $mailMessage->line($value, $name);
+            $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;

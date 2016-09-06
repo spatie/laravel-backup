@@ -22,11 +22,11 @@ class HealthyBackupWasFound extends BaseNotification
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage)
-            ->subject("The backups for `{$this->getApplicationName()}` are healthy")
+            ->subject("The backups for `{$this->getApplicationName()}` on disk `{$this->getDiskName()}` are healthy")
             ->line("The backups for `{$this->getApplicationName()}` are considered healthy. Good job!");
 
         $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
-            $mailMessage->line($value, $name);
+            $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;

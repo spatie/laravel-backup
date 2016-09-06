@@ -26,7 +26,7 @@ class BackupWasSuccessful extends BaseNotification
             ->line("Successfully created a new backup of {$this->getApplicationName()} to the disk named {$this->getDiskname()}.");
 
         $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
-            $mailMessage->line($value, $name);
+            $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;

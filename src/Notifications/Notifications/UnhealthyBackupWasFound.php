@@ -25,12 +25,12 @@ class UnhealthyBackupWasFound extends BaseNotification
         $mailMessage = (new MailMessage)
             ->error()
             ->subject("The backups for `{$this->getApplicationName()}` are unhealthy")
-            ->line("The backups for `{$this->getApplicationName()}` are unhealthy`")
+            ->line("The backups for `{$this->getApplicationName()}` on disk `{$this->getDiskName()}` are unhealthy.")
             ->line($this->getProblemDescription());
 
 
         $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
-            $mailMessage->line($value, $name);
+            $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;
