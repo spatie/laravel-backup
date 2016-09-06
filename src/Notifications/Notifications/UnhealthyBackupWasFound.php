@@ -10,7 +10,6 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class UnhealthyBackupWasFound extends BaseNotification
 {
-
     /** @var \Spatie\Backup\Events\UnhealthyBackupWasFound */
     protected $event;
 
@@ -29,7 +28,7 @@ class UnhealthyBackupWasFound extends BaseNotification
             ->line($this->getProblemDescription());
 
 
-        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line($value, $name);
         });
 
@@ -41,7 +40,7 @@ class UnhealthyBackupWasFound extends BaseNotification
         return (new SlackMessage)
             ->error()
             ->content("The backups for `{$this->getApplicationName()}` are unhealthy. {$this->getProblemDescription()}")
-            ->attachment(function(SlackAttachment $attachment) {
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
     }
@@ -55,7 +54,7 @@ class UnhealthyBackupWasFound extends BaseNotification
         }
 
         if (! $backupStatus->getAmountOfBackups() === 0) {
-            return "There are no backups at all of this application.";
+            return 'There are no backups at all of this application.';
         }
 
         if ($backupStatus->backupUsesTooMuchStorage()) {
@@ -63,12 +62,11 @@ class UnhealthyBackupWasFound extends BaseNotification
         }
 
         if ($backupStatus->newestBackupIsToolOld()) {
-            return "The newest backup taken on {$backupStatus->getDateOfNewestBackup()->format("Y/m/d h:i:s")} is considered too old.";
+            return "The newest backup taken on {$backupStatus->getDateOfNewestBackup()->format('Y/m/d h:i:s')} is considered too old.";
         }
 
-        return "An exact reason cannot be determined.";
+        return 'An exact reason cannot be determined.';
     }
-
 
     public function setEvent(UnhealthyBackupWasFoundEvent $event)
     {
