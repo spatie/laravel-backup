@@ -25,8 +25,8 @@ class BackupHasFailed extends BaseNotification
 
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Could not back up `{$this->getApplicationName()}`")
-            ->line("An error occurred while backing up `{$this->getApplicationName()}`")
+            ->subject("Failed back up of `{$this->getApplicationName()}`")
+            ->line("Important: An error occurred while backing up `{$this->getApplicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
             ->line("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
 
@@ -42,7 +42,7 @@ class BackupHasFailed extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
-            ->content("An error occurred while backing up `{$this->getApplicationName()}`")
+            ->content("Failed back up of `{$this->getApplicationName()}`")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
                     ->title('Exception message')
