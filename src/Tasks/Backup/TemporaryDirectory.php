@@ -21,7 +21,7 @@ class TemporaryDirectory
     {
         $fileSystem = new FileSystem();
 
-        return (new static($fileSystem))->setPath($path . '/' . date('Y-m-d-h-i-s'));
+        return (new static($fileSystem))->setPath($path.'/'.date('Y-m-d-h-i-s'));
     }
 
     /**
@@ -45,7 +45,7 @@ class TemporaryDirectory
 
         $fullPath = "{$this->path}/{$fileName}";
 
-        if ($this->isProbablyADirectory($fullPath)) {;
+        if ($this->isProbablyADirectory($fullPath)) {
             $this->createTemporaryDirectory($fullPath);
         }
 
@@ -65,7 +65,7 @@ class TemporaryDirectory
             $tempPath .= "{$path}";
         }
 
-        $tempPath = rtrim($tempPath,"/");
+        $tempPath = rtrim($tempPath, '/');
 
         $this->path = $tempPath;
 
