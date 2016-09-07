@@ -67,7 +67,6 @@ class Zip
      */
     public function add($files, string $nameInZip = null): Zip
     {
-
         if (is_array($files)) {
             $nameInZip = null;
         }
@@ -79,13 +78,10 @@ class Zip
         $this->open();
 
         foreach ($files as $file) {
-
             if (file_exists($file)) {
-                $this->zipFile->addFile($file, $nameInZip) . PHP_EOL;
-
+                $this->zipFile->addFile($file, $nameInZip).PHP_EOL;
             }
             $this->fileCount++;
-
         }
 
         $this->close();
