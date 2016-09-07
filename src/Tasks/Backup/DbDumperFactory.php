@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+
 class DbDumperFactory
 {
     /**
@@ -13,7 +15,7 @@ class DbDumperFactory
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
-        $dbDumper = DbDumperFactory::create($dbConfig['driver'])
+        $dbDumper = static::getDumper($dbConfig['driver'])
             ->setHost($dbConfig['host'])
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'])
@@ -28,19 +30,19 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-    public static function getDumper($type): DpDumper
+    public static function getDumper($dbDriver): DpDumper
     {
-        $type = strtolower($type);
+        $driver = strtolower($dbDriver);
 
-        if ($type === 'mysql') {
+        if ($driver === 'mysql') {
             return new MySql();
         }
 
-        if ($type === 'pgsql') {
+        if ($driver === 'pgsql') {
             return new PostgreSql();
         }
 
-        throw CannotCreateDbDumper::unknownType($type);
+        throw CannotCreateDbDumper::unsupportedDriver($driver);
     }
 
     /**

@@ -22,9 +22,6 @@ class BackupJob
     /** @var \Illuminate\Support\Collection */
     protected $backupDestinations;
 
-    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
-    protected $temporaryDirectory;
-
     /** @var string */
     protected $filename;
 
@@ -53,7 +50,7 @@ class BackupJob
 
     public function setDefaultFilename(): BackupJob
     {
-        $this->filename = date('Y-m-d-His').'.zip';
+        $this->filename = date('Y-m-d-His') . '.zip';
 
         return $this;
     }
@@ -85,7 +82,7 @@ class BackupJob
             return $backupDestination->getDiskName() === $diskName;
         });
 
-        if (! count($this->backupDestinations)) {
+        if (!count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -102,23 +99,19 @@ class BackupJob
     public function run()
     {
         try {
-            if (! count($this->backupDestinations)) {
+            if (!count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
-            $manifest = new Manifest();
+            $temporaryDirectory = TemporaryDirectory::create();
 
-            $manifest->addFiles()
-
-            $this->temporaryDirectory = TemporaryDirectory::create();
-
-            $this->dumpDatabases();
-
-            $manifest = $this->createManifestOfAllFilesToBeBackedUp();
+            $manifest = Manifest::create($temporaryDirectory->getPath('manifest.txt'))
+                ->addFiles($this->dumpDatabases($temporaryDirectory->getPath('db-dumps')))
+                ->addFiles($this->fileSelection->getSelectedFiles());
 
             $this->copyFilesInManifestToBackupDestinations($manifest);
 
-            $this->temporaryDirectory->delete();
+            $temporaryDirectory->delete();
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because {$exception->getMessage()}.");
 
@@ -126,56 +119,37 @@ class BackupJob
         }
     }
 
-    protected function createManifestOfAllFilesToBeBackedUp(): string
+    /**
+     * Dumps the databases to the given directory.
+     * Returns an array with paths to the dump files
+     *
+     * @param $directory
+     *
+     * @return array
+     */
+    protected function dumpDatabases(string $directory): array
     {
-
-
-        $zip = Zip::create($this->temporaryDirectory->getPath($this->filename));
-
-        $this->addDatabaseDumpsToZip($zip);
-
-        $this->addSelectedFilesToZip($zip);
-
-        event(new BackupZipWasCreated($zip));
-
-        return $zip;
-    }
-
-    protected function addSelectedFilesToZip(Zip $zip)
-    {
-        consoleOutput()->info('Determining files to backup...');
-
-        $zip->add($this->fileSelection->getSelectedFiles());
-
-        consoleOutput()->info("Zipped {$zip->count()} files...");
-    }
-
-    protected function addDatabaseDumpsToZip(Zip $zip)
-    {
-        $this->dbDumpers->each(function ($dbDumper) use ($zip) {
+        return $this->dbDumpers->map(function ($dbDumper) use ($directory) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName().'.sql';
-            $temporaryFile = $this->temporaryDirectory->getPath($fileName);
+            $fileName = $dbDumper->getDbName() . '.sql';
+            $temporaryFile = $directory . '/' . $fileName;
+
             $dbDumper->dumpToFile($temporaryFile);
 
-            $zip->add($temporaryFile, $fileName);
-        });
+            return $temporaryFile;
+        })->toArray();
     }
 
-    protected function copyToBackupDestinations(Zip $zip)
+    protected function copyFilesInManifestToBackupDestinations(Manifest $manifest)
     {
-        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($zip) {
+        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($manifest) {
             try {
-                $fileSize = Format::getHumanReadableSize($zip->getSize());
+                consoleOutput()->info("Copying {$manifest->count()} files to disk named {$backupDestination->getDiskName()}...");
 
-                $fileName = pathinfo($zip->getPath(), PATHINFO_BASENAME);
+                $backupDestination->writeFilesFromManifest($manifest);
 
-                consoleOutput()->info("Copying {$fileName} (size: {$fileSize}) to disk named {$backupDestination->getDiskName()}...");
-
-                $backupDestination->write($zip->getPath());
-
-                consoleOutput()->info("Successfully copied .zip file to disk named {$backupDestination->getDiskName()}.");
+                consoleOutput()->info("Successfully copied {$manifest->count()} files to disk named {$backupDestination->getDiskName()}.");
 
                 event(new BackupWasSuccessful($backupDestination));
             } catch (Exception $exception) {

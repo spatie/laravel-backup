@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Exception;
+use Spatie\Backup\Tasks\Backup\Manifest;
 
 class BackupDestination
 {
@@ -76,32 +77,13 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-    public function write(string $file)
+    public function writeFilesFromManifest(Manifest $manifest)
     {
-        //voodoo
-        $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
+        $destination = $this->backupName.'/'.'test' . date('Ymdhis') . '.zip';
 
-        $allFiles = collect(\File::allFiles(base_path('vendor')))->map(function(\Symfony\Component\Finder\SplFileInfo $file) {
-            return $file->getRealPath();
-        })
-            //->take(3)
-        //->map(function(string $fileName) {
-        //    return substr($fileName, 1);
-        //})
-            /**
-             * Use the "-T" option to pass a file to tar that contains the filenames to tar up.
+        //dd(file_get_contents($manifest->getPath()));
 
-            tar -cv -T file_list.txt -f tarball.tar
-             */
-
-            ->reduce(function($carry, $fileName) {
-            $carry .= '"' . $fileName . '" ';
-
-                return $carry;
-            },'');
-
-
-        $stream = popen('tar cf - ' . $allFiles .' | gzip -c', 'r');
+        $stream = popen("tar -cvf -T {$manifest->getPath()} | gzip -c", "r");
 
         $this->disk->getDriver()->writeStream($destination, $stream);
     }

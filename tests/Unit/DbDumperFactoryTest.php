@@ -3,10 +3,10 @@
 namespace Spatie\Backup\Test\Unit;
 
 use PHPUnit_Framework_TestCase;
+use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+use Spatie\Backup\Tasks\Backup\DbDumperFactory;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
-use Spatie\DbDumper\DbDumperFactory;
-use Spatie\DbDumper\Exceptions\CannotCreateDumper;
 
 class DbDumperFactoryTest extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class DbDumperFactoryTest extends PHPUnit_Framework_TestCase
     /** @test */
     public function it_will_throw_an_exception_when_creating_an_unknown_type_of_dumper()
     {
-        $this->expectException(CannotCreateDumper::class);
+        $this->expectException(CannotCreateDbDumper::class);
 
         DbDumperFactory::create('unknown type');
     }

@@ -31,7 +31,7 @@ class BackupHasFailed extends BaseNotification
             ->line("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
 
 
-        $this->getBackupDestinationProperties()->each(function($value, $name) use ($mailMessage) {
+        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
         });
 
@@ -41,7 +41,8 @@ class BackupHasFailed extends BaseNotification
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-            ->errofgfgffgfg->content("An error occurred while backing up `{$this->getApplicationName()}`")
+            ->error()
+            ->content("An error occurred while backing up `{$this->getApplicationName()}`")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
                     ->title('Exception message')
@@ -52,7 +53,7 @@ class BackupHasFailed extends BaseNotification
                     ->title('Exception trace')
                     ->content($this->event->exception->getTraceAsString());
             })
-            ->attachment(function(SlackAttachment $attachment) {
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
 
