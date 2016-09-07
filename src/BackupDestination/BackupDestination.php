@@ -79,7 +79,7 @@ class BackupDestination
 
     public function writeFilesFromManifest(Manifest $manifest)
     {
-        $destination = $this->backupName.'/'.'test' . date('Ymdhis') . '.zip';
+        $destination = $this->backupName.'/'.'test' . date('Ymdhis') . '.tar.gz';
 
         //dd(file_get_contents($manifest->getPath()));
 
