@@ -113,7 +113,6 @@ class BackupDestinationStatus
 
     public function backupUsesTooMuchStorage(): bool
     {
-
         $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
 
         if ($maximumInBytes === 0) {
