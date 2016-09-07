@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Exception;
-use Spatie\Backup\Tasks\Backup\Manifest;
 
 class BackupDestination
 {
@@ -77,7 +76,6 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-
     public function getBackupName(): string
     {
         return $this->backupName;
@@ -146,5 +144,4 @@ class BackupDestination
 
         return $newestBackup->date()->gt($date);
     }
-
 }
