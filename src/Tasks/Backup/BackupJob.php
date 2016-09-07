@@ -6,9 +6,7 @@ use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
-use Spatie\Backup\Helpers\Format;
 use Exception;
 
 class BackupJob
@@ -50,7 +48,7 @@ class BackupJob
 
     public function setDefaultFilename(): BackupJob
     {
-        $this->filename = date('Y-m-d-His') . '.zip';
+        $this->filename = date('Y-m-d-His').'.zip';
 
         return $this;
     }
@@ -82,7 +80,7 @@ class BackupJob
             return $backupDestination->getDiskName() === $diskName;
         });
 
-        if (!count($this->backupDestinations)) {
+        if (! count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -99,7 +97,7 @@ class BackupJob
     public function run()
     {
         try {
-            if (!count($this->backupDestinations)) {
+            if (! count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
@@ -121,7 +119,7 @@ class BackupJob
 
     /**
      * Dumps the databases to the given directory.
-     * Returns an array with paths to the dump files
+     * Returns an array with paths to the dump files.
      *
      * @param $directory
      *
@@ -132,8 +130,8 @@ class BackupJob
         return $this->dbDumpers->map(function ($dbDumper) use ($directory) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName() . '.sql';
-            $temporaryFile = $directory . '/' . $fileName;
+            $fileName = $dbDumper->getDbName().'.sql';
+            $temporaryFile = $directory.'/'.$fileName;
 
             $dbDumper->dumpToFile($temporaryFile);
 

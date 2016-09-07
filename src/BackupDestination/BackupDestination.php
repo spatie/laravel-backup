@@ -79,15 +79,14 @@ class BackupDestination
 
     public function writeFilesFromManifest(Manifest $manifest)
     {
-        $destination = $this->backupName.'/'.'test' . date('Ymdhis') . '.tar.gz';
+        $destination = $this->backupName.'/'.'test'.date('Ymdhis').'.tar.gz';
 
         //dd(file_get_contents($manifest->getPath()));
 
-        $stream = popen("tar -cvf -T {$manifest->getPath()} | gzip -c", "r");
+        $stream = popen("tar -cvf -T {$manifest->getPath()} | gzip -c", 'r');
 
         $this->disk->getDriver()->writeStream($destination, $stream);
     }
-
 
     public function getBackupName(): string
     {
@@ -157,5 +156,4 @@ class BackupDestination
 
         return $newestBackup->date()->gt($date);
     }
-
 }
