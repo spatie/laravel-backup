@@ -26,7 +26,6 @@ class Manifest
         touch($manifestPath);
     }
 
-
     public function getPath(): string
     {
         return $this->manifestPath;
@@ -44,8 +43,8 @@ class Manifest
         }
 
         foreach ($filePaths as $filePath) {
-            if (!empty($filePath)) {
-                file_put_contents($this->manifestPath, $filePath . PHP_EOL, FILE_APPEND);
+            if (! empty($filePath)) {
+                file_put_contents($this->manifestPath, $filePath.PHP_EOL, FILE_APPEND);
             }
         }
 
@@ -56,8 +55,7 @@ class Manifest
     {
         $file = new SplFileObject($this->getPath());
 
-        while (!$file->eof()) {
-
+        while (! $file->eof()) {
             $filePath = $file->fgets();
 
             if (! empty($filePath)) {
@@ -74,5 +72,4 @@ class Manifest
 
         return $file->key() + 1;
     }
-
 }
