@@ -10,6 +10,5 @@ function consoleOutput(): ConsoleOutput
 function is_generator($variable): bool
 {
     if (! is_callable($variable)) {
-
     }
 }
