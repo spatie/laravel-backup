@@ -24,7 +24,7 @@ class CleanupHasFailed extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Could not clean up the backups of `{$this->getApplicationName()}`")
+            ->subject("Cleaning up the backups of `{$this->getApplicationName()}` failed.")
             ->line("An error occurred while cleaning up the backups of `{$this->getApplicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
             ->line("Exception trace: `" . $this->event->exception->getTraceAsString() . "`");
