@@ -109,9 +109,9 @@ class BackupJob
 
             $manifest = $this->createBackupManifest();
 
-            $pathToZip = $this->createZipFromManifest($manifest);
+            $zipFile = $this->createZipContainingEveryFileInManifest($manifest);
 
-            $this->copyToBackupDestinations($pathToZip);
+            $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
@@ -138,7 +138,7 @@ class BackupJob
         return $manifest;
     }
 
-    protected function createZipFromManifest(Manifest $manifest)
+    protected function createZipContainingEveryFileInManifest(Manifest $manifest)
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
