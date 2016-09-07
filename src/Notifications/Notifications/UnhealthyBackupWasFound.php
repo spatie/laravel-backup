@@ -24,7 +24,7 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("The backups for `{$this->getApplicationName()}` are unhealthy")
+            ->subject("Important: The backups for `{$this->getApplicationName()}` are unhealthy")
             ->line("The backups for `{$this->getApplicationName()}` on disk `{$this->getDiskName()}` are unhealthy.")
             ->line($this->getProblemDescription());
 
@@ -40,7 +40,7 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
-            ->content("The backups for `{$this->getApplicationName()}` are unhealthy. {$this->getProblemDescription()}")
+            ->content("Important: The backups for `{$this->getApplicationName()}` are unhealthy. {$this->getProblemDescription()}")
             ->attachment(function(SlackAttachment $attachment) {
                 $attachment->fields($this->getBackupDestinationProperties()->toArray());
             });
@@ -55,18 +55,18 @@ class UnhealthyBackupWasFound extends BaseNotification
         }
 
         if (! $backupStatus->getAmountOfBackups() === 0) {
-            return "There are no backups at all of this application.";
+            return "There are no backups of this application at all.";
         }
 
         if ($backupStatus->backupUsesTooMuchStorage()) {
-            return "The backups are using too much storage. Currently using {$backupStatus->getHumanReadableUsedStorage()} which is higher than the allowed {$backupStatus->getHumanReadableAllowedStorage()}.";
+            return "The backups are using too much storage. Current usage is {$backupStatus->getHumanReadableUsedStorage()} which is higher than the allowed limit of {$backupStatus->getHumanReadableAllowedStorage()}.";
         }
 
         if ($backupStatus->newestBackupIsToolOld()) {
-            return "The newest backup taken on {$backupStatus->getDateOfNewestBackup()->format("Y/m/d h:i:s")} is considered too old.";
+            return "The latest backup made on {$backupStatus->getDateOfNewestBackup()->format("Y/m/d h:i:s")} is considered too old.";
         }
 
-        return "An exact reason cannot be determined.";
+        return "Sorry, an exact reason cannot be determined.";
     }
 
 
