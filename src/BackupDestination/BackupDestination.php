@@ -64,7 +64,7 @@ class BackupDestination
         }
     }
 
-    public function writeOriginal(string $file)
+    public function write(string $file)
     {
         if (is_null($this->disk)) {
             throw new Exception("Could not connect to disk {$this->diskName} because the disk is not set.");
@@ -75,17 +75,6 @@ class BackupDestination
         $handle = fopen($file, 'r+');
 
         $this->disk->getDriver()->writeStream($destination, $handle);
-    }
-
-    public function writeFilesFromManifest(Manifest $manifest)
-    {
-        $destination = $this->backupName.'/'.'test' . date('Ymdhis') . '.tar.gz';
-
-        //dd(file_get_contents($manifest->getPath()));
-
-        $stream = popen("tar -cvf -T {$manifest->getPath()} | gzip -c", "r");
-
-        $this->disk->getDriver()->writeStream($destination, $stream);
     }
 
 

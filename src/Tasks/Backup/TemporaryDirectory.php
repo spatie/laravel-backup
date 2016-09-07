@@ -21,7 +21,7 @@ class TemporaryDirectory
     {
         $fileSystem = new FileSystem();
 
-        return (new static($fileSystem))->setPath($path);
+        return (new static($fileSystem))->setPath($path . '/' . date('Y-m-d-h-i-s'));
     }
 
     /**
@@ -43,16 +43,29 @@ class TemporaryDirectory
             return $this->path;
         }
 
-        return "{$this->path}/{$fileName}";
+        $fullPath = "{$this->path}/{$fileName}";
+
+        if ($this->isProbablyADirectory($fullPath)) {;
+            $this->createTemporaryDirectory($fullPath);
+        }
+
+        return $fullPath;
+    }
+
+    protected function isProbablyADirectory(string $fileName): bool
+    {
+        return ! str_contains($fileName, '.');
     }
 
     protected function setPath(string $path = ''): TemporaryDirectory
     {
-        $tempPath = storage_path('laravel-backups/temp');
+        $tempPath = storage_path('app/laravel-backup/temp');
 
         if ($tempPath !== '') {
-            $tempPath .= "/{$path}";
+            $tempPath .= "{$path}";
         }
+
+        $tempPath = rtrim($tempPath,"/");
 
         $this->path = $tempPath;
 
@@ -68,6 +81,10 @@ class TemporaryDirectory
 
     public function delete()
     {
+        if (! $this->filesystem->exists($this->path)) {
+            return;
+        }
+
         $this->filesystem->deleteDirectory($this->path);
     }
 }

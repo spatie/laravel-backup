@@ -3,6 +3,9 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+use Spatie\DbDumper\Databases\MySql;
+use Spatie\DbDumper\Databases\PostgreSql;
+use Spatie\DbDumper\DbDumper;
 
 class DbDumperFactory
 {
@@ -30,7 +33,7 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-    public static function getDumper($dbDriver): DpDumper
+    public static function getDumper($dbDriver): DbDumper
     {
         $driver = strtolower($dbDriver);
 

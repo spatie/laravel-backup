@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Spatie\Backup\Helpers\Format;
 use ZipArchive;
 
 class Zip
@@ -15,17 +16,11 @@ class Zip
     /** @var string */
     protected $pathToZip;
 
-    /**
-     * @param string       $pathToZip
-     * @param string|array $files
-     *
-     * @return \Spatie\Backup\Tasks\Backup\Zip
-     */
-    public static function create(string $pathToZip, $files = []): Zip
+    public static function createForManifest(Manifest $manifest, string $pathToZip): Zip
     {
         $zip = new static($pathToZip);
 
-        $zip->add($files);
+        $zip->add($manifest->getFiles());
 
         return $zip;
     }
@@ -49,6 +44,11 @@ class Zip
         return filesize($this->pathToZip);
     }
 
+    public function getHumanReadableSize(): string
+    {
+        return Format::getHumanReadableSize($this->getSize());
+    }
+
     protected function open()
     {
         $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
@@ -61,12 +61,13 @@ class Zip
 
     /**
      * @param string|array $files
-     * @param string       $nameInZip
+     * @param string $nameInZip
      *
      * @return \Spatie\Backup\Tasks\Backup\Zip
      */
     public function add($files, string $nameInZip = null): Zip
     {
+
         if (is_array($files)) {
             $nameInZip = null;
         }
@@ -78,8 +79,13 @@ class Zip
         $this->open();
 
         foreach ($files as $file) {
-            $this->zipFile->addFile($file, $nameInZip);
-            ++$this->fileCount;
+
+            if (file_exists($file)) {
+                $this->zipFile->addFile($file, $nameInZip) . PHP_EOL;
+
+            }
+            $this->fileCount++;
+
         }
 
         $this->close();

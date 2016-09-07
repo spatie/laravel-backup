@@ -52,6 +52,20 @@ class Manifest
         return $this;
     }
 
+    public function getFiles()
+    {
+        $file = new SplFileObject($this->getPath());
+
+        while (!$file->eof()) {
+
+            $filePath = $file->fgets();
+
+            if (! empty($filePath)) {
+                yield trim($filePath);
+            }
+        }
+    }
+
     public function count(): int
     {
         $file = new SplFileObject($this->manifestPath, 'r');

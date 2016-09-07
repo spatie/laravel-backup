@@ -5,10 +5,10 @@ namespace Spatie\Backup\Tasks\Backup;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
-use Spatie\Backup\Helpers\Format;
 use Exception;
 
 class BackupJob
@@ -24,6 +24,9 @@ class BackupJob
 
     /** @var string */
     protected $filename;
+
+    /** @var  \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
+    protected $temporaryDirectory;
 
     public function __construct()
     {
@@ -98,25 +101,56 @@ class BackupJob
 
     public function run()
     {
+        $this->temporaryDirectory = TemporaryDirectory::create();
+
         try {
             if (!count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
-            $temporaryDirectory = TemporaryDirectory::create();
+            $manifest = $this->createBackupManifest();
 
-            $manifest = Manifest::create($temporaryDirectory->getPath('manifest.txt'))
-                ->addFiles($this->dumpDatabases($temporaryDirectory->getPath('db-dumps')))
-                ->addFiles($this->fileSelection->getSelectedFiles());
+            $pathToZip = $this->createZipFromManifest($manifest);
 
-            $this->copyFilesInManifestToBackupDestinations($manifest);
+            $this->copyToBackupDestinations($pathToZip);
 
-            $temporaryDirectory->delete();
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because {$exception->getMessage()}.");
+            consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
 
             event(new BackupHasFailed($exception));
         }
+
+        $this->temporaryDirectory->delete();
+    }
+
+    protected function createBackupManifest(): Manifest
+    {
+        $databaseDumps = $this->dumpDatabases($this->temporaryDirectory->getPath('db-dumps'));
+
+        consoleOutput()->info("Determining files to backup...");
+
+        $filesToBeBackedUp = $this->fileSelection->getSelectedFiles();
+
+        $manifest = Manifest::create($this->temporaryDirectory->getPath('manifest.txt'))
+            ->addFiles($databaseDumps)
+            ->addFiles($filesToBeBackedUp);
+
+        event(new BackupManifestWasCreated($manifest));
+
+        return $manifest;
+    }
+
+    protected function createZipFromManifest(Manifest $manifest)
+    {
+        consoleOutput()->info("Zipping {$manifest->count()} files...");
+
+        $pathToZip = $this->temporaryDirectory->getPath(date('Y-m-d-h-i-s').'.zip');
+
+        $zip = Zip::createForManifest($manifest, $pathToZip);
+
+        consoleOutput()->info("Created zip containing {$zip->count()} files. Size is {$zip->getHumanReadableSize()}");
+
+        return $pathToZip;
     }
 
     /**
@@ -141,22 +175,26 @@ class BackupJob
         })->toArray();
     }
 
-    protected function copyFilesInManifestToBackupDestinations(Manifest $manifest)
+    protected function copyToBackupDestinations(string $path)
     {
-        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($manifest) {
+        $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($path) {
             try {
-                consoleOutput()->info("Copying {$manifest->count()} files to disk named {$backupDestination->getDiskName()}...");
+                consoleOutput()->info("Copying zip to disk named {$backupDestination->getDiskName()}...");
 
-                $backupDestination->writeFilesFromManifest($manifest);
+                $backupDestination->write($path);
 
-                consoleOutput()->info("Successfully copied {$manifest->count()} files to disk named {$backupDestination->getDiskName()}.");
+                consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->getDiskName()}.");
 
                 event(new BackupWasSuccessful($backupDestination));
             } catch (Exception $exception) {
-                consoleOutput()->error("Copying .zip file failed because: {$exception->getMessage()}.");
+                consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
                 event(new BackupHasFailed($exception, $backupDestination ?? null));
             }
         });
     }
+
+
+
+
 }
