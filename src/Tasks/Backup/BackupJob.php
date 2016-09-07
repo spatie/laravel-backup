@@ -7,7 +7,6 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Exception;
 
@@ -25,7 +24,7 @@ class BackupJob
     /** @var string */
     protected $filename;
 
-    /** @var  \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
+    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
     protected $temporaryDirectory;
 
     public function __construct()
@@ -53,7 +52,7 @@ class BackupJob
 
     public function setDefaultFilename(): BackupJob
     {
-        $this->filename = date('Y-m-d-His') . '.zip';
+        $this->filename = date('Y-m-d-His').'.zip';
 
         return $this;
     }
@@ -85,7 +84,7 @@ class BackupJob
             return $backupDestination->getDiskName() === $diskName;
         });
 
-        if (!count($this->backupDestinations)) {
+        if (! count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -104,7 +103,7 @@ class BackupJob
         $this->temporaryDirectory = TemporaryDirectory::create();
 
         try {
-            if (!count($this->backupDestinations)) {
+            if (! count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
@@ -113,9 +112,8 @@ class BackupJob
             $pathToZip = $this->createZipFromManifest($manifest);
 
             $this->copyToBackupDestinations($pathToZip);
-
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
+            consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
             event(new BackupHasFailed($exception));
         }
@@ -127,7 +125,7 @@ class BackupJob
     {
         $databaseDumps = $this->dumpDatabases($this->temporaryDirectory->getPath('db-dumps'));
 
-        consoleOutput()->info("Determining files to backup...");
+        consoleOutput()->info('Determining files to backup...');
 
         $filesToBeBackedUp = $this->fileSelection->getSelectedFiles();
 
@@ -155,7 +153,7 @@ class BackupJob
 
     /**
      * Dumps the databases to the given directory.
-     * Returns an array with paths to the dump files
+     * Returns an array with paths to the dump files.
      *
      * @param $directory
      *
@@ -166,8 +164,8 @@ class BackupJob
         return $this->dbDumpers->map(function ($dbDumper) use ($directory) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName() . '.sql';
-            $temporaryFile = $directory . '/' . $fileName;
+            $fileName = $dbDumper->getDbName().'.sql';
+            $temporaryFile = $directory.'/'.$fileName;
 
             $dbDumper->dumpToFile($temporaryFile);
 
@@ -193,8 +191,4 @@ class BackupJob
             }
         });
     }
-
-
-
-
 }
