@@ -28,6 +28,21 @@ class DbDumperFactory
         return $dbDumper;
     }
 
+    public static function getDumper($type): DpDumper
+    {
+        $type = strtolower($type);
+
+        if ($type === 'mysql') {
+            return new MySql();
+        }
+
+        if ($type === 'pgsql') {
+            return new PostgreSql();
+        }
+
+        throw CannotCreateDbDumper::unknownType($type);
+    }
+
     /**
      * @param array $dumpConfiguration
      *

@@ -84,7 +84,7 @@ class BackupDestination
         $allFiles = collect(\File::allFiles(base_path('vendor')))->map(function(\Symfony\Component\Finder\SplFileInfo $file) {
             return $file->getRealPath();
         })
-            //->take(3000)
+            //->take(3)
         //->map(function(string $fileName) {
         //    return substr($fileName, 1);
         //})
@@ -102,8 +102,6 @@ class BackupDestination
 
 
         $stream = popen('tar cf - ' . $allFiles .' | gzip -c', 'r');
-
-        echo $stream;
 
         $this->disk->getDriver()->writeStream($destination, $stream);
     }

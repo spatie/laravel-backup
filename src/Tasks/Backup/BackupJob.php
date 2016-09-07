@@ -9,7 +9,6 @@ use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Spatie\Backup\Helpers\Format;
-use Spatie\DbDumper\DbDumper;
 use Exception;
 
 class BackupJob
@@ -107,11 +106,17 @@ class BackupJob
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
+            $manifest = new Manifest();
+
+            $manifest->addFiles()
+
             $this->temporaryDirectory = TemporaryDirectory::create();
 
-            $zip = $this->createZipContainingAllFilesToBeBackedUp();
+            $this->dumpDatabases();
 
-            $this->copyToBackupDestinations($zip);
+            $manifest = $this->createManifestOfAllFilesToBeBackedUp();
+
+            $this->copyFilesInManifestToBackupDestinations($manifest);
 
             $this->temporaryDirectory->delete();
         } catch (Exception $exception) {
@@ -121,8 +126,10 @@ class BackupJob
         }
     }
 
-    protected function createZipContainingAllFilesToBeBackedUp(): Zip
+    protected function createManifestOfAllFilesToBeBackedUp(): string
     {
+
+
         $zip = Zip::create($this->temporaryDirectory->getPath($this->filename));
 
         $this->addDatabaseDumpsToZip($zip);
