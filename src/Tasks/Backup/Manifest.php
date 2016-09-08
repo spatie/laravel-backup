@@ -68,7 +68,7 @@ class Manifest
     {
         $file = new SplFileObject($this->manifestPath, 'r');
 
-        if($file->getSize() === 0) {
+        if ($file->getSize() === 0) {
             return 0;
         }
 
