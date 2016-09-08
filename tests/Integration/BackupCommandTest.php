@@ -86,7 +86,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_will_fail_when_there_are_no_files_or_databases_to_be_backed_up()
     {
-        /**
+        /*
          * @TODO: test this
          */
     }

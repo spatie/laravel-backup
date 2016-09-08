@@ -57,7 +57,7 @@ return [
     ],
 
 
-    /**
+    /*
      * You can get notified when specific events occur. Out of the box you can use 'mail' and 'slack'.
      * For Slack your need to install guzzlehttp/guzzle.
      *
@@ -75,7 +75,7 @@ return [
             \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['mail'],
         ],
 
-        /**
+        /*
          * Here you can specify to notifiable to which the notification will be sent. The default
          * notifiable will use the variable used in this config file.
          */

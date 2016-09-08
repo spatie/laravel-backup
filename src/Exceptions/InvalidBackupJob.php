@@ -18,6 +18,6 @@ class InvalidBackupJob extends Exception
 
     public static function noFilesToBeBackedUp(): InvalidBackupJob
     {
-        return new static("There are no files to be backed up");
+        return new static('There are no files to be backed up');
     }
 }
