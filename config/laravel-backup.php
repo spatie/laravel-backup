@@ -59,7 +59,7 @@ return [
 
     /*
      * You can get notified when specific events occur. Out of the box you can use 'mail' and 'slack'.
-     * For Slack your need to install guzzlehttp/guzzle.
+     * For Slack you need to install guzzlehttp/guzzle.
      *
      * You can also use your own notification classes, just make sure the class is named after one of
      * the `Spatie\Backup\Events` classes.
@@ -76,8 +76,8 @@ return [
         ],
 
         /*
-         * Here you can specify to notifiable to which the notification will be sent. The default
-         * notifiable will use the variable used in this config file.
+         * Here you can specify the notifiable to which the notifications should be sent. The default
+         * notifiable will use the variable specified in this config file.
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
