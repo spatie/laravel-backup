@@ -59,7 +59,7 @@ return [
 
     /**
      * You can get notified when specific events occur. Out of the box you can use 'mail' and 'slack'.
-     * For Slack your need to install guzzlehttp/guzzle.
+     * For Slack you need to install guzzlehttp/guzzle.
      *
      * You can also use your own notification classes, just make sure the class is named after one of
      * the `Spatie\Backup\Events` classes.
@@ -76,8 +76,8 @@ return [
         ],
 
         /**
-         * Here you can specify to notifiable to which the notification will be sent. The default
-         * notifiable will use the variable used in this config file.
+         * Here you can specify to notifiable which one of the notification should be sent. The default
+         * notifiable will use the variable specified in this config file.
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
@@ -149,7 +149,7 @@ return [
             'keepYearlyBackupsForYears' => 2,
 
             /*
-             * After cleaning up the backups remove the oldest backup until
+             * After cleaning up the backups, remove the oldest backup until
              * this amount of megabytes has been reached.
              */
             'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000,
