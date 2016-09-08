@@ -19,9 +19,9 @@ class TemporaryDirectory
      */
     public static function create(string $path = '')
     {
-        $fileSystem = new FileSystem();
+        $filesystem = new Filesystem();
 
-        return (new static($fileSystem))->setPath($path.'/'.date('Y-m-d-h-i-s'));
+        return (new static($filesystem))->setPath($path.'/'.date('Y-m-d-h-i-s'));
     }
 
     /**
