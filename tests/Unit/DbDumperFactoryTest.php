@@ -2,26 +2,19 @@
 
 namespace Spatie\Backup\Test\Unit;
 
-use PHPUnit_Framework_TestCase;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 use Spatie\Backup\Tasks\Backup\DbDumperFactory;
+use Spatie\Backup\Test\Integration\TestCase;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
 
-class DbDumperFactoryTest extends PHPUnit_Framework_TestCase
+class DbDumperFactoryTest extends TestCase
 {
     /** @test */
     public function it_can_create_instances_of_mysql_and_pgsql()
     {
         $this->assertInstanceOf(MySql::class, DbDumperFactory::create('mysql'));
         $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::create('pgsql'));
-    }
-
-    /** @test */
-    public function it_can_use_case_insensitive_type_names()
-    {
-        $this->assertInstanceOf(MySql::class, DbDumperFactory::create('MySQL'));
-        $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::create('PgSql'));
     }
 
     /** @test */

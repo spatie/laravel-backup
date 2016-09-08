@@ -27,7 +27,7 @@ class DbDumperFactory
             ->setTimeout(isset($dbConfig['dump_command_timeout']) ?? 0);
 
         if (isset($dbConfig['dump'])) {
-            $dbDumper = static::processExtraDumpParameters($dbConfig['dump'], $dbDumper);
+            $dbDumper = static::processExtraDumpParameters($dbConfig['driver'], $dbDumper);
         }
 
         return $dbDumper;
