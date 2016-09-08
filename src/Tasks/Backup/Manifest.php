@@ -2,9 +2,10 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Countable;
 use SplFileObject;
 
-class Manifest
+class Manifest implements Countable
 {
     /** @var string */
     protected $manifestPath;
@@ -68,12 +69,8 @@ class Manifest
     {
         $file = new SplFileObject($this->manifestPath, 'r');
 
-        if($file->getSize() === 0) {
-            return 0;
-        }
-
         $file->seek(PHP_INT_MAX);
 
-        return $file->key() + 1;
+        return $file->key();
     }
 }
