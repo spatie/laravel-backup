@@ -15,16 +15,14 @@ return [
             'files' => [
 
                 /*
-                 * The list of directories that should be part of the backup. You can
-                 * specify individual files as well.
+                 * The list of directories and files that should be backed up.
                  */
                 'include' => [
                     base_path(),
                 ],
 
                 /*
-                 * These directories will be excluded from the backup.
-                 * You can specify individual files as well.
+                 * These directories and files will be excluded from the backup.
                  */
                 'exclude' => [
                     base_path('vendor'),
@@ -39,8 +37,8 @@ return [
             ],
 
             /*
-             * The names of the connections to the databases that should be part of the backup.
-             * Currently only MySQL- and PostgreSQL-databases are supported.
+             * The names of the connections to the databases that should be backed up
+             * Only MySQL- and PostgreSQL-databases are supported.
              */
             'databases' => [
                 'mysql',
@@ -59,6 +57,13 @@ return [
     ],
 
 
+    /**
+     * You can get notified when specific events occur. Out of the box you can use 'mail' and 'slack'.
+     * For Slack your need to install guzzlehttp/guzzle.
+     *
+     * You can also use your own notification classes, just make sure the class is named after one of
+     * the `Spatie\Backup\Events` classes.
+     */
     'notifications' => [
 
         'notifications' => [
@@ -70,6 +75,10 @@ return [
             \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['mail'],
         ],
 
+        /**
+         * Here you can specify to notifiable to which the notification will be sent. The default
+         * notifiable will use the variable used in this config file.
+         */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
@@ -80,7 +89,6 @@ return [
             'webhook_url' => '',
         ],
     ],
-
 
     /*
      *  Here you can specify which backups should be monitored.
