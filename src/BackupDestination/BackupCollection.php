@@ -49,9 +49,8 @@ class BackupCollection extends Collection
 
     public function size(): int
     {
-        return $this
-            ->reduce(function ($totalSize, Backup $backup) {
-                return $totalSize + $backup->size();
-            }, 0);
+        return $this->sum(function(Backup $backup) {
+           return $backup->size();
+        });
     }
 }

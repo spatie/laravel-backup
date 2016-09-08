@@ -44,11 +44,11 @@ abstract class BaseNotification extends Notification
         return collect([
             'Application name' => $this->getApplicationName(),
             'Disk' => $backupDestination->getDiskName(),
-            'Newest backup size' => $newestBackup ? Format::getHumanReadableSize($newestBackup->size()) : 0,
+            'Newest backup size' => $newestBackup ? Format::getHumanReadableSize($newestBackup->size()) : 'No backups were made yet',
             'Amount of backups' => $backupDestination->getBackups()->count(),
             'Total storage used' => Format::getHumanReadableSize($backupDestination->getBackups()->size()),
-            'Newest backup date' => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : '',
-            'Oldest backup date' => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : '',
+            'Newest backup date' => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
+            'Oldest backup date' => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
         ])->filter();
     }
 

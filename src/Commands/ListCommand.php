@@ -26,7 +26,7 @@ class ListCommand extends BaseCommand
 
     protected function displayOverview(Collection $backupDestinationStatuses)
     {
-        $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Youngest backup', 'Used storage'];
+        $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Newest backup', 'Used storage'];
 
         $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus) {
             return $this->convertToRow($backupDestinationStatus);
@@ -43,14 +43,14 @@ class ListCommand extends BaseCommand
             Format::getEmoji($backupDestinationStatus->isReachable()),
             Format::getEmoji($backupDestinationStatus->isHealthy()),
             'amount' => $backupDestinationStatus->getAmountOfBackups(),
-            'youngest' => $backupDestinationStatus->getDateOfNewestBackup()
+            'newest' => $backupDestinationStatus->getDateOfNewestBackup()
                 ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
                 : 'No backups present',
             'usedStorage' => $backupDestinationStatus->getHumanReadableUsedStorage(),
         ];
 
         if (! $backupDestinationStatus->isReachable()) {
-            foreach (['amount', 'youngest', 'usedStorage'] as $propertyName) {
+            foreach (['amount', 'newest', 'usedStorage'] as $propertyName) {
                 $row[$propertyName] = '/';
             }
         }
@@ -63,7 +63,7 @@ class ListCommand extends BaseCommand
     protected function applyStylingToRow(array $row, BackupDestinationStatus $backupDestinationStatus): array
     {
         if ($backupDestinationStatus->newestBackupIsToolOld() || (! $backupDestinationStatus->getDateOfNewestBackup())) {
-            $row['youngest'] = "<error>{$row['youngest']}</error>";
+            $row['newest'] = "<error>{$row['newest']}</error>";
         }
 
         if ($backupDestinationStatus->backupUsesTooMuchStorage()) {

@@ -40,10 +40,7 @@ class BackupCommand extends BaseCommand
                 $backupJob->setFilename($this->option('filename'));
             }
 
-
-
             $backupJob->run();
-
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {

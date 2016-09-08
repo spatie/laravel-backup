@@ -23,10 +23,10 @@ class Format
     public static function getEmoji(bool $bool): string
     {
         if ($bool) {
-            return "\xe2\x9c\x85";
+            return "\u{2705}";
         }
 
-        return "\xe2\x9d\x8c";
+        return "\u{274C}";
     }
 
     public static function ageInDays(Carbon $date): string

@@ -11,6 +11,7 @@ use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Spatie\Backup\Exceptions\NotificationCouldNotBeSent;
 
 class EventHandler
 {
@@ -53,9 +54,7 @@ class EventHandler
             });
 
         if (! $notificationClass) {
-            /*
-             * @TODO: throw notification.
-             */
+            throw NotificationCouldNotBeSent::noNotifcationClassForEvent($event);
         }
 
         return app($notificationClass)->setEvent($event);

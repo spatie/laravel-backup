@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Exception;
+use Spatie\Backup\Exceptions\InvalidBackupDestination;
 
 class BackupDestination
 {
@@ -66,7 +67,7 @@ class BackupDestination
     public function write(string $file)
     {
         if (is_null($this->disk)) {
-            throw new Exception("Could not connect to disk {$this->diskName} because the disk is not set.");
+            throw InvalidBackupDestination::diskNotSet($this);
         }
 
         $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);

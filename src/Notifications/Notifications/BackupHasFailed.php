@@ -26,7 +26,7 @@ class BackupHasFailed extends BaseNotification
             ->subject("Failed back up of `{$this->getApplicationName()}`")
             ->line("Important: An error occurred while backing up `{$this->getApplicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
-            ->line('Exception trace: `'.$this->event->exception->getTraceAsString().'`');
+            ->line("Exception trace: `{$this->event->exception->getTraceAsString()}`");
 
 
         $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
