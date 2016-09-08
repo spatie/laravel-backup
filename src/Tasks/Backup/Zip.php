@@ -41,6 +41,10 @@ class Zip
 
     public function getSize(): int
     {
+        if ($this->fileCount === 0) {
+            return 0;
+        }
+
         return filesize($this->pathToZip);
     }
 

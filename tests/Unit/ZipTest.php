@@ -10,6 +10,12 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     /** @var \Spatie\Backup\Test\TestHelper */
     protected $testHelper;
 
+    /** @var string */
+    protected $pathToZip;
+
+    /** @var \Spatie\Backup\Tasks\Backup\Zip */
+    protected $zip;
+
     public function setUp()
     {
         parent::setUp();
@@ -17,17 +23,27 @@ class ZipTest extends \PHPUnit_Framework_TestCase
         $this->testHelper = new TestHelper();
 
         $this->testHelper->initializeTempDirectory();
+
+        $this->pathToZip = "{$this->testHelper->getTempDirectory()}/test.zip";
+
+        $this->zip = new Zip($this->pathToZip);
     }
 
     /** @test */
     public function it_can_create_a_zip_file()
     {
-        $pathToZip = "{$this->testHelper->getTempDirectory()}/test.zip";
+        $this->zip->add(__FILE__);
 
-        $zip = new Zip($pathToZip);
+        $this->assertFileExists($this->pathToZip);
+    }
 
-        $zip->add(__FILE__);
+    /** @test */
+    public function it_can_report_its_own_size()
+    {
+        $this->assertEquals(0, $this->zip->getSize());
 
-        $this->assertFileExists($pathToZip);
+        $this->zip->add(__FILE__);
+
+        $this->assertNotEquals(0, $this->zip->getSize());
     }
 }

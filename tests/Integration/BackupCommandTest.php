@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Test\Integration;
 
 use Illuminate\Support\Facades\Artisan;
+use Spatie\Backup\Events\BackupHasFailed;
 
 class BackupCommandTest extends TestCase
 {
@@ -84,10 +85,13 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_will_fail_when_there_are_no_files_or_databases_to_be_backed_up()
+    public function it_will_fail_when_there_are_no_file_to_be_backed_up()
     {
-        /*
-         * @TODO: test this
-         */
+        $this->app['config']->set('laravel-backup.backup.source.files.include', []);
+        $this->app['config']->set('laravel-backup.backup.source.databases', []);
+
+        Artisan::call('backup:run');
+
+        $this->seeInConsoleOutput("There are no files to be backed up");
     }
 }
