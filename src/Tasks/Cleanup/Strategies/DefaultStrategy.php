@@ -89,7 +89,6 @@ class DefaultStrategy extends CleanupStrategy
                 });
             });
         });
-
     }
 
     protected function removeBackupsOlderThan(Carbon $endDate, BackupCollection $backups)
@@ -106,7 +105,7 @@ class DefaultStrategy extends CleanupStrategy
         $maximumSize = $this->config->get('laravel-backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan')
             * 1024 * 1024;
 
-        if (!$oldestBackup = $backups->oldest()) {
+        if (! $oldestBackup = $backups->oldest()) {
             return;
         }
 

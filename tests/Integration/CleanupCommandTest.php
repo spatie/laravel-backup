@@ -91,16 +91,15 @@ class CleanupCommandTest extends TestCase
 
         $deletedBackups = $allBackups
             ->map(function ($fullPath) {
-                $tempPath = str_replace($this->testHelper->getTempDirectory() . '/', '', $fullPath);
+                $tempPath = str_replace($this->testHelper->getTempDirectory().'/', '', $fullPath);
 
                 return $tempPath;
             })
-        ->reject(function(string $deletedPath) use ($remainingBackups) {
+        ->reject(function (string $deletedPath) use ($remainingBackups) {
             return $remainingBackups->contains($deletedPath);
         });
 
         $this->assertTempFilesNotExist($deletedBackups->toArray());
-
     }
 
     /** @test */
