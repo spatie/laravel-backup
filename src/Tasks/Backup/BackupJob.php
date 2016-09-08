@@ -111,7 +111,6 @@ class BackupJob
            // dd($manifest->count());
 
             if (! $manifest->count()) {
-
                 throw InvalidBackupJob::noFilesToBeBackedUp();
             }
 
