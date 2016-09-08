@@ -109,6 +109,10 @@ class BackupJob
 
             $manifest = $this->createBackupManifest();
 
+            if (! $manifest->count()) {
+                throw InvalidBackupJob::noFilesToBeBackedUp();
+            }
+
             $zipFile = $this->createZipContainingEveryFileInManifest($manifest);
 
             $this->copyToBackupDestinations($zipFile);

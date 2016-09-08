@@ -15,4 +15,9 @@ class InvalidBackupJob extends Exception
     {
         return new static("There is not backup destination with a disk named `{$diskName}`");
     }
+
+    public static function noFilesToBeBackedUp(): InvalidBackupJob
+    {
+        return new static("There are no files to be backed up");
+    }
 }
