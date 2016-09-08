@@ -59,5 +59,7 @@ class TestHelper
         file_put_contents($fullPath, $contents);
 
         touch($fullPath, $date->getTimeStamp());
+
+        return $fullPath;
     }
 }

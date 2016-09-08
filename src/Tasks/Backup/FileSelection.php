@@ -29,7 +29,7 @@ class FileSelection
     /**
      * @param array|string $includeFilesAndDirectories
      */
-    public function __construct($includeFilesAndDirectories)
+    public function __construct($includeFilesAndDirectories = [])
     {
         $this->includeFilesAndDirectories = $this->sanitize($includeFilesAndDirectories);
 
@@ -130,7 +130,7 @@ class FileSelection
     {
         return collect($paths)
             ->reject(function ($path) {
-                return $path == '';
+                return $path === '';
             })
             ->flatMap(function ($path) {
                 return glob($path);

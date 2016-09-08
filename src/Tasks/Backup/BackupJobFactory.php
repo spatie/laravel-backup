@@ -9,12 +9,10 @@ class BackupJobFactory
 {
     public static function createFromArray(array $config): BackupJob
     {
-        $backupJob = (new BackupJob())
+        return (new BackupJob())
             ->setFileSelection(static::getFileSelection($config['backup']['source']['files']))
             ->setDbDumpers(static::getDbDumpers($config['backup']['source']['databases']))
             ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']));
-
-        return $backupJob;
     }
 
     protected static function getFileSelection(array $sourceFiles): FileSelection

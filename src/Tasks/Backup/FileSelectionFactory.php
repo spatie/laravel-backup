@@ -6,6 +6,6 @@ class FileSelectionFactory
 {
     public static function noFiles(): FileSelection
     {
-        return new FileSelection([]);
+        return new FileSelection();
     }
 }
