@@ -65,7 +65,7 @@ class ManifestTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function a_file_can_be_added_to_it()
     {
-        $this->manifest->addFiles($this->testHelper->getStubDirectory() . '/file1');
+        $this->manifest->addFiles($this->testHelper->getStubDirectory().'/file1');
 
         $this->assertSame(1, $this->manifest->count());
     }
@@ -90,7 +90,6 @@ class ManifestTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $this->manifest);
     }
 
-
     /** @test */
     public function it_can_return_a_generator_to_loop_over_all_the_files_in_the_manifest()
     {
@@ -101,17 +100,15 @@ class ManifestTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Generator::class, $this->manifest->getFiles());
 
         $i = 0;
-        foreach($this->manifest->getFiles() as $filePath)
-        {
+        foreach ($this->manifest->getFiles() as $filePath) {
             $this->assertSame($testFiles[$i++], $filePath);
         }
     }
 
     protected function getTestFiles(): array
     {
-        return collect(range(1,3))->map(function(int $number) {
-            return $this->testHelper->getStubDirectory() . "/file{$number}.txt";
+        return collect(range(1, 3))->map(function (int $number) {
+            return $this->testHelper->getStubDirectory()."/file{$number}.txt";
         })->toArray();
     }
-
 }
