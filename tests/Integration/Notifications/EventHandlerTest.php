@@ -29,7 +29,7 @@ class EventHandlerTest extends TestCase
         $this->fireBackupHasFailedEvent();
     }
 
-    public function fireBackupHasFailedEvent()
+    protected function fireBackupHasFailedEvent()
     {
         $exception = new Exception('Dummy exception');
 
