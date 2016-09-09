@@ -32,6 +32,5 @@ class BackupHasFailedTest extends TestCase
         $this->expectsEvent(BackupHasFailed::class);
 
         Artisan::call('backup:run');
-
     }
 }

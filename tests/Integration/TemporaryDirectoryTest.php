@@ -27,7 +27,7 @@ class TemporaryDirectoryTest extends TestCase
     /** @test */
     public function it_can_determine_it_own_path()
     {
-        $path = storage_path('app/laravel-backup/temp/' . $this->date->format('Y-m-d-h-i-s'));
+        $path = storage_path('app/laravel-backup/temp/'.$this->date->format('Y-m-d-h-i-s'));
 
         $this->assertEquals($path, $this->temporaryDirectory->getPath());
 
