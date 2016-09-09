@@ -75,7 +75,7 @@ class BackupCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_determine_the_youngest_backup()
+    public function it_can_determine_the_newest_backup()
     {
         $this->createFileOnBackupDisk('file1.zip', 3);
         $this->createFileOnBackupDisk('file2.zip', 1);

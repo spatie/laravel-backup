@@ -121,7 +121,7 @@ class CleanupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_will_never_delete_the_youngest_backup()
+    public function it_will_never_delete_the_newest_backup()
     {
         foreach (range(5, 10) as $numberOfYears) {
             $date = Carbon::now()->subYears($numberOfYears);

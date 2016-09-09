@@ -115,8 +115,13 @@ return [
 
     'cleanup' => [
         /*
-         * The strategy that will be used to cleanup old backups.
-         * The youngest backup will never be deleted.
+         * The strategy that will be used to cleanup old backups. The default strategy
+         * will keep all backups for a certain amount of days. After that period only
+         * a daily backup will be kept. After that period only weekly backups will
+         * be kept and so on.
+         *
+         * No matter how you configure it the default strategy will never
+         * deleted the newest backup.
          */
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
