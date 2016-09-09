@@ -47,7 +47,7 @@ abstract class TestCase extends Orchestra
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
-            'database' => $this->testHelper->getTempDirectory() . '/database.sqlite',
+            'database' => $this->testHelper->getTempDirectory().'/database.sqlite',
             'prefix' => '',
         ]);
 
@@ -58,7 +58,7 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.secondLocal', [
             'driver' => 'local',
-            'root' => $this->testHelper->getTempDirectory() . '/secondDisk',
+            'root' => $this->testHelper->getTempDirectory().'/secondDisk',
         ]);
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
@@ -69,7 +69,7 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        file_put_contents($this->testHelper->getTempDirectory() . '/database.sqlite', null);
+        file_put_contents($this->testHelper->getTempDirectory().'/database.sqlite', null);
 
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
@@ -127,7 +127,7 @@ abstract class TestCase extends Orchestra
     public function assertTempFilesExist(array $files)
     {
         foreach ($files as $file) {
-            $path = $this->testHelper->getTempDirectory() . '/' . $file;
+            $path = $this->testHelper->getTempDirectory().'/'.$file;
 
             $this->assertFileExists($path);
         }
@@ -136,7 +136,7 @@ abstract class TestCase extends Orchestra
     public function assertTempFilesNotExist(array $files)
     {
         foreach ($files as $file) {
-            $path = $this->testHelper->getTempDirectory() . '/' . $file;
+            $path = $this->testHelper->getTempDirectory().'/'.$file;
 
             $this->assertFileNotExists($path);
         }
@@ -151,7 +151,7 @@ abstract class TestCase extends Orchestra
         $this->beforeApplicationDestroyed(function () use ($eventClassName) {
             $firedEvents = isset($this->firedEvents) ? $this->firedEvents : [];
 
-            if (!in_array($eventClassName, $firedEvents)) {
+            if (! in_array($eventClassName, $firedEvents)) {
                 throw new Exception("Event {$eventClassName} not fired");
             }
         });
