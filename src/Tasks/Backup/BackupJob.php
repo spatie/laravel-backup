@@ -52,7 +52,7 @@ class BackupJob
 
     public function setDefaultFilename(): BackupJob
     {
-        $this->filename = date('Y-m-d-His').'.zip';
+        $this->filename = date('Y-m-d-His') . '.zip';
 
         return $this;
     }
@@ -84,7 +84,7 @@ class BackupJob
             return $backupDestination->getDiskName() === $diskName;
         });
 
-        if (! count($this->backupDestinations)) {
+        if (!count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -101,16 +101,16 @@ class BackupJob
     public function run()
     {
         $this->temporaryDirectory = TemporaryDirectory::create();
-        $this->fileSelection->excludeFilesFrom($this->temporaryDirectory->getPath());
+
 
         try {
-            if (! count($this->backupDestinations)) {
+            if (!count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
             $manifest = $this->createBackupManifest();
 
-            if (! $manifest->count()) {
+            if (!$manifest->count()) {
                 throw InvalidBackupJob::noFilesToBeBackedUp();
             }
 
@@ -118,7 +118,7 @@ class BackupJob
 
             $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
+            consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
 
             event(new BackupHasFailed($exception));
         }
@@ -132,22 +132,43 @@ class BackupJob
 
         consoleOutput()->info('Determining files to backup...');
 
-        $filesToBeBackedUp = $this->fileSelection->getSelectedFiles();
-
         $manifest = Manifest::create($this->temporaryDirectory->getPath('manifest.txt'))
             ->addFiles($databaseDumps)
-            ->addFiles($filesToBeBackedUp);
+            ->addFiles($this->getFilesToBeBackedUp());
 
         event(new BackupManifestWasCreated($manifest));
 
         return $manifest;
     }
 
+    public function getFilesToBeBackedUp()
+    {
+        $this->fileSelection->excludeFilesFrom($this->getDirectoriesUsedByBackupJob());
+
+        return $this->fileSelection->getSelectedFiles();
+    }
+
+    protected function getDirectoriesUsedByBackupJob(): array
+    {
+        return $this->backupDestinations
+            ->filter(function (BackupDestination $backupDestination) {
+                return $backupDestination->getFilesystemType() === 'local';
+            })
+            ->map(function (BackupDestination $backupDestination) {
+                return $backupDestination->getDisk()->getDriver()->getAdapter()->applyPathPrefix('');
+            })
+            ->each(function (string $localDiskRootDirectory) {
+                $this->fileSelection->excludeFilesFrom($localDiskRootDirectory);
+            })
+            ->push($this->temporaryDirectory->getPath())
+            ->toArray();
+    }
+
     protected function createZipContainingEveryFileInManifest(Manifest $manifest)
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->getPath(date('Y-m-d-h-i-s').'.zip');
+        $pathToZip = $this->temporaryDirectory->getPath(date('Y-m-d-h-i-s') . '.zip');
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
@@ -169,8 +190,8 @@ class BackupJob
         return $this->dbDumpers->map(function ($dbDumper) use ($directory) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName().'.sql';
-            $temporaryFile = $directory.'/'.$fileName;
+            $fileName = $dbDumper->getDbName() . '.sql';
+            $temporaryFile = $directory . '/' . $fileName;
 
             $dbDumper->dumpToFile($temporaryFile);
 
