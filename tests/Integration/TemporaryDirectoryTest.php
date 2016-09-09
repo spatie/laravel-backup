@@ -24,16 +24,14 @@ class TemporaryDirectoryTest extends TestCase
 
         Carbon::setTestNow($this->date);
 
-        $this->expectedDirectory = storage_path('app/laravel-backup/temp/' . $this->date->format('Y-m-d-h-i-s'));
+        $this->expectedDirectory = storage_path('app/laravel-backup/temp/'.$this->date->format('Y-m-d-h-i-s'));
 
         $this->temporaryDirectory = TemporaryDirectory::create();
-
     }
 
     /** @test */
     public function it_can_determine_it_own_path()
     {
-
         $this->assertEquals($this->expectedDirectory, $this->temporaryDirectory->getPath());
 
         $this->assertDirectoryExists($this->expectedDirectory);
@@ -70,7 +68,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $this->assertDirectoryExists($this->expectedDirectory.'/'.$subDirectoryName);
     }
-    
+
     /** @test */
     public function it_will_not_create_a_subdirectory_if_the_given_path_is_likely_to_be_file_name()
     {
