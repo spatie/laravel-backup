@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Test\Integration;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Events\BackupHasFailed;
 
 class BackupCommandTest extends TestCase
 {
