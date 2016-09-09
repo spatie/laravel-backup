@@ -15,7 +15,7 @@ return [
             'files' => [
 
                 /*
-                 * The list of directories and files that should be backed up.
+                 * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
                     base_path(),
@@ -76,7 +76,7 @@ return [
 
         /*
          * Here you can specify the notifiable to which the notifications should be sent. The default
-         * notifiable will use the variable specified in this config file.
+         * notifiable will use the variables specified in this config file.
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
@@ -90,9 +90,9 @@ return [
     ],
 
     /*
-     *  Here you can specify which backups should be monitored.
-     *  If a backup does not meet the specified requirements the
-     *  UnHealthyBackupWasFound-event will be fired.
+     * Here you can specify which backups should be monitored.
+     * If a backup does not meet the specified requirements the
+     * UnHealthyBackupWasFound-event will be fired.
      */
     'monitorBackups' => [
         [
