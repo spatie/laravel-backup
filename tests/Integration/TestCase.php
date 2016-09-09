@@ -159,6 +159,13 @@ abstract class TestCase extends Orchestra
         });
     }
 
+    protected function doesNotExpectEvent($eventClassName)
+    {
+        Event::listen($eventClassName, function ($event) use ($eventClassName) {
+            throw new Exception("Event {$eventClassName} unexpectingly fired");
+        });
+    }
+
     protected function seeInConsoleOutput($expectedText)
     {
         $consoleOutput = $this->app[Kernel::class]->output();
