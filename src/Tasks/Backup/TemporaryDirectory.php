@@ -45,14 +45,14 @@ class TemporaryDirectory
 
         $fullPath = "{$this->path}/{$fileName}";
 
-        if ($this->isProbablyADirectory($fullPath)) {
+        if ($this->isProbablyADirectoryName($fileName)) {
             $this->createTemporaryDirectory($fullPath);
         }
 
         return $fullPath;
     }
 
-    protected function isProbablyADirectory(string $fileName): bool
+    protected function isProbablyADirectoryName(string $fileName): bool
     {
         return ! str_contains($fileName, '.');
     }
