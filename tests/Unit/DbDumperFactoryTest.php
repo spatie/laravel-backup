@@ -10,6 +10,25 @@ use Spatie\DbDumper\Databases\PostgreSql;
 
 class DbDumperFactoryTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->app['config']->set('database.default', 'mysql');
+
+        $dbConfig = [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'username' => 'root',
+            'password' => 'myPassword',
+            'database' => 'myDb',
+            'dump' => ['add_extra_option' => '--extra-option=value']
+        ];
+
+        $this->app['config']->set('database.connections.mysql', $dbConfig);
+
+    }
+
     /** @test */
     public function it_can_create_instances_of_mysql_and_pgsql()
     {
@@ -23,5 +42,43 @@ class DbDumperFactoryTest extends TestCase
         $this->expectException(CannotCreateDbDumper::class);
 
         DbDumperFactory::create('unknown type');
+    }
+
+    /** @test */
+    public function it_can_add_named_options_to_the_dump_command()
+    {
+        $dumpConfig = ['use_single_transaction'];
+
+        $this->app['config']->set('database.connections.mysql.dump', $dumpConfig);
+
+        $this->assertContains('--single-transaction', $this->getDumpCommand());
+    }
+
+    /** @test */
+    public function it_can_add_named_options_with_an_array_value_to_the_dump_command()
+    {
+        $dumpConfig = ['include_tables' => ['table1', 'table2']];
+
+        $this->app['config']->set('database.connections.mysql.dump', $dumpConfig);
+
+        $this->assertContains(implode(' ',$dumpConfig['include_tables']), $this->getDumpCommand());
+    }
+
+    /** @test */
+    public function it_can_add_arbritrary_options_to_the_dump_command()
+    {
+        $dumpConfig = ['add_extra_option' => '--extra-option=value'];
+
+        $this->app['config']->set('database.connections.mysql.dump', $dumpConfig);
+
+        $this->assertContains($dumpConfig['add_extra_option'], $this->getDumpCommand());
+    }
+
+    protected function getDumpCommand(): string
+    {
+        $dumpFile = '';
+        $credentialsFile = '';
+
+        return DbDumperFactory::create('mysql')->getDumpCommand($dumpFile, $credentialsFile);
     }
 }

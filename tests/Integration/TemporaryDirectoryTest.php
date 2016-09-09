@@ -20,13 +20,14 @@ class TemporaryDirectoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->date = Carbon::now();
+        $this->date = Carbon::create(2016, 01, 01, 01, 01, 01);
 
         Carbon::setTestNow($this->date);
 
         $this->expectedDirectory = storage_path('app/laravel-backup/temp/' . $this->date->format('Y-m-d-h-i-s'));
 
         $this->temporaryDirectory = TemporaryDirectory::create();
+
 
     }
 

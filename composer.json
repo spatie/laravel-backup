@@ -30,7 +30,8 @@
     "require-dev": {
         "phpunit/phpunit": "^5.5.4",
         "orchestra/testbench" : "^3.3",
-        "mockery/mockery": "^0.9.5"
+        "mockery/mockery": "^0.9.5",
+        "tightenco/mailthief": "^0.3.0"
     },
     "autoload": {
         "psr-4": {

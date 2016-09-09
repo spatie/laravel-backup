@@ -70,7 +70,7 @@ class FileSelection
     public function getSelectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
-            return;
+            return [];
         }
 
         $finder = (new Finder())

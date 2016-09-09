@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
 
 class TemporaryDirectory
@@ -21,7 +22,7 @@ class TemporaryDirectory
     {
         $filesystem = new Filesystem();
 
-        return (new static($filesystem))->setPath($path.'/'.date('Y-m-d-h-i-s'));
+        return (new static($filesystem))->setPath($path.'/'.Carbon::now()->format('Y-m-d-h-i-s'));
     }
 
     /**

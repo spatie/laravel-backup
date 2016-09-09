@@ -27,7 +27,7 @@ class DbDumperFactory
             ->setTimeout(isset($dbConfig['dump_command_timeout']) ?? 0);
 
         if (isset($dbConfig['dump'])) {
-            $dbDumper = static::processExtraDumpParameters($dbConfig['driver'], $dbDumper);
+            $dbDumper = static::processExtraDumpParameters($dbConfig['dump'], $dbDumper);
         }
 
         return $dbDumper;
@@ -57,19 +57,46 @@ class DbDumperFactory
      */
     protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper)
     {
-        collect($dumpConfiguration)->filter(function (string $configValue, string $configName) use ($dbDumper) {
-            return method_exists($dbDumper, self::getDumperMethodName($configName));
-        })->each(function (string $configValue, string $configName) use ($dbDumper) {
-            $methodName = self::getDumperMethodName($configName);
+        collect($dumpConfiguration)->each(function($configValue, $configName) use ($dbDumper) {
+            $methodName = studly_case(is_numeric($configName) ? $configValue : $configName);
+            $methodValue = is_numeric($configName) ? null : $configValue;
 
-            $dbDumper->$methodName($configValue);
+            $methodName = static::determineValidMethodName($dbDumper, $methodName);
+
+            if (method_exists($dbDumper, $methodName)) {
+                static::callMethodOnDumper($dbDumper, $methodName, $methodValue);
+            }
         });
 
         return $dbDumper;
     }
 
-    protected function getDumperMethodName(string $configName): string
+    /**
+     * @param \Spatie\DbDumper\DbDumper $dbDumper
+     * @param string $methodName
+     * @param string|null $methodValue
+     *
+     * @return \Spatie\DbDumper\DbDumper
+     */
+    protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, $methodValue): DbDumper
     {
-        return 'set'.studly_case($configName);
+        if (is_null($methodValue)) {
+            $dbDumper->$methodName();
+
+            return $dbDumper;
+        }
+
+        $dbDumper->$methodName($methodValue);
+
+        return $dbDumper;
+    }
+
+
+    protected static function determineValidMethodName(DbDumper $dbDumper, string $methodName): string
+    {
+        return collect([$methodName, 'set_' .$methodName])
+            ->first(function(string $methodName) use ($dbDumper) {
+                return method_exists($dbDumper, $methodName);
+            }, '');
     }
 }
