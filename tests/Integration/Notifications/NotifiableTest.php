@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Test\Integration\Notifications;
 
 use Exception;
+use Illuminate\Notifications\Notifiable;
 use MailThief\Testing\InteractsWithMail;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
@@ -18,6 +19,26 @@ class NotifiableTest extends TestCase
         $this->fireBackupHasFailedEvent();
 
         $this->seeMessageFor(config('laravel-backup.notifications.mail.to'));
+    }
+
+    /** @test */
+    public function an_alternative_notifiable_can_be_set()
+    {
+        $notifiable = new class{
+            use Notifiable;
+
+            public function routeNotificationForMail()
+            {
+                return 'alternative@email.com';
+            }
+        };
+
+        $this->app['config']->set('laravel-backup.notifications.notifiable', get_class($notifiable));
+
+        $this->fireBackupHasFailedEvent();
+
+        $this->seeMessageFor('alternative@email.com');
+
     }
 
     protected function fireBackupHasFailedEvent()
