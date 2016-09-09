@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Test\Integration;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Events\BackupHasFailed;
 
 class BackupCommandTest extends TestCase
 {
@@ -92,6 +91,6 @@ class BackupCommandTest extends TestCase
 
         Artisan::call('backup:run');
 
-        $this->seeInConsoleOutput("There are no files to be backed up");
+        $this->seeInConsoleOutput('There are no files to be backed up');
     }
 }
