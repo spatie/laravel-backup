@@ -31,7 +31,7 @@ class FileSelection
      */
     public function __construct($includeFilesAndDirectories = [])
     {
-        $this->includeFilesAndDirectories = $this->sanitize($includeFilesAndDirectories);
+        $this->includeFilesAndDirectories = collect($includeFilesAndDirectories);
 
         $this->excludeFilesAndDirectories = collect();
     }
@@ -45,7 +45,7 @@ class FileSelection
      */
     public function excludeFilesFrom($excludeFilesAndDirectories): FileSelection
     {
-        $this->excludeFilesAndDirectories = $this->sanitize($excludeFilesAndDirectories);
+        $this->excludeFilesAndDirectories = $this->excludeFilesAndDirectories->merge($this->sanitize($excludeFilesAndDirectories));
 
         return $this;
     }

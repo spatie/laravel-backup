@@ -37,7 +37,7 @@ class TemporaryDirectory
      *
      * @return string
      */
-    public function getPath(string $fileName): string
+    public function getPath(string $fileName = ''): string
     {
         if ($fileName === '') {
             return $this->path;

@@ -101,6 +101,7 @@ class BackupJob
     public function run()
     {
         $this->temporaryDirectory = TemporaryDirectory::create();
+        $this->fileSelection->excludeFilesFrom($this->temporaryDirectory->getPath());
 
         try {
             if (! count($this->backupDestinations)) {
@@ -108,10 +109,8 @@ class BackupJob
             }
 
             $manifest = $this->createBackupManifest();
-           // dd($manifest->count());
 
             if (! $manifest->count()) {
-
                 throw InvalidBackupJob::noFilesToBeBackedUp();
             }
 
