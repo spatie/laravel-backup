@@ -70,7 +70,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $this->assertDirectoryExists($this->expectedDirectory.'/'.$subDirectoryName);
     }
-    
+
     /** @test */
     public function it_will_not_create_a_subdirectory_if_the_given_path_is_likely_to_be_file_name()
     {
