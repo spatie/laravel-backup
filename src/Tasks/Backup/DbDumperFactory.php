@@ -55,7 +55,7 @@ class DbDumperFactory
      */
     protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper)
     {
-        collect($dumpConfiguration)->each(function($configValue, $configName) use ($dbDumper) {
+        collect($dumpConfiguration)->each(function ($configValue, $configName) use ($dbDumper) {
             $methodName = studly_case(is_numeric($configName) ? $configValue : $configName);
             $methodValue = is_numeric($configName) ? null : $configValue;
 
@@ -89,11 +89,10 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-
     protected static function determineValidMethodName(DbDumper $dbDumper, string $methodName): string
     {
-        return collect([$methodName, 'set_' .$methodName])
-            ->first(function(string $methodName) use ($dbDumper) {
+        return collect([$methodName, 'set_'.$methodName])
+            ->first(function (string $methodName) use ($dbDumper) {
                 return method_exists($dbDumper, $methodName);
             }, '');
     }

@@ -53,7 +53,7 @@ class BackupJob
 
     public function setDefaultFilename(): BackupJob
     {
-        $this->filename = date('Y-m-d-His') . '.zip';
+        $this->filename = date('Y-m-d-His').'.zip';
 
         return $this;
     }
@@ -85,7 +85,7 @@ class BackupJob
             return $backupDestination->getDiskName() === $diskName;
         });
 
-        if (!count($this->backupDestinations)) {
+        if (! count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -105,13 +105,13 @@ class BackupJob
 
 
         try {
-            if (!count($this->backupDestinations)) {
+            if (! count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
             $manifest = $this->createBackupManifest();
 
-            if (!$manifest->count()) {
+            if (! $manifest->count()) {
                 throw InvalidBackupJob::noFilesToBeBackedUp();
             }
 
@@ -119,7 +119,7 @@ class BackupJob
 
             $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
+            consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
             event(new BackupHasFailed($exception));
         }
@@ -169,7 +169,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->getPath(Carbon::now()->format('Y-m-d-h-i-s') . '.zip');
+        $pathToZip = $this->temporaryDirectory->getPath(Carbon::now()->format('Y-m-d-h-i-s').'.zip');
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
@@ -191,8 +191,8 @@ class BackupJob
         return $this->dbDumpers->map(function ($dbDumper) use ($directory) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName() . '.sql';
-            $temporaryFile = $directory . '/' . $fileName;
+            $fileName = $dbDumper->getDbName().'.sql';
+            $temporaryFile = $directory.'/'.$fileName;
 
             $dbDumper->dumpToFile($temporaryFile);
 

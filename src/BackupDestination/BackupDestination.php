@@ -75,7 +75,7 @@ class BackupDestination
             throw InvalidBackupDestination::diskNotSet($this);
         }
 
-        $destination = $this->backupName . '/' . pathinfo($file, PATHINFO_BASENAME);
+        $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
 
         $handle = fopen($file, 'r+');
 
@@ -84,7 +84,7 @@ class BackupDestination
 
     public function writeFilesFromManifestWithoutCreatingZipLocally(Manifest $manifest)
     {
-        $destination = $this->backupName . '/' . 'test' . date('Ymdhis') . '.tar.gz';
+        $destination = $this->backupName.'/'.'test'.date('Ymdhis').'.tar.gz';
 
         $stream = popen("cat {$manifest->getPath()} | zip @");
 
