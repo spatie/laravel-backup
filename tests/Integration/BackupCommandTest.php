@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class BackupCommandTest extends TestCase
 {
-    /** @var \Carbon\Carbon  */
+    /** @var \Carbon\Carbon */
     protected $date;
 
     /** @var string */
@@ -21,7 +21,7 @@ class BackupCommandTest extends TestCase
 
         Carbon::setTestNow($this->date);
 
-        $this->expectedZipPath = "mysite.com/2016-01-01-01-00-00.zip";
+        $this->expectedZipPath = 'mysite.com/2016-01-01-01-00-00.zip';
 
         $this->app['config']->set('laravel-backup.backup.destination.disks', [
             'local',
@@ -104,6 +104,6 @@ class BackupCommandTest extends TestCase
 
         Artisan::call('backup:run');
 
-        $this->seeInConsoleOutput("There are no files to be backed up");
+        $this->seeInConsoleOutput('There are no files to be backed up');
     }
 }

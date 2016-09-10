@@ -22,11 +22,10 @@ class DbDumperFactoryTest extends TestCase
             'username' => 'root',
             'password' => 'myPassword',
             'database' => 'myDb',
-            'dump' => ['add_extra_option' => '--extra-option=value']
+            'dump' => ['add_extra_option' => '--extra-option=value'],
         ];
 
         $this->app['config']->set('database.connections.mysql', $dbConfig);
-
     }
 
     /** @test */
@@ -61,7 +60,7 @@ class DbDumperFactoryTest extends TestCase
 
         $this->app['config']->set('database.connections.mysql.dump', $dumpConfig);
 
-        $this->assertContains(implode(' ',$dumpConfig['include_tables']), $this->getDumpCommand());
+        $this->assertContains(implode(' ', $dumpConfig['include_tables']), $this->getDumpCommand());
     }
 
     /** @test */

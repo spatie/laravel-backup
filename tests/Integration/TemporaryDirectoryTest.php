@@ -24,17 +24,14 @@ class TemporaryDirectoryTest extends TestCase
 
         Carbon::setTestNow($this->date);
 
-        $this->expectedDirectory = storage_path('app/laravel-backup/temp/' . $this->date->format('Y-m-d-h-i-s'));
+        $this->expectedDirectory = storage_path('app/laravel-backup/temp/'.$this->date->format('Y-m-d-h-i-s'));
 
         $this->temporaryDirectory = TemporaryDirectory::create();
-
-
     }
 
     /** @test */
     public function it_can_determine_it_own_path()
     {
-
         $this->assertEquals($this->expectedDirectory, $this->temporaryDirectory->getPath());
 
         $this->assertDirectoryExists($this->expectedDirectory);

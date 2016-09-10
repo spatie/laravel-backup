@@ -24,7 +24,7 @@ class NotifiableTest extends TestCase
     /** @test */
     public function an_alternative_notifiable_can_be_set()
     {
-        $notifiable = new class{
+        $notifiable = new class {
             use Notifiable;
 
             public function routeNotificationForMail()
@@ -38,7 +38,6 @@ class NotifiableTest extends TestCase
         $this->fireBackupHasFailedEvent();
 
         $this->seeMessageFor('alternative@email.com');
-
     }
 
     protected function fireBackupHasFailedEvent()
