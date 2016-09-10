@@ -2,13 +2,26 @@
 
 namespace Spatie\Backup\Test\Integration;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 
 class BackupCommandTest extends TestCase
 {
+    /** @var \Carbon\Carbon  */
+    protected $date;
+
+    /** @var string */
+    protected $expectedZipPath;
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->date = Carbon::create('2016', 1, 1, 1, 0, 0);
+
+        Carbon::setTestNow($this->date);
+
+        $this->expectedZipPath = "mysite.com/2016-01-01-01-00-00.zip";
 
         $this->app['config']->set('laravel-backup.backup.destination.disks', [
             'local',
@@ -23,8 +36,8 @@ class BackupCommandTest extends TestCase
 
         $this->assertEquals(0, $resultCode);
 
-        $this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
-        $this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
     }
 
     /** @test */
@@ -37,8 +50,8 @@ class BackupCommandTest extends TestCase
 
         $this->assertEquals(0, $resultCode);
 
-        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
-        $this->assertFileWithExtensionExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
+        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'local');
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
     }
 
     /** @test */
@@ -53,15 +66,15 @@ class BackupCommandTest extends TestCase
 
         $this->seeInConsoleOutput('Cannot use only-db and only-files together');
 
-        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
-        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
+        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'local');
+        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'secondLocal');
     }
 
     /** @test */
     public function it_will_fail_when_trying_to_backup_a_non_existing_database()
     {
         //since our test environment did not set up a db, this will fail
-        $resultCode = Artisan::call('backup:run', [
+        Artisan::call('backup:run', [
             '--only-db' => true,
         ]);
 
@@ -79,8 +92,8 @@ class BackupCommandTest extends TestCase
 
         $this->seeInConsoleOutput('There is not backup destination with a disk named');
 
-        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'local');
-        $this->assertFileWithExtensionDoNotExistInDirectoryOnDisk('zip', 'mysite.com', 'secondLocal');
+        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'local');
+        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'secondLocal');
     }
 
     /** @test */

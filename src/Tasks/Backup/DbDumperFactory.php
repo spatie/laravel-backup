@@ -22,9 +22,7 @@ class DbDumperFactory
             ->setHost($dbConfig['host'])
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'])
-            ->setPassword($dbConfig['password'])
-            ->setDumpBinaryPath($dbConfig['dump_command_path'] ?? '')
-            ->setTimeout(isset($dbConfig['dump_command_timeout']) ?? 0);
+            ->setPassword($dbConfig['password']);
 
         if (isset($dbConfig['dump'])) {
             $dbDumper = static::processExtraDumpParameters($dbConfig['dump'], $dbDumper);

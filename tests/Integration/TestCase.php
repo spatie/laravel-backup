@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\FileNotFoundException;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Backup\BackupServiceProvider;
 use Spatie\Backup\Test\TestHelper;
@@ -81,49 +82,24 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
     }
 
-    /**
-     * @param string $extension
-     * @param string $directory
-     * @param string $diskName
-     */
-    public function assertFileWithExtensionExistInDirectoryOnDisk($extension, $directory, $diskName)
+    public function assertFileExistsOnDisk(string $fileName, string $diskName)
     {
-        $fileCount = $this->countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName);
-
-        $this->assertTrue($fileCount > 0, "There are no files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+        $this->assertTrue($this->fileExistsOnDisk($fileName, $diskName), "Failed asserting that `{$fileName}` exists on disk `{$diskName}`");
     }
 
-    /**
-     * @param string $extension
-     * @param string $directory
-     * @param string $diskName
-     */
-    public function assertFileWithExtensionDoNotExistInDirectoryOnDisk($extension, $directory, $diskName)
+    public function assertFileNotExistsOnDisk(string $fileName, string $diskName)
     {
-        $fileCount = $this->countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName);
-
-        $this->assertTrue($fileCount === 0, "There are files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+        $this->assertFalse($this->fileExistsOnDisk($fileName, $diskName), "Failed asserting that `{$fileName}` does not exist on disk `{$diskName}`");
     }
 
-    /**
-     * @param string $extension
-     * @param string $directory
-     * @param string $diskName
-     *
-     * @return int
-     */
-    protected function countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName)
+    public function fileExistsOnDisk(string $fileName, string $diskName): bool
     {
-        $disk = Storage::disk($diskName);
-
-        $files = $disk->files($directory);
-
-        $fileCount = collect($files)->filter(function ($fileName) use ($extension) {
-            return pathinfo($fileName, PATHINFO_EXTENSION) == $extension;
-        })
-            ->count();
-
-        return $fileCount;
+        try {
+            Storage::disk($diskName)->getMetaData($fileName);
+            return true;
+        } catch (FileNotFoundException $exception) {
+            return false;
+        }
     }
 
     public function assertTempFilesExist(array $files)

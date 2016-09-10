@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
@@ -168,7 +169,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->getPath(date('Y-m-d-h-i-s') . '.zip');
+        $pathToZip = $this->temporaryDirectory->getPath(Carbon::now()->format('Y-m-d-h-i-s') . '.zip');
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
