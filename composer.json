@@ -21,6 +21,7 @@
         "php" : "^7.0",
         "illuminate/support": "~5.3.6",
         "illuminate/console": "~5.3.6",
+        "illuminate/events": "~5.3.6",
         "illuminate/filesystem": "~5.3.6",
         "league/flysystem": "^1.0.27",
         "symfony/finder": "^3.0",
@@ -51,6 +52,8 @@
     },
     "suggest": {
         "guzzlehttp/guzzle": "Allows notifications to be sent via Slack"
+    },
+    "config": {
+        "sort-packages": true
     }
-
 }
