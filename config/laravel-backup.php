@@ -68,33 +68,33 @@ return [
         'defaultStrategy' => [
 
             /*
-             * The amount of days that all backups must be kept.
+             * The number of days for which all backups must be kept.
              */
             'keepAllBackupsForDays' => 7,
 
             /*
-             * The amount of days that all daily backups must be kept.
+             * The number of days for which all daily backups must be kept.
              */
             'keepDailyBackupsForDays' => 16,
 
             /*
-             * The amount of weeks of which one weekly backup must be kept.
+             * The number of weeks for which all one weekly backup must be kept.
              */
             'keepWeeklyBackupsForWeeks' => 8,
 
             /*
-             * The amount of months of which one monthly backup must be kept.
+             * The number of months for which one monthly backup must be kept.
              */
             'keepMonthlyBackupsForMonths' => 4,
 
             /*
-             * The amount of years of which one yearly backup must be kept.
+             * The numner of years for which one yearly backup must be kept.
              */
             'keepYearlyBackupsForYears' => 2,
 
             /*
-             * After cleaning up the backups remove the oldest backup until
-             * this amount of megabytes has been reached.
+             * After cleaning up backups, remove the oldest backup until
+             * this number of megabytes has been reached.
              */
             'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000,
         ],
@@ -132,7 +132,7 @@ return [
         'handler' => Spatie\Backup\Notifications\Notifier::class,
 
         /*
-         * Here you can specify the ways you want to be notified when certain
+         * Here you can spacify the ways you want to be notified when certain
          * events take place. Possible values are "log", "mail", "slack",
          * "pushover", and "telegram".
          *
