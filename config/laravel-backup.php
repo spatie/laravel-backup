@@ -40,7 +40,7 @@ return [
 
             /*
              * The names of the connections to the databases that should be part of the backup.
-             * Currently only MySQL- and PostgreSQL-databases are supported.
+             * Currently only MySQL and PostgreSQL databases are supported.
              */
             'databases' => [
                 'mysql',
@@ -88,7 +88,7 @@ return [
             'keepMonthlyBackupsForMonths' => 4,
 
             /*
-             * The numner of years for which one yearly backup must be kept.
+             * The number of years for which one yearly backup must be kept.
              */
             'keepYearlyBackupsForYears' => 2,
 
@@ -100,11 +100,10 @@ return [
         ],
     ],
 
-
     /*
      *  In this array you can specify which backups should be monitored.
-     *  If a backup does not meet the specified requirements the
-     *  UnHealthyBackupWasFound-event will be fired.
+     *  If a backup does not meet the specified requirements, the
+     *  UnHealthyBackupWasFound event will be fired.
      */
     'monitorBackups' => [
         [
@@ -132,7 +131,7 @@ return [
         'handler' => Spatie\Backup\Notifications\Notifier::class,
 
         /*
-         * Here you can spacify the ways you want to be notified when certain
+         * Here you can specify the ways you want to be notified when certain
          * events take place. Possible values are "log", "mail", "slack",
          * "pushover", and "telegram".
          *
@@ -153,27 +152,27 @@ return [
          */
         'mail' => [
             'from' => 'your@email.com',
-            'to'   => 'your@email.com',
+            'to' => 'your@email.com',
         ],
 
         /*
          * Here you can specify how messages should be sent to Slack.
          */
         'slack' => [
-            'channel'  => '#backups',
+            'channel' => '#backups',
             'username' => 'Backup bot',
-            'icon'     => ':robot:',
+            'icon' => ':robot:',
         ],
 
         /*
          * Here you can specify how messages should be sent to Pushover.
          */
         'pushover' => [
-            'token'  => env('PUSHOVER_APP_TOKEN'),
-            'user'   => env('PUSHOVER_USER_KEY'),
+            'token' => env('PUSHOVER_APP_TOKEN'),
+            'user' => env('PUSHOVER_USER_KEY'),
             'sounds' => [
                 'success' => env('PUSHOVER_SOUND_SUCCESS', 'pushover'),
-                'error'   => env('PUSHOVER_SOUND_ERROR', 'siren'),
+                'error' => env('PUSHOVER_SOUND_ERROR', 'siren'),
             ],
         ],
 
@@ -182,7 +181,7 @@ return [
          */
         'telegram' => [
             'bot_token' => env('TELEGRAM_BOT_TOKEN'),
-            'chat_id'   => env('TELEGRAM_CHAT_ID'),
+            'chat_id' => env('TELEGRAM_CHAT_ID'),
             'async_requests' => env('TELEGRAM_ASYNC_REQUESTS', false),
             'disable_web_page_preview' => env('TELEGRAM_DISABLE_WEB_PAGE_PREVIEW', true),
         ],
