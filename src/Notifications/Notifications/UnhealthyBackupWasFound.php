@@ -57,11 +57,11 @@ class UnhealthyBackupWasFound extends BaseNotification
             return 'There are no backups of this application at all.';
         }
 
-        if ($backupStatus->backupUsesTooMuchStorage()) {
+        if ($backupStatus->usesTooMuchStorage()) {
             return "The backups are using too much storage. Current usage is {$backupStatus->getHumanReadableUsedStorage()} which is higher than the allowed limit of {$backupStatus->getHumanReadableAllowedStorage()}.";
         }
 
-        if ($backupStatus->newestBackupIsToolOld()) {
+        if ($backupStatus->newestBackupIsTooOld()) {
             return "The latest backup made on {$backupStatus->getDateOfNewestBackup()->format('Y/m/d h:i:s')} is considered too old.";
         }
 

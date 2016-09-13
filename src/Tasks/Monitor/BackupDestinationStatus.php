@@ -80,7 +80,7 @@ class BackupDestinationStatus
         return $newestBackup->date();
     }
 
-    public function newestBackupIsToolOld(): bool
+    public function newestBackupIsTooOld(): bool
     {
         if (! count($this->backupDestination->getBackups())) {
             return true;
@@ -111,7 +111,7 @@ class BackupDestinationStatus
         return $this->maximumStorageUsageInMegabytes * 1024 * 1024;
     }
 
-    public function backupUsesTooMuchStorage(): bool
+    public function usesTooMuchStorage(): bool
     {
         $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
 
@@ -128,11 +128,11 @@ class BackupDestinationStatus
             return false;
         }
 
-        if ($this->backupUsesTooMuchStorage()) {
+        if ($this->usesTooMuchStorage()) {
             return false;
         }
 
-        if ($this->newestBackupIsToolOld()) {
+        if ($this->newestBackupIsTooOld()) {
             return false;
         }
 

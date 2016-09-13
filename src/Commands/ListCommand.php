@@ -62,11 +62,11 @@ class ListCommand extends BaseCommand
 
     protected function applyStylingToRow(array $row, BackupDestinationStatus $backupDestinationStatus): array
     {
-        if ($backupDestinationStatus->newestBackupIsToolOld() || (! $backupDestinationStatus->getDateOfNewestBackup())) {
+        if ($backupDestinationStatus->newestBackupIsTooOld() || (! $backupDestinationStatus->getDateOfNewestBackup())) {
             $row['newest'] = "<error>{$row['newest']}</error>";
         }
 
-        if ($backupDestinationStatus->backupUsesTooMuchStorage()) {
+        if ($backupDestinationStatus->usesTooMuchStorage()) {
             $row['usedStorage'] = "<error>{$row['usedStorage']} </error>";
         }
 
