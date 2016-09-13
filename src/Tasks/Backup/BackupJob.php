@@ -30,21 +30,21 @@ class BackupJob
 
     public function __construct()
     {
-        $this->doNotBackupFilesystem();
-        $this->doNotBackupDatabases();
+        $this->dontBackupFilesystem();
+        $this->dontBackupDatabases();
         $this->setDefaultFilename();
 
         $this->backupDestinations = new Collection();
     }
 
-    public function doNotBackupFilesystem(): BackupJob
+    public function dontBackupFilesystem(): BackupJob
     {
         $this->fileSelection = FileSelection::create();
 
         return $this;
     }
 
-    public function doNotBackupDatabases(): BackupJob
+    public function dontBackupDatabases(): BackupJob
     {
         $this->dbDumpers = new Collection();
 
@@ -79,7 +79,7 @@ class BackupJob
         return $this;
     }
 
-    public function backupOnlyTo(string $diskName): BackupJob
+    public function onlyBackupTo(string $diskName): BackupJob
     {
         $this->backupDestinations = $this->backupDestinations->filter(function (BackupDestination $backupDestination) use ($diskName) {
             return $backupDestination->getDiskName() === $diskName;
@@ -102,7 +102,6 @@ class BackupJob
     public function run()
     {
         $this->temporaryDirectory = TemporaryDirectory::create();
-
 
         try {
             if (! count($this->backupDestinations)) {
@@ -182,7 +181,7 @@ class BackupJob
      * Dumps the databases to the given directory.
      * Returns an array with paths to the dump files.
      *
-     * @param $directory
+     * @param string $directory
      *
      * @return array
      */
