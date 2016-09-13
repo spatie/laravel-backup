@@ -37,7 +37,7 @@ return [
 
             /*
              * The names of the connections to the databases that should be backed up
-             * Only MySQL- and PostgreSQL-databases are supported.
+             * Only MySQL and PostgreSQL databases are supported.
              */
             'databases' => [
                 'mysql',
@@ -92,7 +92,7 @@ return [
     /*
      * Here you can specify which backups should be monitored.
      * If a backup does not meet the specified requirements the
-     * UnHealthyBackupWasFound-event will be fired.
+     * UnHealthyBackupWasFound event will be fired.
      */
     'monitorBackups' => [
         [
@@ -128,27 +128,27 @@ return [
         'defaultStrategy' => [
 
             /*
-             * The amount of days that all backups must be kept.
+             * The number of days for which backups must be kept.
              */
             'keepAllBackupsForDays' => 7,
 
             /*
-             * The amount of days that all daily backups must be kept.
+             * The number of days for which daily backups must be kept.
              */
             'keepDailyBackupsForDays' => 16,
 
             /*
-             * The amount of weeks of which one weekly backup must be kept.
+             * The number of weeks for which one weekly backup must be kept.
              */
             'keepWeeklyBackupsForWeeks' => 8,
 
             /*
-             * The amount of months of which one monthly backup must be kept.
+             * The number of months for which one monthly backup must be kept.
              */
             'keepMonthlyBackupsForMonths' => 4,
 
             /*
-             * The amount of years of which one yearly backup must be kept.
+             * The number of years for which one yearly backup must be kept.
              */
             'keepYearlyBackupsForYears' => 2,
 
