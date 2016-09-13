@@ -10,11 +10,11 @@ use Spatie\DbDumper\DbDumper;
 class DbDumperFactory
 {
     /**
-     * @param string $dbConnectionName ;
+     * @param string $dbConnectionName
      *
-     * @return mixed
+     * @return \Spatie\DbDumper\DbDumper
      */
-    public static function create(string $dbConnectionName)
+    public static function create(string $dbConnectionName): DbDumper
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
@@ -53,7 +53,7 @@ class DbDumperFactory
      *
      * @return mixed
      */
-    protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper)
+    protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper): DbDumper
     {
         collect($dumpConfiguration)->each(function ($configValue, $configName) use ($dbDumper) {
             $methodName = studly_case(is_numeric($configName) ? $configValue : $configName);

@@ -65,7 +65,7 @@ class FileSelection
     }
 
     /**
-     * @return Generator|string[]
+     * @return \Generator|string[]
      */
     public function getSelectedFiles()
     {

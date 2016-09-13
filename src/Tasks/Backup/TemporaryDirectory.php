@@ -18,7 +18,7 @@ class TemporaryDirectory
      *
      * @return mixed
      */
-    public static function create(string $path = '')
+    public static function create(string $path = ''): TemporaryDirectory
     {
         $filesystem = new Filesystem();
 
