@@ -39,7 +39,7 @@ class BackupJob
 
     public function doNotBackupFilesystem(): BackupJob
     {
-        $this->fileSelection = FileSelectionFactory::noFiles();
+        $this->fileSelection = FileSelection::create();
 
         return $this;
     }

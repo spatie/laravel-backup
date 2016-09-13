@@ -17,7 +17,7 @@ class BackupJobFactory
 
     protected static function getFileSelection(array $sourceFiles): FileSelection
     {
-        return (new FileSelection($sourceFiles['include']))
+        return FileSelection::create($sourceFiles['include'])
             ->excludeFilesFrom($sourceFiles['exclude'])
             ->shouldFollowLinks(isset($sourceFiles['followLinks']) && $sourceFiles['followLinks']);
     }
