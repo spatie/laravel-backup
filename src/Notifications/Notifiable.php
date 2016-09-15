@@ -22,4 +22,9 @@ class Notifiable
     {
         return config('laravel-backup.notifications.slack.webhook_url');
     }
+
+    public function getKey()
+    {
+        return 1;
+    }
 }
