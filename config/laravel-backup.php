@@ -23,6 +23,8 @@ return [
 
                 /*
                  * These directories and files will be excluded from the backup.
+                 *
+                 * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
                     base_path('vendor'),
