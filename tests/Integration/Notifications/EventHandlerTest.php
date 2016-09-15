@@ -35,7 +35,7 @@ class EventHandlerTest extends TestCase
      *
      * @param array $expectedChannels
      */
-    public function it_will_not_send_a_notification_when_the_channels_for_that_event_are_empty(array $expectedChannels)
+    public function it_will_send_a_notification_via_the_configured_notification_channels(array $expectedChannels)
     {
         $this->app['config']->set('laravel-backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
 
