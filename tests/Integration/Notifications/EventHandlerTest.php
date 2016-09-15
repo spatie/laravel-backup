@@ -60,6 +60,7 @@ class EventHandlerTest extends TestCase
         $exception = new Exception('Dummy exception');
 
         $backupDestination = BackupDestinationFactory::createFromArray(config('laravel-backup.backup'))->first();
+        
         event(new BackupHasFailed($exception, $backupDestination));
     }
 }
