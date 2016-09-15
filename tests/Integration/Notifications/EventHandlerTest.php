@@ -41,8 +41,8 @@ class EventHandlerTest extends TestCase
 
         $this->fireBackupHasFailedEvent();
 
-        Notification::assertNotSentTo(new Notifiable(), BackupHasFailedNotification::class, function($notification, $usedChannels) use ($expectedChannels) {
-            $this->assertSame($expectedChannels, $usedChannels);
+        Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function($notification, $usedChannels) use ($expectedChannels) {
+            return $expectedChannels == $usedChannels;
         });
     }
 
@@ -60,7 +60,6 @@ class EventHandlerTest extends TestCase
         $exception = new Exception('Dummy exception');
 
         $backupDestination = BackupDestinationFactory::createFromArray(config('laravel-backup.backup'))->first();
-
         event(new BackupHasFailed($exception, $backupDestination));
     }
 }
