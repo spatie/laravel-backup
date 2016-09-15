@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Test\Integration\Notifications;
 
 use Exception;
-use Illuminate\Notifications\Events\NotificationSent;
 use Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
@@ -41,7 +40,7 @@ class EventHandlerTest extends TestCase
 
         $this->fireBackupHasFailedEvent();
 
-        Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function($notification, $usedChannels) use ($expectedChannels) {
+        Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function ($notification, $usedChannels) use ($expectedChannels) {
             return $expectedChannels == $usedChannels;
         });
     }
