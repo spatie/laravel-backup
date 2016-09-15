@@ -37,6 +37,7 @@ class BackupCommandTest extends TestCase
         $this->assertEquals(0, $resultCode);
 
         $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+
         $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
     }
 
