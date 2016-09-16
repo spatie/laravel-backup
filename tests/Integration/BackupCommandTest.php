@@ -65,7 +65,7 @@ class BackupCommandTest extends TestCase
 
         $this->assertEquals(-1, $resultCode);
 
-        $this->seeInConsoleOutput('Cannot use only-db and only-files together');
+        $this->seeInConsoleOutput('Cannot use `only-db` and `only-files` together.');
 
         $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'local');
         $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'secondLocal');
