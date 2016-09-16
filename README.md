@@ -8,7 +8,7 @@
 [![StyleCI](https://styleci.io/repos/30915528/shield)](https://styleci.io/repos/30915528)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 
-This Laravel 5 package [creates a backup of your application](https://docs.spatie.be/laravel-backup/v3/taking-backups/overview). The backup is a zipfile that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/5.0/filesystem).
+This Laravel package [creates a backup of your application](https://docs.spatie.be/laravel-backup/v4/taking-backups/overview). The backup is a zipfile that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/5.0/filesystem).
 
 Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 
@@ -18,10 +18,22 @@ Once installed taking a backup of your files and databases is very easy. Just is
 php artisan backup:run
 ```
 
-But we didn't stop there. The package also provides [a backup monitor to check the health of your backups](https://docs.spatie.be/laravel-backup/v3/monitoring-the-health-of-all-backups/overview). You can be [notified via several channels](https://docs.spatie.be/laravel-backup/v3/sending-notifications/overview) when a problem with one of your backups is found.
-To avoid using excessive disk space, the package can also [clean up old backups](https://docs.spatie.be/laravel-backup/v3/cleaning-up-old-backups/overview).
+But we didn't stop there. The package also provides [a backup monitor to check the health of your backups](https://docs.spatie.be/laravel-backup/v4/monitoring-the-health-of-all-backups/overview). You can be [notified via several channels](https://docs.spatie.be/laravel-backup/v4/sending-notifications/overview) when a problem with one of your backups is found.
+To avoid using excessive disk space, the package can also [clean up old backups](https://docs.spatie.be/laravel-backup/v4/cleaning-up-old-backups/overview).
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+
+## Using an older version of PHP / Laravel?
+
+If you're not on PHP 7 or Laravel 5.3 just use version 3 of this package. We don't introduce new feature to v3 anymore but we will still fix bugs.
+ 
+Just issue this command, composer should figure out the correct version.
+
+```php
+composer require spatie/laravel-backup
+```
+
+Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3) to learn how to set up and use the package.
 
 ## Postcardware
 

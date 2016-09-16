@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 4.0.0 - 2016-09-17
+
+- removed custom notification system in favor of Laravel 5.3's native notifications
+- made it easier to pass custom arguments to the database dumpers
+- refactored most classes
+- dropped PHP 5 support
+
 ### 3.10.2 - 2016-08-24
 
 - added L5.3 compatibility
