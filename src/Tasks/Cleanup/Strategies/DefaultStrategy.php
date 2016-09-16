@@ -34,7 +34,7 @@ class DefaultStrategy extends CleanupStrategy
 
         $this->removeBackupsForAllPeriodsExceptOne($backupsPerPeriod);
 
-        $this->removeBackupsOlderThan($dateRanges['yearly']->getEndDate(), $backups);
+        $this->removeBackupsOlderThan($dateRanges['yearly']->endDate(), $backups);
 
         $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
     }
