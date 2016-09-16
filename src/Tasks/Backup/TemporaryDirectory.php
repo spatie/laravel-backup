@@ -18,7 +18,7 @@ class TemporaryDirectory
      *
      * @return mixed
      */
-    public static function create(string $path = '')
+    public static function create(string $path = ''): TemporaryDirectory
     {
         $filesystem = new Filesystem();
 
@@ -38,7 +38,7 @@ class TemporaryDirectory
      *
      * @return string
      */
-    public function getPath(string $fileName = ''): string
+    public function path(string $fileName = ''): string
     {
         if ($fileName === '') {
             return $this->path;

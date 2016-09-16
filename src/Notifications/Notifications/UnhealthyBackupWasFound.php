@@ -13,56 +13,50 @@ class UnhealthyBackupWasFound extends BaseNotification
     /** @var \Spatie\Backup\Events\UnhealthyBackupWasFound */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Important: The backups for `{$this->getApplicationName()}` are unhealthy")
-            ->line("The backups for `{$this->getApplicationName()}` on disk `{$this->getDiskName()}` are unhealthy.")
-            ->line($this->getProblemDescription());
+            ->subject("Important: The backups for `{$this->applicationName()}` are unhealthy")
+            ->line("The backups for `{$this->applicationName()}` on disk `{$this->diskName()}` are unhealthy.")
+            ->line($this->problemDescription());
 
 
-        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
+        $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->error()
-            ->content("Important: The backups for `{$this->getApplicationName()}` are unhealthy. {$this->getProblemDescription()}")
+            ->content("Important: The backups for `{$this->applicationName()}` are unhealthy. {$this->problemDescription()}")
             ->attachment(function (SlackAttachment $attachment) {
-                $attachment->fields($this->getBackupDestinationProperties()->toArray());
+                $attachment->fields($this->backupDestinationProperties()->toArray());
             });
     }
 
-    protected function getProblemDescription(): string
+    protected function problemDescription(): string
     {
         $backupStatus = $this->event->backupDestinationStatus;
 
         if (! $backupStatus->isReachable()) {
-            return "The backup destination cannot be reached. {$backupStatus->getConnectionError()}";
+            return "The backup destination cannot be reached. {$backupStatus->connectionError()}";
         }
 
-        if (! $backupStatus->getAmountOfBackups() === 0) {
+        if (! $backupStatus->amountOfBackups() === 0) {
             return 'There are no backups of this application at all.';
         }
 
-        if ($backupStatus->backupUsesTooMuchStorage()) {
-            return "The backups are using too much storage. Current usage is {$backupStatus->getHumanReadableUsedStorage()} which is higher than the allowed limit of {$backupStatus->getHumanReadableAllowedStorage()}.";
+        if ($backupStatus->usesTooMuchStorage()) {
+            return "The backups are using too much storage. Current usage is {$backupStatus->humanReadableUsedStorage()} which is higher than the allowed limit of {$backupStatus->humanReadableAllowedStorage()}.";
         }
 
-        if ($backupStatus->newestBackupIsToolOld()) {
-            return "The latest backup made on {$backupStatus->getDateOfNewestBackup()->format('Y/m/d h:i:s')} is considered too old.";
+        if ($backupStatus->newestBackupIsTooOld()) {
+            return "The latest backup made on {$backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')} is considered too old.";
         }
 
         return 'Sorry, an exact reason cannot be determined.';

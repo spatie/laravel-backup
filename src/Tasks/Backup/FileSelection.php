@@ -7,10 +7,10 @@ use Symfony\Component\Finder\Finder;
 
 class FileSelection
 {
-    /** @var Collection */
+    /** @var \Illuminate\Support\Collection */
     protected $includeFilesAndDirectories;
 
-    /** @var Collection */
+    /** @var \Illuminate\Support\Collection */
     protected $excludeFilesAndDirectories;
 
     /** @var bool */
@@ -65,9 +65,9 @@ class FileSelection
     }
 
     /**
-     * @return Generator|string
+     * @return \Generator|string[]
      */
-    public function getSelectedFiles()
+    public function selectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
             return [];
@@ -124,6 +124,7 @@ class FileSelection
 
     /**
      * @param string|array $paths
+     *
      * @return \Illuminate\Support\Collection
      */
     protected function sanitize($paths): Collection

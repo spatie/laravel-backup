@@ -13,34 +13,28 @@ class BackupHasFailed extends BaseNotification
     /** @var \Spatie\Backup\Events\BackupHasFailed */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Failed back up of `{$this->getApplicationName()}`")
-            ->line("Important: An error occurred while backing up `{$this->getApplicationName()}`")
+            ->subject("Failed back up of `{$this->applicationName()}`")
+            ->line("Important: An error occurred while backing up `{$this->applicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
             ->line("Exception trace: `{$this->event->exception->getTraceAsString()}`");
 
 
-        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
+        $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->error()
-            ->content("Failed back up of `{$this->getApplicationName()}`")
+            ->content("Failed back up of `{$this->applicationName()}`")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
                     ->title('Exception message')
@@ -52,7 +46,7 @@ class BackupHasFailed extends BaseNotification
                     ->content($this->event->exception->getTraceAsString());
             })
             ->attachment(function (SlackAttachment $attachment) {
-                $attachment->fields($this->getBackupDestinationProperties()->toArray());
+                $attachment->fields($this->backupDestinationProperties()->toArray());
             });
     }
 

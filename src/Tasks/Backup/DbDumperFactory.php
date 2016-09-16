@@ -10,15 +10,15 @@ use Spatie\DbDumper\DbDumper;
 class DbDumperFactory
 {
     /**
-     * @param string $dbConnectionName ;
+     * @param string $dbConnectionName
      *
-     * @return mixed
+     * @return \Spatie\DbDumper\DbDumper
      */
-    public static function create(string $dbConnectionName)
+    public static function createFromConnection(string $dbConnectionName): DbDumper
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
-        $dbDumper = static::getDumper($dbConfig['driver'])
+        $dbDumper = static::forDriver($dbConfig['driver'])
             ->setHost($dbConfig['host'])
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'])
@@ -31,7 +31,7 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-    public static function getDumper($dbDriver): DbDumper
+    protected static function forDriver($dbDriver): DbDumper
     {
         $driver = strtolower($dbDriver);
 
@@ -53,7 +53,7 @@ class DbDumperFactory
      *
      * @return mixed
      */
-    protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper)
+    protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper): DbDumper
     {
         collect($dumpConfiguration)->each(function ($configValue, $configName) use ($dbDumper) {
             $methodName = studly_case(is_numeric($configName) ? $configValue : $configName);

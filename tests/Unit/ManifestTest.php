@@ -47,7 +47,7 @@ class ManifestTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_determine_its_own_path()
     {
-        $this->assertSame($this->manifest->getPath(), $this->pathToManifest);
+        $this->assertSame($this->manifest->path(), $this->pathToManifest);
     }
 
     /** @test */
@@ -97,10 +97,10 @@ class ManifestTest extends \PHPUnit_Framework_TestCase
 
         $this->manifest->addFiles($testFiles);
 
-        $this->assertInstanceOf(Generator::class, $this->manifest->getFiles());
+        $this->assertInstanceOf(Generator::class, $this->manifest->files());
 
         $i = 0;
-        foreach ($this->manifest->getFiles() as $filePath) {
+        foreach ($this->manifest->files() as $filePath) {
             $this->assertSame($testFiles[$i++], $filePath);
         }
     }

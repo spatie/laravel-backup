@@ -25,15 +25,15 @@ class BackupCommand extends BaseCommand
             $backupJob = BackupJobFactory::createFromArray(config('laravel-backup'));
 
             if ($this->option('only-db')) {
-                $backupJob->doNotBackupFilesystem();
+                $backupJob->dontBackupFilesystem();
             }
 
             if ($this->option('only-files')) {
-                $backupJob->doNotBackupDatabases();
+                $backupJob->dontBackupDatabases();
             }
 
             if ($this->option('only-to-disk')) {
-                $backupJob->backupOnlyTo($this->option('only-to-disk'));
+                $backupJob->onlyBackupTo($this->option('only-to-disk'));
             }
 
             if ($this->option('filename')) {
@@ -55,7 +55,7 @@ class BackupCommand extends BaseCommand
     protected function guardAgainstInvalidOptions()
     {
         if ($this->option('only-db') && $this->option('only-files')) {
-            throw InvalidCommand::create('Cannot use only-db and only-files together');
+            throw InvalidCommand::create('Cannot use `only-db` and `only-files` together');
         }
     }
 }

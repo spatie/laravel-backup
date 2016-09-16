@@ -13,32 +13,26 @@ class CleanupWasSuccessful extends BaseNotification
     /** @var \Spatie\Backup\Events\CleanupWasSuccessful */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->subject("Clean up of `{$this->getApplicationName()}` backups successful")
-            ->line("The cleaup up of the {$this->getApplicationName()} backups on the disk named {$this->getDiskname()} was successful.");
+            ->subject("Clean up of `{$this->applicationName()}` backups successful")
+            ->line("The cleaup up of the {$this->applicationName()} backups on the disk named {$this->diskName()} was successful.");
 
-        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
+        $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack($notifiable): SlackMessage
     {
         return (new SlackMessage)
             ->success()
             ->content('Clean up of backups successful!')
             ->attachment(function (SlackAttachment $attachment) {
-                $attachment->fields($this->getBackupDestinationProperties()->toArray());
+                $attachment->fields($this->backupDestinationProperties()->toArray());
             });
     }
 

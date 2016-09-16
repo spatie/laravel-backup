@@ -23,7 +23,7 @@ class DefaultStrategy extends CleanupStrategy
 
         $backupsPerPeriod = $dateRanges->map(function (Period $period) use ($backups) {
             return $backups->filter(function (Backup $backup) use ($period) {
-                return $backup->date()->between($period->getStartDate(), $period->getEndDate());
+                return $backup->date()->between($period->startDate(), $period->endDate());
             });
         });
 
@@ -51,20 +51,20 @@ class DefaultStrategy extends CleanupStrategy
         );
 
         $weekly = new Period(
-            $daily->getEndDate(),
-            $daily->getEndDate()
+            $daily->endDate(),
+            $daily->endDate()
                 ->subWeeks($config['keepWeeklyBackupsForWeeks'])
         );
 
         $monthly = new Period(
-            $weekly->getEndDate(),
-            $weekly->getEndDate()
+            $weekly->endDate(),
+            $weekly->endDate()
                 ->subMonths($config['keepMonthlyBackupsForMonths'])
         );
 
         $yearly = new Period(
-            $monthly->getEndDate(),
-            $monthly->getEndDate()
+            $monthly->endDate(),
+            $monthly->endDate()
                 ->subYears($config['keepYearlyBackupsForYears'])
         );
 
@@ -105,7 +105,7 @@ class DefaultStrategy extends CleanupStrategy
         $maximumSize = $this->config->get('laravel-backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan')
             * 1024 * 1024;
 
-        if (! $oldestBackup = $backups->oldest()) {
+        if ($backups->isEmpty()) {
             return;
         }
 
@@ -113,7 +113,7 @@ class DefaultStrategy extends CleanupStrategy
             return;
         }
 
-        $oldestBackup->delete();
+        $backups->oldest()->delete();
 
         $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
     }

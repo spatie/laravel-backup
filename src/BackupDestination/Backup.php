@@ -7,7 +7,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class Backup
 {
-    /** @var \Spatie\Backup\BackupDestination\Disk */
+    /** @var \Illuminate\Contracts\Filesystem\Filesystem */
     protected $disk;
 
     /** @var string */
@@ -16,7 +16,6 @@ class Backup
     public function __construct(Filesystem $disk, string $path)
     {
         $this->disk = $disk;
-
         $this->path = $path;
     }
 

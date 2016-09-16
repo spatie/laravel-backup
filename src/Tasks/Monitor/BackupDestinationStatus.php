@@ -39,7 +39,7 @@ class BackupDestinationStatus
         return $this;
     }
 
-    public function getMaximumAgeOfNewestBackupInDays(): int
+    public function maximumAgeOfNewestBackupInDays(): int
     {
         return $this->maximumAgeOfNewestBackupInDays;
     }
@@ -51,27 +51,27 @@ class BackupDestinationStatus
         return $this;
     }
 
-    public function getBackupName(): string
+    public function backupName(): string
     {
-        return $this->backupDestination->getBackupName();
+        return $this->backupDestination->backupName();
     }
 
-    public function getDiskName(): string
+    public function diskName(): string
     {
         return $this->diskName;
     }
 
-    public function getAmountOfBackups(): int
+    public function amountOfBackups(): int
     {
-        return $this->backupDestination->getBackups()->count();
+        return $this->backupDestination->backups()->count();
     }
 
     /**
      * @return \Carbon\Carbon|null
      */
-    public function getDateOfNewestBackup()
+    public function dateOfNewestBackup()
     {
-        $newestBackup = $this->backupDestination->getNewestBackup();
+        $newestBackup = $this->backupDestination->newestBackup();
 
         if (is_null($newestBackup)) {
             return;
@@ -80,25 +80,25 @@ class BackupDestinationStatus
         return $newestBackup->date();
     }
 
-    public function newestBackupIsToolOld(): bool
+    public function newestBackupIsTooOld(): bool
     {
-        if (! count($this->backupDestination->getBackups())) {
+        if (! count($this->backupDestination->backups())) {
             return true;
         }
 
         $maximumDate = Carbon::now()->subDays($this->maximumAgeOfNewestBackupInDays);
 
-        return ! $this->backupDestination->isNewestBackupOlderThan($maximumDate);
+        return ! $this->backupDestination->newestBackupIsOlderThan($maximumDate);
     }
 
-    public function getUsedStorage(): int
+    public function usedStorage(): int
     {
-        return $this->backupDestination->getUsedStorage();
+        return $this->backupDestination->usedStorage();
     }
 
-    public function getConnectionError(): Exception
+    public function connectionError(): Exception
     {
-        return $this->backupDestination->getConnectionError();
+        return $this->backupDestination->connectionError();
     }
 
     public function isReachable(): bool
@@ -106,20 +106,20 @@ class BackupDestinationStatus
         return $this->reachable;
     }
 
-    public function getMaximumAllowedUsageInBytes(): int
+    public function maximumAllowedUsageInBytes(): int
     {
         return $this->maximumStorageUsageInMegabytes * 1024 * 1024;
     }
 
-    public function backupUsesTooMuchStorage(): bool
+    public function usesTooMuchStorage(): bool
     {
-        $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
+        $maximumInBytes = $this->maximumAllowedUsageInBytes();
 
         if ($maximumInBytes === 0) {
             return false;
         }
 
-        return $this->getUsedStorage() > $maximumInBytes;
+        return $this->usedStorage() > $maximumInBytes;
     }
 
     public function isHealthy(): bool
@@ -128,34 +128,34 @@ class BackupDestinationStatus
             return false;
         }
 
-        if ($this->backupUsesTooMuchStorage()) {
+        if ($this->usesTooMuchStorage()) {
             return false;
         }
 
-        if ($this->newestBackupIsToolOld()) {
+        if ($this->newestBackupIsTooOld()) {
             return false;
         }
 
         return true;
     }
 
-    public function getHumanReadableAllowedStorage(): string
+    public function humanReadableAllowedStorage(): string
     {
-        $maximumInBytes = $this->getMaximumAllowedUsageInBytes();
+        $maximumInBytes = $this->maximumAllowedUsageInBytes();
 
         if ($maximumInBytes === 0) {
             return 'unlimited';
         }
 
-        return Format::getHumanReadableSize($maximumInBytes);
+        return Format::humanReadableSize($maximumInBytes);
     }
 
-    public function getHumanReadableUsedStorage(): string
+    public function humanReadableUsedStorage(): string
     {
-        return Format::getHumanReadableSize($this->getUsedStorage());
+        return Format::humanReadableSize($this->usedStorage());
     }
 
-    public function getBackupDestination(): BackupDestination
+    public function backupDestination(): BackupDestination
     {
         return $this->backupDestination;
     }

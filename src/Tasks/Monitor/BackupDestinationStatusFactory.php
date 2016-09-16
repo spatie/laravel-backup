@@ -9,14 +9,11 @@ class BackupDestinationStatusFactory
 {
     public static function createForMonitorConfig(array $monitorConfiguration): Collection
     {
-        return collect($monitorConfiguration)
-            ->map(function (array $monitorProperties) {
-                return BackupDestinationStatusFactory::createForSingleMonitor($monitorProperties);
-            })
-            ->collapse()
-            ->sortBy(function (BackupDestinationStatus $backupDestinationStatus) {
-                return "{$backupDestinationStatus->getBackupName()}-{$backupDestinationStatus->getDiskName()}";
-            });
+        return collect($monitorConfiguration)->flatMap(function (array $monitorProperties) {
+            return BackupDestinationStatusFactory::createForSingleMonitor($monitorProperties);
+        })->sortBy(function (BackupDestinationStatus $backupDestinationStatus) {
+            return "{$backupDestinationStatus->backupName()}-{$backupDestinationStatus->diskName()}";
+        });
     }
 
     public static function createForSingleMonitor(array $monitorConfig): Collection

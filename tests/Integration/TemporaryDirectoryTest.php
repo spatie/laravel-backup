@@ -32,7 +32,7 @@ class TemporaryDirectoryTest extends TestCase
     /** @test */
     public function it_can_determine_it_own_path()
     {
-        $this->assertEquals($this->expectedDirectory, $this->temporaryDirectory->getPath());
+        $this->assertEquals($this->expectedDirectory, $this->temporaryDirectory->path());
 
         $this->assertDirectoryExists($this->expectedDirectory);
     }
@@ -50,7 +50,7 @@ class TemporaryDirectoryTest extends TestCase
     /** @test */
     public function it_can_delete_it_self_even_if_the_directory_is_not_empty()
     {
-        copy($this->testHelper->getStubDirectory().'/file1.txt', $this->temporaryDirectory->getPath().'/file1.txt');
+        copy($this->testHelper->getStubDirectory().'/file1.txt', $this->temporaryDirectory->path().'/file1.txt');
 
         $this->temporaryDirectory->delete();
 
@@ -62,7 +62,7 @@ class TemporaryDirectoryTest extends TestCase
     {
         $subDirectoryName = 'subdir';
 
-        $path = $this->temporaryDirectory->getPath($subDirectoryName);
+        $path = $this->temporaryDirectory->path($subDirectoryName);
 
         $this->assertEquals($this->expectedDirectory.'/'.$subDirectoryName, $path);
 
@@ -74,7 +74,7 @@ class TemporaryDirectoryTest extends TestCase
     {
         $fileName = 'test.txt';
 
-        $path = $this->temporaryDirectory->getPath($fileName);
+        $path = $this->temporaryDirectory->path($fileName);
 
         $this->assertEquals($this->expectedDirectory.'/'.$fileName, $path);
 

@@ -13,33 +13,27 @@ class CleanupHasFailed extends BaseNotification
     /** @var \Spatie\Backup\Events\CleanupHasFailed */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Cleaning up the backups of `{$this->getApplicationName()}` failed.")
-            ->line("An error occurred while cleaning up the backups of `{$this->getApplicationName()}`")
+            ->subject("Cleaning up the backups of `{$this->applicationName()}` failed.")
+            ->line("An error occurred while cleaning up the backups of `{$this->applicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
             ->line("Exception trace: `{$this->event->exception->getTraceAsString()}`");
 
-        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
+        $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
         });
 
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->error()
-            ->content("An error occurred while cleaning up the backups of `{$this->getApplicationName()}`")
+            ->content("An error occurred while cleaning up the backups of `{$this->applicationName()}`")
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
                     ->title('Exception message')
@@ -51,7 +45,7 @@ class CleanupHasFailed extends BaseNotification
                     ->content($this->event->exception->getTraceAsString());
             })
             ->attachment(function (SlackAttachment $attachment) {
-                $attachment->fields($this->getBackupDestinationProperties()->toArray());
+                $attachment->fields($this->backupDestinationProperties()->toArray());
             });
     }
 
