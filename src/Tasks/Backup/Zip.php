@@ -20,7 +20,7 @@ class Zip
     {
         $zip = new static($pathToZip);
 
-        foreach($manifest->files() as $file) {
+        foreach ($manifest->files() as $file) {
             $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
         }
 
@@ -33,9 +33,7 @@ class Zip
 
         $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME);
 
-        if (starts_with($fileDirectory, $zipDirectory))
-        {
-
+        if (starts_with($fileDirectory, $zipDirectory)) {
             return str_replace($zipDirectory, '', $pathToFile);
         }
 

@@ -20,7 +20,6 @@ class MonitorCommand extends BaseCommand
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('laravel-backup.monitorBackups'));
 
         $statuses->each(function (BackupDestinationStatus $backupDestinationStatus) {
-
             if ($backupDestinationStatus->isHealthy()) {
                 $this->info("The backups on {$backupDestinationStatus->diskName()} are considered healthy.");
                 event(new HealthyBackupWasFound($backupDestinationStatus));
