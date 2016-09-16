@@ -13,13 +13,7 @@ class CleanupWasSuccessful extends BaseNotification
     /** @var \Spatie\Backup\Events\CleanupWasSuccessful */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         $mailMessage = (new MailMessage)
             ->subject("Clean up of `{$this->getApplicationName()}` backups successful")
@@ -32,7 +26,7 @@ class CleanupWasSuccessful extends BaseNotification
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack($notifiable): SlackMessage
     {
         return (new SlackMessage)
             ->success()

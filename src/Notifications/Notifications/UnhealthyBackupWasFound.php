@@ -13,13 +13,7 @@ class UnhealthyBackupWasFound extends BaseNotification
     /** @var \Spatie\Backup\Events\UnhealthyBackupWasFound */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
             ->error()
@@ -35,7 +29,7 @@ class UnhealthyBackupWasFound extends BaseNotification
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->error()

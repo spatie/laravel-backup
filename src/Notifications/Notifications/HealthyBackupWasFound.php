@@ -13,13 +13,7 @@ class HealthyBackupWasFound extends BaseNotification
     /** @var \Spatie\Backup\Events\HealthyBackupWasFound */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(): SlackMessage
     {
         $mailMessage = (new MailMessage)
             ->subject("The backups for `{$this->getApplicationName()}` on disk `{$this->getDiskName()}` are healthy")
@@ -32,7 +26,7 @@ class HealthyBackupWasFound extends BaseNotification
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->success()

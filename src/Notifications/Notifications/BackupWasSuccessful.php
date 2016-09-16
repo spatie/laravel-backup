@@ -13,13 +13,7 @@ class BackupWasSuccessful extends BaseNotification
     /** @var \Spatie\Backup\Events\BackupWasSuccessful */
     protected $event;
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
             ->subject("Successful new backup of `{$this->getApplicationName()}`")
@@ -32,7 +26,7 @@ class BackupWasSuccessful extends BaseNotification
         return $mailMessage;
     }
 
-    public function toSlack($notifiable)
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->success()
