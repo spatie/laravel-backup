@@ -23,7 +23,7 @@ To avoid using excessive disk space, the package can also [clean up old backups]
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
-## Using an older version of PHP / Laravel?
+## Using an older version of PHP / Laravel ?
 
 If you're not on PHP 7 or Laravel 5.3 just use version 3 of this package. We don't introduce new feature to v3 anymore but we will still fix bugs.
  
