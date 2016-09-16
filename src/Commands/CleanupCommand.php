@@ -9,14 +9,10 @@ use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 
 class CleanupCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'backup:clean';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Remove all backups older than specified number of days in config.';
 
     public function handle()

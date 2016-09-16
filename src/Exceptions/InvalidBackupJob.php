@@ -6,21 +6,18 @@ use Exception;
 
 class InvalidBackupJob extends Exception
 {
-    /**
-     * @return \Spatie\Backup\Exceptions\InvalidBackupJob
-     */
-    public static function noDestinationsSpecified()
+    public static function noDestinationsSpecified(): InvalidBackupJob
     {
         return new static('A backup job cannot run without a destination to backup to!');
     }
 
-    /**
-     * @param $diskName
-     *
-     * @return \Spatie\Backup\Exceptions\InvalidBackupJob
-     */
-    public static function destinationDoesNotExist($diskName)
+    public static function destinationDoesNotExist(string $diskName): InvalidBackupJob
     {
         return new static("There is not backup destination with a disk named `{$diskName}`");
+    }
+
+    public static function noFilesToBeBackedUp(): InvalidBackupJob
+    {
+        return new static('There are no files to be backed up');
     }
 }

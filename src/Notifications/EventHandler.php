@@ -2,115 +2,73 @@
 
 namespace Spatie\Backup\Notifications;
 
-use Illuminate\Events\Dispatcher;
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Notifications\Notification;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Spatie\Backup\Exceptions\NotificationCouldNotBeSent;
 
 class EventHandler
 {
-    /**
-     * @var \Spatie\Backup\Notifications\Notifier
-     */
-    protected $notifier;
+    /** @var \Illuminate\Config\Repository */
+    protected $config;
 
-    public function __construct()
+    public function __construct(Repository $config)
     {
-        $notifierClass = config('laravel-backup.notifications.handler');
-
-        $this->notifier = app($notifierClass);
+        $this->config = $config;
     }
 
-    public function whenBackupWasSuccessful()
-    {
-        $this->notifier->backupWasSuccessful();
-    }
-
-    /**
-     * @param \Spatie\Backup\Events\BackupHasFailed $event
-     */
-    public function whenBackupHasFailed(BackupHasFailed $event)
-    {
-        $this->notifier->backupHasFailed($event->exception, $event->backupDestination);
-    }
-
-    /**
-     * @param \Spatie\Backup\Events\CleanupWasSuccessful $event
-     */
-    public function whenCleanupWasSuccessful(CleanupWasSuccessful $event)
-    {
-        $this->notifier->cleanupWasSuccessful($event->backupDestination);
-    }
-
-    /**
-     * @param \Spatie\Backup\Events\CleanupHasFailed $event
-     */
-    public function whenCleanupHasFailed(CleanupHasFailed $event)
-    {
-        $this->notifier->cleanupHasFailed($event->exception);
-    }
-
-    /**
-     * @param \Spatie\Backup\Events\HealthyBackupWasFound $event
-     */
-    public function whenHealthyBackupWasFound(HealthyBackupWasFound $event)
-    {
-        $this->notifier->healthyBackupWasFound($event->backupDestinationStatus);
-    }
-
-    /**
-     * @param \Spatie\Backup\Events\UnhealthyBackupWasFound $event
-     */
-    public function whenUnhealthyBackupWasFound(UnhealthyBackupWasFound $event)
-    {
-        $this->notifier->unHealthyBackupWasFound($event->backupDestinationStatus);
-    }
-
-    /**
-     * Register the listeners for the subscriber.
-     *
-     * @param \Illuminate\Events\Dispatcher $events
-     *
-     * @return array
-     */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(
+        $events->listen($this->allBackupEventClasses(), function ($event) {
+            $notifiable = $this->determineNotifiable();
+
+            $notification = $this->determineNotification($event);
+
+            $notifiable->notify($notification);
+        });
+    }
+
+    protected function determineNotifiable()
+    {
+        $notifiableClass = $this->config->get('laravel-backup.notifications.notifiable');
+
+        return app($notifiableClass);
+    }
+
+    protected function determineNotification($event): Notification
+    {
+        $eventName = class_basename($event);
+
+        $notificationClass = collect($this->config->get('laravel-backup.notifications.notifications'))
+            ->keys()
+            ->first(function ($notificationClass) use ($eventName) {
+                $notificationName = class_basename($notificationClass);
+
+                return $notificationName === $eventName;
+            });
+
+        if (! $notificationClass) {
+            throw NotificationCouldNotBeSent::noNotifcationClassForEvent($event);
+        }
+
+        return app($notificationClass)->setEvent($event);
+    }
+
+    protected function allBackupEventClasses(): array
+    {
+        return [
+            BackupHasFailed::class,
             BackupWasSuccessful::class,
-            static::class.'@whenBackupWasSuccessful'
-        );
-
-        $events->listen(
-            BackupHasFailed::class,
-            static::class.'@whenBackupHasFailed'
-        );
-
-        $events->listen(
-            CleanupWasSuccessful::class,
-            static::class.'@whenCleanupWasSuccessful'
-        );
-
-        $events->listen(
             CleanupHasFailed::class,
-            static::class.'@whenCleanupHasFailed'
-        );
-
-        $events->listen(
-            BackupHasFailed::class,
-            static::class.'@whenBackupHasFailed'
-        );
-
-        $events->listen(
+            CleanupWasSuccessful::class,
             HealthyBackupWasFound::class,
-            static::class.'@whenHealthyBackupWasFound'
-        );
-
-        $events->listen(
             UnhealthyBackupWasFound::class,
-            static::class.'@whenUnhealthyBackupWasFound'
-        );
+        ];
     }
 }

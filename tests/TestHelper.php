@@ -7,9 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class TestHelper
 {
-    /**
-     * @var \Illuminate\Filesystem\Filesystem
-     */
+    /** @var \Illuminate\Filesystem\Filesystem */
     protected $filesystem;
 
     public function __construct()
@@ -61,5 +59,7 @@ class TestHelper
         file_put_contents($fullPath, $contents);
 
         touch($fullPath, $date->getTimeStamp());
+
+        return $fullPath;
     }
 }

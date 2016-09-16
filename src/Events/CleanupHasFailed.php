@@ -13,15 +13,10 @@ class CleanupHasFailed
     /** @var \Spatie\Backup\BackupDestination\BackupDestination|null */
     public $backupDestination;
 
-    /**
-     * CleanupHasFailed constructor.
-     *
-     * @param \Exception                                              $exception
-     * @param \Spatie\Backup\BackupDestination\BackupDestination|null $backupDestination
-     */
     public function __construct(Exception $exception, BackupDestination $backupDestination = null)
     {
         $this->exception = $exception;
+
         $this->backupDestination = $backupDestination;
     }
 }

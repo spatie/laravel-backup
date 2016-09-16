@@ -17,13 +17,10 @@ class CleanupJob
     /** @var \Spatie\Backup\Tasks\Cleanup\Strategies\CleanupStrategy */
     protected $strategy;
 
-    /**
-     * @param \Illuminate\Support\Collection               $backupDestinations
-     * @param \Spatie\Backup\Tasks\Cleanup\CleanupStrategy $strategy
-     */
     public function __construct(Collection $backupDestinations, CleanupStrategy $strategy)
     {
         $this->backupDestinations = $backupDestinations;
+
         $this->strategy = $strategy;
     }
 
@@ -32,15 +29,15 @@ class CleanupJob
         $this->backupDestinations->each(function (BackupDestination $backupDestination) {
             try {
                 if (! $backupDestination->isReachable()) {
-                    throw new Exception("Could not connect to disk {$backupDestination->getDiskName()} because: {$backupDestination->getConnectionError()}");
+                    throw new Exception("Could not connect to disk {$backupDestination->diskName()} because: {$backupDestination->connectionError()}");
                 }
 
-                consoleOutput()->info("Cleaning backups of {$backupDestination->getBackupName()} on disk {$backupDestination->getDiskName()}...");
+                consoleOutput()->info("Cleaning backups of {$backupDestination->backupName()} on disk {$backupDestination->diskName()}...");
 
-                $this->strategy->deleteOldBackups($backupDestination->getBackups());
+                $this->strategy->deleteOldBackups($backupDestination->backups());
                 event(new CleanupWasSuccessful($backupDestination));
 
-                $usedStorage = Format::getHumanReadableSize($backupDestination->getUsedStorage());
+                $usedStorage = Format::humanReadableSize($backupDestination->usedStorage());
                 consoleOutput()->info("Used storage after cleanup: {$usedStorage}.");
             } catch (Exception $exception) {
                 consoleOutput()->error("Cleanup failed because: {$exception->getMessage()}.");

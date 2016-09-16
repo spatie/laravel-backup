@@ -7,9 +7,7 @@ use Spatie\Backup\Test\TestHelper;
 
 class FileSelectionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @string
-     */
+    /** @string */
     protected $sourceDirectory;
 
     public function setUp()
@@ -35,7 +33,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file2.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
@@ -52,7 +50,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file2.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
@@ -70,7 +68,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file2.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
@@ -88,7 +86,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'directory1/directory1/file2.txt',
                 'directory2/directory1/file1.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles()));
+            iterator_to_array($fileSelection->selectedFiles()));
     }
 
     /** @test */
@@ -108,16 +106,16 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file1.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
     /** @test */
     public function it_returns_an_empty_array_when_not_specifying_any_directories()
     {
-        $fileSelection = new FileSelection('');
+        $fileSelection = new FileSelection();
 
-        $this->assertEmpty(iterator_to_array($fileSelection->getSelectedFiles()));
+        $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
     }
 
     /** @test */
@@ -126,7 +124,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $fileSelection = (new FileSelection($this->sourceDirectory))
             ->excludeFilesFrom($this->sourceDirectory);
 
-        $this->assertEmpty(iterator_to_array($fileSelection->getSelectedFiles()));
+        $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
     }
 
     /** @test */
@@ -137,12 +135,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FileSelection::class, $fileSelection);
     }
 
-    /**
-     * @param array $relativePaths
-     *
-     * @return array
-     */
-    protected function getTestFiles(array $relativePaths)
+    protected function getTestFiles(array $relativePaths): array
     {
         $absolutePaths = array_map(function ($path) {
             return "{$this->sourceDirectory}/{$path}";

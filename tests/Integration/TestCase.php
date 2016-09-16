@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\FileNotFoundException;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Backup\BackupServiceProvider;
 use Spatie\Backup\Test\TestHelper;
@@ -43,6 +44,10 @@ abstract class TestCase extends Orchestra
         $this->testHelper->initializeTempDirectory();
 
         $app['config']->set('database.default', 'sqlite');
+
+        $app['config']->set('mail.driver', 'log');
+
+        $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => $this->testHelper->getTempDirectory().'/database.sqlite',
@@ -77,49 +82,25 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
     }
 
-    /**
-     * @param string $extension
-     * @param string $directory
-     * @param string $diskName
-     */
-    public function assertFileWithExtensionExistInDirectoryOnDisk($extension, $directory, $diskName)
+    public function assertFileExistsOnDisk(string $fileName, string $diskName)
     {
-        $fileCount = $this->countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName);
-
-        $this->assertTrue($fileCount > 0, "There are no files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+        $this->assertTrue($this->fileExistsOnDisk($fileName, $diskName), "Failed asserting that `{$fileName}` exists on disk `{$diskName}`");
     }
 
-    /**
-     * @param string $extension
-     * @param string $directory
-     * @param string $diskName
-     */
-    public function assertFileWithExtensionDoNotExistInDirectoryOnDisk($extension, $directory, $diskName)
+    public function assertFileNotExistsOnDisk(string $fileName, string $diskName)
     {
-        $fileCount = $this->countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName);
-
-        $this->assertTrue($fileCount === 0, "There are files with extension `{$extension}` on `{$directory}` on `{$diskName}`");
+        $this->assertFalse($this->fileExistsOnDisk($fileName, $diskName), "Failed asserting that `{$fileName}` does not exist on disk `{$diskName}`");
     }
 
-    /**
-     * @param string $extension
-     * @param string $directory
-     * @param string $diskName
-     *
-     * @return int
-     */
-    protected function countFilesWithExtensionExistsInDirectoryOnDisk($extension, $directory, $diskName)
+    public function fileExistsOnDisk(string $fileName, string $diskName): bool
     {
-        $disk = Storage::disk($diskName);
+        try {
+            Storage::disk($diskName)->getMetaData($fileName);
 
-        $files = $disk->files($directory);
-
-        $fileCount = collect($files)->filter(function ($fileName) use ($extension) {
-            return pathinfo($fileName, PATHINFO_EXTENSION) == $extension;
-        })
-            ->count();
-
-        return $fileCount;
+            return true;
+        } catch (FileNotFoundException $exception) {
+            return false;
+        }
     }
 
     public function assertTempFilesExist(array $files)
@@ -155,6 +136,13 @@ abstract class TestCase extends Orchestra
         });
     }
 
+    protected function doesNotExpectEvent($eventClassName)
+    {
+        Event::listen($eventClassName, function ($event) use ($eventClassName) {
+            throw new Exception("Event {$eventClassName} unexpectingly fired");
+        });
+    }
+
     protected function seeInConsoleOutput($expectedText)
     {
         $consoleOutput = $this->app[Kernel::class]->output();
@@ -167,5 +155,20 @@ abstract class TestCase extends Orchestra
         $consoleOutput = $this->app[Kernel::class]->output();
 
         $this->assertNotContains($unExpectedText, $consoleOutput, "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`");
+    }
+
+    protected function assertDirectoryExists($path)
+    {
+        $this->assertTrue($this->directoryExists($path), "Failed to assert that the directory `{$path}` exists");
+    }
+
+    protected function assertDirectoryNotExists($path)
+    {
+        $this->assertFalse($this->directoryExists($path), "Failed to assert that the directory `{$path}` does not exist");
+    }
+
+    protected function directoryExists($path): bool
+    {
+        return is_dir($path) && file_exists($path);
     }
 }

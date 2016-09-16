@@ -75,7 +75,7 @@ class BackupCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_determine_the_youngest_backup()
+    public function it_can_determine_the_newest_backup()
     {
         $this->createFileOnBackupDisk('file1.zip', 3);
         $this->createFileOnBackupDisk('file2.zip', 1);
@@ -116,10 +116,7 @@ class BackupCollectionTest extends TestCase
         $this->assertSame($totalSize, $backupCollection->size());
     }
 
-    /**
-     * @return \Spatie\Backup\BackupDestination\BackupCollection
-     */
-    protected function getBackupCollectionForCurrentDiskContents()
+    protected function getBackupCollectionForCurrentDiskContents(): BackupCollection
     {
         $disk = Storage::disk('local');
 
@@ -128,12 +125,7 @@ class BackupCollectionTest extends TestCase
         return BackupCollection::createFromFiles($disk, $files);
     }
 
-    /**
-     * @param string $name
-     * @param int    $ageInDays
-     * @param string $contents
-     */
-    protected function createFileOnBackupDisk($name, $ageInDays = 0, $contents = '')
+    protected function createFileOnBackupDisk(string $name, int $ageInDays = 0, string $contents = '')
     {
         $this->testHelper->createTempFileWithAge(
             'mysite.com/'.$name,

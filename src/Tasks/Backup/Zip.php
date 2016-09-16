@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Spatie\Backup\Helpers\Format;
 use ZipArchive;
 
 class Zip
@@ -15,25 +16,31 @@ class Zip
     /** @var string */
     protected $pathToZip;
 
-    /**
-     * @param string       $pathToZip
-     * @param string|array $files
-     *
-     * @return \Spatie\Backup\Tasks\Backup\Zip
-     */
-    public static function create($pathToZip, $files = [])
+    public static function createForManifest(Manifest $manifest, string $pathToZip): Zip
     {
         $zip = new static($pathToZip);
 
-        $zip->add($files);
+        foreach ($manifest->files() as $file) {
+            $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
+        }
 
         return $zip;
     }
 
-    /**
-     * @param string $pathToZip
-     */
-    public function __construct($pathToZip)
+    protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip)
+    {
+        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME);
+
+        $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME);
+
+        if (starts_with($fileDirectory, $zipDirectory)) {
+            return str_replace($zipDirectory, '', $pathToFile);
+        }
+
+        return $pathToFile;
+    }
+
+    public function __construct(string $pathToZip)
     {
         $this->zipFile = new ZipArchive();
 
@@ -42,20 +49,23 @@ class Zip
         $this->open($pathToZip);
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function path(): string
     {
         return $this->pathToZip;
     }
 
-    /**
-     * @return int
-     */
-    public function getSize()
+    public function size(): int
     {
+        if ($this->fileCount === 0) {
+            return 0;
+        }
+
         return filesize($this->pathToZip);
+    }
+
+    public function humanReadableSize(): string
+    {
+        return Format::humanReadableSize($this->size());
     }
 
     protected function open()
@@ -70,11 +80,11 @@ class Zip
 
     /**
      * @param string|array $files
-     * @param string       $nameInZip
+     * @param string $nameInZip
      *
      * @return \Spatie\Backup\Tasks\Backup\Zip
      */
-    public function add($files, $nameInZip = null)
+    public function add($files, string $nameInZip = null): Zip
     {
         if (is_array($files)) {
             $nameInZip = null;
@@ -87,8 +97,10 @@ class Zip
         $this->open();
 
         foreach ($files as $file) {
-            $this->zipFile->addFile($file, $nameInZip);
-            ++$this->fileCount;
+            if (file_exists($file)) {
+                $this->zipFile->addFile($file, $nameInZip).PHP_EOL;
+            }
+            $this->fileCount++;
         }
 
         $this->close();
@@ -96,7 +108,7 @@ class Zip
         return $this;
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->fileCount;
     }

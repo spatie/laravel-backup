@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
 
 class FileSelection
@@ -20,7 +21,7 @@ class FileSelection
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public static function create($includeFilesAndDirectories = [])
+    public static function create($includeFilesAndDirectories = []): FileSelection
     {
         return new static($includeFilesAndDirectories);
     }
@@ -28,9 +29,9 @@ class FileSelection
     /**
      * @param array|string $includeFilesAndDirectories
      */
-    public function __construct($includeFilesAndDirectories)
+    public function __construct($includeFilesAndDirectories = [])
     {
-        $this->includeFilesAndDirectories = $this->sanitize($includeFilesAndDirectories);
+        $this->includeFilesAndDirectories = collect($includeFilesAndDirectories);
 
         $this->excludeFilesAndDirectories = collect();
     }
@@ -42,9 +43,9 @@ class FileSelection
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public function excludeFilesFrom($excludeFilesAndDirectories)
+    public function excludeFilesFrom($excludeFilesAndDirectories): FileSelection
     {
-        $this->excludeFilesAndDirectories = $this->sanitize($excludeFilesAndDirectories);
+        $this->excludeFilesAndDirectories = $this->excludeFilesAndDirectories->merge($this->sanitize($excludeFilesAndDirectories));
 
         return $this;
     }
@@ -56,7 +57,7 @@ class FileSelection
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public function shouldFollowLinks($shouldFollowLinks)
+    public function shouldFollowLinks(bool $shouldFollowLinks): FileSelection
     {
         $this->shouldFollowLinks = $shouldFollowLinks;
 
@@ -64,12 +65,12 @@ class FileSelection
     }
 
     /**
-     * @return Generator|string
+     * @return \Generator|string[]
      */
-    public function getSelectedFiles()
+    public function selectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
-            return;
+            return [];
         }
 
         $finder = (new Finder())
@@ -96,32 +97,21 @@ class FileSelection
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function includedFiles()
+    protected function includedFiles(): array
     {
         return $this->includeFilesAndDirectories->filter(function ($path) {
             return is_file($path);
         })->toArray();
     }
 
-    /**
-     * @return array
-     */
-    protected function includedDirectories()
+    protected function includedDirectories(): array
     {
         return $this->includeFilesAndDirectories->reject(function ($path) {
             return is_file($path);
         })->toArray();
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-     */
-    protected function shouldExclude($path)
+    protected function shouldExclude(string $path): bool
     {
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
             if (starts_with($path, $excludedPath)) {
@@ -133,15 +123,15 @@ class FileSelection
     }
 
     /**
-     * @param $paths
+     * @param string|array $paths
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function sanitize($paths)
+    protected function sanitize($paths): Collection
     {
         return collect($paths)
             ->reject(function ($path) {
-                return $path == '';
+                return $path === '';
             })
             ->flatMap(function ($path) {
                 return glob($path);

@@ -15,21 +15,20 @@ return [
             'files' => [
 
                 /*
-                 * The list of directories that should be part of the backup. You can
-                 * specify individual files as well.
+                 * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
                     base_path(),
                 ],
 
                 /*
-                 * These directories will be excluded from the backup.
-                 * You can specify individual files as well.
+                 * These directories and files will be excluded from the backup.
+                 *
+                 * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
                     base_path('vendor'),
                     base_path('node_modules'),
-                    storage_path(),
                 ],
 
                 /*
@@ -39,8 +38,8 @@ return [
             ],
 
             /*
-             * The names of the connections to the databases that should be part of the backup.
-             * Currently only MySQL and PostgreSQL databases are supported.
+             * The names of the connections to the databases that should be backed up
+             * Only MySQL and PostgreSQL databases are supported.
              */
             'databases' => [
                 'mysql',
@@ -58,52 +57,44 @@ return [
         ],
     ],
 
-    'cleanup' => [
+
+    /*
+     * You can get notified when specific events occur. Out of the box you can use 'mail' and 'slack'.
+     * For Slack you need to install guzzlehttp/guzzle.
+     *
+     * You can also use your own notification classes, just make sure the class is named after one of
+     * the `Spatie\Backup\Events` classes.
+     */
+    'notifications' => [
+
+        'notifications' => [
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class         => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class        => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class     => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class   => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['mail'],
+        ],
+
         /*
-         * The strategy that will be used to cleanup old backups.
-         * The youngest backup will never be deleted.
+         * Here you can specify the notifiable to which the notifications should be sent. The default
+         * notifiable will use the variables specified in this config file.
          */
-        'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
+        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
-        'defaultStrategy' => [
+        'mail' => [
+            'to' => 'your@email.com',
+        ],
 
-            /*
-             * The number of days for which all backups must be kept.
-             */
-            'keepAllBackupsForDays' => 7,
-
-            /*
-             * The number of days for which all daily backups must be kept.
-             */
-            'keepDailyBackupsForDays' => 16,
-
-            /*
-             * The number of weeks for which all one weekly backup must be kept.
-             */
-            'keepWeeklyBackupsForWeeks' => 8,
-
-            /*
-             * The number of months for which one monthly backup must be kept.
-             */
-            'keepMonthlyBackupsForMonths' => 4,
-
-            /*
-             * The number of years for which one yearly backup must be kept.
-             */
-            'keepYearlyBackupsForYears' => 2,
-
-            /*
-             * After cleaning up backups, remove the oldest backup until
-             * this number of megabytes has been reached.
-             */
-            'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000,
+        'slack' => [
+            'webhook_url' => '',
         ],
     ],
 
     /*
-     *  In this array you can specify which backups should be monitored.
-     *  If a backup does not meet the specified requirements, the
-     *  UnHealthyBackupWasFound event will be fired.
+     * Here you can specify which backups should be monitored.
+     * If a backup does not meet the specified requirements the
+     * UnHealthyBackupWasFound event will be fired.
      */
     'monitorBackups' => [
         [
@@ -123,67 +114,51 @@ return [
         */
     ],
 
-    'notifications' => [
 
+    'cleanup' => [
         /*
-         * This class will be used to send all notifications.
-         */
-        'handler' => Spatie\Backup\Notifications\Notifier::class,
-
-        /*
-         * Here you can specify the ways you want to be notified when certain
-         * events take place. Possible values are "log", "mail", "slack",
-         * "pushover", and "telegram".
+         * The strategy that will be used to cleanup old backups. The default strategy
+         * will keep all backups for a certain amount of days. After that period only
+         * a daily backup will be kept. After that period only weekly backups will
+         * be kept and so on.
          *
-         * Slack requires the installation of the maknz/slack package.
-         * Telegram requires the installation of the irazasyed/telegram-bot-sdk package.
+         * No matter how you configure it the default strategy will never
+         * deleted the newest backup.
          */
-        'events' => [
-            'whenBackupWasSuccessful'     => ['log'],
-            'whenCleanupWasSuccessful'    => ['log'],
-            'whenHealthyBackupWasFound'   => ['log'],
-            'whenBackupHasFailed'         => ['log', 'mail'],
-            'whenCleanupHasFailed'        => ['log', 'mail'],
-            'whenUnhealthyBackupWasFound' => ['log', 'mail'],
-        ],
+        'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
-        /*
-         * Here you can specify how emails should be sent.
-         */
-        'mail' => [
-            'from' => 'your@email.com',
-            'to' => 'your@email.com',
-        ],
+        'defaultStrategy' => [
 
-        /*
-         * Here you can specify how messages should be sent to Slack.
-         */
-        'slack' => [
-            'channel' => '#backups',
-            'username' => 'Backup bot',
-            'icon' => ':robot:',
-        ],
+            /*
+             * The number of days for which backups must be kept.
+             */
+            'keepAllBackupsForDays' => 7,
 
-        /*
-         * Here you can specify how messages should be sent to Pushover.
-         */
-        'pushover' => [
-            'token' => env('PUSHOVER_APP_TOKEN'),
-            'user' => env('PUSHOVER_USER_KEY'),
-            'sounds' => [
-                'success' => env('PUSHOVER_SOUND_SUCCESS', 'pushover'),
-                'error' => env('PUSHOVER_SOUND_ERROR', 'siren'),
-            ],
-        ],
+            /*
+             * The number of days for which daily backups must be kept.
+             */
+            'keepDailyBackupsForDays' => 16,
 
-        /*
-         * Here you can specify how messages should be sent to Telegram Bot API.
-         */
-        'telegram' => [
-            'bot_token' => env('TELEGRAM_BOT_TOKEN'),
-            'chat_id' => env('TELEGRAM_CHAT_ID'),
-            'async_requests' => env('TELEGRAM_ASYNC_REQUESTS', false),
-            'disable_web_page_preview' => env('TELEGRAM_DISABLE_WEB_PAGE_PREVIEW', true),
+            /*
+             * The number of weeks for which one weekly backup must be kept.
+             */
+            'keepWeeklyBackupsForWeeks' => 8,
+
+            /*
+             * The number of months for which one monthly backup must be kept.
+             */
+            'keepMonthlyBackupsForMonths' => 4,
+
+            /*
+             * The number of years for which one yearly backup must be kept.
+             */
+            'keepYearlyBackupsForYears' => 2,
+
+            /*
+             * After cleaning up the backups remove the oldest backup until
+             * this amount of megabytes has been reached.
+             */
+            'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000,
         ],
     ],
 ];
