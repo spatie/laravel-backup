@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class Format
 {
-    public static function getHumanReadableSize(int $sizeInBytes): string
+    public static function humanReadableSize(int $sizeInBytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
@@ -20,7 +20,7 @@ class Format
         return round($sizeInBytes, 2).' '.$units[$i];
     }
 
-    public static function getEmoji(bool $bool): string
+    public static function emoji(bool $bool): string
     {
         if ($bool) {
             return "\u{2705}";

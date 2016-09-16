@@ -67,7 +67,7 @@ class FileSelection
     /**
      * @return \Generator|string[]
      */
-    public function getSelectedFiles()
+    public function selectedFiles()
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
             return [];

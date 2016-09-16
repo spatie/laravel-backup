@@ -14,11 +14,11 @@ class DbDumperFactory
      *
      * @return \Spatie\DbDumper\DbDumper
      */
-    public static function create(string $dbConnectionName): DbDumper
+    public static function createFromConnection(string $dbConnectionName): DbDumper
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
-        $dbDumper = static::getDumper($dbConfig['driver'])
+        $dbDumper = static::forDriver($dbConfig['driver'])
             ->setHost($dbConfig['host'])
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'])
@@ -31,7 +31,7 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-    public static function getDumper($dbDriver): DbDumper
+    protected static function forDriver($dbDriver): DbDumper
     {
         $driver = strtolower($dbDriver);
 

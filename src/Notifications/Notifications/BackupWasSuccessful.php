@@ -16,10 +16,10 @@ class BackupWasSuccessful extends BaseNotification
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->subject("Successful new backup of `{$this->getApplicationName()}`")
-            ->line("Great news, a new backup of {$this->getApplicationName()} was successfully created on the disk named {$this->getDiskname()}.");
+            ->subject("Successful new backup of `{$this->applicationName()}`")
+            ->line("Great news, a new backup of {$this->applicationName()} was successfully created on the disk named {$this->diskName()}.");
 
-        $this->getBackupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
+        $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
         });
 
@@ -32,7 +32,7 @@ class BackupWasSuccessful extends BaseNotification
             ->success()
             ->content('Successful new backup!')
             ->attachment(function (SlackAttachment $attachment) {
-                $attachment->fields($this->getBackupDestinationProperties()->toArray());
+                $attachment->fields($this->backupDestinationProperties()->toArray());
             });
     }
 

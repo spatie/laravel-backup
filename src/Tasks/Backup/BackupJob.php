@@ -82,7 +82,7 @@ class BackupJob
     public function onlyBackupTo(string $diskName): BackupJob
     {
         $this->backupDestinations = $this->backupDestinations->filter(function (BackupDestination $backupDestination) use ($diskName) {
-            return $backupDestination->getDiskName() === $diskName;
+            return $backupDestination->diskName() === $diskName;
         });
 
         if (! count($this->backupDestinations)) {
@@ -128,39 +128,39 @@ class BackupJob
 
     protected function createBackupManifest(): Manifest
     {
-        $databaseDumps = $this->dumpDatabases($this->temporaryDirectory->getPath('db-dumps'));
+        $databaseDumps = $this->dumpDatabases($this->temporaryDirectory->path('db-dumps'));
 
         consoleOutput()->info('Determining files to backup...');
 
-        $manifest = Manifest::create($this->temporaryDirectory->getPath('manifest.txt'))
+        $manifest = Manifest::create($this->temporaryDirectory->path('manifest.txt'))
             ->addFiles($databaseDumps)
-            ->addFiles($this->getFilesToBeBackedUp());
+            ->addFiles($this->filesToBeBackedUp());
 
         event(new BackupManifestWasCreated($manifest));
 
         return $manifest;
     }
 
-    public function getFilesToBeBackedUp()
+    public function filesToBeBackedUp()
     {
-        $this->fileSelection->excludeFilesFrom($this->getDirectoriesUsedByBackupJob());
+        $this->fileSelection->excludeFilesFrom($this->directoriesUsedByBackupJob());
 
-        return $this->fileSelection->getSelectedFiles();
+        return $this->fileSelection->selectedFiles();
     }
 
-    protected function getDirectoriesUsedByBackupJob(): array
+    protected function directoriesUsedByBackupJob(): array
     {
         return $this->backupDestinations
             ->filter(function (BackupDestination $backupDestination) {
-                return $backupDestination->getFilesystemType() === 'local';
+                return $backupDestination->filesystemType() === 'local';
             })
             ->map(function (BackupDestination $backupDestination) {
-                return $backupDestination->getDisk()->getDriver()->getAdapter()->applyPathPrefix('');
+                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('');
             })
             ->each(function (string $localDiskRootDirectory) {
                 $this->fileSelection->excludeFilesFrom($localDiskRootDirectory);
             })
-            ->push($this->temporaryDirectory->getPath())
+            ->push($this->temporaryDirectory->path())
             ->toArray();
     }
 
@@ -168,11 +168,11 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->getPath(Carbon::now()->format('Y-m-d-h-i-s').'.zip');
+        $pathToZip = $this->temporaryDirectory->path(Carbon::now()->format('Y-m-d-h-i-s').'.zip');
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
-        consoleOutput()->info("Created zip containing {$zip->count()} files. Size is {$zip->getHumanReadableSize()}");
+        consoleOutput()->info("Created zip containing {$zip->count()} files. Size is {$zip->humanReadableSize()}");
 
         return $pathToZip;
     }
@@ -203,11 +203,11 @@ class BackupJob
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) use ($path) {
             try {
-                consoleOutput()->info("Copying zip to disk named {$backupDestination->getDiskName()}...");
+                consoleOutput()->info("Copying zip to disk named {$backupDestination->diskName()}...");
 
                 $backupDestination->write($path);
 
-                consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->getDiskName()}.");
+                consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->diskName()}.");
 
                 event(new BackupWasSuccessful($backupDestination));
             } catch (Exception $exception) {

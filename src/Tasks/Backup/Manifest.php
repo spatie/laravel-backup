@@ -27,7 +27,7 @@ class Manifest implements Countable
         touch($manifestPath);
     }
 
-    public function getPath(): string
+    public function path(): string
     {
         return $this->manifestPath;
     }
@@ -55,9 +55,9 @@ class Manifest implements Countable
     /**
      * @return \Generator|string[]
      */
-    public function getFiles()
+    public function files()
     {
-        $file = new SplFileObject($this->getPath());
+        $file = new SplFileObject($this->path());
 
         while (! $file->eof()) {
             $filePath = $file->fgets();

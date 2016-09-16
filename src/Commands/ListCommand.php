@@ -38,15 +38,15 @@ class ListCommand extends BaseCommand
     public function convertToRow(BackupDestinationStatus $backupDestinationStatus): array
     {
         $row = [
-            $backupDestinationStatus->getBackupName(),
-            $backupDestinationStatus->getDiskName(),
-            Format::getEmoji($backupDestinationStatus->isReachable()),
-            Format::getEmoji($backupDestinationStatus->isHealthy()),
-            'amount' => $backupDestinationStatus->getAmountOfBackups(),
-            'newest' => $backupDestinationStatus->getDateOfNewestBackup()
-                ? Format::ageInDays($backupDestinationStatus->getDateOfNewestBackup())
+            $backupDestinationStatus->backupName(),
+            $backupDestinationStatus->diskName(),
+            Format::emoji($backupDestinationStatus->isReachable()),
+            Format::emoji($backupDestinationStatus->isHealthy()),
+            'amount' => $backupDestinationStatus->amountOfBackups(),
+            'newest' => $backupDestinationStatus->dateOfNewestBackup()
+                ? Format::ageInDays($backupDestinationStatus->dateOfNewestBackup())
                 : 'No backups present',
-            'usedStorage' => $backupDestinationStatus->getHumanReadableUsedStorage(),
+            'usedStorage' => $backupDestinationStatus->humanReadableUsedStorage(),
         ];
 
         if (! $backupDestinationStatus->isReachable()) {
@@ -62,7 +62,7 @@ class ListCommand extends BaseCommand
 
     protected function applyStylingToRow(array $row, BackupDestinationStatus $backupDestinationStatus): array
     {
-        if ($backupDestinationStatus->newestBackupIsTooOld() || (! $backupDestinationStatus->getDateOfNewestBackup())) {
+        if ($backupDestinationStatus->newestBackupIsTooOld() || (! $backupDestinationStatus->dateOfNewestBackup())) {
             $row['newest'] = "<error>{$row['newest']}</error>";
         }
 
@@ -89,8 +89,8 @@ class ListCommand extends BaseCommand
         $this->warn('-------------------------------');
 
         $unreachableBackupDestinationStatuses->each(function (BackupDestinationStatus $backupStatus) {
-            $this->warn("Could not reach backups for {$backupStatus->getBackupName()} on disk {$backupStatus->getFilesystemName()} because:");
-            $this->warn($backupStatus->getConnectionError()->getMessage());
+            $this->warn("Could not reach backups for {$backupStatus->backupName()} on disk {$backupStatus->getFilesystemName()} because:");
+            $this->warn($backupStatus->connectionError()->getMessage());
             $this->warn('');
         });
     }

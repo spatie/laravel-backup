@@ -20,7 +20,7 @@ class Zip
     {
         $zip = new static($pathToZip);
 
-        $zip->add($manifest->getFiles());
+        $zip->add($manifest->files());
 
         return $zip;
     }
@@ -34,12 +34,12 @@ class Zip
         $this->open($pathToZip);
     }
 
-    public function getPath(): string
+    public function path(): string
     {
         return $this->pathToZip;
     }
 
-    public function getSize(): int
+    public function size(): int
     {
         if ($this->fileCount === 0) {
             return 0;
@@ -48,9 +48,9 @@ class Zip
         return filesize($this->pathToZip);
     }
 
-    public function getHumanReadableSize(): string
+    public function humanReadableSize(): string
     {
-        return Format::getHumanReadableSize($this->getSize());
+        return Format::humanReadableSize($this->size());
     }
 
     protected function open()

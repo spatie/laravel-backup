@@ -4,7 +4,6 @@ namespace Spatie\Backup\Notifications;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
 
 abstract class BaseNotification extends Notification
@@ -20,33 +19,33 @@ abstract class BaseNotification extends Notification
         return config('laravel-backup.notifications.notifications.'.static::class);
     }
 
-    public function getApplicationName(): string
+    public function applicationName(): string
     {
         return config('app.name');
     }
 
-    public function getDiskName(): string
+    public function diskName(): string
     {
-        return $this->getBackupDestination()->getDiskName();
+        return $this->backupDestination()->diskName();
     }
 
-    protected function getBackupDestinationProperties(): Collection
+    protected function backupDestinationProperties(): Collection
     {
-        $backupDestination = $this->getBackupDestination();
+        $backupDestination = $this->backupDestination();
 
         if (! $backupDestination) {
             return collect();
         }
 
-        $newestBackup = $backupDestination->getNewestBackup();
-        $oldestBackup = $backupDestination->getOldestBackup();
+        $newestBackup = $backupDestination->newestBackup();
+        $oldestBackup = $backupDestination->oldestBackup();
 
         return collect([
-            'Application name' => $this->getApplicationName(),
-            'Disk' => $backupDestination->getDiskName(),
-            'Newest backup size' => $newestBackup ? Format::getHumanReadableSize($newestBackup->size()) : 'No backups were made yet',
-            'Amount of backups' => $backupDestination->getBackups()->count(),
-            'Total storage used' => Format::getHumanReadableSize($backupDestination->getBackups()->size()),
+            'Application name' => $this->applicationName(),
+            'Disk' => $backupDestination->diskName(),
+            'Newest backup size' => $newestBackup ? Format::humanReadableSize($newestBackup->size()) : 'No backups were made yet',
+            'Amount of backups' => $backupDestination->backups()->count(),
+            'Total storage used' => Format::humanReadableSize($backupDestination->backups()->size()),
             'Newest backup date' => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
             'Oldest backup date' => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
         ])->filter();
@@ -55,7 +54,7 @@ abstract class BaseNotification extends Notification
     /**
      * @return \Spatie\Backup\BackupDestination\BackupDestination|null
      */
-    public function getBackupDestination()
+    public function backupDestination()
     {
         if (isset($this->event->backupDestination)) {
             return $this->event->backupDestination;

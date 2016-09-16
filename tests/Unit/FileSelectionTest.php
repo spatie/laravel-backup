@@ -33,7 +33,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file2.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
@@ -50,7 +50,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file2.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
@@ -68,7 +68,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file2.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
@@ -86,7 +86,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'directory1/directory1/file2.txt',
                 'directory2/directory1/file1.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles()));
+            iterator_to_array($fileSelection->selectedFiles()));
     }
 
     /** @test */
@@ -106,7 +106,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file1.txt',
                 'file3.txt',
             ]),
-            iterator_to_array($fileSelection->getSelectedFiles())
+            iterator_to_array($fileSelection->selectedFiles())
         );
     }
 
@@ -115,7 +115,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     {
         $fileSelection = new FileSelection();
 
-        $this->assertEmpty(iterator_to_array($fileSelection->getSelectedFiles()));
+        $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
     }
 
     /** @test */
@@ -124,7 +124,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $fileSelection = (new FileSelection($this->sourceDirectory))
             ->excludeFilesFrom($this->sourceDirectory);
 
-        $this->assertEmpty(iterator_to_array($fileSelection->getSelectedFiles()));
+        $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
     }
 
     /** @test */

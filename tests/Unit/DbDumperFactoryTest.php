@@ -31,8 +31,8 @@ class DbDumperFactoryTest extends TestCase
     /** @test */
     public function it_can_create_instances_of_mysql_and_pgsql()
     {
-        $this->assertInstanceOf(MySql::class, DbDumperFactory::create('mysql'));
-        $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::create('pgsql'));
+        $this->assertInstanceOf(MySql::class, DbDumperFactory::createFromConnection('mysql'));
+        $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
     }
 
     /** @test */
@@ -40,7 +40,7 @@ class DbDumperFactoryTest extends TestCase
     {
         $this->expectException(CannotCreateDbDumper::class);
 
-        DbDumperFactory::create('unknown type');
+        DbDumperFactory::createFromConnection('unknown type');
     }
 
     /** @test */
@@ -78,6 +78,6 @@ class DbDumperFactoryTest extends TestCase
         $dumpFile = '';
         $credentialsFile = '';
 
-        return DbDumperFactory::create('mysql')->getDumpCommand($dumpFile, $credentialsFile);
+        return DbDumperFactory::createFromConnection('mysql')->getDumpCommand($dumpFile, $credentialsFile);
     }
 }

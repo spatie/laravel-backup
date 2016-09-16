@@ -31,17 +31,17 @@ class BackupDestination
         $this->backupName = preg_replace('/[^a-zA-Z0-9.]/', '-', $backupName);
     }
 
-    public function getDisk(): Filesystem
+    public function disk(): Filesystem
     {
         return $this->disk;
     }
 
-    public function getDiskName(): string
+    public function diskName(): string
     {
         return $this->diskName;
     }
 
-    public function getFilesystemType(): string
+    public function filesystemType(): string
     {
         if (is_null($this->disk)) {
             return 'unknown';
@@ -91,12 +91,12 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $stream);
     }
 
-    public function getBackupName(): string
+    public function backupName(): string
     {
         return $this->backupName;
     }
 
-    public function getBackups(): BackupCollection
+    public function backups(): BackupCollection
     {
         $files = $this->isReachable() ? $this->disk->allFiles($this->backupName) : [];
 
@@ -106,7 +106,7 @@ class BackupDestination
         );
     }
 
-    public function getConnectionError(): Exception
+    public function connectionError(): Exception
     {
         return $this->connectionError;
     }
@@ -128,30 +128,30 @@ class BackupDestination
         }
     }
 
-    public function getUsedStorage(): int
+    public function usedStorage(): int
     {
-        return $this->getBackups()->size();
+        return $this->backups()->size();
     }
 
     /**
      * @return \Spatie\Backup\BackupDestination\Backup|null
      */
-    public function getNewestBackup()
+    public function newestBackup()
     {
-        return $this->getBackups()->newest();
+        return $this->backups()->newest();
     }
 
     /**
      * @return \Spatie\Backup\BackupDestination\Backup|null
      */
-    public function getOldestBackup()
+    public function oldestBackup()
     {
-        return $this->getBackups()->oldest();
+        return $this->backups()->oldest();
     }
 
-    public function isNewestBackupOlderThan(Carbon $date): bool
+    public function newestBackupIsOlderThan(Carbon $date): bool
     {
-        $newestBackup = $this->getNewestBackup();
+        $newestBackup = $this->newestBackup();
 
         if (is_null($newestBackup)) {
             return true;

@@ -40,10 +40,10 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_report_its_own_size()
     {
-        $this->assertEquals(0, $this->zip->getSize());
+        $this->assertEquals(0, $this->zip->size());
 
         $this->zip->add(__FILE__);
 
-        $this->assertNotEquals(0, $this->zip->getSize());
+        $this->assertNotEquals(0, $this->zip->size());
     }
 }

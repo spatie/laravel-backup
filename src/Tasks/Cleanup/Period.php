@@ -19,12 +19,12 @@ class Period
         $this->endDate = $endDate;
     }
 
-    public function getStartDate(): Carbon
+    public function startDate(): Carbon
     {
         return $this->startDate->copy();
     }
 
-    public function getEndDate(): Carbon
+    public function endDate(): Carbon
     {
         return $this->endDate->copy();
     }
