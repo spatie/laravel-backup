@@ -23,6 +23,18 @@ To avoid using excessive disk space, the package can also [clean up old backups]
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
+## Postcardware
+
+You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment you are required to send us a postcard from your hometown, mentioning which of our package(s) you are using.
+
+Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
+
+The best postcards will get published on the open source page on our website.
+
+## Installation and usage
+
+You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v4.
+
 ## Using an older version of PHP / Laravel ?
 
 If you're not on PHP 7 or Laravel 5.3 just use version 3 of this package. We don't introduce new feature to v3 anymore but we will still fix bugs.
@@ -34,20 +46,6 @@ composer require spatie/laravel-backup
 ```
 
 Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3) to learn how to set up and use the package.
-
-## Postcardware
-
-You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment you are required to send us a postcard from your hometown, mentioning which of our package(s) you are using.
-
-Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
-
-The best postcards will get published on the open source page on our website.
-
-## Installation and usage
-
-You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v3.
-
-
 
 ## Testing
 
