@@ -20,9 +20,26 @@ class Zip
     {
         $zip = new static($pathToZip);
 
-        $zip->add($manifest->files());
+        foreach($manifest->files() as $file) {
+            $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
+        }
 
         return $zip;
+    }
+
+    protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip)
+    {
+        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME);
+
+        $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME);
+
+        if (starts_with($fileDirectory, $zipDirectory))
+        {
+
+            return str_replace($zipDirectory, '', $pathToFile);
+        }
+
+        return $pathToFile;
     }
 
     public function __construct(string $pathToZip)

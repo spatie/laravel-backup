@@ -8,6 +8,7 @@ use MailThief\Testing\InteractsWithMail;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Test\Integration\TestCase;
+use Mail;
 
 class NotifiableTest extends TestCase
 {
