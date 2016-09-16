@@ -76,8 +76,8 @@ class ListCommand extends BaseCommand
     protected function displayConnectionErrors(Collection $backupDestinationStatuses)
     {
         $unreachableBackupDestinationStatuses = $backupDestinationStatuses
-            ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
-                return ! $backupDestinationStatus->isReachable();
+            ->reject(function (BackupDestinationStatus $backupDestinationStatus) {
+                return $backupDestinationStatus->isReachable();
             });
 
         if ($unreachableBackupDestinationStatuses->isEmpty()) {

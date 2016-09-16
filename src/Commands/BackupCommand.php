@@ -55,7 +55,7 @@ class BackupCommand extends BaseCommand
     protected function guardAgainstInvalidOptions()
     {
         if ($this->option('only-db') && $this->option('only-files')) {
-            throw InvalidCommand::create('Cannot use only-db and only-files together');
+            throw InvalidCommand::create('Cannot use `only-db` and `only-files` together');
         }
     }
 }
