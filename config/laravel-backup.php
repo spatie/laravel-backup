@@ -123,7 +123,7 @@ return [
          * be kept and so on.
          *
          * No matter how you configure it the default strategy will never
-         * deleted the newest backup.
+         * delete the newest backup.
          */
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
