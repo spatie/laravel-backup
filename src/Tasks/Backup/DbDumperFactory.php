@@ -24,9 +24,9 @@ class DbDumperFactory
             ->setUserName($dbConfig['username'])
             ->setPassword($dbConfig['password']);
 
-         if (isset($dbConfig['port'])) {
+        if (isset($dbConfig['port'])) {
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
-         }
+        }
 
         if (isset($dbConfig['dump'])) {
             $dbDumper = static::processExtraDumpParameters($dbConfig['dump'], $dbDumper);
