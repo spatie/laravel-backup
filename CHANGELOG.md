@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 4.0.1 - 2016-09-20
+
+- fix for dumping of databases than run on custom ports
+
 ### 4.0.0 - 2016-09-17
 
 - removed custom notification system in favor of Laravel 5.3's native notifications
