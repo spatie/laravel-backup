@@ -13,7 +13,7 @@ class HealthyBackupWasFound extends BaseNotification
     /** @var \Spatie\Backup\Events\HealthyBackupWasFound */
     protected $event;
 
-    public function toMail(): SlackMessage
+    public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
             ->subject("The backups for `{$this->applicationName()}` on disk `{$this->diskName()}` are healthy")

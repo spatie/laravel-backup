@@ -61,7 +61,7 @@ abstract class BaseNotification extends Notification
         }
 
         if (isset($this->event->backupDestinationStatus)) {
-            return $this->event->backupDestinationStatus->getBackupDestination();
+            return $this->event->backupDestinationStatus->backupDestination();
         }
     }
 }

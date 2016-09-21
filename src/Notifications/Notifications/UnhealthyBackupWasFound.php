@@ -47,7 +47,7 @@ class UnhealthyBackupWasFound extends BaseNotification
             return "The backup destination cannot be reached. {$backupStatus->connectionError()}";
         }
 
-        if (! $backupStatus->amountOfBackups() === 0) {
+        if ($backupStatus->amountOfBackups() === 0) {
             return 'There are no backups of this application at all.';
         }
 
