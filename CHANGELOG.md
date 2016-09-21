@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 4.0.2 - 2016-09-21
+
+- various bugfixes for the backup monitor
+
 ### 4.0.1 - 2016-09-20
 
 - fix for dumping of databases than run on custom ports
