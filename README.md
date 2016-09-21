@@ -39,7 +39,7 @@ You'll find installation instructions and full documentation on https://docs.spa
 
 If you're not on PHP 7 or Laravel 5.3 just use version 3 of this package. 
  
-Just issue this command;
+Just issue this command:
 
 ```php
 composer require "spatie/laravel-backup:^3.0.0"
