@@ -7,7 +7,6 @@ use ZipArchive;
 
 class Zip
 {
-
     /** @var \ZipArchive */
     protected $zipFile;
 

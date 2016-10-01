@@ -32,7 +32,6 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_create_a_zip_file()
     {
-
         $this->zip->add(__FILE__);
         $this->zip->close();
 
