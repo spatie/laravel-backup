@@ -7,6 +7,7 @@ use ZipArchive;
 
 class Zip
 {
+
     /** @var \ZipArchive */
     protected $zipFile;
 
@@ -20,9 +21,13 @@ class Zip
     {
         $zip = new static($pathToZip);
 
+        $zip->open();
+
         foreach ($manifest->files() as $file) {
             $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
         }
+
+        $zip->close();
 
         return $zip;
     }
@@ -68,12 +73,12 @@ class Zip
         return Format::humanReadableSize($this->size());
     }
 
-    protected function open()
+    public function open()
     {
         $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
     }
 
-    protected function close()
+    public function close()
     {
         $this->zipFile->close();
     }
@@ -94,16 +99,12 @@ class Zip
             $files = [$files];
         }
 
-        $this->open();
-
         foreach ($files as $file) {
             if (file_exists($file)) {
                 $this->zipFile->addFile($file, $nameInZip).PHP_EOL;
             }
             $this->fileCount++;
         }
-
-        $this->close();
 
         return $this;
     }
