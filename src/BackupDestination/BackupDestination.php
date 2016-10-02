@@ -83,15 +83,6 @@ class BackupDestination
         $this->disk->getDriver()->writeStream($destination, $handle);
     }
 
-    public function writeFilesFromManifestWithoutCreatingZipLocally(Manifest $manifest)
-    {
-        $destination = $this->backupName.'/'.'test'.date('Ymdhis').'.tar.gz';
-
-        $stream = popen("cat {$manifest->getPath()} | zip @");
-
-        $this->disk->getDriver()->writeStream($destination, $stream);
-    }
-
     public function backupName(): string
     {
         return $this->backupName;
