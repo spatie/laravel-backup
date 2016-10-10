@@ -7,7 +7,6 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Exception;
 use Spatie\Backup\Exceptions\InvalidBackupDestination;
-use Spatie\Backup\Tasks\Backup\Manifest;
 
 class BackupDestination
 {
