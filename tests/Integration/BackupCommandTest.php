@@ -17,11 +17,11 @@ class BackupCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->date = Carbon::create('2016', 1, 1, 1, 0, 0);
+        $this->date = Carbon::create('2016', 1, 1, 21, 1, 1);
 
         Carbon::setTestNow($this->date);
 
-        $this->expectedZipPath = 'mysite.com/2016-01-01-01-00-00.zip';
+        $this->expectedZipPath = 'mysite.com/2016-01-01-21-01-01.zip';
 
         $this->app['config']->set('laravel-backup.backup.destination.disks', [
             'local',
@@ -45,7 +45,7 @@ class BackupCommandTest extends TestCase
     public function it_can_backup_to_a_specific_disk()
     {
         $resultCode = Artisan::call('backup:run', [
-            '--only-files' => true,
+            '--only-files'   => true,
             '--only-to-disk' => 'secondLocal',
         ]);
 
@@ -56,11 +56,45 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_backup_twice_a_day_at_same_time_in_12h_clock()
+    {
+        // first backup
+        $this->date = Carbon::create('2016', 1, 1, 9, 1, 1);
+
+        Carbon::setTestNow($this->date);
+
+        $this->expectedZipPath = 'mysite.com/2016-01-01-09-01-01.zip';
+
+        $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
+
+        $this->assertEquals(0, $resultCode);
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+
+        // second backup
+        $this->date = Carbon::create('2016', 1, 1, 21, 1, 1);
+
+        Carbon::setTestNow($this->date);
+
+        $this->expectedZipPath = 'mysite.com/2016-01-01-21-01-01.zip';
+
+        $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
+
+        $this->assertEquals(0, $resultCode);
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+    }
+
+    /** @test */
     public function it_will_fail_when_try_to_backup_only_the_files_and_only_the_db()
     {
         $resultCode = Artisan::call('backup:run', [
             '--only-files' => true,
-            '--only-db' => true,
+            '--only-db'    => true,
         ]);
 
         $this->assertEquals(-1, $resultCode);
