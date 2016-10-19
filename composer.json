@@ -19,11 +19,11 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/console": "~5.3.8",
-        "illuminate/contracts": "~5.3.8",
-        "illuminate/events": "~5.3.8",
-        "illuminate/filesystem": "~5.3.8",
-        "illuminate/support": "~5.3.8",
+        "illuminate/console": "~5.3.16",
+        "illuminate/contracts": "~5.3.16",
+        "illuminate/events": "~5.3.16",
+        "illuminate/filesystem": "~5.3.16",
+        "illuminate/support": "~5.3.16",
         "league/flysystem": "^1.0.27",
         "spatie/db-dumper": "^2.0",
         "symfony/finder": "^3.0"
