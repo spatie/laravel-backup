@@ -34,17 +34,17 @@ class TemporaryDirectoryTest extends TestCase
     {
         $this->assertEquals($this->expectedDirectory, $this->temporaryDirectory->path());
 
-        $this->assertDirectoryExists($this->expectedDirectory);
+        $this->assertPathExists($this->expectedDirectory);
     }
 
     /** @test */
     public function it_can_delete_itself()
     {
-        $this->assertDirectoryExists($this->expectedDirectory);
+        $this->assertPathExists($this->expectedDirectory);
 
         $this->temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->expectedDirectory);
+        $this->assertPathNotExists($this->expectedDirectory);
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $this->temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->expectedDirectory);
+        $this->assertPathNotExists($this->expectedDirectory);
     }
 
     /** @test */
@@ -66,7 +66,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $this->assertEquals($this->expectedDirectory.'/'.$subDirectoryName, $path);
 
-        $this->assertDirectoryExists($this->expectedDirectory.'/'.$subDirectoryName);
+        $this->assertPathExists($this->expectedDirectory.'/'.$subDirectoryName);
     }
 
     /** @test */
@@ -78,6 +78,6 @@ class TemporaryDirectoryTest extends TestCase
 
         $this->assertEquals($this->expectedDirectory.'/'.$fileName, $path);
 
-        $this->assertDirectoryNotExists($this->expectedDirectory.'/'.$fileName);
+        $this->assertPathNotExists($this->expectedDirectory.'/'.$fileName);
     }
 }

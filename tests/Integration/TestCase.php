@@ -157,17 +157,17 @@ abstract class TestCase extends Orchestra
         $this->assertNotContains($unExpectedText, $consoleOutput, "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`");
     }
 
-    protected function assertDirectoryExists($path)
+    protected function assertPathExists($path)
     {
-        $this->assertTrue($this->directoryExists($path), "Failed to assert that the directory `{$path}` exists");
+        $this->assertTrue($this->pathExists($path), "Failed to assert that the directory `{$path}` exists");
     }
 
-    protected function assertDirectoryNotExists($path)
+    protected function assertPathNotExists($path)
     {
-        $this->assertFalse($this->directoryExists($path), "Failed to assert that the directory `{$path}` does not exist");
+        $this->assertFalse($this->pathExists($path), "Failed to assert that the directory `{$path}` does not exist");
     }
 
-    protected function directoryExists($path): bool
+    protected function pathExists($path): bool
     {
         return is_dir($path) && file_exists($path);
     }
