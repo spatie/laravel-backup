@@ -22,7 +22,7 @@ class TemporaryDirectory
     {
         $filesystem = new Filesystem();
 
-        return (new static($filesystem))->setPath($path.'/'.Carbon::now()->format('Y-m-d-h-i-s'));
+        return (new static($filesystem))->setPath($path.'/'.Carbon::now()->format('Y-m-d-H-i-s'));
     }
 
     /**
