@@ -36,15 +36,15 @@ class DbDumperFactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_uses_the_read_db_for_instances_of_mysql_and_pgsql()
+    public function it_will_use_the_read_db_when_one_is_defined()
     {
         $dbConfig = [
             'driver' => 'mysql',
             'read' => [
-                'host' => 'localhost',
+                'host' => 'localhost-read',
             ],
             'write' => [
-                'host' => 'localhost',
+                'host' => 'localhost-write',
             ],
             'username' => 'root',
             'password' => 'myPassword',
@@ -53,8 +53,10 @@ class DbDumperFactoryTest extends TestCase
         ];
 
         $this->app['config']->set('database.connections.mysql', $dbConfig);
-        $this->assertInstanceOf(MySql::class, DbDumperFactory::createFromConnection('mysql'));
-        $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
+
+        $dumper = DbDumperFactory::createFromConnection('mysql');
+
+        $this->assertEquals('localhost-read', $dumper->getHost());
     }
 
     /** @test */
