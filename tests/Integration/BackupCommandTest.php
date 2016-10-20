@@ -42,6 +42,26 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_backup_using_a_custom_filename()
+    {
+        $this->date = Carbon::create('2016', 1, 1, 9, 1, 1);
+
+        Carbon::setTestNow($this->date);
+
+        $this->app['config']->set('laravel-backup.backup.destination.filename_prefix', 'custom_name_');
+
+        $this->expectedZipPath = 'mysite.com/custom_name_2016-01-01-09-01-01.zip';
+
+        $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
+
+        $this->assertEquals(0, $resultCode);
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+    }
+
+    /** @test */
     public function it_can_backup_to_a_specific_disk()
     {
         $resultCode = Artisan::call('backup:run', [

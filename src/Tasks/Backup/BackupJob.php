@@ -169,7 +169,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->path(Carbon::now()->format('Y-m-d-H-i-s').'.zip');
+        $pathToZip = $this->temporaryDirectory->path(config('laravel-backup.backup.destination.filename_prefix').Carbon::now()->format('Y-m-d-H-i-s').'.zip');
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
