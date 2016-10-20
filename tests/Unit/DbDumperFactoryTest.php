@@ -36,6 +36,28 @@ class DbDumperFactoryTest extends TestCase
     }
 
     /** @test */
+    public function it_uses_the_read_db_for_instances_of_mysql_and_pgsql()
+    {
+        $dbConfig = [
+            'driver' => 'mysql',
+            'read' => [
+                'host' => 'localhost',
+            ],
+            'write' => [
+                'host' => 'localhost',
+            ],
+            'username' => 'root',
+            'password' => 'myPassword',
+            'database' => 'myDb',
+            'dump' => ['add_extra_option' => '--extra-option=value'],
+        ];
+
+        $this->app['config']->set('database.connections.mysql', $dbConfig);
+        $this->assertInstanceOf(MySql::class, DbDumperFactory::createFromConnection('mysql'));
+        $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_creating_an_unknown_type_of_dumper()
     {
         $this->expectException(CannotCreateDbDumper::class);
