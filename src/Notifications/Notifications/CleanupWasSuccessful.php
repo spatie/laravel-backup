@@ -17,7 +17,7 @@ class CleanupWasSuccessful extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->subject("Clean up of `{$this->applicationName()}` backups successful")
-            ->line("The cleaup up of the {$this->applicationName()} backups on the disk named {$this->diskName()} was successful.");
+            ->line("The clean up of the {$this->applicationName()} backups on the disk named {$this->diskName()} was successful.");
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
