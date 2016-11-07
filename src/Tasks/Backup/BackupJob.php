@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Crypt;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupManifestWasCreated;
@@ -25,6 +26,9 @@ class BackupJob
 
     /** @var string */
     protected $filename;
+
+    /** @var bool */
+    protected $encrypt;
 
     /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
     protected $temporaryDirectory;
@@ -73,6 +77,13 @@ class BackupJob
         return $this;
     }
 
+    public function setEncryption(bool $encrypt): BackupJob
+    {
+        $this->encrypt = $encrypt;
+
+        return $this;
+    }
+
     public function setFilename(string $filename): BackupJob
     {
         $this->filename = $filename;
@@ -116,6 +127,10 @@ class BackupJob
             }
 
             $zipFile = $this->createZipContainingEveryFileInManifest($manifest);
+
+            if ($this->encrypt) {
+                file_put_contents($zipFile, Crypt::encrypt(file_get_contents($zipFile)));
+            }
 
             $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
