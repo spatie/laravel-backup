@@ -59,7 +59,7 @@ return [
         /*
          * Encrypt the final zip file using Laravel Crypt
          */
-        'encrypt' => false
+        'encrypt' => false,
     ],
 
 
