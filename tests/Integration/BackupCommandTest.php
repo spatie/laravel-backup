@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Test\Integration;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Artisan;
 
 class BackupCommandTest extends TestCase
@@ -140,5 +141,25 @@ class BackupCommandTest extends TestCase
         Artisan::call('backup:run');
 
         $this->seeInConsoleOutput('There are no files to be backed up');
+    }
+    
+    /** @test */
+    public function it_will_not_encrypt_when_configured_not_to()
+    {
+        $this->app['config']->set('laravel-backup.backup.encrypt', false);
+        
+        Crypt::shouldReceive('encrypt')->never();
+        
+        Artisan::call('backup:run');
+    }
+        
+    /** @test */
+    public function it_will_encrypt_when_configured_to()
+    {
+        $this->app['config']->set('laravel-backup.backup.encrypt', true);
+        
+        Crypt::shouldReceive('encrypt')->once();
+        
+        Artisan::call('backup:run');
     }
 }
