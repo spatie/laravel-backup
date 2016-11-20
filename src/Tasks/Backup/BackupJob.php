@@ -8,6 +8,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
+use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Exception;
 use Spatie\DbDumper\DbDumper;
@@ -174,6 +175,8 @@ class BackupJob
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
         consoleOutput()->info("Created zip containing {$zip->count()} files. Size is {$zip->humanReadableSize()}");
+
+        event(new BackupZipWasCreated($pathToZip));
 
         return $pathToZip;
     }

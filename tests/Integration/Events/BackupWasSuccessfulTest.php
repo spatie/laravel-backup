@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Test\Integration\Events;
 
-use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Test\Integration\TestCase;
 
@@ -18,6 +17,6 @@ class BackupWasSuccessfulTest extends TestCase
     {
         $this->expectsEvent(BackupWasSuccessFul::class);
 
-        Artisan::call('backup:run', ['--only-files' => true]);
+        $this->artisan('backup:run', ['--only-files' => true]);
     }
 }
