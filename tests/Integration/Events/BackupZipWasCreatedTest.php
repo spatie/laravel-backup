@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Test\Integration\Events;
 
-use Event;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Test\Integration\TestCase;
 
