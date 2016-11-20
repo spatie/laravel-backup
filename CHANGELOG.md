@@ -2,13 +2,17 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 4.2.0 - 2016-11-19
+
+- added `BackupZipCreated` event
+
 ### 4.1.0 - 2016-10-21
 
 - added the ability to use a read-only host for db backups
 
 ### 4.0.4 - 2016-10-19
 
-- use 24h clock when determing names for the zipfile.
+- use 24h clock when determining names for the zipfile.
 
 ### 4.0.3 - 2016-10-02
 
