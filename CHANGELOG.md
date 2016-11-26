@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 4.3.0 - 2016-11-26
+
+- added `filename_prefix` to config file
+
 ### 4.2.0 - 2016-11-19
 
 - added `BackupZipCreated` event
