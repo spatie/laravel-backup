@@ -60,6 +60,11 @@ return [
                 'local',
             ],
         ],
+
+        /*
+         * Encrypt the final zip file using Laravel Crypt
+         */
+        'encrypt' => false,
     ],
 
 

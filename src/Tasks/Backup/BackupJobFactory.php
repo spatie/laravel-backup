@@ -12,6 +12,7 @@ class BackupJobFactory
         return (new BackupJob())
             ->setFileSelection(static::createFileSelection($config['backup']['source']['files']))
             ->setDbDumpers(static::createDbDumpers($config['backup']['source']['databases']))
+            ->setEncryption($config['backup']['encrypt'])
             ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']));
     }
 
