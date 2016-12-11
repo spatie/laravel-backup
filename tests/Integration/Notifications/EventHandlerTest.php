@@ -4,11 +4,11 @@ namespace Spatie\Backup\Test\Integration\Notifications;
 
 use Exception;
 use Notification;
-use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Notifications\Notifications\BackupHasFailed as BackupHasFailedNotification;
 use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Notifications\Notifications\BackupHasFailed as BackupHasFailedNotification;
 
 class EventHandlerTest extends TestCase
 {
