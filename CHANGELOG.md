@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.3.1 - 2016-12-11
+
+- fix excluding paths of symlinked directories
+
 ### 4.3.0 - 2016-11-26
 
 - added `filename_prefix` to config file
