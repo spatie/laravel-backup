@@ -3,11 +3,11 @@
 namespace Spatie\Backup\Tasks\Cleanup;
 
 use Exception;
+use Spatie\Backup\Helpers\Format;
 use Illuminate\Support\Collection;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
-use Spatie\Backup\Helpers\Format;
+use Spatie\Backup\BackupDestination\BackupDestination;
 
 class CleanupJob
 {

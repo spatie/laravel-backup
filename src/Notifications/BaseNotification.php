@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Notifications;
 
-use Illuminate\Notifications\Notification;
-use Illuminate\Support\Collection;
 use Spatie\Backup\Helpers\Format;
+use Illuminate\Support\Collection;
+use Illuminate\Notifications\Notification;
 
 abstract class BaseNotification extends Notification
 {

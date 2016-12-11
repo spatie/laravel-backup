@@ -3,9 +3,9 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
-use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
+use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class CleanupCommand extends BaseCommand
 {

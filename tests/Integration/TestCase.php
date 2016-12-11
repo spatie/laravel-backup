@@ -4,13 +4,13 @@ namespace Spatie\Backup\Test\Integration;
 
 use Event;
 use Exception;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Database\Schema\Blueprint;
+use Spatie\Backup\Test\TestHelper;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Console\Kernel;
+use Spatie\Backup\BackupServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 use League\Flysystem\FileNotFoundException;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Backup\BackupServiceProvider;
-use Spatie\Backup\Test\TestHelper;
 
 abstract class TestCase extends Orchestra
 {

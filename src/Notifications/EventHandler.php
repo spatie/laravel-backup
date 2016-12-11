@@ -3,11 +3,11 @@
 namespace Spatie\Backup\Notifications;
 
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Notifications\Notification;
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Events\BackupWasSuccessful;
+use Illuminate\Notifications\Notification;
 use Spatie\Backup\Events\CleanupHasFailed;
+use Illuminate\Contracts\Events\Dispatcher;
+use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;

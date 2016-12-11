@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+use Spatie\DbDumper\DbDumper;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
-use Spatie\DbDumper\DbDumper;
+use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
 class DbDumperFactory
 {

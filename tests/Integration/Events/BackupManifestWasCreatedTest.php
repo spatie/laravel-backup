@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Test\Integration\Events;
 
-use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Events\BackupManifestWasCreated;
 
 class BackupManifestWasCreatedTest extends TestCase
 {
