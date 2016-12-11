@@ -2,11 +2,11 @@
 
 namespace Spatie\Backup\Notifications\Notifications;
 
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\BackupHasFailed as BackupHasFailedEvent;
 use Spatie\Backup\Notifications\BaseNotification;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Messages\SlackAttachment;
+use Spatie\Backup\Events\BackupHasFailed as BackupHasFailedEvent;
 
 class BackupHasFailed extends BaseNotification
 {
@@ -21,7 +21,6 @@ class BackupHasFailed extends BaseNotification
             ->line("Important: An error occurred while backing up `{$this->applicationName()}`")
             ->line("Exception message: `{$this->event->exception->getMessage()}`")
             ->line("Exception trace: `{$this->event->exception->getTraceAsString()}`");
-
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");

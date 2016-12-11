@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\Commands;
 
+use Exception;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
-use Exception;
 
 class BackupCommand extends BaseCommand
 {

@@ -2,11 +2,11 @@
 
 namespace Spatie\Backup\Notifications\Notifications;
 
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\HealthyBackupWasFound as HealthyBackupWasFoundEvent;
 use Spatie\Backup\Notifications\BaseNotification;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Messages\SlackAttachment;
+use Spatie\Backup\Events\HealthyBackupWasFound as HealthyBackupWasFoundEvent;
 
 class HealthyBackupWasFound extends BaseNotification
 {

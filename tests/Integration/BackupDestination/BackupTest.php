@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\Test\Integration\BackupCollectionTest;
 
+use Storage;
 use Carbon\Carbon;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Test\Integration\TestCase;
-use Storage;
 
 class BackupTest extends TestCase
 {

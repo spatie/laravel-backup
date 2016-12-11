@@ -2,13 +2,13 @@
 
 namespace Spatie\Backup\Test\Integration\Notifications;
 
+use Mail;
 use Exception;
 use Illuminate\Notifications\Notifiable;
 use MailThief\Testing\InteractsWithMail;
-use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Test\Integration\TestCase;
-use Mail;
+use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class NotifiableTest extends TestCase
 {

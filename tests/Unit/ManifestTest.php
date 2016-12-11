@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Test\Unit;
 
 use Generator;
-use Spatie\Backup\Tasks\Backup\Manifest;
 use Spatie\Backup\Test\TestHelper;
+use Spatie\Backup\Tasks\Backup\Manifest;
 
 class ManifestTest extends \PHPUnit_Framework_TestCase
 {

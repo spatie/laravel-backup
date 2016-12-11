@@ -2,11 +2,11 @@
 
 namespace Spatie\Backup\Notifications\Notifications;
 
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\UnhealthyBackupWasFound as UnhealthyBackupWasFoundEvent;
 use Spatie\Backup\Notifications\BaseNotification;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Messages\SlackAttachment;
+use Spatie\Backup\Events\UnhealthyBackupWasFound as UnhealthyBackupWasFoundEvent;
 
 class UnhealthyBackupWasFound extends BaseNotification
 {
@@ -20,7 +20,6 @@ class UnhealthyBackupWasFound extends BaseNotification
             ->subject("Important: The backups for `{$this->applicationName()}` are unhealthy")
             ->line("The backups for `{$this->applicationName()}` on disk `{$this->diskName()}` are unhealthy.")
             ->line($this->problemDescription());
-
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");

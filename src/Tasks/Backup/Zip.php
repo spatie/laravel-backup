@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Spatie\Backup\Helpers\Format;
 use ZipArchive;
+use Spatie\Backup\Helpers\Format;
 
 class Zip
 {
