@@ -114,7 +114,7 @@ class FileSelection
     protected function shouldExclude(string $path): bool
     {
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (starts_with($path, $excludedPath)) {
+            if (starts_with(realpath($path), $excludedPath)) {
                 return true;
             }
         }
