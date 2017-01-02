@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.3.2 - 2017-01-02
+
+- fix errors when `app.name` is empty
+
 ## 4.3.1 - 2016-12-11
 
 - fix excluding paths of symlinked directories

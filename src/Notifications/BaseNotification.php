@@ -21,7 +21,7 @@ abstract class BaseNotification extends Notification
 
     public function applicationName(): string
     {
-        return config('app.name');
+        return config('app.name') ?? config('app.url') ?? 'Laravel application';
     }
 
     public function diskName(): string
