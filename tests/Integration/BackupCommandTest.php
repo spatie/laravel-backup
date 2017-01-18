@@ -70,6 +70,8 @@ class BackupCommandTest extends TestCase
         
         $filename = 'testing-filename.zip';
         
+        $this->expectedZipPath = 'mysite.com/'.$filename;
+        
         $resultCode = Artisan::call('backup:run', ['--only-files' => true, '--filename' => $filename]);
 
         $this->assertEquals(0, $resultCode);
