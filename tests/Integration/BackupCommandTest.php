@@ -60,6 +60,27 @@ class BackupCommandTest extends TestCase
 
         $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
     }
+    
+    /** @test */
+    public function it_can_backup_using_a_custom_filename_as_option()
+    {
+        $this->date = Carbon::create('2016', 1, 1, 9, 1, 1);
+
+        Carbon::setTestNow($this->date);
+        
+        $filename = 'testing-filename.zip';
+        
+        $this->expectedZipPath = 'mysite.com/'.$filename;
+        
+        $resultCode = Artisan::call('backup:run', ['--only-files' => true, '--filename' => $filename]);
+
+        $this->assertEquals(0, $resultCode);
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+
+        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+    }
+    
 
     /** @test */
     public function it_can_backup_to_a_specific_disk()
