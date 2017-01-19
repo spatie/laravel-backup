@@ -55,7 +55,7 @@ class BackupJob
 
     public function setDefaultFilename(): BackupJob
     {
-        $this->filename = date('Y-m-d-His').'.zip';
+        $this->filename = Carbon::now()->format('Y-m-d-H-i-s').'.zip';
 
         return $this;
     }
