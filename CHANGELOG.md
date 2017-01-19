@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.3.3 - 2017-01-19
+
+- fix error where `filename` option would not be respected in the `BackupCommand`
+
 ## 4.3.2 - 2017-01-02
 
 - fix errors when `app.name` is empty
