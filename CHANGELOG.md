@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.3.4 - 2017-01-22
+
+- fix bugs in passing values from the database dump config to the db dumpers
+
 ## 4.3.3 - 2017-01-19
 
 - fix error where `filename` option would not be respected in the `BackupCommand`
