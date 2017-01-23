@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.4.0 - 2017-01-23
+
+- add compatibility for Laravel 5.4
+
 ## 4.3.4 - 2017-01-22
 
 - fix bugs in passing values from the database dump config to the db dumpers
