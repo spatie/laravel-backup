@@ -44,7 +44,7 @@ class BackupDestinationStatus
         return $this->maximumAgeOfNewestBackupInDays;
     }
 
-    public function setMaximumStorageUsageInMegabytes(float $megabytes): BackupDestinationStatus
+    public function setMaximumStorageUsageInMegabytes(int $megabytes): BackupDestinationStatus
     {
         $this->maximumStorageUsageInMegabytes = $megabytes;
 

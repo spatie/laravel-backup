@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.4.1 - 2017-01-26
+
+- fix typehint of `setMaximumStorageUsageInMegabytes`
+
 ## 4.4.0 - 2017-01-23
 
 - add compatibility for Laravel 5.4
