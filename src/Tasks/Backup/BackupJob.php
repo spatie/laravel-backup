@@ -10,6 +10,7 @@ use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
@@ -103,7 +104,8 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = TemporaryDirectory::create();
+        $temporaryPath = storage_path('app/laravel-backup/temp').DIRECTORY_SEPARATOR.Carbon::now()->format('Y-m-d-H-i-s');
+        $this->temporaryDirectory = new TemporaryDirectory($temporaryPath);
 
         try {
             if (! count($this->backupDestinations)) {
