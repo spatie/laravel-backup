@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.4.2 - 2017-02-01
+
+- improve handling of temporary directory
+
 ## 4.4.1 - 2017-01-26
 
 - fix typehint of `setMaximumStorageUsageInMegabytes`
