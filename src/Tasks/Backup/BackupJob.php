@@ -104,7 +104,7 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = (new TemporaryDirectory())->name(Carbon::now()->format('Y-m-d-H-i-s'))->create();
+        $this->temporaryDirectory = (new TemporaryDirectory())->create();
 
         try {
             if (! count($this->backupDestinations)) {
