@@ -104,8 +104,7 @@ class BackupJob
 
     public function run()
     {
-        $temporaryPath = storage_path('app/laravel-backup/temp').DIRECTORY_SEPARATOR.Carbon::now()->format('Y-m-d-H-i-s');
-        $this->temporaryDirectory = new TemporaryDirectory($temporaryPath);
+        $this->temporaryDirectory = (new TemporaryDirectory())->name(Carbon::now()->format('Y-m-d-H-i-s'))->create();
 
         try {
             if (! count($this->backupDestinations)) {
