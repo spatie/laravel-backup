@@ -188,6 +188,7 @@ abstract class TestCase extends Orchestra
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename, \ZipArchive::FL_NODIR) !== false;
         }
+
         return false;
     }
 }
