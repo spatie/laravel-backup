@@ -172,20 +172,20 @@ abstract class TestCase extends Orchestra
         return is_dir($path) && file_exists($path);
     }
 
-    protected function assertFileExistsInZip($zipPath, $filename) {
-
+    protected function assertFileExistsInZip($zipPath, $filename)
+    {
         $this->assertTrue($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} contains a file name {$filename}");
     }
 
-    protected function assertFileDoesntExistsInZip($zipPath, $filename) {
-
+    protected function assertFileDoesntExistsInZip($zipPath, $filename)
+    {
         $this->assertFalse($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} doesn't contain a file name {$filename}");
     }
 
     protected function fileExistsInZip($zipPath, $filename)
     {
         $zip = new \ZipArchive();
-        if ($zip->open($zipPath) === TRUE) {
+        if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename, \ZipArchive::FL_NODIR) !== false;
         }
         return false;
