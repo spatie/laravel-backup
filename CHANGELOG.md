@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.4.3 - 2017-02-02
+
+- fix bug where entire backup disk would be ignored for backups
+
 ## 4.4.2 - 2017-02-01
 
 - improve handling of temporary directory
