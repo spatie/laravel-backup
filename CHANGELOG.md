@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.4.4 - 2017-02-02
+
+- fix constraints to latest version of `spatie/temporary-backup` can be pulled in
+
 ## 4.4.3 - 2017-02-02
 
 - fix bug where entire backup disk would be ignored for backups
