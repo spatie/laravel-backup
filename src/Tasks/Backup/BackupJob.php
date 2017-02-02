@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use Exception;
-use Carbon\Carbon;
 use Spatie\DbDumper\DbDumper;
 use Illuminate\Support\Collection;
 use Spatie\Backup\Events\BackupHasFailed;
