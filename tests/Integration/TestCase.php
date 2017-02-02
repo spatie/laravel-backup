@@ -184,8 +184,7 @@ abstract class TestCase extends Orchestra
 
     protected function fileExistsInZip($zipPath, $filename) {
         $zip = new \ZipArchive();
-        if ($zip->open($zipPath) === TRUE)
-        {
+        if ($zip->open($zipPath) === TRUE) {
             return ($zip->locateName($filename,\ZipArchive::FL_NODIR) !== false);
         }
         return false;
