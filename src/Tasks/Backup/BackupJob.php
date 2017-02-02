@@ -104,7 +104,7 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = (new TemporaryDirectory())->create();
+        $this->temporaryDirectory = (new TemporaryDirectory(storage_path()))->create();
 
         try {
             if (! count($this->backupDestinations)) {
