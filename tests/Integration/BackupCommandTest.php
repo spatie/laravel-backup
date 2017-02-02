@@ -62,6 +62,24 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_excludes_only_the_backup_destination_from_the_backup()
+    {
+        $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
+
+        touch($backupDisk.DIRECTORY_SEPARATOR.'testing-file.txt');
+
+        $originalIncludes = $this->app['config']->get('laravel-backup.backup.source.files.include');
+
+        $this->app['config']->set('laravel-backup.backup.source.files.include', [$backupDisk]);
+
+        Artisan::call('backup:run', ['--only-files' => true]);
+
+        $this->doNotSeeInConsoleOutput('There are no files to be backed up');
+
+        $this->app['config']->set('laravel-backup.backup.source.files.include', $originalIncludes);
+    }
+
+    /** @test */
     public function it_can_backup_using_a_custom_filename_as_option()
     {
         $this->date = Carbon::create('2016', 1, 1, 9, 1, 1);

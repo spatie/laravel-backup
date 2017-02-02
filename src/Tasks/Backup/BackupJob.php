@@ -157,7 +157,7 @@ class BackupJob
                 return $backupDestination->filesystemType() === 'local';
             })
             ->map(function (BackupDestination $backupDestination) {
-                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('');
+                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('').$backupDestination->backupName();
             })
             ->each(function (string $localDiskRootDirectory) {
                 $this->fileSelection->excludeFilesFrom($localDiskRootDirectory);
