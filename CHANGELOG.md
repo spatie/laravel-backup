@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.4.5 - 2017-02-03
+- Force `BackupDestinationStatus::maximumAllowedUsageInBytes()` to return an integer
+
 ## 4.4.4 - 2017-02-02
 
 - fix constraints so the latest version of `spatie/temporary-backup` can be pulled in
