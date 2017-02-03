@@ -28,7 +28,7 @@ class BackupJob
     /** @var string */
     protected $filename;
 
-    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
+    /** @var \Spatie\TemporaryDirectory\TemporaryDirectory */
     protected $temporaryDirectory;
 
     public function __construct()

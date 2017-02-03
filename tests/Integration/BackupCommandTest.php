@@ -85,7 +85,7 @@ class BackupCommandTest extends TestCase
 
         $this->app['config']->set('laravel-backup.backup.source.files.include', [$backupDisk]);
 
-        mkdir($backupDisk.DIRECTORY_SEPARATOR.'mysite.com');
+        mkdir($backupDisk.DIRECTORY_SEPARATOR.'mysite.com', 0777, true);
         touch($backupDisk.DIRECTORY_SEPARATOR.'mysite.com'.DIRECTORY_SEPARATOR.'testing-file.txt');
 
         Artisan::call('backup:run', ['--only-files' => true]);
@@ -102,7 +102,7 @@ class BackupCommandTest extends TestCase
         $tempDirectoryPath = storage_path('app/laravel-backup/temp');
 
         if (! file_exists($tempDirectoryPath)) {
-            mkdir($tempDirectoryPath);
+            mkdir($tempDirectoryPath, 0777, true);
         }
         touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file.txt');
 
