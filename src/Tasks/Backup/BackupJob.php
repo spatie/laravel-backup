@@ -104,8 +104,8 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = (new TemporaryDirectory(storage_path()))
-            ->name('laravel-backup-temporary')
+        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/laravel-backup')))
+            ->name('temp')
             ->force()
             ->create();
 
@@ -163,8 +163,8 @@ class BackupJob
             ->map(function (BackupDestination $backupDestination) {
                 return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('').$backupDestination->backupName();
             })
-            ->each(function (string $localDiskRootDirectory) {
-                $this->fileSelection->excludeFilesFrom($localDiskRootDirectory);
+            ->each(function (string $backupDestinationDirectory) {
+                $this->fileSelection->excludeFilesFrom($backupDestinationDirectory);
             })
             ->push($this->temporaryDirectory->path())
             ->toArray();
