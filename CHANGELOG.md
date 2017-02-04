@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## unreleased - 2017-02-04
+- improve the creation of db dumper subdirectory in the temporary directory
+
 ## 4.4.6 - 2017-02-04
 - force creation of temporary directory
 
