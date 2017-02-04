@@ -106,6 +106,7 @@ class BackupJob
     {
         $this->temporaryDirectory = (new TemporaryDirectory(storage_path()))
             ->name('laravel-backup-temporary')
+            ->force()
             ->create();
 
         try {
