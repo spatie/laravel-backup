@@ -28,7 +28,7 @@ class BackupJob
     /** @var string */
     protected $filename;
 
-    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
+    /** @var \Spatie\TemporaryDirectory\TemporaryDirectory */
     protected $temporaryDirectory;
 
     public function __construct()
@@ -134,7 +134,7 @@ class BackupJob
 
     protected function createBackupManifest(): Manifest
     {
-        $databaseDumps = $this->dumpDatabases($this->temporaryDirectory->path('db-dumps'));
+        $databaseDumps = $this->dumpDatabases();
 
         consoleOutput()->info('Determining files to backup...');
 
@@ -189,21 +189,20 @@ class BackupJob
      * Dumps the databases to the given directory.
      * Returns an array with paths to the dump files.
      *
-     * @param string $directory
-     *
      * @return array
      */
-    protected function dumpDatabases(string $directory): array
+    protected function dumpDatabases(): array
     {
-        return $this->dbDumpers->map(function (DbDumper $dbDumper) use ($directory) {
+        return $this->dbDumpers->map(function (DbDumper $dbDumper) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
             $fileName = $dbDumper->getDbName().'.sql';
-            $temporaryFile = $directory.'/'.$fileName;
 
-            $dbDumper->dumpToFile($temporaryFile);
+            $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.'/'.$fileName);
 
-            return $temporaryFile;
+            $dbDumper->dumpToFile($temporaryFilePath);
+
+            return $temporaryFilePath;
         })->toArray();
     }
 
