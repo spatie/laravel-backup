@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.4.8 - 2017-02-06
+- avoid empty directories in zips on Windows systems
+
 ## 4.4.7 - 2017-02-04
 - improve the creation of db dumper subdirectory in the temporary directory
 
