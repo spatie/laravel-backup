@@ -198,7 +198,7 @@ class BackupJob
 
             $fileName = $dbDumper->getDbName().'.sql';
 
-            $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.'/'.$fileName);
+            $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
             $dbDumper->dumpToFile($temporaryFilePath);
 
