@@ -7,6 +7,7 @@ use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\Backup\Test\Integration\TestCase;
 use Spatie\Backup\Tasks\Backup\DbDumperFactory;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+use Spatie\DbDumper\Databases\Sqlite;
 
 class DbDumperFactoryTest extends TestCase
 {
@@ -33,6 +34,18 @@ class DbDumperFactoryTest extends TestCase
     {
         $this->assertInstanceOf(MySql::class, DbDumperFactory::createFromConnection('mysql'));
         $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
+    }
+
+    /** @test */
+    public function it_can_create_sqlite_instance()
+    {
+        $this->app['config']->set('database.connections.sqlite', [
+            'driver' => 'sqlite',
+            'database' => 'database.sqlite',
+            // host, username and password are not required for the sqlite driver
+        ]);
+
+        $this->assertInstanceOf(Sqlite::class, DbDumperFactory::createFromConnection('sqlite'));
     }
 
     /** @test */
