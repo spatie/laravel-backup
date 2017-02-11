@@ -3,11 +3,11 @@
 namespace Spatie\Backup\Test\Unit;
 
 use Spatie\DbDumper\Databases\MySql;
+use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\Backup\Test\Integration\TestCase;
 use Spatie\Backup\Tasks\Backup\DbDumperFactory;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
-use Spatie\DbDumper\Databases\Sqlite;
 
 class DbDumperFactoryTest extends TestCase
 {
