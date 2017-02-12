@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## Unreleased
+- add SQLite support
+
 ## 4.4.9 - 2017-02-06
 - fix the dumping of DB's on Windows systems
 
