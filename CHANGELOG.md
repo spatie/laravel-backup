@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.6.0 - 2017-02-17
+- add translations for notifications
+
 ## 4.5.0 - 2017-02-12
 - add SQLite support
 
