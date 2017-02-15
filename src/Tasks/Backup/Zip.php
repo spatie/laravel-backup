@@ -50,7 +50,7 @@ class Zip
 
         $this->pathToZip = $pathToZip;
 
-        $this->open($pathToZip);
+        $this->open();
     }
 
     public function path(): string
