@@ -6,7 +6,7 @@ use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 
 class UnhealthyBackupWasFound
 {
-    /** @var \Spatie\Backup\BackupDestination\BackupDestinationStatus */
+    /** @var BackupDestinationStatus */
     public $backupDestinationStatus;
 
     public function __construct(BackupDestinationStatus $backupDestinationStatus)

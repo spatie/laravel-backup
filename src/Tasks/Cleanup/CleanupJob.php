@@ -14,7 +14,7 @@ class CleanupJob
     /** @var \Illuminate\Support\Collection */
     protected $backupDestinations;
 
-    /** @var \Spatie\Backup\Tasks\Cleanup\Strategies\CleanupStrategy */
+    /** @var CleanupStrategy */
     protected $strategy;
 
     public function __construct(Collection $backupDestinations, CleanupStrategy $strategy)
