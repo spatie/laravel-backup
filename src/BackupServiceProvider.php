@@ -20,6 +20,12 @@ class BackupServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/laravel-backup.php' => config_path('laravel-backup.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel-backup'),
+        ]);
+
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'laravel-backup');
     }
 
     /**

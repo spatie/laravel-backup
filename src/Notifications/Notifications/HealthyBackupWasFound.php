@@ -16,8 +16,8 @@ class HealthyBackupWasFound extends BaseNotification
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->subject("The backups for `{$this->applicationName()}` on disk `{$this->diskName()}` are healthy")
-            ->line("The backups for `{$this->applicationName()}` are considered healthy. Good job!");
+            ->subject(trans('laravel-backup:notifications.healthy_backup_found_subject', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
+            ->line(trans('laravel-backup:notifications.healthy_backup_found_body', ['application_name' => $this->applicationName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
@@ -30,7 +30,7 @@ class HealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
-            ->content("The backups for `{$this->applicationName()}` are healthy")
+            ->content(trans('laravel-backup:notifications.healthy_backup_found_subject_title', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
