@@ -89,7 +89,7 @@ class DbDumperFactory
      */
     protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, $methodValue): DbDumper
     {
-        if (is_null($methodValue)) {
+        if (! $methodValue) {
             $dbDumper->$methodName();
 
             return $dbDumper;

@@ -17,8 +17,8 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Important: The backups for `{$this->applicationName()}` are unhealthy")
-            ->line("The backups for `{$this->applicationName()}` on disk `{$this->diskName()}` are unhealthy.")
+            ->subject(trans('laravel-backup:notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('laravel-backup:notifications.unhealthy_backup_found_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line($this->problemDescription());
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
@@ -32,7 +32,7 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
-            ->content("Important: The backups for `{$this->applicationName()}` are unhealthy. {$this->problemDescription()}")
+            ->content(trans('laravel-backup:notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
@@ -43,22 +43,22 @@ class UnhealthyBackupWasFound extends BaseNotification
         $backupStatus = $this->event->backupDestinationStatus;
 
         if (! $backupStatus->isReachable()) {
-            return "The backup destination cannot be reached. {$backupStatus->connectionError()}";
+            return trans('laravel-backup:notification.unhealthy_backup_found_not_reachable', ['error' => $backupStatus->connectionError()]);
         }
 
         if ($backupStatus->amountOfBackups() === 0) {
-            return 'There are no backups of this application at all.';
+            return trans('laravel-backup:notifications.unhealthy_backup_found_empty');
         }
 
         if ($backupStatus->usesTooMuchStorage()) {
-            return "The backups are using too much storage. Current usage is {$backupStatus->humanReadableUsedStorage()} which is higher than the allowed limit of {$backupStatus->humanReadableAllowedStorage()}.";
+            return __('notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
         }
 
         if ($backupStatus->newestBackupIsTooOld()) {
-            return "The latest backup made on {$backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')} is considered too old.";
+            return trans('laravel-backup:notifications.unhealthy_backup_found_old', ['date' => $backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')]);
         }
 
-        return 'Sorry, an exact reason cannot be determined.';
+        return trans('laravel-backup:notifications.unhealthy_backup_found_unknown');
     }
 
     public function setEvent(UnhealthyBackupWasFoundEvent $event)
