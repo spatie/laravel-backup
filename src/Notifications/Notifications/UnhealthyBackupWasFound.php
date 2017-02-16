@@ -51,7 +51,7 @@ class UnhealthyBackupWasFound extends BaseNotification
         }
 
         if ($backupStatus->usesTooMuchStorage()) {
-            return __('notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
+            return trans('notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
         }
 
         if ($backupStatus->newestBackupIsTooOld()) {
