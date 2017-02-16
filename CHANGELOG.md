@@ -2,7 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-## 4.6.0 - 2017-02-17
+## 4.6.1 - 2017-02-16
+- fixed translations for notifications
+
+## 4.6.0 - 2017-02-15
 - add translations for notifications
 
 ## 4.5.0 - 2017-02-12

@@ -16,8 +16,8 @@ class CleanupWasSuccessful extends BaseNotification
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->subject(trans('laravel-backup:notifications.cleanup_successful_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('laravel-backup:notifications.cleanup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
+            ->subject(trans('laravel-backup::notifications.cleanup_successful_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('laravel-backup::notifications.cleanup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
@@ -30,7 +30,7 @@ class CleanupWasSuccessful extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
-            ->content(trans('laravel-backup:notifications.cleanup_successful_subject_title'))
+            ->content(trans('laravel-backup::notifications.cleanup_successful_subject_title'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
