@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.6.2 - 2017-02-17
+- fixed translation for `UnhealthyBackupWasFound` notification
+- fixed support for floating point numbers for maximum allow storage
+
 ## 4.6.1 - 2017-02-16
 - fixed translations for notifications
 
