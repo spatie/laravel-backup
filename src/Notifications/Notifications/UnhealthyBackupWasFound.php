@@ -51,7 +51,7 @@ class UnhealthyBackupWasFound extends BaseNotification
         }
 
         if ($backupStatus->usesTooMuchStorage()) {
-            return trans('notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
+            return trans('laravel-backup::unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
         }
 
         if ($backupStatus->newestBackupIsTooOld()) {
