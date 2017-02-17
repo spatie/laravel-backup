@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Test\Integration\Events;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Events\BackupZipWasCreated;
 
 class BackupZipWasCreatedTest extends TestCase
 {

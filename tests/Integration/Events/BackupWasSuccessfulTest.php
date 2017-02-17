@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Test\Integration\Events;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Events\BackupWasSuccessful;
 
 class BackupWasSuccessfulTest extends TestCase
 {

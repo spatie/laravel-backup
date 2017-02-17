@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Tasks\Monitor;
 
 use Carbon\Carbon;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
+use Spatie\Backup\BackupDestination\BackupDestination;
 
 class BackupDestinationStatus
 {

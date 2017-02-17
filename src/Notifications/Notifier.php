@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\Notifications;
 
+use Exception;
 use Illuminate\Contracts\Logging\Log as LogContract;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
-use Exception;
 
 class Notifier
 {

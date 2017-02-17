@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Notifications\Senders;
 
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Mail\Message;
+use Illuminate\Contracts\Mail\Mailer;
+use Illuminate\Contracts\Config\Repository;
 use Spatie\Backup\Notifications\BaseSender;
 
 class Mail extends BaseSender

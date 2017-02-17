@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Events;
 
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Exception;
+use Spatie\Backup\BackupDestination\BackupDestination;
 
 class CleanupHasFailed
 {

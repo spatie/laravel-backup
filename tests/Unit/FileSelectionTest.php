@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Test\Unit;
 
-use Spatie\Backup\Tasks\Backup\FileSelection;
 use Spatie\Backup\Test\TestHelper;
+use Spatie\Backup\Tasks\Backup\FileSelection;
 
 class FileSelectionTest extends \PHPUnit_Framework_TestCase
 {

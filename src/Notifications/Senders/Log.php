@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Notifications\Senders;
 
-use Illuminate\Contracts\Logging\Log as LogContract;
 use Spatie\Backup\Notifications\BaseSender;
+use Illuminate\Contracts\Logging\Log as LogContract;
 
 class Log extends BaseSender
 {

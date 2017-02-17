@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\BackupDestination;
 
+use Exception;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Exception;
 
 class BackupDestination
 {
