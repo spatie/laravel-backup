@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.6.4 - 2017-02-17
+- fix `unhealthy_backup_found_full` translation
+
 ## 4.6.3 - 2017-02-17
 - fix `unhealthy_backup_found_full` translation
 
