@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Notifications\Senders;
 
-use Illuminate\Contracts\Config\Repository;
 use Maknz\Slack\Client;
+use Illuminate\Contracts\Config\Repository;
 use Spatie\Backup\Notifications\BaseSender;
 
 class Slack extends BaseSender

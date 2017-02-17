@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Spatie\Backup\BackupDestination\BackupDestinationFactory;
-use Spatie\Backup\Exceptions\InvalidConfiguration;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
+use Spatie\Backup\Exceptions\InvalidConfiguration;
+use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class BackupJobFactory
 {

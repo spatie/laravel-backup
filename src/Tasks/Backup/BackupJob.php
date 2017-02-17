@@ -2,16 +2,16 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Exception;
+use Spatie\DbDumper\DbDumper;
+use Spatie\Backup\Helpers\Format;
 use Illuminate\Support\Collection;
-use Spatie\Backup\BackupDestination\Backup;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
-use Spatie\Backup\Helpers\Format;
-use Spatie\DbDumper\DbDumper;
-use Exception;
+use Spatie\Backup\BackupDestination\BackupDestination;
 
 class BackupJob
 {

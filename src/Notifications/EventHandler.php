@@ -4,8 +4,8 @@ namespace Spatie\Backup\Notifications;
 
 use Illuminate\Events\Dispatcher;
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupHasFailed;
+use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;

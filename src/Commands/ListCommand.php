@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Commands;
 
-use Illuminate\Support\Collection;
 use Spatie\Backup\Helpers\Format;
+use Illuminate\Support\Collection;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
