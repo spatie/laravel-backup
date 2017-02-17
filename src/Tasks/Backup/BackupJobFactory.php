@@ -45,11 +45,11 @@ class BackupJobFactory
     {
         $dbDumpers = array_map(function ($dbConnectionName) {
             $dbConfig = config("database.connections.{$dbConnectionName}");
-
+            $dbHost = array_get($dbConfig, 'read.host', array_get($dbConfig, 'host'));
             switch ($dbConfig['driver']) {
                 case 'mysql':
                     $dbDumper = MySql::create()
-                        ->setHost($dbConfig['host'])
+                        ->setHost($dbHost)
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
                         ->setPassword($dbConfig['password'])
