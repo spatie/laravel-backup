@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+### 3.10.3 - 2017-02-17
+
+- add support for read only connections
+
 ### 3.10.2 - 2016-08-24
 
 - added L5.3 compatibility
