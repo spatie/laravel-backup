@@ -155,6 +155,7 @@ class BackupJob
             consoleOutput()->error("Backup failed because {$exception->getMessage()}.");
 
             event(new BackupHasFailed($exception));
+            throw $exception; // Let the exception continue up to the BackupCommand.
         }
     }
 
