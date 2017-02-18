@@ -23,6 +23,11 @@ abstract class BaseNotification extends Notification
         return config('app.name') ?? config('app.url') ?? 'Laravel application';
     }
 
+    public function backupName(): string
+    {
+        return $this->backupDestination()->backupName();
+    }
+
     public function diskName(): string
     {
         return $this->backupDestination()->diskName();
@@ -41,6 +46,7 @@ abstract class BaseNotification extends Notification
 
         return collect([
             'Application name' => $this->applicationName(),
+            'Backup name' => $this->backupName(),
             'Disk' => $backupDestination->diskName(),
             'Newest backup size' => $newestBackup ? Format::humanReadableSize($newestBackup->size()) : 'No backups were made yet',
             'Amount of backups' => (string) $backupDestination->backups()->count(),
