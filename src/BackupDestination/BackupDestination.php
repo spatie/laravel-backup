@@ -80,6 +80,8 @@ class BackupDestination
         $handle = fopen($file, 'r+');
 
         $this->disk->getDriver()->writeStream($destination, $handle);
+
+        fclose($handle);
     }
 
     public function backupName(): string
