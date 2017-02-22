@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.6.6 - 2017-02-22
+- fix for `File is busy` error
+
 ## 4.6.5 - 2017-02-19
 - added `backupName` to `backupDestinationProperties` of notifications
 
