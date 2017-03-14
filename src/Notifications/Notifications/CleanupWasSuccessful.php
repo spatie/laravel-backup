@@ -13,11 +13,11 @@ class CleanupWasSuccessful extends BaseNotification
     /** @var \Spatie\Backup\Events\CleanupWasSuccessful */
     protected $event;
 
-    public function toMail($notifiable): MailMessage
+    public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->subject("Clean up of `{$this->applicationName()}` backups successful")
-            ->line("The clean up of the {$this->applicationName()} backups on the disk named {$this->diskName()} was successful.");
+            ->subject(trans('laravel-backup::notifications.cleanup_successful_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('laravel-backup::notifications.cleanup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
@@ -26,11 +26,11 @@ class CleanupWasSuccessful extends BaseNotification
         return $mailMessage;
     }
 
-    public function toSlack($notifiable): SlackMessage
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->success()
-            ->content('Clean up of backups successful!')
+            ->content(trans('laravel-backup::notifications.cleanup_successful_subject_title'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
