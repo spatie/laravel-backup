@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.7.1 - 2017-03-14
+- do not send mail notification when config for notification contains an empty string
+
 ## 4.7.0 - 2017-03-14
 - added German translations
 
