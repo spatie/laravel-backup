@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.7.0 - 2017-03-14
+- added German translations
+
 ## 4.6.6 - 2017-02-22
 - fix for `File is busy` error
 
