@@ -48,13 +48,15 @@ class BackupJobFactory
             $dbHost = array_get($dbConfig, 'read.host', array_get($dbConfig, 'host'));
             switch ($dbConfig['driver']) {
                 case 'mysql':
+
                     $dbDumper = MySql::create()
                         ->setHost($dbHost)
                         ->setDbName($dbConfig['database'])
                         ->setUserName($dbConfig['username'])
                         ->setPassword($dbConfig['password'])
                         ->setDumpBinaryPath(isset($dbConfig['dump_command_path']) ? $dbConfig['dump_command_path'] : '')
-                        ->setTimeout(isset($dbConfig['dump_command_timeout']) ? $dbConfig['dump_command_timeout'] : null);
+                        ->setTimeout(isset($dbConfig['dump_command_timeout']) ? $dbConfig['dump_command_timeout'] : null)
+                        ->setExtraOption(isset($dbConfig['dump']['add_extra_option']) ? $dbConfig['dump']['add_extra_option'] : null);
 
                     if (isset($dbConfig['port'])) {
                         $dbDumper->setPort($dbConfig['port']);
