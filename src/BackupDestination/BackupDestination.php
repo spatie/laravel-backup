@@ -81,7 +81,9 @@ class BackupDestination
 
         $this->disk->getDriver()->writeStream($destination, $handle);
 
-        fclose($handle);
+        if (is_resource($handle)) {
+            fclose($handle);
+        }
     }
 
     public function backupName(): string
