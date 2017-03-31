@@ -32,21 +32,9 @@ The best postcards will get published on the open source page on our website.
 
 ## Installation and usage
 
-You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v4.
+You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v4/installation-and-setup.
 
-## Using an older version of PHP / Laravel ?
-
-If you're not on PHP 7 or Laravel 5.3 just use version 3 of this package. 
- 
-Just issue this command:
-
-```php
-composer require "spatie/laravel-backup:^3.0.0"
-```
-
-Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3) to learn how to set up and use the package.
-
-We won't introduce new features to v3 anymore but we will still fix bugs.
+ > If you're on PHP 5.* or < Laravel 5.2, [use version 3](https://docs.spatie.be/laravel-backup/v3/installation-and-setup).
 
 ## Testing
 
