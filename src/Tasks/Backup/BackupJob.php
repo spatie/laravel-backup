@@ -10,6 +10,7 @@ use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
@@ -27,7 +28,7 @@ class BackupJob
     /** @var string */
     protected $filename;
 
-    /** @var \Spatie\Backup\Tasks\Backup\TemporaryDirectory */
+    /** @var \Spatie\TemporaryDirectory\TemporaryDirectory */
     protected $temporaryDirectory;
 
     public function __construct()
@@ -103,7 +104,10 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = TemporaryDirectory::create();
+        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/laravel-backup')))
+            ->name('temp')
+            ->force()
+            ->create();
 
         try {
             if (! count($this->backupDestinations)) {
@@ -130,7 +134,7 @@ class BackupJob
 
     protected function createBackupManifest(): Manifest
     {
-        $databaseDumps = $this->dumpDatabases($this->temporaryDirectory->path('db-dumps'));
+        $databaseDumps = $this->dumpDatabases();
 
         consoleOutput()->info('Determining files to backup...');
 
@@ -157,10 +161,10 @@ class BackupJob
                 return $backupDestination->filesystemType() === 'local';
             })
             ->map(function (BackupDestination $backupDestination) {
-                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('');
+                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('').$backupDestination->backupName();
             })
-            ->each(function (string $localDiskRootDirectory) {
-                $this->fileSelection->excludeFilesFrom($localDiskRootDirectory);
+            ->each(function (string $backupDestinationDirectory) {
+                $this->fileSelection->excludeFilesFrom($backupDestinationDirectory);
             })
             ->push($this->temporaryDirectory->path())
             ->toArray();
@@ -185,21 +189,20 @@ class BackupJob
      * Dumps the databases to the given directory.
      * Returns an array with paths to the dump files.
      *
-     * @param string $directory
-     *
      * @return array
      */
-    protected function dumpDatabases(string $directory): array
+    protected function dumpDatabases(): array
     {
-        return $this->dbDumpers->map(function (DbDumper $dbDumper) use ($directory) {
+        return $this->dbDumpers->map(function (DbDumper $dbDumper) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
             $fileName = $dbDumper->getDbName().'.sql';
-            $temporaryFile = $directory.'/'.$fileName;
 
-            $dbDumper->dumpToFile($temporaryFile);
+            $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
-            return $temporaryFile;
+            $dbDumper->dumpToFile($temporaryFilePath);
+
+            return $temporaryFilePath;
         })->toArray();
     }
 

@@ -17,10 +17,10 @@ class BackupHasFailed extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject("Failed back up of `{$this->applicationName()}`")
-            ->line("Important: An error occurred while backing up `{$this->applicationName()}`")
-            ->line("Exception message: `{$this->event->exception->getMessage()}`")
-            ->line("Exception trace: `{$this->event->exception->getTraceAsString()}`");
+            ->subject(trans('laravel-backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('laravel-backup::notifications.backup_failed_body', ['application_name' => $this->applicationName()]))
+            ->line(trans('laravel-backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))
+            ->line(trans('laravel-backup::notifications.exception_trace', ['trace' => $this->event->exception->getTraceAsString()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
@@ -33,15 +33,15 @@ class BackupHasFailed extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
-            ->content("Failed back up of `{$this->applicationName()}`")
+            ->content(trans('laravel-backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
-                    ->title('Exception message')
+                    ->title(trans('laravel-backup::notifications.exception_message_title'))
                     ->content($this->event->exception->getMessage());
             })
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
-                    ->title('Exception trace')
+                    ->title(trans('laravel-backup::notifications.exception_trace_title'))
                     ->content($this->event->exception->getTraceAsString());
             })
             ->attachment(function (SlackAttachment $attachment) {

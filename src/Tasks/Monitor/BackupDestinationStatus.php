@@ -108,7 +108,7 @@ class BackupDestinationStatus
 
     public function maximumAllowedUsageInBytes(): int
     {
-        return $this->maximumStorageUsageInMegabytes * 1024 * 1024;
+        return (int) ($this->maximumStorageUsageInMegabytes * 1024 * 1024);
     }
 
     public function usesTooMuchStorage(): bool

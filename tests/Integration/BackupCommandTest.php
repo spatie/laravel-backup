@@ -27,6 +27,8 @@ class BackupCommandTest extends TestCase
             'local',
             'secondLocal',
         ]);
+
+        $this->app['config']->set('laravel-backup.backup.source.files.include', [base_path()]);
     }
 
     /** @test */
@@ -59,6 +61,55 @@ class BackupCommandTest extends TestCase
         $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
 
         $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+    }
+
+    /** @test */
+    public function it_includes_files_from_the_local_disks_in_the_backup()
+    {
+        $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
+
+        $this->app['config']->set('laravel-backup.backup.source.files.include', [$backupDisk]);
+
+        touch($backupDisk.DIRECTORY_SEPARATOR.'testing-file.txt');
+
+        Artisan::call('backup:run', ['--only-files' => true]);
+
+        $zipFullPath = $backupDisk.DIRECTORY_SEPARATOR.$this->expectedZipPath;
+        $this->assertFileExistsInZip($zipFullPath, 'testing-file.txt');
+    }
+
+    /** @test */
+    public function it_excludes_the_backup_destination_from_the_backup()
+    {
+        $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
+
+        $this->app['config']->set('laravel-backup.backup.source.files.include', [$backupDisk]);
+
+        mkdir($backupDisk.DIRECTORY_SEPARATOR.'mysite.com', 0777, true);
+        touch($backupDisk.DIRECTORY_SEPARATOR.'mysite.com'.DIRECTORY_SEPARATOR.'testing-file.txt');
+
+        Artisan::call('backup:run', ['--only-files' => true]);
+
+        $zipFullPath = $backupDisk.DIRECTORY_SEPARATOR.$this->expectedZipPath;
+        $this->assertFileDoesntExistsInZip($zipFullPath, 'testing-file.txt');
+    }
+
+    /** @test */
+    public function it_excludes_the_temporary_directory_from_the_backup()
+    {
+        $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
+
+        $tempDirectoryPath = storage_path('app/laravel-backup/temp');
+
+        if (! file_exists($tempDirectoryPath)) {
+            mkdir($tempDirectoryPath, 0777, true);
+        }
+        touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file.txt');
+
+        Artisan::call('backup:run', ['--only-files' => true]);
+
+        $zipFullPath = $backupDisk.DIRECTORY_SEPARATOR.$this->expectedZipPath;
+        $this->assertFileDoesntExistsInZip($zipFullPath, 'testing-file.txt');
     }
 
     /** @test */

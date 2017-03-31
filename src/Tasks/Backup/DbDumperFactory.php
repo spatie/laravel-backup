@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Spatie\DbDumper\DbDumper;
 use Spatie\DbDumper\Databases\MySql;
+use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
@@ -21,10 +22,10 @@ class DbDumperFactory
         $dbHost = array_get($dbConfig, 'read.host', array_get($dbConfig, 'host'));
 
         $dbDumper = static::forDriver($dbConfig['driver'])
-            ->setHost($dbHost)
+            ->setHost($dbHost ?? '')
             ->setDbName($dbConfig['database'])
-            ->setUserName($dbConfig['username'])
-            ->setPassword($dbConfig['password']);
+            ->setUserName($dbConfig['username'] ?? '')
+            ->setPassword($dbConfig['password'] ?? '');
 
         if (isset($dbConfig['port'])) {
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
@@ -49,6 +50,10 @@ class DbDumperFactory
             return new PostgreSql();
         }
 
+        if ($driver === 'sqlite') {
+            return new Sqlite();
+        }
+
         throw CannotCreateDbDumper::unsupportedDriver($driver);
     }
 
@@ -62,7 +67,7 @@ class DbDumperFactory
     protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper): DbDumper
     {
         collect($dumpConfiguration)->each(function ($configValue, $configName) use ($dbDumper) {
-            $methodName = studly_case(is_numeric($configName) ? $configValue : $configName);
+            $methodName = lcfirst(studly_case(is_numeric($configName) ? $configValue : $configName));
             $methodValue = is_numeric($configName) ? null : $configValue;
 
             $methodName = static::determineValidMethodName($dbDumper, $methodName);
@@ -84,7 +89,7 @@ class DbDumperFactory
      */
     protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, $methodValue): DbDumper
     {
-        if (is_null($methodValue)) {
+        if (! $methodValue) {
             $dbDumper->$methodName();
 
             return $dbDumper;
@@ -97,7 +102,7 @@ class DbDumperFactory
 
     protected static function determineValidMethodName(DbDumper $dbDumper, string $methodName): string
     {
-        return collect([$methodName, 'set_'.$methodName])
+        return collect([$methodName, 'set'.ucfirst($methodName)])
             ->first(function (string $methodName) use ($dbDumper) {
                 return method_exists($dbDumper, $methodName);
             }, '');
