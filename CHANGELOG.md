@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.7.2 - 2017-03-31
+- fix bug where a file that was already closed by Flysystem would be closed again
+
 ## 4.7.1 - 2017-03-14
 - do not send mail notification when config for notification contains an empty string
 
