@@ -32,7 +32,7 @@ The best postcards will get published on the open source page on our website.
 
 ## Installation and usage
 
-You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v4.
+This package requires PHP 7 and Laravel 5.4 or higher. You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v4.
 
 ## Using an older version of PHP / Laravel ?
 
