@@ -27,6 +27,10 @@ class DbDumperFactory
             ->setUserName($dbConfig['username'] ?? '')
             ->setPassword($dbConfig['password'] ?? '');
 
+        if ($dbDumper instanceof MySql) {
+            $dbDumper->setDefaultCharacterSet($dbConfig['charset'] ?? '');
+        }
+
         if (isset($dbConfig['port'])) {
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
         }
