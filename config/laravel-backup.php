@@ -92,6 +92,7 @@ return [
 
         'slack' => [
             'webhook_url' => '',
+            'channel' => null,
         ],
     ],
 

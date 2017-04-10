@@ -30,6 +30,7 @@ class HealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
+            ->to(config('laravel-backup.notifications.slack.channel'))
             ->content(trans('laravel-backup::notifications.healthy_backup_found_subject_title', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
