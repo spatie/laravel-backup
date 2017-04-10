@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.9.0 - 2017-04-11
+- add pt-BR translation
+
 ## 4.8.1 - 2017-04-06
 - dump mysql databases in the configured charset
 
