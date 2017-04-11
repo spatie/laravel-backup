@@ -92,6 +92,10 @@ return [
 
         'slack' => [
             'webhook_url' => '',
+
+            /*
+             * If this is set to null the default channel of the webhook will be used
+             */
             'channel' => null,
         ],
     ],

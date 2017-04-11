@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.10.0 - 2017-04-11
+- add ability to override the Slack channel in the config file
+
 ## 4.9.0 - 2017-04-11
 - add pt-BR translation
 
