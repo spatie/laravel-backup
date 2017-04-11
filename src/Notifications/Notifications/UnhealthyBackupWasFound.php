@@ -32,6 +32,7 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
+            ->to(config('laravel-backup.notifications.slack.channel'))
             ->content(trans('laravel-backup::notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
