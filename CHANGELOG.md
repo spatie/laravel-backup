@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 4.12.0 - 2017-04-14
+- add Russian translation
+
 ## 4.11.0 - 2017-04-14
 - add Ukranian translation
 
