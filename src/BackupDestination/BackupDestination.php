@@ -22,6 +22,9 @@ class BackupDestination
     /** @var Exception */
     public $connectionError;
 
+    /** @var null|\Spatie\Backup\BackupDestination\BackupCollection */
+    protected $backupCollectionCache = null;
+
     public function __construct(Filesystem $disk = null, string $backupName, string $diskName)
     {
         $this->disk = $disk;
@@ -93,9 +96,13 @@ class BackupDestination
 
     public function backups(): BackupCollection
     {
-        $files = $this->isReachable() ? $this->disk->allFiles($this->backupName) : [];
+        if ($this->backupCollectionCache) {
+            return $this->backupCollectionCache;
+        }
 
-        return BackupCollection::createFromFiles(
+        $files = is_null($this->disk) ? [] : $this->disk->allFiles($this->backupName);
+
+        return $this->backupCollectionCache = BackupCollection::createFromFiles(
             $this->disk,
             $files
         );

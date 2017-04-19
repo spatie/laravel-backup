@@ -124,7 +124,7 @@ class BackupDestinationStatus
 
     public function isHealthy(): bool
     {
-        if (! $this->backupDestination->isReachable()) {
+        if (! $this->isReachable()) {
             return false;
         }
 
