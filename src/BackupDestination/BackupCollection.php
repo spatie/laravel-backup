@@ -6,6 +6,9 @@ use Illuminate\Support\Collection;
 
 class BackupCollection extends Collection
 {
+    /** @var null|int */
+    protected $sizeCache = null;
+
     /**
      * @param \Illuminate\Contracts\Filesystem\Filesystem|null $disk
      * @param array                                            $files
@@ -49,7 +52,11 @@ class BackupCollection extends Collection
 
     public function size(): int
     {
-        return $this->sum(function (Backup $backup) {
+        if ($this->sizeCache !== null) {
+            return $this->sizeCache;
+        }
+
+        return $this->sizeCache = $this->sum(function (Backup $backup) {
             return $backup->size();
         });
     }
