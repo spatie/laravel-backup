@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Spatie\Backup\Tasks\Backup;
 
 class Gzip
 {
-
     /** @var string */
     public $originalFilePath;
 

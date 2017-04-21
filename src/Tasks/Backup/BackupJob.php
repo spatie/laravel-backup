@@ -211,7 +211,7 @@ class BackupJob
                 if ($gzipFile->failed) {
                     consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
                 } else {
-                    consoleOutput()->info("Gzipped {$dbDumper->getDbName()} from ".Format::humanReadableSize($gzipFile->oldFileSize())." to ".Format::humanReadableSize($gzipFile->newFileSize()));
+                    consoleOutput()->info("Gzipped {$dbDumper->getDbName()} from ".Format::humanReadableSize($gzipFile->oldFileSize()).' to '.Format::humanReadableSize($gzipFile->newFileSize()));
 
                     return $gzipFile->filePath;
                 }
