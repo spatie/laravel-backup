@@ -203,46 +203,22 @@ class BackupJob
 
             $dbDumper->dumpToFile($temporaryFilePath);
 
-            if (config('laravel-backup.backup.gzipSql') === true) {
-                return $this->gzipSqlFile($dbDumper, $temporaryFilePath);
+            if (config('laravel-backup.backup.gzip_sql') === true) {
+                consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
+
+                $gzipFile = new Gzip($temporaryFilePath);
+
+                if ($gzipFile->failed) {
+                    consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
+                } else {
+                    consoleOutput()->info("Gzipped {$dbDumper->getDbName()} from ".Format::humanReadableSize($gzipFile->oldFileSize())." to ".Format::humanReadableSize($gzipFile->newFileSize()));
+
+                    return $gzipFile->filePath;
+                }
             }
 
             return $temporaryFilePath;
         })->toArray();
-    }
-
-    /**
-     * @param $temporaryFilePath
-     * @return string
-     */
-    protected function gzipSqlFile($dbDumper, $temporaryFilePath)
-    {
-        consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
-
-        $gzipPath = $temporaryFilePath.'.gz';
-
-        if ($gzipOut = gzopen($gzipPath, 'w9')) {
-            if ($gzipIn = fopen($temporaryFilePath, 'rb')) {
-                while (! feof($gzipIn)) {
-                    gzwrite($gzipOut, fread($gzipIn, 1024 * 512));
-                }
-                fclose($gzipIn);
-            } else {
-                consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
-
-                return $temporaryFilePath;
-            }
-
-            gzclose($gzipOut);
-        } else {
-            consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
-
-            return $temporaryFilePath;
-        }
-
-        consoleOutput()->info("Gzipped {$dbDumper->getDbName()} from ".Format::humanReadableSize(filesize($temporaryFilePath)).' to '.Format::humanReadableSize(filesize($gzipPath)));
-
-        return $gzipPath;
     }
 
     protected function copyToBackupDestinations(string $path)
