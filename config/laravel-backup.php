@@ -46,6 +46,11 @@ return [
             ],
         ],
 
+        /*
+         * Gzip the dumped SQL files for extra compression
+         */
+        'gzipSql' => false,
+
         'destination' => [
 
             /*
