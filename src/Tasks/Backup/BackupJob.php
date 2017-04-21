@@ -203,12 +203,11 @@ class BackupJob
 
             $dbDumper->dumpToFile($temporaryFilePath);
 
-            if(config('laravel-backup.backup.gzipSql') === true) {
+            if (config('laravel-backup.backup.gzipSql') === true) {
                 return $this->gzipSqlFile($dbDumper, $temporaryFilePath);
             }
 
             return $temporaryFilePath;
-
         })->toArray();
     }
 
@@ -224,16 +223,17 @@ class BackupJob
 
         if ($gzipOut = gzopen($gzipPath, 'w9')) {
             if ($gzipIn = fopen($temporaryFilePath, 'rb')) {
-                while (!feof($gzipIn))
+                while (!feof($gzipIn)) {
                     gzwrite($gzipOut, fread($gzipIn, 1024 * 512));
+                }
                 fclose($gzipIn);
-            }else{
+            } else {
                 consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
                 return $temporaryFilePath;
             }
 
             gzclose($gzipOut);
-        }else{
+        } else {
             consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
             return $temporaryFilePath;
         }
