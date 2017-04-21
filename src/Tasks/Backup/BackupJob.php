@@ -4,8 +4,8 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Exception;
 use Carbon\Carbon;
-use Spatie\Backup\Helpers\Format;
 use Spatie\DbDumper\DbDumper;
+use Spatie\Backup\Helpers\Format;
 use Illuminate\Support\Collection;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
@@ -219,31 +219,31 @@ class BackupJob
     {
         consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
 
-        $gzipPath = $temporaryFilePath . '.gz';
+        $gzipPath = $temporaryFilePath.'.gz';
 
         if ($gzipOut = gzopen($gzipPath, 'w9')) {
             if ($gzipIn = fopen($temporaryFilePath, 'rb')) {
-                while (!feof($gzipIn)) {
+                while (! feof($gzipIn)) {
                     gzwrite($gzipOut, fread($gzipIn, 1024 * 512));
                 }
                 fclose($gzipIn);
             } else {
                 consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
+
                 return $temporaryFilePath;
             }
 
             gzclose($gzipOut);
         } else {
             consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
+
             return $temporaryFilePath;
         }
 
-        consoleOutput()->info("Gzipped {$dbDumper->getDbName()} from ".Format::humanReadableSize(filesize($temporaryFilePath))." to ".Format::humanReadableSize(filesize($gzipPath)));
+        consoleOutput()->info("Gzipped {$dbDumper->getDbName()} from ".Format::humanReadableSize(filesize($temporaryFilePath)).' to '.Format::humanReadableSize(filesize($gzipPath)));
 
         return $gzipPath;
     }
-
-
 
     protected function copyToBackupDestinations(string $path)
     {
