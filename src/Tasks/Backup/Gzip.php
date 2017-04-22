@@ -36,7 +36,7 @@ class Gzip
             $gzipOut = gzopen($gzipPath, 'w9');
             $gzipIn = fopen($this->originalFilePath, 'rb');
 
-            while (!feof($gzipIn)) {
+            while (! feof($gzipIn)) {
                 gzwrite($gzipOut, fread($gzipIn, 1024 * 512));
             }
 
