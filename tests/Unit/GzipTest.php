@@ -17,4 +17,12 @@ class GzipTest extends \PHPUnit_Framework_TestCase
 
         unlink($gzip->filePath);
     }
+
+    /** @test */
+    public function it_fails_when_the_file_doesnt_exist()
+    {
+        $gzip = new Gzip('nonexistent.txt');
+
+        $this->assertTrue($gzip->failed);
+    }
 }
