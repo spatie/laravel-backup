@@ -47,9 +47,9 @@ return [
         ],
 
         /*
-         * Gzip the dumped SQL files for extra compression
+         * The database dump can be gzipped to decrease diskspace usage.
          */
-        'gzip_sql' => false,
+        'gzip_database_dump' => false,
 
         'destination' => [
 
