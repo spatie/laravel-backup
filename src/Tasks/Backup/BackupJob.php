@@ -5,6 +5,7 @@ namespace Spatie\Backup\Tasks\Backup;
 use Exception;
 use Carbon\Carbon;
 use Spatie\DbDumper\DbDumper;
+use Spatie\Backup\Helpers\Format;
 use Illuminate\Support\Collection;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
@@ -201,6 +202,20 @@ class BackupJob
             $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
             $dbDumper->dumpToFile($temporaryFilePath);
+
+            if (config('laravel-backup.backup.gzip_sql') === true) {
+                consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
+
+                $gzipFile = new Gzip($temporaryFilePath);
+
+                if ($gzipFile->failed) {
+                    consoleOutput()->error("Gzip failed for {$dbDumper->getDbName()}");
+                } else {
+                    consoleOutput()->info("Gzipped {$dbDumper->getDbName()} from ".Format::humanReadableSize($gzipFile->oldFileSize()).' to '.Format::humanReadableSize($gzipFile->newFileSize()));
+
+                    return $gzipFile->filePath;
+                }
+            }
 
             return $temporaryFilePath;
         })->toArray();
