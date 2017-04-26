@@ -12,10 +12,10 @@ class Gzip
 
         $inputHandle = fopen($inputFile, 'rb');
 
-        $outputFile = $inputFile . '.gz';
+        $outputFile = $inputFile.'.gz';
         $outputHandle = gzopen($outputFile, 'w9');
 
-        while (!feof($inputHandle)) {
+        while (! feof($inputHandle)) {
             gzwrite($outputHandle, fread($inputHandle, 1024 * 512));
         }
 

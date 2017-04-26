@@ -5,7 +5,6 @@ namespace Spatie\Backup\Tasks\Backup;
 use Exception;
 use Carbon\Carbon;
 use Spatie\DbDumper\DbDumper;
-use Spatie\Backup\Helpers\Format;
 use Illuminate\Support\Collection;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
@@ -57,7 +56,7 @@ class BackupJob
 
     public function setDefaultFilename(): BackupJob
     {
-        $this->filename = Carbon::now()->format('Y-m-d-H-i-s') . '.zip';
+        $this->filename = Carbon::now()->format('Y-m-d-H-i-s').'.zip';
 
         return $this;
     }
@@ -89,7 +88,7 @@ class BackupJob
             return $backupDestination->diskName() === $diskName;
         });
 
-        if (!count($this->backupDestinations)) {
+        if (! count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -111,13 +110,13 @@ class BackupJob
             ->create();
 
         try {
-            if (!count($this->backupDestinations)) {
+            if (! count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
             $manifest = $this->createBackupManifest();
 
-            if (!$manifest->count()) {
+            if (! $manifest->count()) {
                 throw InvalidBackupJob::noFilesToBeBackedUp();
             }
 
@@ -125,7 +124,7 @@ class BackupJob
 
             $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
+            consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
             event(new BackupHasFailed($exception));
         }
@@ -162,7 +161,7 @@ class BackupJob
                 return $backupDestination->filesystemType() === 'local';
             })
             ->map(function (BackupDestination $backupDestination) {
-                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('') . $backupDestination->backupName();
+                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('').$backupDestination->backupName();
             })
             ->each(function (string $backupDestinationDirectory) {
                 $this->fileSelection->excludeFilesFrom($backupDestinationDirectory);
@@ -175,7 +174,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->path(config('laravel-backup.backup.destination.filename_prefix') . $this->filename);
+        $pathToZip = $this->temporaryDirectory->path(config('laravel-backup.backup.destination.filename_prefix').$this->filename);
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
@@ -197,9 +196,9 @@ class BackupJob
         return $this->dbDumpers->map(function (DbDumper $dbDumper) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName() . '.sql';
+            $fileName = $dbDumper->getDbName().'.sql';
 
-            $temporaryFilePath = $this->temporaryDirectory->path('db-dumps' . DIRECTORY_SEPARATOR . $fileName);
+            $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
             $dbDumper->dumpToFile($temporaryFilePath);
 
