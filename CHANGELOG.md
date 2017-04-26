@@ -2,7 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-# 4.12.1 - 2017-0419
+# 4.13.0 - 2017-04-26
+- add support for gzipping database dumps
+
+# 4.12.1 - 2017-04-19
 - optimise `backup:list` for external file systems
 
 ## 4.12.0 - 2017-04-14
