@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.13.1 - 2017-05-01
+- fix call to undefined method getFilesystemName
+
 # 4.13.0 - 2017-04-26
 - add support for gzipping database dumps
 
