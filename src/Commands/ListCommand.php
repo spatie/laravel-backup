@@ -89,7 +89,7 @@ class ListCommand extends BaseCommand
         $this->warn('-------------------------------');
 
         $unreachableBackupDestinationStatuses->each(function (BackupDestinationStatus $backupStatus) {
-            $this->warn("Could not reach backups for {$backupStatus->backupName()} on disk {$backupStatus->getFilesystemName()} because:");
+            $this->warn("Could not reach backups for {$backupStatus->backupName()} on disk {$backupStatus->diskName()} because:");
             $this->warn($backupStatus->connectionError()->getMessage());
             $this->warn('');
         });
