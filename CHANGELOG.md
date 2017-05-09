@@ -3,7 +3,7 @@
 All notable changes to `laravel-backup` will be documented in this file.
 
 # 4.14.0 - 2017-05-09
-- add support for Mongo db.
+- add support for MongoDB.
 
 # 4.13.1 - 2017-05-01
 - fix call to undefined method getFilesystemName
