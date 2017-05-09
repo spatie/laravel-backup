@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\DbDumper;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -56,6 +57,10 @@ class DbDumperFactory
 
         if ($driver === 'sqlite') {
             return new Sqlite();
+        }
+
+        if ($driver === 'mongodb') {
+            return new MongoDb();
         }
 
         throw CannotCreateDbDumper::unsupportedDriver($driver);

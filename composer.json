@@ -26,7 +26,7 @@
         "illuminate/support": "~5.3.28|~5.4.0",
         "illuminate/notifications": "~5.3.28|~5.4.0",
         "league/flysystem": "^1.0.27",
-        "spatie/db-dumper": "^2.5",
+        "spatie/db-dumper": "^2.6",
         "spatie/temporary-directory": "^1.1",
         "symfony/finder": "^3.0"
     },
