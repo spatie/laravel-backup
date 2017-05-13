@@ -196,7 +196,7 @@ class BackupJob
         return $this->dbDumpers->map(function (DbDumper $dbDumper) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            switch(class_basename($dbDumper)) {
+            switch (class_basename($dbDumper)) {
                 case 'MySql':
                     $extension = 'sql';
                     break;
