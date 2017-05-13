@@ -197,14 +197,14 @@ class BackupJob
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
             switch(class_basename($dbDumper)) {
-                case "MySql":
-                    $extension = "sql";
+                case 'MySql':
+                    $extension = 'sql';
                     break;
-                case "MongoDb":
-                    $extension = "mongo";
+                case 'MongoDb':
+                    $extension = 'mongo';
                     break;
                 default:
-                    $extension = "sql";
+                    $extension = 'sql';
             }
 
             $fileName = $dbDumper->getDbName().'.'.$extension;
