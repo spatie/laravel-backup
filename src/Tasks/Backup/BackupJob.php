@@ -196,7 +196,18 @@ class BackupJob
         return $this->dbDumpers->map(function (DbDumper $dbDumper) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName().'.sql';
+            switch(class_basename($dbDumper)) {
+                case "MySql":
+                    $extension = "sql";
+                    break;
+                case "MongoDb":
+                    $extension = "mongo";
+                    break;
+                default:
+                    $extension = "sql";
+            }
+
+            $fileName = $dbDumper->getDbName().'.'.$extension;
 
             $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
