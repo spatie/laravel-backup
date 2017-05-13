@@ -72,14 +72,12 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        file_put_contents($this->testHelper->getTempDirectory().'/database.sqlite', null);
+        touch($this->testHelper->getTempDirectory().'/database.sqlite');
 
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
-
-        TestModel::create(['name' => 'test']);
     }
 
     public function assertFileExistsOnDisk(string $fileName, string $diskName)

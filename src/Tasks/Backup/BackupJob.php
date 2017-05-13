@@ -6,6 +6,7 @@ use Exception;
 use Carbon\Carbon;
 use Spatie\DbDumper\DbDumper;
 use Illuminate\Support\Collection;
+use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -196,7 +197,11 @@ class BackupJob
         return $this->dbDumpers->map(function (DbDumper $dbDumper) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-            $fileName = $dbDumper->getDbName().'.sql';
+            $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
+
+            $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
+
+            $fileName = "{$dbType}-{$dbName}.sql";
 
             $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
