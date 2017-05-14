@@ -2,6 +2,39 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.14.0 - 2017-05-09
+- add support for MongoDB.
+
+# 4.13.1 - 2017-05-01
+- fix call to undefined method getFilesystemName
+
+# 4.13.0 - 2017-04-26
+- add support for gzipping database dumps
+
+# 4.12.1 - 2017-04-19
+- optimise `backup:list` for external file systems
+
+## 4.12.0 - 2017-04-14
+- add Russian translation
+
+## 4.11.0 - 2017-04-14
+- add Ukranian translation
+
+## 4.10.0 - 2017-04-11
+- add ability to override the Slack channel in the config file
+
+## 4.9.0 - 2017-04-11
+- add pt-BR translation
+
+## 4.8.1 - 2017-04-06
+- dump mysql databases in the configured charset
+
+## 4.8.0 - 2017-04-02
+- add Arabic translation
+
+## 4.7.2 - 2017-03-31
+- fix bug where a file that was already closed by Flysystem would be closed again
+
 ## 4.7.1 - 2017-03-14
 - do not send mail notification when config for notification contains an empty string
 

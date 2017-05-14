@@ -3,7 +3,6 @@
 [![Latest Stable Version](https://poser.pugx.org/spatie/laravel-backup/v/stable?format=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/spatie/laravel-backup/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-backup)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/3f243a38-a1c7-42f5-96c8-37526e807029.svg?style=flat-square)](https://insight.sensiolabs.com/projects/3f243a38-a1c7-42f5-96c8-37526e807029)
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-backup)
 [![StyleCI](https://styleci.io/repos/30915528/shield)](https://styleci.io/repos/30915528)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
@@ -25,29 +24,21 @@ Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all
 
 ## Postcardware
 
-You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment you are required to send us a postcard from your hometown, mentioning which of our package(s) you are using.
+You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment we highly appreciated you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
 
 Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
 
-The best postcards will get published on the open source page on our website.
+All postcards are published [on our website](https://spatie.be/en/opensource/laravel).
 
 ## Installation and usage
 
-You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v4.
+This package requires PHP 7 and Laravel 5.4 or higher. You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v4.
 
 ## Using an older version of PHP / Laravel ?
 
 If you're not on PHP 7 or Laravel 5.3 just use version 3 of this package. 
- 
-Just issue this command:
 
-```php
-composer require "spatie/laravel-backup:^3.0.0"
-```
-
-Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3) to learn how to set up and use the package.
-
-We won't introduce new features to v3 anymore but we will still fix bugs.
+Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3). We won't introduce new features to v3 anymore but we will still fix bugs.
 
 ## Testing
 

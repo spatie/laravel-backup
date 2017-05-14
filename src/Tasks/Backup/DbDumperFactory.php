@@ -5,6 +5,7 @@ namespace Spatie\Backup\Tasks\Backup;
 use Spatie\DbDumper\DbDumper;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
@@ -26,6 +27,10 @@ class DbDumperFactory
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'] ?? '')
             ->setPassword($dbConfig['password'] ?? '');
+
+        if ($dbDumper instanceof MySql) {
+            $dbDumper->setDefaultCharacterSet($dbConfig['charset'] ?? '');
+        }
 
         if (isset($dbConfig['port'])) {
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
@@ -52,6 +57,10 @@ class DbDumperFactory
 
         if ($driver === 'sqlite') {
             return new Sqlite();
+        }
+
+        if ($driver === 'mongodb') {
+            return new MongoDb();
         }
 
         throw CannotCreateDbDumper::unsupportedDriver($driver);

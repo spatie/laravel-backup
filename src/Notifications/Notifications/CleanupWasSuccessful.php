@@ -30,6 +30,7 @@ class CleanupWasSuccessful extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
+            ->to(config('laravel-backup.notifications.slack.channel'))
             ->content(trans('laravel-backup::notifications.cleanup_successful_subject_title'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());

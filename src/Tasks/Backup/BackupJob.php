@@ -202,6 +202,14 @@ class BackupJob
 
             $dbDumper->dumpToFile($temporaryFilePath);
 
+            if (config('laravel-backup.backup.gzip_database_dump')) {
+                consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
+
+                $compressedDumpPath = Gzip::compress($temporaryFilePath);
+
+                return $compressedDumpPath;
+            }
+
             return $temporaryFilePath;
         })->toArray();
     }

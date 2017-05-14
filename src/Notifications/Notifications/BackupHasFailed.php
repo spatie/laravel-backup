@@ -33,6 +33,7 @@ class BackupHasFailed extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
+            ->to(config('laravel-backup.notifications.slack.channel'))
             ->content(trans('laravel-backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment

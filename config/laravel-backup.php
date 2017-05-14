@@ -39,12 +39,17 @@ return [
 
             /*
              * The names of the connections to the databases that should be backed up
-             * Only MySQL and PostgreSQL databases are supported.
+             * MySQL, PostgreSQL, SQLite and Mongo databases are supported.
              */
             'databases' => [
                 'mysql',
             ],
         ],
+
+        /*
+         * The database dump can be gzipped to decrease diskspace usage.
+         */
+        'gzip_database_dump' => false,
 
         'destination' => [
 
@@ -92,6 +97,11 @@ return [
 
         'slack' => [
             'webhook_url' => '',
+
+            /*
+             * If this is set to null the default channel of the webhook will be used.
+             */
+            'channel' => null,
         ],
     ],
 
