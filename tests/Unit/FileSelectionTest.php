@@ -132,6 +132,25 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function it_can_select_a_directory_and_a_dotfile()
+    {
+        $fileSelection = (new FileSelection([
+            $this->sourceDirectory.'/directory1/directory1',
+            $this->sourceDirectory.'/.dotfile',
+        ]));
+
+        $this->assertSame(
+            $this->getTestFiles([
+                '.dotfile',
+                'directory1/directory1/file1.txt',
+                'directory1/directory1/file2.txt',
+            ]),
+            iterator_to_array($fileSelection->selectedFiles())
+        );
+    }
+
+
+    /** @test */
     public function it_provides_a_factory_method()
     {
         $fileSelection = FileSelection::create();
