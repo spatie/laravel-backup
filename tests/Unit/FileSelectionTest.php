@@ -149,7 +149,6 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     /** @test */
     public function it_provides_a_factory_method()
     {
