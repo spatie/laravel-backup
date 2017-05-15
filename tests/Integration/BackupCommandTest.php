@@ -232,4 +232,30 @@ class BackupCommandTest extends TestCase
 
         $this->seeInConsoleOutput('There are no files to be backed up');
     }
+
+    /** @test */
+    public function it_appends_the_database_type_to_backup_file_name_to_prevent_overwrite()
+    {
+        $this->app['config']->set('laravel-backup.backup.source.databases', ['sqlite']);
+
+        $this->setUpDatabase($this->app);
+
+        $resultCode = Artisan::call('backup:run', ['--only-db' => true]);
+
+        $this->assertEquals(0, $resultCode);
+
+        $backupDiskLocal = $this->app['config']->get('filesystems.disks.local.root');
+        $backupFileLocal = $backupDiskLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
+        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-database.sql');
+
+        $backupDiskSecondLocal = $this->app['config']->get('filesystems.disks.secondLocal.root');
+        $backupFileSecondLocal = $backupDiskSecondLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
+        $this->assertFileExistsInZip($backupFileSecondLocal, 'sqlite-database.sql');
+
+        /*
+         * Close the database connection to unlock the sqlite file for deletion.
+         * This prevents the errors from other tests trying to delete and recreate the folder.
+         */
+        $this->app['db']->disconnect();
+    }
 }
