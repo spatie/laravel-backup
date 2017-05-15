@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.14.1 - 2017-05-09
+- prevent overwriting of dump files when two databases with the same name (but other driver) are dumped
+
 # 4.14.0 - 2017-05-09
 - add support for MongoDB.
 
