@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-# 4.14.2 - 2017-05-09
+# 4.14.2 - 2017-05-18
 - fix for empty backup when trying to back up a single file
 
 # 4.14.1 - 2017-05-09
