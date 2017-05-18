@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.14.2 - 2017-05-09
+- fix for empty backup when trying to back up a single file
+
 # 4.14.1 - 2017-05-09
 - prevent overwriting of dump files when two databases with the same name (but other driver) are dumped
 

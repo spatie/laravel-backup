@@ -82,11 +82,15 @@ class FileSelection
             $finder->followLinks();
         }
 
-        $finder->in($this->includedDirectories());
-
         foreach ($this->includedFiles() as $includedFile) {
             yield $includedFile;
         }
+
+        if (! count($this->includedDirectories())) {
+            return;
+        }
+
+        $finder->in($this->includedDirectories());
 
         foreach ($finder->getIterator() as $file) {
             if ($this->shouldExclude($file)) {
