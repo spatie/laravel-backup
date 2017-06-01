@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.17.0 - 2017-06-01
+ - add Danish translation
+
 # 4.16.0 - 2017-05-23
  - add French translation
 
