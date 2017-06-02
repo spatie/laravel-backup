@@ -56,5 +56,12 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\Backup\\BackupServiceProvider"
+            ]
+        }
     }
 }
