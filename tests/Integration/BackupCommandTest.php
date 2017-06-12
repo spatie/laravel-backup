@@ -4,6 +4,7 @@ namespace Spatie\Backup\Test\Integration;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\Backup\Events\BackupHasFailed;
 
 class BackupCommandTest extends TestCase
 {
@@ -257,5 +258,28 @@ class BackupCommandTest extends TestCase
          * This prevents the errors from other tests trying to delete and recreate the folder.
          */
         $this->app['db']->disconnect();
+    }
+
+    /** @test */
+    public function it_should_trigger_the_backup_failed_event()
+    {
+        $this->expectsEvent(BackupHasFailed::class);
+
+        //since our test environment did not set up a db, this will fail
+        Artisan::call('backup:run', [
+            '--only-db' => true,
+        ]);
+    }
+
+    /** @test */
+    public function it_should_omit_the_backup_failed_event_with_no_notifications_flag()
+    {
+        $this->doesNotExpectEvent(BackupHasFailed::class);
+
+        //since our test environment did not set up a db, this will fail
+        Artisan::call('backup:run', [
+            '--only-db' => true,
+            '--no-notifications' => true,
+        ]);
     }
 }
