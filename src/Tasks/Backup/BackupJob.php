@@ -33,7 +33,7 @@ class BackupJob
     protected $temporaryDirectory;
 
     /** @var bool */
-    protected $triggerNotifications = true;
+    protected $sendNotifications = true;
 
     public function __construct()
     {
@@ -60,7 +60,7 @@ class BackupJob
 
     public function disableNotifications(): BackupJob
     {
-        $this->triggerNotifications = false;
+        $this->sendNotifications = false;
 
         return $this;
     }
@@ -137,7 +137,7 @@ class BackupJob
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
-            $this->triggerNotification(new BackupHasFailed($exception));
+            $this->sendNotification(new BackupHasFailed($exception));
         }
 
         $this->temporaryDirectory->delete();
@@ -153,7 +153,7 @@ class BackupJob
             ->addFiles($databaseDumps)
             ->addFiles($this->filesToBeBackedUp());
 
-        $this->triggerNotification(new BackupManifestWasCreated($manifest));
+        $this->sendNotification(new BackupManifestWasCreated($manifest));
 
         return $manifest;
     }
@@ -191,7 +191,7 @@ class BackupJob
 
         consoleOutput()->info("Created zip containing {$zip->count()} files. Size is {$zip->humanReadableSize()}");
 
-        $this->triggerNotification(new BackupZipWasCreated($pathToZip));
+        $this->sendNotification(new BackupZipWasCreated($pathToZip));
 
         return $pathToZip;
     }
@@ -239,18 +239,18 @@ class BackupJob
 
                 consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->diskName()}.");
 
-                $this->triggerNotification(new BackupWasSuccessful($backupDestination));
+                $this->sendNotification(new BackupWasSuccessful($backupDestination));
             } catch (Exception $exception) {
                 consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
-                $this->triggerNotification(new BackupHasFailed($exception, $backupDestination ?? null));
+                $this->sendNotification(new BackupHasFailed($exception, $backupDestination ?? null));
             }
         });
     }
 
-    protected function triggerNotification($notification)
+    protected function sendNotification($notification)
     {
-        if ($this->triggerNotifications) {
+        if ($this->sendNotifications) {
             event($notification);
         }
     }

@@ -279,7 +279,7 @@ class BackupCommandTest extends TestCase
         //since our test environment did not set up a db, this will fail
         Artisan::call('backup:run', [
             '--only-db' => true,
-            '--no-notifications' => true,
+            '--disable-notifications' => true,
         ]);
     }
 }
