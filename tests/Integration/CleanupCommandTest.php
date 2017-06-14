@@ -4,6 +4,7 @@ namespace Spatie\Backup\Test\Integration;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\Backup\Events\CleanupWasSuccessful;
 
 class CleanupCommandTest extends TestCase
 {
@@ -139,6 +140,46 @@ class CleanupCommandTest extends TestCase
             'mysite.com/test_20080101.zip',
             'mysite.com/test_20090101.zip',
             'mysite.com/test_200100101.zip',
+        ]);
+    }
+
+    /** @test */
+    public function it_should_trigger_the_cleanup_successful_event()
+    {
+        $this->expectsEvent(CleanupWasSuccessful::class);
+
+        $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
+        $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));
+        $this->testHelper->createTempFileWithAge('mysite.com/test1000.txt', Carbon::now()->subDays(1000));
+        $this->testHelper->createTempFileWithAge('mysite.com/test2000.txt', Carbon::now()->subDays(2000));
+
+        Artisan::call('backup:clean');
+
+        $this->assertTempFilesExist([
+            'mysite.com/test1.txt',
+            'mysite.com/test2.txt',
+            'mysite.com/test1000.txt',
+            'mysite.com/test2000.txt',
+        ]);
+    }
+
+    /** @test */
+    public function it_should_omit_the_cleanup_successful_event()
+    {
+        $this->doesNotExpectEvent(CleanupWasSuccessful::class);
+
+        $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
+        $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));
+        $this->testHelper->createTempFileWithAge('mysite.com/test1000.txt', Carbon::now()->subDays(1000));
+        $this->testHelper->createTempFileWithAge('mysite.com/test2000.txt', Carbon::now()->subDays(2000));
+
+        Artisan::call('backup:clean', ['--disable-notifications' => true]);
+
+        $this->assertTempFilesExist([
+            'mysite.com/test1.txt',
+            'mysite.com/test2.txt',
+            'mysite.com/test1000.txt',
+            'mysite.com/test2000.txt',
         ]);
     }
 }
