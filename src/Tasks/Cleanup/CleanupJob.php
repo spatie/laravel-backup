@@ -26,7 +26,7 @@ class CleanupJob
 
         $this->strategy = $strategy;
 
-        $this->sendNotifications = !$disableNotifications;
+        $this->sendNotifications = ! $disableNotifications;
     }
 
     public function run()
