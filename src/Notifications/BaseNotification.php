@@ -34,10 +34,10 @@ abstract class BaseNotification extends Notification
     {
         return $this->backupDestination()->diskName();
     }
-    
 
-    public function toArray($notifiable) {
-	    return $this->backupDestinationProperties();
+    public function toArray($notifiable)
+    {
+        return $this->backupDestinationProperties();
     }
 
     protected function backupDestinationProperties(): Collection
