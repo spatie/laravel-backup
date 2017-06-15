@@ -10,7 +10,7 @@ use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 class BackupCommand extends BaseCommand
 {
     /** @var string */
-    protected $signature = 'backup:run {--filename=} {--only-db} {--only-files} {--only-to-disk=}';
+    protected $signature = 'backup:run {--filename=} {--only-db} {--only-files} {--only-to-disk=} {--disable-notifications}';
 
     /** @var string */
     protected $description = 'Run the backup.';
@@ -18,6 +18,8 @@ class BackupCommand extends BaseCommand
     public function handle()
     {
         consoleOutput()->comment('Starting backup...');
+
+        $disableNotifications = $this->option('disable-notifications');
 
         try {
             $this->guardAgainstInvalidOptions();
@@ -40,13 +42,19 @@ class BackupCommand extends BaseCommand
                 $backupJob->setFilename($this->option('filename'));
             }
 
+            if ($disableNotifications) {
+                $backupJob->disableNotifications();
+            }
+
             $backupJob->run();
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
-            event(new BackupHasFailed($exception));
+            if (! $disableNotifications) {
+                event(new BackupHasFailed($exception));
+            }
 
             return -1;
         }
