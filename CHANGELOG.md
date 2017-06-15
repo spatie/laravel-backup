@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.18.0 - 2017-06-15
+ - add `disable-notifications` option to `backup` and `clean` commands
+
 # 4.17.0 - 2017-06-01
  - add Danish translation
 
