@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.19.0 - 2017-07-13
+- close resource in backup destination if this was not already done by Flysystem
+
 # 4.18.0 - 2017-06-15
  - add `disable-notifications` option to `backup` and `clean` commands
 
