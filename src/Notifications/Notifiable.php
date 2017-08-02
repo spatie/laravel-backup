@@ -2,9 +2,10 @@
 
 namespace Spatie\Backup\Notifications;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable as NotifiableTrait;
 
-class Notifiable
+class Notifiable extends Model
 {
     use NotifiableTrait;
 
