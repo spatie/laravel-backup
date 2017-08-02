@@ -30,13 +30,13 @@ class CleanupCommandTest extends TestCase
         // 1 megabyte storage size
         $this->app['config']->set('laravel-backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 1);
 
-        $this->testHelper->createTempFile1Mb("mysite.com/test1.zip", Carbon::now()->subDays(1));
-        $this->testHelper->createTempFile1Mb("mysite.com/test2.zip", Carbon::now()->subDays(2));
+        $this->testHelper->createTempFile1Mb('mysite.com/test1.zip', Carbon::now()->subDays(1));
+        $this->testHelper->createTempFile1Mb('mysite.com/test2.zip', Carbon::now()->subDays(2));
 
         Artisan::call('backup:clean');
 
         $this->assertTempFilesExist([
-            'mysite.com/test1.zip'
+            'mysite.com/test1.zip',
         ]);
     }
 
