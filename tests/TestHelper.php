@@ -62,4 +62,21 @@ class TestHelper
 
         return $fullPath;
     }
+
+    public function createTempFile1Mb($fileName, DateTime $date)
+    {
+        $directory = $this->getTempDirectory().'/'.dirname($fileName);
+
+        $this->filesystem->makeDirectory($directory, 0755, true, true);
+
+        $sourceFile = $this->getStubDirectory().'/1Mb.file';
+
+        $fullPath = $this->getTempDirectory().'/'.$fileName;
+
+        copy($sourceFile, $fullPath);
+
+        touch($fullPath, $date->getTimeStamp());
+
+        return $fullPath;
+    }
 }

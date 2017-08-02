@@ -25,6 +25,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $this->getTestFiles([
                 '.dotfile',
+                '1Mb.file',
                 'directory1/directory1/file1.txt',
                 'directory1/directory1/file2.txt',
                 'directory1/file1.txt',
@@ -47,6 +48,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $this->getTestFiles([
                 '.dotfile',
+                '1Mb.file',
                 'directory2/directory1/file1.txt',
                 'file1.txt',
                 'file2.txt',
@@ -65,6 +67,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $this->getTestFiles([
                 '.dotfile',
+                '1Mb.file',
                 'directory1/file1.txt',
                 'directory1/file2.txt',
                 'file1.txt',
@@ -105,6 +108,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $this->getTestFiles([
                 '.dotfile',
+                '1Mb.file',
                 'directory1/file1.txt',
                 'directory1/file2.txt',
                 'file1.txt',
