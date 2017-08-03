@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Test\Integration;
 
-use Event;
 use Spatie\Backup\Test\TestHelper;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Console\Kernel;

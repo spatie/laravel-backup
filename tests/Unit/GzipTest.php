@@ -3,9 +3,9 @@
 namespace Spatie\Backup\Test\Unit;
 
 use Exception;
+use PHPUnit\Framework\TestCase;
 use Spatie\Backup\Test\TestHelper;
 use Spatie\Backup\Tasks\Backup\Gzip;
-use PHPUnit\Framework\TestCase;
 
 class GzipTest extends TestCase
 {
