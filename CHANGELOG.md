@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 4.19.1 - 2017-08-03
+ - fix bug in default cleaning strategy
+
 # 4.19.0 - 2017-08-02
  - add Spanish translations
 
