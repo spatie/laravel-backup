@@ -5,8 +5,9 @@ namespace Spatie\Backup\Test\Unit;
 use Generator;
 use Spatie\Backup\Test\TestHelper;
 use Spatie\Backup\Tasks\Backup\Manifest;
+use PHPUnit\Framework\TestCase;
 
-class ManifestTest extends \PHPUnit_Framework_TestCase
+class ManifestTest extends TestCase
 {
     /** @var \Spatie\Backup\Test\TestHelper */
     protected $testHelper;
