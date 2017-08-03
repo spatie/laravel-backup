@@ -113,8 +113,11 @@ class DefaultStrategy extends CleanupStrategy
             return;
         }
 
-        $backups->oldest()->delete();
+        $oldest = $backups->oldest();
 
-        $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
+        if ($oldest) {
+            $oldest->delete();
+            $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
+        }
     }
 }
