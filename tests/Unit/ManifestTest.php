@@ -3,9 +3,9 @@
 namespace Spatie\Backup\Test\Unit;
 
 use Generator;
+use PHPUnit\Framework\TestCase;
 use Spatie\Backup\Test\TestHelper;
 use Spatie\Backup\Tasks\Backup\Manifest;
-use PHPUnit\Framework\TestCase;
 
 class ManifestTest extends TestCase
 {
