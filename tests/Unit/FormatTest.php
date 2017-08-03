@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Test\Unit;
 
 use Carbon\Carbon;
-use Spatie\Backup\Helpers\Format;
 use PHPUnit\Framework\TestCase;
+use Spatie\Backup\Helpers\Format;
 
 class FormatTest extends TestCase
 {

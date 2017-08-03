@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Test\Unit;
 
+use PHPUnit\Framework\TestCase;
 use Spatie\Backup\Test\TestHelper;
 use Spatie\Backup\Tasks\Backup\Zip;
-use PHPUnit\Framework\TestCase;
 
 class ZipTest extends TestCase
 {
