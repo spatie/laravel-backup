@@ -44,9 +44,7 @@ class BackupCollection extends Collection
     public function oldest()
     {
         return $this
-            ->filter(function (Backup $backup) {
-                return $backup->exists();
-            })
+            ->filter->exists()
             ->last();
     }
 
@@ -56,8 +54,6 @@ class BackupCollection extends Collection
             return $this->sizeCache;
         }
 
-        return $this->sizeCache = $this->sum(function (Backup $backup) {
-            return $backup->size();
-        });
+        return $this->sizeCache = $this->sum->size();
     }
 }
