@@ -12,7 +12,7 @@ class CleanupHasFailedTest extends TestCase
     {
         $this->app['config']->set('laravel-backup.backup.destination.disks', ['ftp']);
 
-        $this->expectsEvent(CleanupHasFailed::class);
+        $this->expectsEvents(CleanupHasFailed::class);
 
         $this->artisan('backup:clean');
     }

@@ -263,7 +263,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_should_trigger_the_backup_failed_event()
     {
-        $this->expectsEvent(BackupHasFailed::class);
+        $this->expectsEvents(BackupHasFailed::class);
 
         //since our test environment did not set up a db, this will fail
         Artisan::call('backup:run', [
@@ -274,7 +274,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_should_omit_the_backup_failed_event_with_no_notifications_flag()
     {
-        $this->doesNotExpectEvent(BackupHasFailed::class);
+        $this->doesntExpectEvents(BackupHasFailed::class);
 
         //since our test environment did not set up a db, this will fail
         Artisan::call('backup:run', [

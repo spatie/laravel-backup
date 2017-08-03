@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Test\Integration;
 
 use Event;
-use Exception;
 use Spatie\Backup\Test\TestHelper;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Console\Kernel;
@@ -117,28 +116,6 @@ abstract class TestCase extends Orchestra
 
             $this->assertFileNotExists($path);
         }
-    }
-
-    protected function expectsEvent($eventClassName)
-    {
-        Event::listen($eventClassName, function ($event) use ($eventClassName) {
-            $this->firedEvents[] = $eventClassName;
-        });
-
-        $this->beforeApplicationDestroyed(function () use ($eventClassName) {
-            $firedEvents = isset($this->firedEvents) ? $this->firedEvents : [];
-
-            if (! in_array($eventClassName, $firedEvents)) {
-                throw new Exception("Event {$eventClassName} not fired");
-            }
-        });
-    }
-
-    protected function doesNotExpectEvent($eventClassName)
-    {
-        Event::listen($eventClassName, function ($event) use ($eventClassName) {
-            throw new Exception("Event {$eventClassName} unexpectingly fired");
-        });
     }
 
     protected function seeInConsoleOutput($expectedText)

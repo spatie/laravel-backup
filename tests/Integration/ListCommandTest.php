@@ -19,5 +19,7 @@ class ListCommandTest extends TestCase
     public function it_can_run_the_list_command()
     {
         Artisan::call('backup:list');
+
+        $this->assertTrue(true);
     }
 }

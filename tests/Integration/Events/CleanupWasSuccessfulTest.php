@@ -10,7 +10,7 @@ class CleanupWasSuccessfulTest extends TestCase
     /** @test */
     public function it_will_fire_an_event_after_a_cleanup_was_completed_successfully()
     {
-        $this->expectsEvent(CleanupWasSuccessFul::class);
+        $this->expectsEvents(CleanupWasSuccessFul::class);
 
         $this->artisan('backup:clean');
     }

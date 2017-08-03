@@ -12,7 +12,7 @@ class BackupHasFailedTest extends TestCase
     {
         $this->app['config']->set('laravel-backup.backup.destination.disks', ['ftp']);
 
-        $this->expectsEvent(BackupHasFailed::class);
+        $this->expectsEvents(BackupHasFailed::class);
 
         $this->artisan('backup:run', ['--only-files' => true]);
     }
@@ -23,7 +23,7 @@ class BackupHasFailedTest extends TestCase
         $this->app['config']->set('laravel-backup.backup.source.files.include', []);
         $this->app['config']->set('laravel-backup.backup.source.databases', []);
 
-        $this->expectsEvent(BackupHasFailed::class);
+        $this->expectsEvents(BackupHasFailed::class);
 
         $this->artisan('backup:run');
     }
