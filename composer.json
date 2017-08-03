@@ -26,9 +26,9 @@
         "illuminate/support": "5.5.x-dev",
         "illuminate/notifications": "5.5.x-dev",
         "league/flysystem": "^1.0.27",
-        "spatie/db-dumper": "^2.6",
+        "spatie/db-dumper": "^2.7",
         "spatie/temporary-directory": "^1.1",
-        "symfony/finder": "^3.0"
+        "symfony/finder": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2",
