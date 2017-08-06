@@ -17,7 +17,7 @@ class MonitorCommand extends BaseCommand
 
     public function handle()
     {
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('laravel-backup.monitorBackups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitorBackups'));
 
         $statuses->each(function (BackupDestinationStatus $backupDestinationStatus) {
             if ($backupDestinationStatus->isHealthy()) {

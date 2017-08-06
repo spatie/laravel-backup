@@ -18,14 +18,14 @@ class BackupServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/laravel-backup.php' => config_path('laravel-backup.php'),
+            __DIR__.'/../config/backup.php' => config_path('backup.php'),
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel-backup'),
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/backup'),
         ]);
 
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'laravel-backup');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'backup');
     }
 
     /**
@@ -33,7 +33,7 @@ class BackupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laravel-backup.php', 'laravel-backup');
+        $this->mergeConfigFrom(__DIR__.'/../config/backup.php', 'backup');
 
         $this->app['events']->subscribe(EventHandler::class);
 

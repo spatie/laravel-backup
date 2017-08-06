@@ -36,7 +36,7 @@ class EventHandler
 
     protected function determineNotifiable()
     {
-        $notifiableClass = $this->config->get('laravel-backup.notifications.notifiable');
+        $notifiableClass = $this->config->get('backup.notifications.notifiable');
 
         return app($notifiableClass);
     }
@@ -45,7 +45,7 @@ class EventHandler
     {
         $eventName = class_basename($event);
 
-        $notificationClass = collect($this->config->get('laravel-backup.notifications.notifications'))
+        $notificationClass = collect($this->config->get('backup.notifications.notifications'))
             ->keys()
             ->first(function ($notificationClass) use ($eventName) {
                 $notificationName = class_basename($notificationClass);

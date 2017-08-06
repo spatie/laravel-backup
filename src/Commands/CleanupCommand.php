@@ -22,7 +22,7 @@ class CleanupCommand extends BaseCommand
         $disableNotifications = $this->option('disable-notifications');
 
         try {
-            $config = config('laravel-backup');
+            $config = config('backup');
 
             $backupDestinations = BackupDestinationFactory::createFromArray($config['backup']);
 

@@ -10,7 +10,7 @@ class ListCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->app['config']->set('laravel-backup.backup.destination.disks', [
+        $this->app['config']->set('backup.backup.destination.disks', [
             'local',
         ]);
     }

@@ -17,8 +17,8 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject(trans('laravel-backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('laravel-backup::notifications.unhealthy_backup_found_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
+            ->subject(trans('backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('backup::notifications.unhealthy_backup_found_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line($this->problemDescription());
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
@@ -32,8 +32,8 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
-            ->to(config('laravel-backup.notifications.slack.channel'))
-            ->content(trans('laravel-backup::notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
+            ->to(config('backup.notifications.slack.channel'))
+            ->content(trans('backup::notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
@@ -44,22 +44,22 @@ class UnhealthyBackupWasFound extends BaseNotification
         $backupStatus = $this->event->backupDestinationStatus;
 
         if (! $backupStatus->isReachable()) {
-            return trans('laravel-backup::notification.unhealthy_backup_found_not_reachable', ['error' => $backupStatus->connectionError()]);
+            return trans('backup::notification.unhealthy_backup_found_not_reachable', ['error' => $backupStatus->connectionError()]);
         }
 
         if ($backupStatus->amountOfBackups() === 0) {
-            return trans('laravel-backup::notifications.unhealthy_backup_found_empty');
+            return trans('backup::notifications.unhealthy_backup_found_empty');
         }
 
         if ($backupStatus->usesTooMuchStorage()) {
-            return trans('laravel-backup::notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
+            return trans('backup::notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
         }
 
         if ($backupStatus->newestBackupIsTooOld()) {
-            return trans('laravel-backup::notifications.unhealthy_backup_found_old', ['date' => $backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')]);
+            return trans('backup::notifications.unhealthy_backup_found_old', ['date' => $backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')]);
         }
 
-        return trans('laravel-backup::notifications.unhealthy_backup_found_unknown');
+        return trans('backup::notifications.unhealthy_backup_found_unknown');
     }
 
     public function setEvent(UnhealthyBackupWasFoundEvent $event)
