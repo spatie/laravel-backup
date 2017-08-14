@@ -22,8 +22,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
     {
         $fileSelection = new FileSelection($this->sourceDirectory);
 
-        $this->assertSame(
-            $this->getTestFiles([
+        $testFiles = $this->getTestFiles([
                 '.dotfile',
                 '1Mb.file',
                 'directory1/directory1/file1.txt',
@@ -34,9 +33,13 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file1.txt',
                 'file2.txt',
                 'file3.txt',
-            ]),
-            iterator_to_array($fileSelection->selectedFiles())
-        );
+            ]);
+        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+
+        sort($testFiles);
+        sort($selectedFiles);
+
+        $this->assertSame($testFiles, $selectedFiles);
     }
 
     /** @test */
@@ -45,17 +48,20 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $fileSelection = (new FileSelection($this->sourceDirectory))
                         ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
 
-        $this->assertSame(
-            $this->getTestFiles([
+        $testFiles = $this->getTestFiles([
                 '.dotfile',
                 '1Mb.file',
                 'directory2/directory1/file1.txt',
                 'file1.txt',
                 'file2.txt',
                 'file3.txt',
-            ]),
-            iterator_to_array($fileSelection->selectedFiles())
-        );
+            ]);
+        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+
+        sort($testFiles);
+        sort($selectedFiles);
+
+        $this->assertSame($testFiles, $selectedFiles);
     }
 
     /** @test */
@@ -64,8 +70,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         $fileSelection = (new FileSelection($this->sourceDirectory))
             ->excludeFilesFrom("{$this->sourceDirectory}/*/directory1");
 
-        $this->assertSame(
-            $this->getTestFiles([
+        $testFiles = $this->getTestFiles([
                 '.dotfile',
                 '1Mb.file',
                 'directory1/file1.txt',
@@ -73,9 +78,13 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file1.txt',
                 'file2.txt',
                 'file3.txt',
-            ]),
-            iterator_to_array($fileSelection->selectedFiles())
-        );
+            ]);
+        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+
+        sort($testFiles);
+        sort($selectedFiles);
+
+        $this->assertSame($testFiles, $selectedFiles);
     }
 
     /** @test */
@@ -105,17 +114,20 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
                 'file2.txt',
             ]));
 
-        $this->assertSame(
-            $this->getTestFiles([
+        $testFiles = $this->getTestFiles([
                 '.dotfile',
                 '1Mb.file',
                 'directory1/file1.txt',
                 'directory1/file2.txt',
                 'file1.txt',
                 'file3.txt',
-            ]),
-            iterator_to_array($fileSelection->selectedFiles())
-        );
+            ]);
+        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+
+        sort($testFiles);
+        sort($selectedFiles);
+
+        $this->assertSame($testFiles, $selectedFiles);
     }
 
     /** @test */
