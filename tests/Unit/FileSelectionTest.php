@@ -36,10 +36,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
             ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
-        sort($testFiles);
-        sort($selectedFiles);
-
-        $this->assertSame($testFiles, $selectedFiles);
+        $this->assertSameArray($testFiles, $selectedFiles);
     }
 
     /** @test */
@@ -58,10 +55,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
             ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
-        sort($testFiles);
-        sort($selectedFiles);
-
-        $this->assertSame($testFiles, $selectedFiles);
+        $this->assertSameArray($testFiles, $selectedFiles);
     }
 
     /** @test */
@@ -81,10 +75,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
             ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
-        sort($testFiles);
-        sort($selectedFiles);
-
-        $this->assertSame($testFiles, $selectedFiles);
+        $this->assertSameArray($testFiles, $selectedFiles);
     }
 
     /** @test */
@@ -124,10 +115,7 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
             ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
-        sort($testFiles);
-        sort($selectedFiles);
-
-        $this->assertSame($testFiles, $selectedFiles);
+        $this->assertSameArray($testFiles, $selectedFiles);
     }
 
     /** @test */
@@ -177,5 +165,12 @@ class FileSelectionTest extends \PHPUnit_Framework_TestCase
         }, $relativePaths);
 
         return $absolutePaths;
+    }
+
+    protected function assertSameArray(array $array1, array $array2)
+    {
+        sort($array1);
+        sort($array2);
+        $this->assertSame($array1, $array2);
     }
 }
