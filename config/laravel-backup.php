@@ -179,7 +179,7 @@ return [
             /*
              * The maximum number of total newest backups to keep.
              */
-            'keepNewestBackupsMax' => 1
+            'keepNewestBackupsMax' => 25
         ],
     ],
 ];
