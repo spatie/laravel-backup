@@ -16,9 +16,11 @@ class RollingStrategy extends CleanupStrategy
         $backups = $backups->slice($max);
 
         $delete = $backups->count();
-        
+
         consoleOutput()->info("Deleting {$delete} of {$total} backups.");
 
-        $backups->each(function ($backup) { $backup->delete(); });
+        $backups->each(function ($backup) {
+            $backup->delete();
+        });
     }
 }
