@@ -173,5 +173,13 @@ return [
              */
             'deleteOldestBackupsWhenUsingMoreMegabytesThan' => 5000,
         ],
+
+        'rollingStrategy' => [
+
+            /*
+             * The maximum number of total newest backups to keep.
+             */
+            'keepNewestBackupsMax' => 25,
+        ],
     ],
 ];
