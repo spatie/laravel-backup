@@ -118,7 +118,8 @@ class BackupJob
         $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/backup')))
             ->name('temp')
             ->force()
-            ->create();
+            ->create()
+            ->empty();
 
         try {
             if (! count($this->backupDestinations)) {

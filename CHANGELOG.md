@@ -7,6 +7,9 @@ All notable changes to `laravel-backup` will be documented in this file.
 - added support for Laravel 5.5, dropped support for older versions of the framework
 - renamed config file from `laravel-backup` to `backup`.
 
+# 4.19.2 - 2017-08-29
+- make sure the temp directory is empty before starting the backup
+
 # 4.19.1 - 2017-08-03
  - fix bug in default cleaning strategy
 
