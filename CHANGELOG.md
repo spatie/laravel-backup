@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-4.20.0 - 2017-08-29
+4.19.2 - 2017-08-29
 - make sure the temp directory is empty before starting the backup
 
 # 4.19.1 - 2017-08-03
