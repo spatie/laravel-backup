@@ -261,6 +261,26 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_should_start_with_a_clean_temp_directory()
+    {
+        // start with a file in the backup temp directory
+        $tempDirectoryPath = storage_path('app/laravel-backup/temp');
+        if (! file_exists($tempDirectoryPath)) {
+            mkdir($tempDirectoryPath, 0777, true);
+        }
+        touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file.txt');
+
+        // we expect the backup to fail
+        $this->expectsEvent(BackupHasFailed::class);
+        $this->app['config']->set('laravel-backup.backup.source.files.include', []);
+        $this->app['config']->set('laravel-backup.backup.source.databases', []);
+        Artisan::call('backup:run');
+
+        // make sure the file we added to temp is now gone
+        $this->assertFalse(realpath($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file.txt'));
+    }
+
+    /** @test */
     public function it_should_trigger_the_backup_failed_event()
     {
         $this->expectsEvent(BackupHasFailed::class);
