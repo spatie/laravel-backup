@@ -2,10 +2,11 @@
 
 namespace Spatie\Backup\Test\Unit;
 
+use PHPUnit\Framework\TestCase;
 use Spatie\Backup\Test\TestHelper;
 use Spatie\Backup\Tasks\Backup\Zip;
 
-class ZipTest extends \PHPUnit_Framework_TestCase
+class ZipTest extends TestCase
 {
     /** @var \Spatie\Backup\Test\TestHelper */
     protected $testHelper;

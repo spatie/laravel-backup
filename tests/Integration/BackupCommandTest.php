@@ -24,12 +24,12 @@ class BackupCommandTest extends TestCase
 
         $this->expectedZipPath = 'mysite.com/2016-01-01-21-01-01.zip';
 
-        $this->app['config']->set('laravel-backup.backup.destination.disks', [
+        $this->app['config']->set('backup.backup.destination.disks', [
             'local',
             'secondLocal',
         ]);
 
-        $this->app['config']->set('laravel-backup.backup.source.files.include', [base_path()]);
+        $this->app['config']->set('backup.backup.source.files.include', [base_path()]);
     }
 
     /** @test */
@@ -51,7 +51,7 @@ class BackupCommandTest extends TestCase
 
         Carbon::setTestNow($this->date);
 
-        $this->app['config']->set('laravel-backup.backup.destination.filename_prefix', 'custom_name_');
+        $this->app['config']->set('backup.backup.destination.filename_prefix', 'custom_name_');
 
         $this->expectedZipPath = 'mysite.com/custom_name_2016-01-01-09-01-01.zip';
 
@@ -69,7 +69,7 @@ class BackupCommandTest extends TestCase
     {
         $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
 
-        $this->app['config']->set('laravel-backup.backup.source.files.include', [$backupDisk]);
+        $this->app['config']->set('backup.backup.source.files.include', [$backupDisk]);
 
         touch($backupDisk.DIRECTORY_SEPARATOR.'testing-file.txt');
 
@@ -84,7 +84,7 @@ class BackupCommandTest extends TestCase
     {
         $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
 
-        $this->app['config']->set('laravel-backup.backup.source.files.include', [$backupDisk]);
+        $this->app['config']->set('backup.backup.source.files.include', [$backupDisk]);
 
         mkdir($backupDisk.DIRECTORY_SEPARATOR.'mysite.com', 0777, true);
         touch($backupDisk.DIRECTORY_SEPARATOR.'mysite.com'.DIRECTORY_SEPARATOR.'testing-file.txt');
@@ -100,7 +100,7 @@ class BackupCommandTest extends TestCase
     {
         $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
 
-        $tempDirectoryPath = storage_path('app/laravel-backup/temp');
+        $tempDirectoryPath = storage_path('app/backup/temp');
 
         if (! file_exists($tempDirectoryPath)) {
             mkdir($tempDirectoryPath, 0777, true);
@@ -226,8 +226,8 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_will_fail_when_there_are_no_files_to_be_backed_up()
     {
-        $this->app['config']->set('laravel-backup.backup.source.files.include', []);
-        $this->app['config']->set('laravel-backup.backup.source.databases', []);
+        $this->app['config']->set('backup.backup.source.files.include', []);
+        $this->app['config']->set('backup.backup.source.databases', []);
 
         Artisan::call('backup:run');
 
@@ -237,7 +237,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_appends_the_database_type_to_backup_file_name_to_prevent_overwrite()
     {
-        $this->app['config']->set('laravel-backup.backup.source.databases', ['sqlite']);
+        $this->app['config']->set('backup.backup.source.databases', ['sqlite']);
 
         $this->setUpDatabase($this->app);
 
@@ -263,7 +263,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_should_trigger_the_backup_failed_event()
     {
-        $this->expectsEvent(BackupHasFailed::class);
+        $this->expectsEvents(BackupHasFailed::class);
 
         //since our test environment did not set up a db, this will fail
         Artisan::call('backup:run', [
@@ -274,7 +274,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_should_omit_the_backup_failed_event_with_no_notifications_flag()
     {
-        $this->doesNotExpectEvent(BackupHasFailed::class);
+        $this->doesntExpectEvents(BackupHasFailed::class);
 
         //since our test environment did not set up a db, this will fail
         Artisan::call('backup:run', [

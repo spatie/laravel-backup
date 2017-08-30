@@ -15,7 +15,7 @@ abstract class BaseNotification extends Notification
      */
     public function via()
     {
-        $notificationChannels = config('laravel-backup.notifications.notifications.'.static::class);
+        $notificationChannels = config('backup.notifications.notifications.'.static::class);
 
         return array_filter($notificationChannels);
     }

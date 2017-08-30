@@ -3,9 +3,10 @@
 namespace Spatie\Backup\Test\Unit;
 
 use Carbon\Carbon;
+use PHPUnit\Framework\TestCase;
 use Spatie\Backup\Helpers\Format;
 
-class FormatTest extends \PHPUnit_Framework_TestCase
+class FormatTest extends TestCase
 {
     /** @test */
     public function it_can_determine_a_human_readable_filesize()

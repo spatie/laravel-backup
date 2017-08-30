@@ -16,8 +16,8 @@ class BackupWasSuccessful extends BaseNotification
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->subject(trans('laravel-backup::notifications.backup_successful_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('laravel-backup::notifications.backup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
+            ->subject(trans('backup::notifications.backup_successful_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('backup::notifications.backup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
@@ -30,8 +30,8 @@ class BackupWasSuccessful extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
-            ->to(config('laravel-backup.notifications.slack.channel'))
-            ->content(trans('laravel-backup::notifications.backup_successful_subject_title'))
+            ->to(config('backup.notifications.slack.channel'))
+            ->content(trans('backup::notifications.backup_successful_subject_title'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });

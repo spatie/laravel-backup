@@ -28,7 +28,7 @@ class CleanupCommandTest extends TestCase
     public function it_can_remove_old_backups_until_using_less_than_maximum_storage()
     {
         // 1 megabyte storage size
-        $this->app['config']->set('laravel-backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 1);
+        $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 1);
 
         $this->testHelper->createTempFile1Mb('mysite.com/test1.zip', Carbon::now()->subDays(1));
         $this->testHelper->createTempFile1Mb('mysite.com/test2.zip', Carbon::now()->subDays(2));
@@ -162,7 +162,7 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_should_trigger_the_cleanup_successful_event()
     {
-        $this->expectsEvent(CleanupWasSuccessful::class);
+        $this->expectsEvents(CleanupWasSuccessful::class);
 
         $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
         $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));
@@ -182,7 +182,7 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_should_omit_the_cleanup_successful_event()
     {
-        $this->doesNotExpectEvent(CleanupWasSuccessful::class);
+        $this->doesntExpectEvents(CleanupWasSuccessful::class);
 
         $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
         $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));

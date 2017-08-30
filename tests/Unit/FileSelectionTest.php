@@ -2,10 +2,11 @@
 
 namespace Spatie\Backup\Test\Unit;
 
+use PHPUnit\Framework\TestCase;
 use Spatie\Backup\Test\TestHelper;
 use Spatie\Backup\Tasks\Backup\FileSelection;
 
-class FileSelectionTest extends \PHPUnit_Framework_TestCase
+class FileSelectionTest extends TestCase
 {
     /** @string */
     protected $sourceDirectory;

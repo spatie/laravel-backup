@@ -115,7 +115,7 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/laravel-backup')))
+        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/backup')))
             ->name('temp')
             ->force()
             ->create()
@@ -186,7 +186,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->path(config('laravel-backup.backup.destination.filename_prefix').$this->filename);
+        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.destination.filename_prefix').$this->filename);
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
@@ -218,7 +218,7 @@ class BackupJob
 
             $dbDumper->dumpToFile($temporaryFilePath);
 
-            if (config('laravel-backup.backup.gzip_database_dump')) {
+            if (config('backup.backup.gzip_database_dump')) {
                 consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
 
                 $compressedDumpPath = Gzip::compress($temporaryFilePath);

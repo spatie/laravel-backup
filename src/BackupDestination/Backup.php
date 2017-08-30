@@ -52,6 +52,7 @@ class Backup
     public function delete()
     {
         $this->disk->delete($this->path);
+
         consoleOutput()->info("Deleted backup `{$this->path}`.");
     }
 }

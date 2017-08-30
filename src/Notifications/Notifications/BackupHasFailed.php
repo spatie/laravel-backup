@@ -17,10 +17,10 @@ class BackupHasFailed extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->error()
-            ->subject(trans('laravel-backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('laravel-backup::notifications.backup_failed_body', ['application_name' => $this->applicationName()]))
-            ->line(trans('laravel-backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))
-            ->line(trans('laravel-backup::notifications.exception_trace', ['trace' => $this->event->exception->getTraceAsString()]));
+            ->subject(trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('backup::notifications.backup_failed_body', ['application_name' => $this->applicationName()]))
+            ->line(trans('backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))
+            ->line(trans('backup::notifications.exception_trace', ['trace' => $this->event->exception->getTraceAsString()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
@@ -33,16 +33,16 @@ class BackupHasFailed extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
-            ->to(config('laravel-backup.notifications.slack.channel'))
-            ->content(trans('laravel-backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
+            ->to(config('backup.notifications.slack.channel'))
+            ->content(trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
-                    ->title(trans('laravel-backup::notifications.exception_message_title'))
+                    ->title(trans('backup::notifications.exception_message_title'))
                     ->content($this->event->exception->getMessage());
             })
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
-                    ->title(trans('laravel-backup::notifications.exception_trace_title'))
+                    ->title(trans('backup::notifications.exception_trace_title'))
                     ->content($this->event->exception->getTraceAsString());
             })
             ->attachment(function (SlackAttachment $attachment) {

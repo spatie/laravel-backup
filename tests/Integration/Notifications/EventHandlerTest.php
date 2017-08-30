@@ -36,7 +36,7 @@ class EventHandlerTest extends TestCase
      */
     public function it_will_send_a_notification_via_the_configured_notification_channels(array $expectedChannels)
     {
-        $this->app['config']->set('laravel-backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
+        $this->app['config']->set('backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
 
         $this->fireBackupHasFailedEvent();
 
@@ -58,7 +58,7 @@ class EventHandlerTest extends TestCase
     {
         $exception = new Exception('Dummy exception');
 
-        $backupDestination = BackupDestinationFactory::createFromArray(config('laravel-backup.backup'))->first();
+        $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
         event(new BackupHasFailed($exception, $backupDestination));
     }
