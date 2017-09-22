@@ -117,7 +117,7 @@ class BackupJob
     {
         $disk = config('backup.backup.destination.disks');
 
-        return config("filesystems.disks.$disk[0].root");
+        return config("filesystems.disks.$disk[0].root") ?? storage_path('app/backups');
     }
 
     public function run()
