@@ -2,18 +2,18 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Exception;
 use Carbon\Carbon;
-use Spatie\DbDumper\DbDumper;
+use Exception;
 use Illuminate\Support\Collection;
-use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
+use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\DbDumper\DbDumper;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
-use Spatie\Backup\Events\BackupManifestWasCreated;
-use Spatie\Backup\BackupDestination\BackupDestination;
 
 class BackupJob
 {
@@ -113,9 +113,14 @@ class BackupJob
         return $this;
     }
 
+    public function temporaryDirectoryLocation(): string
+    {
+        return config('filesystems.disks.backups.root');
+    }
+
     public function run()
     {
-        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/backup')))
+        $this->temporaryDirectory = (new TemporaryDirectory($this->temporaryDirectoryLocation()))
             ->name('temp')
             ->force()
             ->create()
@@ -186,7 +191,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.destination.filename_prefix').$this->filename);
+        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.name').'-'.$this->filename);
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
