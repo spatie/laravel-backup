@@ -115,7 +115,9 @@ class BackupJob
 
     public function temporaryDirectoryLocation(): string
     {
-        return config('filesystems.disks.backups.root');
+        $disk = config('backup.backup.destination.disks');
+
+        return config("filesystems.disks.$disk[0].root");
     }
 
     public function run()
