@@ -113,9 +113,16 @@ class BackupJob
         return $this;
     }
 
+    public function temporaryDirectoryLocation(): string
+    {
+        $disk = config('backup.backup.destination.disks');
+
+        return config("filesystems.disks.$disk[0].root") ?? storage_path('app/backups');
+    }
+
     public function run()
     {
-        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/backup')))
+        $this->temporaryDirectory = (new TemporaryDirectory($this->temporaryDirectoryLocation()))
             ->name('temp')
             ->force()
             ->create()
@@ -186,7 +193,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files...");
 
-        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.destination.filename_prefix').$this->filename);
+        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.name').'-'.$this->filename);
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 

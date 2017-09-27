@@ -78,7 +78,7 @@ class BackupDestination
             throw InvalidBackupDestination::diskNotSet();
         }
 
-        $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
+        $destination = pathinfo($file, PATHINFO_BASENAME);
 
         $handle = fopen($file, 'r+');
 
