@@ -89,8 +89,8 @@ class FileSelectionTest extends TestCase
 
         $this->assertSame(
             $this->getTestFiles([
-                'directory1/directory1/file1.txt',
                 'directory1/directory1/file2.txt',
+                'directory1/directory1/file1.txt',
                 'directory2/directory1/file1.txt',
             ]),
             iterator_to_array($fileSelection->selectedFiles()));
