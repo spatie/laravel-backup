@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.0.3 - 2017-09-29
+- use `APP_NAME` instead of `APP_URL` by default
+
 # 5.0.2 - 2017-09-29
 - renamed temporary directory
 
