@@ -115,7 +115,7 @@ class BackupJob
 
     public function run()
     {
-        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/backup')))
+        $this->temporaryDirectory = (new TemporaryDirectory(storage_path('app/backup-temp')))
             ->name('temp')
             ->force()
             ->create()
