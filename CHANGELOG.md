@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.0.2 - 2017-09-29
+- renamed temporary directory
+
 # 5.0.1 - 2017-09-26
 - type hint config contract instead of concreate config class on `EventHandler`
 
