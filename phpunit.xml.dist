@@ -20,6 +20,6 @@
         </whitelist>
     </filter>
     <php>
-        <env name="APP_URL" value="mysite.com"/>
+        <env name="APP_NAME" value="mysite"/>
     </php>
 </phpunit>

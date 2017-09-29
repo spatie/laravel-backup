@@ -22,7 +22,7 @@ class BackupCommandTest extends TestCase
 
         Carbon::setTestNow($this->date);
 
-        $this->expectedZipPath = 'mysite.com/2016-01-01-21-01-01.zip';
+        $this->expectedZipPath = 'mysite/2016-01-01-21-01-01.zip';
 
         $this->app['config']->set('backup.backup.destination.disks', [
             'local',
@@ -53,7 +53,7 @@ class BackupCommandTest extends TestCase
 
         $this->app['config']->set('backup.backup.destination.filename_prefix', 'custom_name_');
 
-        $this->expectedZipPath = 'mysite.com/custom_name_2016-01-01-09-01-01.zip';
+        $this->expectedZipPath = 'mysite/custom_name_2016-01-01-09-01-01.zip';
 
         $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
 
@@ -86,8 +86,8 @@ class BackupCommandTest extends TestCase
 
         $this->app['config']->set('backup.backup.source.files.include', [$backupDisk]);
 
-        mkdir($backupDisk.DIRECTORY_SEPARATOR.'mysite.com', 0777, true);
-        touch($backupDisk.DIRECTORY_SEPARATOR.'mysite.com'.DIRECTORY_SEPARATOR.'testing-file.txt');
+        mkdir($backupDisk.DIRECTORY_SEPARATOR.'mysite', 0777, true);
+        touch($backupDisk.DIRECTORY_SEPARATOR.'mysite'.DIRECTORY_SEPARATOR.'testing-file.txt');
 
         Artisan::call('backup:run', ['--only-files' => true]);
 
@@ -100,7 +100,7 @@ class BackupCommandTest extends TestCase
     {
         $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
 
-        $tempDirectoryPath = storage_path('app/backup/temp');
+        $tempDirectoryPath = storage_path('app/backup-temp/temp');
 
         if (! file_exists($tempDirectoryPath)) {
             mkdir($tempDirectoryPath, 0777, true);
@@ -122,7 +122,7 @@ class BackupCommandTest extends TestCase
 
         $filename = 'testing-filename.zip';
 
-        $this->expectedZipPath = 'mysite.com/'.$filename;
+        $this->expectedZipPath = 'mysite/'.$filename;
 
         $resultCode = Artisan::call('backup:run', ['--only-files' => true, '--filename' => $filename]);
 
@@ -155,7 +155,7 @@ class BackupCommandTest extends TestCase
 
         Carbon::setTestNow($this->date);
 
-        $this->expectedZipPath = 'mysite.com/2016-01-01-09-01-01.zip';
+        $this->expectedZipPath = 'mysite/2016-01-01-09-01-01.zip';
 
         $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
 
@@ -170,7 +170,7 @@ class BackupCommandTest extends TestCase
 
         Carbon::setTestNow($this->date);
 
-        $this->expectedZipPath = 'mysite.com/2016-01-01-21-01-01.zip';
+        $this->expectedZipPath = 'mysite/2016-01-01-21-01-01.zip';
 
         $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
 

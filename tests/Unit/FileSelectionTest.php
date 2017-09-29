@@ -18,6 +18,11 @@ class FileSelectionTest extends TestCase
         $this->sourceDirectory = (new TestHelper())->getStubDirectory();
     }
 
+    protected function assertSameArrayContent($expected, $actual, $message = '')
+    {
+        $this->assertTrue(count($expected) == count(array_intersect($expected, $actual)), $message);
+    }
+
     /** @test */
     public function it_can_select_all_the_files_in_a_directory_and_subdirectories()
     {
@@ -87,13 +92,14 @@ class FileSelectionTest extends TestCase
             $this->sourceDirectory.'/directory2/directory1',
         ]));
 
-        $this->assertSame(
+        $this->assertSameArrayContent(
             $this->getTestFiles([
-                'directory1/directory1/file1.txt',
                 'directory1/directory1/file2.txt',
+                'directory1/directory1/file1.txt',
                 'directory2/directory1/file1.txt',
             ]),
-            iterator_to_array($fileSelection->selectedFiles()));
+            iterator_to_array($fileSelection->selectedFiles())
+        );
     }
 
     /** @test */
