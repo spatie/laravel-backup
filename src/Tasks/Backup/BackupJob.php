@@ -180,8 +180,6 @@ class BackupJob
             })
             ->push($this->temporaryDirectory->path())
             ->toArray();
-
-
     }
 
     protected function createZipContainingEveryFileInManifest(Manifest $manifest)
