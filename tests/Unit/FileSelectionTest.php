@@ -18,36 +18,9 @@ class FileSelectionTest extends TestCase
         $this->sourceDirectory = (new TestHelper())->getStubDirectory();
     }
 
-    protected function assertSameArrayContent($a, $b)
+    protected function assertSameArrayContent($expected, $actual, $message = '') 
     {
-        $this->assertTrue($this->arrays_are_similar($a, $b));
-    }
-
-    /**
-     * Determine if two associative arrays are similar.
-     *
-     * Both arrays must have the same indexes with identical values
-     * without respect to key ordering
-     *
-     * @param array $a
-     * @param array $b
-     * @return bool
-     */
-    protected function arrays_are_similar($a, $b)
-    {
-        // if the indexes don't match, return immediately
-        if (count(array_diff_assoc($a, $b))) {
-            return false;
-        }
-        // we know that the indexes, but maybe not values, match.
-        // compare the values between the two arrays
-        foreach ($a as $k => $v) {
-            if ($v !== $b[$k]) {
-                return false;
-            }
-        }
-        // we have identical indexes, and no unequal values
-        return true;
+        $this->assertTrue(count($expected) == count(array_intersect($expected, $actual)), $message);
     }
 
     /** @test */
