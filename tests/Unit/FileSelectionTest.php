@@ -18,7 +18,7 @@ class FileSelectionTest extends TestCase
         $this->sourceDirectory = (new TestHelper())->getStubDirectory();
     }
 
-    protected function assertSameArrayContent($expected, $actual, $message = '') 
+    protected function assertSameArrayContent($expected, $actual, $message = '')
     {
         $this->assertTrue(count($expected) == count(array_intersect($expected, $actual)), $message);
     }
