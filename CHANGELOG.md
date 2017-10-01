@@ -2,7 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-## 5.0.3 - 2017-09-29
+# 5.0.4 - 2017-10-01
+- fix CleanupHasFailed application_name translations
+
+# 5.0.3 - 2017-09-29
 - use `APP_NAME` instead of `APP_URL` to name the backup
 
 # 5.0.2 - 2017-09-29
