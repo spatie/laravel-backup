@@ -38,7 +38,7 @@ This package requires PHP 7 and Laravel 5.5 or higher. You'll find installation 
 
 If you're not on PHP 7 or Laravel 5.5 just use version 3 or version 4 of this package. 
 
-Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3) and [on version 4](https://docs.spatie.be/laravel-backup/v3). We won't introduce new features to v3 and v4 anymore but we will still fix bugs.
+Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3) and [on version 4](https://docs.spatie.be/laravel-backup/v4). We won't introduce new features to v3 and v4 anymore but we will still fix bugs.
 
 ## Testing
 
