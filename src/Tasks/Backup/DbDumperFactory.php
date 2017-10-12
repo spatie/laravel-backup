@@ -20,10 +20,12 @@ class DbDumperFactory
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
-        $dbHost = array_get($dbConfig, 'read.host', array_get($dbConfig, 'host'));
+        if (isset($dbConfig['read'])) {
+            $dbConfig = array_except(array_merge($dbConfig, $dbConfig['read']), ['read', 'write']);
+        }
 
         $dbDumper = static::forDriver($dbConfig['driver'])
-            ->setHost($dbHost ?? '')
+            ->setHost($dbConfig['host'] ?? '')
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'] ?? '')
             ->setPassword($dbConfig['password'] ?? '');

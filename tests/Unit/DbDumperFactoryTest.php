@@ -55,13 +55,14 @@ class DbDumperFactoryTest extends TestCase
             'driver' => 'mysql',
             'read' => [
                 'host' => 'localhost-read',
+                'database' => 'myDb-read',
             ],
             'write' => [
                 'host' => 'localhost-write',
+                'database' => 'myDb-write',
             ],
             'username' => 'root',
             'password' => 'myPassword',
-            'database' => 'myDb',
             'dump' => ['add_extra_option' => '--extra-option=value'],
         ];
 
@@ -70,6 +71,7 @@ class DbDumperFactoryTest extends TestCase
         $dumper = DbDumperFactory::createFromConnection('mysql');
 
         $this->assertEquals('localhost-read', $dumper->getHost());
+        $this->assertEquals('myDb-read', $dumper->getDbName());
     }
 
     /** @test */
