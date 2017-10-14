@@ -21,7 +21,10 @@ class DbDumperFactory
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
         if (isset($dbConfig['read'])) {
-            $dbConfig = array_except(array_merge($dbConfig, $dbConfig['read']), ['read', 'write']);
+            $dbConfig = array_except(
+                array_merge($dbConfig, $dbConfig['read']),
+                ['read', 'write']
+            );
         }
 
         $dbDumper = static::forDriver($dbConfig['driver'])
