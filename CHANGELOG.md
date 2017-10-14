@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.0.5 - 2017-10-15
+- use all configuration keys when using `read` database connections
+
 # 5.0.4 - 2017-10-01
 - fix CleanupHasFailed application_name translations
 
