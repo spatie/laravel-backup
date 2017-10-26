@@ -20,13 +20,13 @@ php artisan backup:run
 But we didn't stop there. The package also provides [a backup monitor to check the health of your backups](https://docs.spatie.be/laravel-backup/v5/monitoring-the-health-of-all-backups/overview). You can be [notified via several channels](https://docs.spatie.be/laravel-backup/v5/sending-notifications/overview) when a problem with one of your backups is found.
 To avoid using excessive disk space, the package can also [clean up old backups](https://docs.spatie.be/laravel-backup/v5/cleaning-up-old-backups/overview).
 
-Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+Spatie is a web design agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## Installation and usage
 
 This package requires PHP 7 and Laravel 5.5 or higher. You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v5.
 
-## Using an older version of PHP / Laravel ?
+## Using an older version of PHP / Laravel?
 
 If you're not on PHP 7 or Laravel 5.5 just use version 3 or version 4 of this package. 
 
@@ -50,7 +50,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
+If you discover any security-related issues, please email freek@spatie.be instead of using the issue tracker.
 
 ## Postcardware
 
@@ -67,7 +67,7 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 
 ## Support us
 
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+Spatie is a web design agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
 All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
