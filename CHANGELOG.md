@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.1.0 - 2017-11-01
+- add Italian translations
+
 # 5.0.5 - 2017-10-15
 - use all configuration keys when using `read` database connections
 
