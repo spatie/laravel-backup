@@ -27,16 +27,23 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_can_remove_old_backups_until_using_less_than_maximum_storage()
     {
-        // 1 megabyte storage size
-        $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 1);
+        $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 2);
 
-        $this->testHelper->createTempFile1Mb('mysite.com/test1.zip', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFile1Mb('mysite.com/test2.zip', Carbon::now()->subDays(2));
+        $this->testHelper->createTempFile1Mb('mysite/test1.zip', Carbon::now()->subDays(1));
+        $this->testHelper->createTempFile1Mb('mysite/test2.zip', Carbon::now()->subDays(2));
+        $this->testHelper->createTempFile1Mb('mysite/test3.zip', Carbon::now()->subDays(3));
+        $this->testHelper->createTempFile1Mb('mysite/test4.zip', Carbon::now()->subDays(4));
 
         Artisan::call('backup:clean');
 
         $this->assertTempFilesExist([
-            'mysite.com/test1.zip',
+            'mysite/test1.zip',
+            'mysite/test2.zip',
+        ]);
+
+        $this->assertTempFilesNotExist([
+            'mysite/test3.zip',
+            'mysite/test4.zip',
         ]);
     }
 
@@ -122,18 +129,18 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_will_leave_non_zip_files_alone()
     {
-        $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));
-        $this->testHelper->createTempFileWithAge('mysite.com/test1000.txt', Carbon::now()->subDays(1000));
-        $this->testHelper->createTempFileWithAge('mysite.com/test2000.txt', Carbon::now()->subDays(2000));
+        $this->testHelper->createTempFileWithAge('mysite/test1.txt', Carbon::now()->subDays(1));
+        $this->testHelper->createTempFileWithAge('mysite/test2.txt', Carbon::now()->subDays(2));
+        $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
+        $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
 
         Artisan::call('backup:clean');
 
         $this->assertTempFilesExist([
-            'mysite.com/test1.txt',
-            'mysite.com/test2.txt',
-            'mysite.com/test1000.txt',
-            'mysite.com/test2000.txt',
+            'mysite/test1.txt',
+            'mysite/test2.txt',
+            'mysite/test1000.txt',
+            'mysite/test2000.txt',
         ]);
     }
 
@@ -164,18 +171,18 @@ class CleanupCommandTest extends TestCase
     {
         $this->expectsEvents(CleanupWasSuccessful::class);
 
-        $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));
-        $this->testHelper->createTempFileWithAge('mysite.com/test1000.txt', Carbon::now()->subDays(1000));
-        $this->testHelper->createTempFileWithAge('mysite.com/test2000.txt', Carbon::now()->subDays(2000));
+        $this->testHelper->createTempFileWithAge('mysite/test1.txt', Carbon::now()->subDays(1));
+        $this->testHelper->createTempFileWithAge('mysite/test2.txt', Carbon::now()->subDays(2));
+        $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
+        $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
 
         Artisan::call('backup:clean');
 
         $this->assertTempFilesExist([
-            'mysite.com/test1.txt',
-            'mysite.com/test2.txt',
-            'mysite.com/test1000.txt',
-            'mysite.com/test2000.txt',
+            'mysite/test1.txt',
+            'mysite/test2.txt',
+            'mysite/test1000.txt',
+            'mysite/test2000.txt',
         ]);
     }
 
@@ -184,18 +191,18 @@ class CleanupCommandTest extends TestCase
     {
         $this->doesntExpectEvents(CleanupWasSuccessful::class);
 
-        $this->testHelper->createTempFileWithAge('mysite.com/test1.txt', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFileWithAge('mysite.com/test2.txt', Carbon::now()->subDays(2));
-        $this->testHelper->createTempFileWithAge('mysite.com/test1000.txt', Carbon::now()->subDays(1000));
-        $this->testHelper->createTempFileWithAge('mysite.com/test2000.txt', Carbon::now()->subDays(2000));
+        $this->testHelper->createTempFileWithAge('mysite/test1.txt', Carbon::now()->subDays(1));
+        $this->testHelper->createTempFileWithAge('mysite/test2.txt', Carbon::now()->subDays(2));
+        $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
+        $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
 
         Artisan::call('backup:clean', ['--disable-notifications' => true]);
 
         $this->assertTempFilesExist([
-            'mysite.com/test1.txt',
-            'mysite.com/test2.txt',
-            'mysite.com/test1000.txt',
-            'mysite.com/test2000.txt',
+            'mysite/test1.txt',
+            'mysite/test2.txt',
+            'mysite/test1000.txt',
+            'mysite/test2000.txt',
         ]);
     }
 }
