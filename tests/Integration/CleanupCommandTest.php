@@ -27,7 +27,6 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_can_remove_old_backups_until_using_less_than_maximum_storage()
     {
-        // 1 megabyte storage size
         $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 2);
 
         $this->testHelper->createTempFile1Mb('mysite/test1.zip', Carbon::now()->subDays(1));
