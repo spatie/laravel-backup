@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.1.1 - 2017-11-03
+- fix deleting all backups when using maximum storage
+
 # 5.1.0 - 2017-11-01
 - add Italian translations
 
