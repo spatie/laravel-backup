@@ -5,6 +5,11 @@ return [
     'backup' => [
 
         /*
+         * Flag to determine if the backup should be run on the current env
+         */
+        'run' => env('BACKUP', true),
+
+        /*
          * The name of this application. You can use this name to monitor
          * the backups.
          */
