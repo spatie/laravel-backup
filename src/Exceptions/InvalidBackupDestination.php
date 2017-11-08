@@ -6,7 +6,7 @@ use Exception;
 
 class InvalidBackupDestination extends Exception
 {
-    public static function diskNotSet(): InvalidBackupDestination
+    public static function diskNotSet(): self
     {
         return new static('There is no disk set for the backup destination');
     }
