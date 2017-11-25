@@ -16,19 +16,26 @@ class Zip
     /** @var string */
     protected $pathToZip;
 
-    public static function createForManifest(Manifest $manifest, string $pathToZip): Zip
+    public function __construct(string $pathToZip)
     {
-        $zip = new static($pathToZip);
+        $this->zipFile = new ZipArchive();
 
-        $zip->open();
+        $this->pathToZip = $pathToZip;
 
-        foreach ($manifest->files() as $file) {
-            $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
-        }
+        $this->open();
+    }
 
-        $zip->close();
+    public static function createForManifest(Manifest $manifest, string $pathToZip): self
+    {
+        return tap(new static($pathToZip), function (self $zip) use ($pathToZip, $manifest) {
+            $zip->open();
 
-        return $zip;
+            foreach ($manifest->files() as $file) {
+                $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
+            }
+
+            $zip->close();
+        });
     }
 
     protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip)
@@ -42,15 +49,6 @@ class Zip
         }
 
         return $pathToFile;
-    }
-
-    public function __construct(string $pathToZip)
-    {
-        $this->zipFile = new ZipArchive();
-
-        $this->pathToZip = $pathToZip;
-
-        $this->open();
     }
 
     public function path(): string
@@ -88,7 +86,7 @@ class Zip
      *
      * @return \Spatie\Backup\Tasks\Backup\Zip
      */
-    public function add($files, string $nameInZip = null): Zip
+    public function add($files, string $nameInZip = null): self
     {
         if (is_array($files)) {
             $nameInZip = null;
