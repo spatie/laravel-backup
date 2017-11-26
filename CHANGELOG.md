@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.1.2 - 2017-11-26
+- use `config` instead of `env` to get the app name
+
 # 5.1.1 - 2017-11-03
 - fix deleting all backups when using maximum storage
 
