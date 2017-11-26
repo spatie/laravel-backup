@@ -15,7 +15,7 @@ class Manifest implements Countable
      *
      * @return \Spatie\Backup\Tasks\Backup\Manifest
      */
-    public static function create(string $manifestPath): Manifest
+    public static function create(string $manifestPath): self
     {
         return new static($manifestPath);
     }
@@ -37,7 +37,7 @@ class Manifest implements Countable
      *
      * @return $this
      */
-    public function addFiles($filePaths): Manifest
+    public function addFiles($filePaths): self
     {
         if (is_string($filePaths)) {
             $filePaths = [$filePaths];
