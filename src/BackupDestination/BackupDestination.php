@@ -57,18 +57,16 @@ class BackupDestination
         return strtolower($filesystemType);
     }
 
-    public static function create(string $diskName, string $backupName): BackupDestination
+    public static function create(string $diskName, string $backupName): self
     {
         try {
             $disk = app(Factory::class)->disk($diskName);
 
             return new static($disk, $backupName, $diskName);
-        } catch (Exception $exception) {
-            $backupDestination = new static(null, $backupName, $diskName);
-
-            $backupDestination->connectionError = $exception;
-
-            return $backupDestination;
+        } catch (Exception $e) {
+            return tap(new static(null, $backupName, $diskName), function ($backupDestination) use ($e) {
+                $backupDestination->connectionError = $e;
+            });
         }
     }
 

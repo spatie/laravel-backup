@@ -15,7 +15,7 @@ class BackupCollection extends Collection
      *
      * @return \Spatie\Backup\BackupDestination\BackupCollection
      */
-    public static function createFromFiles($disk, array $files): BackupCollection
+    public static function createFromFiles($disk, array $files): self
     {
         return (new static($files))
             ->filter(function ($path) {
@@ -50,10 +50,10 @@ class BackupCollection extends Collection
 
     public function size(): int
     {
-        if ($this->sizeCache !== null) {
-            return $this->sizeCache;
+        if ($this->sizeCache === null) {
+            $this->sizeCache = $this->sum->size();
         }
 
-        return $this->sizeCache = $this->sum->size();
+        return $this->sizeCache;
     }
 }
