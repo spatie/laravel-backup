@@ -6,7 +6,7 @@ use Exception;
 
 class NotificationCouldNotBeSent extends Exception
 {
-    public static function noNotifcationClassForEvent($event): NotificationCouldNotBeSent
+    public static function noNotifcationClassForEvent($event): self
     {
         $eventClass = get_class($event);
 

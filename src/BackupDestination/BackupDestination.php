@@ -57,7 +57,7 @@ class BackupDestination
         return strtolower($filesystemType);
     }
 
-    public static function create(string $diskName, string $backupName): BackupDestination
+    public static function create(string $diskName, string $backupName): self
     {
         try {
             $disk = app(Factory::class)->disk($diskName);
