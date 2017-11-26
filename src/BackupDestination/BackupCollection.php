@@ -15,7 +15,7 @@ class BackupCollection extends Collection
      *
      * @return \Spatie\Backup\BackupDestination\BackupCollection
      */
-    public static function createFromFiles($disk, array $files): BackupCollection
+    public static function createFromFiles($disk, array $files): self
     {
         return (new static($files))
             ->filter(function ($path) {
