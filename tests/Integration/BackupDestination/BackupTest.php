@@ -30,13 +30,13 @@ class BackupTest extends TestCase
 
         $this->assertTrue($backup->exists());
 
-        $this->assertTrue(file_exists($fullPath));
+        $this->assertFileExists($fullPath);
 
         $backup->delete();
 
         $this->assertFalse($backup->exists());
 
-        $this->assertFalse(file_exists($fullPath));
+        $this->assertFileNotExists($fullPath);
     }
 
     /** @test */
