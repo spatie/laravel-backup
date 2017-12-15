@@ -24,6 +24,11 @@ abstract class BaseNotification extends Notification
     {
         return config('app.name') ?? config('app.url') ?? 'Laravel application';
     }
+    
+    public function applicationEnv(): string
+    {
+        return config('app.env') ? ' (' . config('app.env') . ')' : '';
+    }
 
     public function backupName(): string
     {
@@ -47,7 +52,7 @@ abstract class BaseNotification extends Notification
         $oldestBackup = $backupDestination->oldestBackup();
 
         return collect([
-            'Application name' => $this->applicationName(),
+            'Application name' => $this->applicationName() . $this->applicationEnv(),
             'Backup name' => $this->backupName(),
             'Disk' => $backupDestination->diskName(),
             'Newest backup size' => $newestBackup ? Format::humanReadableSize($newestBackup->size()) : 'No backups were made yet',
