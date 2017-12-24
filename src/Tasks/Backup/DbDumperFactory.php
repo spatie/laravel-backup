@@ -28,7 +28,7 @@ class DbDumperFactory
         }
 
         $dbDumper = static::forDriver($dbConfig['driver'])
-            ->setHost($dbConfig['host'] ?? '')
+            ->setHost(array_first(array_wrap($dbConfig['host'])) ?? '')
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'] ?? '')
             ->setPassword($dbConfig['password'] ?? '');
