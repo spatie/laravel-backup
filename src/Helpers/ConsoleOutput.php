@@ -8,7 +8,7 @@ class ConsoleOutput
     protected $output;
 
     /**
-     * @param $output
+     * @param \Illuminate\Console\OutputStyle $output
      */
     public function setOutput($output)
     {
