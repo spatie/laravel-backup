@@ -58,7 +58,7 @@ class TestHelper
 
         file_put_contents($fullPath, $contents);
 
-        touch($fullPath, $date->getTimeStamp());
+        touch($fullPath, $date->getTimestamp());
 
         return $fullPath;
     }
@@ -75,7 +75,7 @@ class TestHelper
 
         copy($sourceFile, $fullPath);
 
-        touch($fullPath, $date->getTimeStamp());
+        touch($fullPath, $date->getTimestamp());
 
         return $fullPath;
     }

@@ -14,7 +14,7 @@ class CleanupJob
     /** @var \Illuminate\Support\Collection */
     protected $backupDestinations;
 
-    /** @var \Spatie\Backup\Tasks\Cleanup\Strategies\CleanupStrategy */
+    /** @var \Spatie\Backup\Tasks\Cleanup\CleanupStrategy */
     protected $strategy;
 
     /** @var bool */
