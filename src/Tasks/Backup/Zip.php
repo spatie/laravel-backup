@@ -16,7 +16,7 @@ class Zip
     /** @var string */
     protected $pathToZip;
 
-    public static function createForManifest(Manifest $manifest, string $pathToZip): Zip
+    public static function createForManifest(Manifest $manifest, string $pathToZip): self
     {
         $zip = new static($pathToZip);
 
@@ -88,7 +88,7 @@ class Zip
      *
      * @return \Spatie\Backup\Tasks\Backup\Zip
      */
-    public function add($files, string $nameInZip = null): Zip
+    public function add($files, string $nameInZip = null): self
     {
         if (is_array($files)) {
             $nameInZip = null;
