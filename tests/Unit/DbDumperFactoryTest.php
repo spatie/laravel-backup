@@ -75,6 +75,32 @@ class DbDumperFactoryTest extends TestCase
     }
 
     /** @test */
+    public function it_will_use_the_first_read_db_when_multiple_are_defined()
+    {
+        $dbConfig = [
+            'driver' => 'mysql',
+            'read' => [
+                'host' => ['localhost-read-1', 'localhost-read-2'],
+                'database' => 'myDb-read',
+            ],
+            'write' => [
+                'host' => 'localhost-write',
+                'database' => 'myDb-write',
+            ],
+            'username' => 'root',
+            'password' => 'myPassword',
+            'dump' => ['add_extra_option' => '--extra-option=value'],
+        ];
+
+        $this->app['config']->set('database.connections.mysql', $dbConfig);
+
+        $dumper = DbDumperFactory::createFromConnection('mysql');
+
+        $this->assertEquals('localhost-read-1', $dumper->getHost());
+        $this->assertEquals('myDb-read', $dumper->getDbName());
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_creating_an_unknown_type_of_dumper()
     {
         $this->expectException(CannotCreateDbDumper::class);
