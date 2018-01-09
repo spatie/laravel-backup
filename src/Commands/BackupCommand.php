@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
+use Spatie\Backup\Events\BackupStarted;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
@@ -18,6 +19,7 @@ class BackupCommand extends BaseCommand
     public function handle()
     {
         consoleOutput()->comment('Starting backup...');
+        event(new BackupStarted());
 
         $disableNotifications = $this->option('disable-notifications');
 
