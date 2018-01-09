@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.1.3 - 2018-01-09
+- fix for apps using multiple dbs
+
 # 5.1.2 - 2017-11-26
 - use `config` instead of `env` to get the app name
 
