@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.1.4 - 2018-01-18
+- use correct exit codes
+
 # 5.1.3 - 2018-01-09
 - fix for apps using multiple dbs
 
