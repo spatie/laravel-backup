@@ -20,7 +20,7 @@ class FileSelectionTest extends TestCase
 
     protected function assertSameArrayContent($expected, $actual, $message = '')
     {
-        $this->assertTrue(count($expected) == count(array_intersect($expected, $actual)), $message);
+        $this->assertCount(count($expected), array_intersect($expected, $actual), $message);
     }
 
     /** @test */
