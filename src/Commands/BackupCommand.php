@@ -56,7 +56,7 @@ class BackupCommand extends BaseCommand
                 event(new BackupHasFailed($exception));
             }
 
-            return -1;
+            return 1;
         }
     }
 

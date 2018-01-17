@@ -38,7 +38,7 @@ class CleanupCommand extends BaseCommand
                 event(new CleanupHasFailed($exception));
             }
 
-            return -1;
+            return 1;
         }
     }
 }
