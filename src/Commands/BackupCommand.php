@@ -56,11 +56,11 @@ class BackupCommand extends BaseCommand
                 event(new BackupHasFailed($exception));
             }
 
-            return -1;
+            return 1;
         }
     }
 
-    protected function guardAgainstInvalidOptions()
+    protected function guardAgainstInvalidOptions(): void
     {
         if ($this->option('only-db') && $this->option('only-files')) {
             throw InvalidCommand::create('Cannot use `only-db` and `only-files` together');
