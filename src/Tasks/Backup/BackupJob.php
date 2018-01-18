@@ -139,6 +139,10 @@ class BackupJob
             consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
             $this->sendNotification(new BackupHasFailed($exception));
+
+            $this->temporaryDirectory->delete();
+
+            throw $exception;
         }
 
         $this->temporaryDirectory->delete();

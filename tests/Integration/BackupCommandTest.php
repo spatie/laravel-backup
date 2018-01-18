@@ -189,7 +189,7 @@ class BackupCommandTest extends TestCase
             '--only-db'    => true,
         ]);
 
-        $this->assertEquals(-1, $resultCode);
+        $this->assertEquals(1, $resultCode);
 
         $this->seeInConsoleOutput('Cannot use `only-db` and `only-files` together.');
 
@@ -215,7 +215,7 @@ class BackupCommandTest extends TestCase
             '--only-to-disk' => 'non existing disk',
         ]);
 
-        $this->assertEquals(-1, $resultCode);
+        $this->assertEquals(1, $resultCode);
 
         $this->seeInConsoleOutput('There is not backup destination with a disk named');
 
