@@ -48,6 +48,8 @@ class CleanupJob
                 consoleOutput()->error("Cleanup failed because: {$exception->getMessage()}.");
 
                 $this->sendNotification(new CleanupHasFailed($exception));
+
+                throw $exception;
             }
         });
     }
