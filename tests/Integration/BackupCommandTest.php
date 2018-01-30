@@ -295,11 +295,11 @@ class BackupCommandTest extends TestCase
         $this->assertEquals(0, $resultCode);
 
         $backupDiskLocal = $this->app['config']->get('filesystems.disks.local.root');
-        $backupFileLocal = $backupDiskLocal . DIRECTORY_SEPARATOR . $this->expectedZipPath;
+        $backupFileLocal = $backupDiskLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
         $this->assertFileExistsInZip($backupFileLocal, 'sqlite-database.sql');
 
         $backupDiskLocal = $this->app['config']->get('filesystems.disks.local.root');
-        $backupFileLocal = $backupDiskLocal . DIRECTORY_SEPARATOR . $this->expectedZipPath;
+        $backupFileLocal = $backupDiskLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
         $this->assertFileExistsInZip($backupFileLocal, 'sqlite-database2.sql');
         /*
          * Close the database connection to unlock the sqlite file for deletion.
@@ -307,5 +307,4 @@ class BackupCommandTest extends TestCase
          */
         $this->app['db']->disconnect();
     }
-
 }
