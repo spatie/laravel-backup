@@ -41,8 +41,6 @@ abstract class TestCase extends Orchestra
     {
         $this->testHelper->initializeTempDirectory();
 
-        $app['config']->set('database.default', 'sqlite');
-
         $app['config']->set('mail.driver', 'log');
 
         $app['config']->set('database.default', 'sqlite');
