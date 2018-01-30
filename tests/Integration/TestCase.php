@@ -50,6 +50,12 @@ abstract class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
+        $app['config']->set('database.connections.sqlite2', [
+            'driver' => 'sqlite',
+            'database' => $this->testHelper->getTempDirectory().'/database2',
+            'prefix' => '',
+        ]);
+
         $app['config']->set('filesystems.disks.local', [
             'driver' => 'local',
             'root' => $this->testHelper->getTempDirectory(),
