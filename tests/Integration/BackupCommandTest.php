@@ -282,4 +282,29 @@ class BackupCommandTest extends TestCase
             '--disable-notifications' => true,
         ]);
     }
+
+    /** @test */
+    public function it_can_backup_multiple_sqlite_databases()
+    {
+        $this->app['config']->set('backup.backup.source.databases', ['sqlite', 'sqlite2']);
+
+        $this->setUpDatabase($this->app);
+
+        $resultCode = Artisan::call('backup:run', ['--only-db' => true]);
+
+        $this->assertEquals(0, $resultCode);
+
+        $backupDiskLocal = $this->app['config']->get('filesystems.disks.local.root');
+        $backupFileLocal = $backupDiskLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
+        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-database.sql');
+
+        $backupDiskLocal = $this->app['config']->get('filesystems.disks.local.root');
+        $backupFileLocal = $backupDiskLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
+        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-database2.sql');
+        /*
+         * Close the database connection to unlock the sqlite file for deletion.
+         * This prevents the errors from other tests trying to delete and recreate the folder.
+         */
+        $this->app['db']->disconnect();
+    }
 }
