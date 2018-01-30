@@ -10,7 +10,7 @@ use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 class BackupCommand extends BaseCommand
 {
     /** @var string */
-    protected $signature = 'backup:run {--filename=} {--only-db} {--only-files} {--only-to-disk=} {--disable-notifications}';
+    protected $signature = 'backup:run {--filename=} {--only-db} {--connection=*} {--only-files} {--only-to-disk=} {--disable-notifications}';
 
     /** @var string */
     protected $description = 'Run the backup.';
@@ -28,6 +28,10 @@ class BackupCommand extends BaseCommand
 
             if ($this->option('only-db')) {
                 $backupJob->dontBackupFilesystem();
+            }
+
+            if ($this->option('connection')) {
+                $backupJob->setDbDumpers(BackupJobFactory::createDbDumpers($this->option('connection')));
             }
 
             if ($this->option('only-files')) {
