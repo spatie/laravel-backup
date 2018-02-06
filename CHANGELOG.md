@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-## 5.2.0 - 2018-02-06
+# 5.2.0 - 2018-02-06
 - add indonesian translation
 
 # 5.1.5 - 2018-01-20
