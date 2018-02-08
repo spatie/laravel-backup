@@ -214,7 +214,12 @@ class BackupJob
 
             $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
 
-            $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
+            $dbName = $dbDumper->getDbName();
+
+            if ($dbDumper instanceof Sqlite) {
+                // get the lowercased base file name without the extenstion
+                $dbName = mb_strtolower(basename($dbName, '.sqlite'));
+            }
 
             $fileName = "{$dbType}-{$dbName}.sql";
 

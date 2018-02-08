@@ -22,7 +22,7 @@ class BackupJobFactory
             ->shouldFollowLinks(isset($sourceFiles['followLinks']) && $sourceFiles['followLinks']);
     }
 
-    protected static function createDbDumpers(array $dbConnectionNames): Collection
+    public static function createDbDumpers(array $dbConnectionNames): Collection
     {
         return collect($dbConnectionNames)->map(function (string $dbConnectionName) {
             return DbDumperFactory::createFromConnection($dbConnectionName);
