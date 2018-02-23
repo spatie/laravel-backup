@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.2.2 - 2018-02-23
+- fix typos in exception messages
+
 # 5.2.1 - 2018-02-08
 - add support for L5.6
 
