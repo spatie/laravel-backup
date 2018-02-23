@@ -13,7 +13,7 @@ class InvalidBackupJob extends Exception
 
     public static function destinationDoesNotExist(string $diskName): self
     {
-        return new static("There is not backup destination with a disk named `{$diskName}`");
+        return new static("There is no backup destination with a disk named `{$diskName}`");
     }
 
     public static function noFilesToBeBackedUp(): self
