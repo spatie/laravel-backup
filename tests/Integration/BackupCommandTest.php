@@ -217,7 +217,7 @@ class BackupCommandTest extends TestCase
 
         $this->assertEquals(1, $resultCode);
 
-        $this->seeInConsoleOutput('There is not backup destination with a disk named');
+        $this->seeInConsoleOutput('There is no backup destination with a disk named');
 
         $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'local');
         $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'secondLocal');
