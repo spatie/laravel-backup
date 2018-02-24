@@ -53,12 +53,11 @@ class BackupJob
 
     public function onlyDbName(array $dbNames): self
     {
-        // Remove any DbDumper whose key does not equal any dbNames value
         $allowedNames = collect($dbNames);
 
         $filteredDumpers = $this->dbDumpers->filter(
-            function ($value, $key) use ($allowedNames) {
-                return $allowedNames->contains($key);
+            function ($dbDumper, $connectionName) use ($allowedNames) {
+                return $allowedNames->contains($connectionName);
             });
 
         $this->dbDumpers = $filteredDumpers;
