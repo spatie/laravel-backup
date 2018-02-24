@@ -17,7 +17,7 @@ class BackupCommandTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
+		
         $this->date = Carbon::create('2016', 1, 1, 21, 1, 1);
 
         Carbon::setTestNow($this->date);
@@ -30,6 +30,14 @@ class BackupCommandTest extends TestCase
         ]);
 
         $this->app['config']->set('backup.backup.source.files.include', [base_path()]);
+
+		
+		$this->app['config']->set('backup.backup.source.databases', [
+            'db1',
+            'db2',
+        ]);
+
+        
     }
 
     /** @test */
@@ -147,6 +155,39 @@ class BackupCommandTest extends TestCase
         $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
     }
 
+	/** @test */
+	public function it_can_selectively_backup_db()
+	{		
+		$resultCode = Artisan::call('backup:run', [
+            '--only-db'   => true,
+            '--db-name' => ['db1'],
+        ]);
+		
+		$this->assertEquals(0, $resultCode);
+		$this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+		
+		$resultCode = Artisan::call('backup:run', [
+            '--only-db'   => true,
+            '--db-name' => ['db2'],
+        ]);
+		$this->assertEquals(0, $resultCode);
+		$this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+		
+		$resultCode = Artisan::call('backup:run', [
+            '--only-db'   => true,
+            '--db-name' => ['db1','db2'],
+        ]);
+		$this->assertEquals(0, $resultCode);
+		$this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+		
+		$resultCode = Artisan::call('backup:run', [
+            '--only-db'   => true,
+            '--db-name' => ['wrongname'],
+        ]);
+		$this->assertEquals(1, $resultCode);
+	
+	}
+	
     /** @test */
     public function it_can_backup_twice_a_day_at_same_time_in_12h_clock()
     {
@@ -200,9 +241,10 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_will_fail_when_trying_to_backup_a_non_existing_database()
     {
-        //since our test environment did not set up a db, this will fail
+        //use an invalid db name to trigger failure
         Artisan::call('backup:run', [
             '--only-db' => true,
+			'--db-name' => ['wrongname']
         ]);
 
         $this->seeInConsoleOutput('Backup failed');
@@ -265,8 +307,9 @@ class BackupCommandTest extends TestCase
     {
         $this->expectsEvents(BackupHasFailed::class);
 
-        //since our test environment did not set up a db, this will fail
+        // use an invalid dbname to trigger failure
         Artisan::call('backup:run', [
+		    '--db-name' => ['wrongname'],
             '--only-db' => true,
         ]);
     }
@@ -276,9 +319,10 @@ class BackupCommandTest extends TestCase
     {
         $this->doesntExpectEvents(BackupHasFailed::class);
 
-        //since our test environment did not set up a db, this will fail
+        //use an invalid dbname to trigger failure
         Artisan::call('backup:run', [
             '--only-db' => true,
+			'--db-name' => ['wrongname'],
             '--disable-notifications' => true,
         ]);
     }

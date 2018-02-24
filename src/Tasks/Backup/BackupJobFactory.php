@@ -24,8 +24,8 @@ class BackupJobFactory
 
     protected static function createDbDumpers(array $dbConnectionNames): Collection
     {
-        return collect($dbConnectionNames)->map(function (string $dbConnectionName) {
-            return DbDumperFactory::createFromConnection($dbConnectionName);
+        return collect($dbConnectionNames)->mapWithKeys(function (string $dbConnectionName) {
+            return [$dbConnectionName=>DbDumperFactory::createFromConnection($dbConnectionName)];
         });
     }
 }
