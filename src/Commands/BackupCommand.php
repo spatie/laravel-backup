@@ -28,11 +28,10 @@ class BackupCommand extends BaseCommand
 
             if ($this->option('only-db')) {
                 $backupJob->dontBackupFilesystem();
-                
             }
-			if ($this->option('db-name')) {
-				$backupJob->onlyDbName($this->option('db-name'));
-			}
+            if ($this->option('db-name')) {
+                $backupJob->onlyDbName($this->option('db-name'));
+            }
 
             if ($this->option('only-files')) {
                 $backupJob->dontBackupDatabases();

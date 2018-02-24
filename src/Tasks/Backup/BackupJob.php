@@ -50,20 +50,22 @@ class BackupJob
 
         return $this;
     }
+
     public function onlyDbName(array $dbNames): self
     {
         // Remove any DbDumper whose key does not equal any dbNames value
-		$allowedNames = collect($dbNames);
+        $allowedNames = collect($dbNames);
 
         $filteredDumpers = $this->dbDumpers->filter(
-			function ($value, $key) use($allowedNames){
-				return $allowedNames->contains($key);
+            function ($value, $key) use ($allowedNames) {
+                return $allowedNames->contains($key);
             });
 
         $this->dbDumpers = $filteredDumpers;
 
         return $this;
     }
+
     public function dontBackupDatabases(): self
     {
         $this->dbDumpers = new Collection();
@@ -148,8 +150,7 @@ class BackupJob
             $zipFile = $this->createZipContainingEveryFileInManifest($manifest);
 
             $this->copyToBackupDestinations($zipFile);
-        }
-        catch (Exception $exception) {
+        } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
             $this->sendNotification(new BackupHasFailed($exception));
@@ -259,8 +260,7 @@ class BackupJob
                 consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->diskName()}.");
 
                 $this->sendNotification(new BackupWasSuccessful($backupDestination));
-            }
-            catch (Exception $exception) {
+            } catch (Exception $exception) {
                 consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
                 $this->sendNotification(new BackupHasFailed($exception, $backupDestination ?? null));

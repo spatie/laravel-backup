@@ -42,6 +42,7 @@ class TestHelper
     {
         return __DIR__.'/stubs';
     }
+
     public function getStubDBDirectory()
     {
         return __DIR__.'/stubs-db';
@@ -83,10 +84,10 @@ class TestHelper
 
         return $fullPath;
     }
-	
-	public function createSQLiteDatabase($fileName)
-	{
-		$directory = $this->getTempDirectory().'/'.dirname($fileName);
+
+    public function createSQLiteDatabase($fileName)
+    {
+        $directory = $this->getTempDirectory().'/'.dirname($fileName);
 
         $this->filesystem->makeDirectory($directory, 0755, true, true);
 
@@ -95,9 +96,9 @@ class TestHelper
         $fullPath = $this->getTempDirectory().'/'.$fileName;
 
         copy($sourceFile, $fullPath);
-		
+
         touch($fullPath);
 
         return $fullPath;
-	}
+    }
 }
