@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.3.0 - 2018-02-26
+
+- allow filtering on db name
+
 # 5.2.2 - 2018-02-23
 - fix typos in exception messages
 
