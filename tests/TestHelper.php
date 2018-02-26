@@ -38,12 +38,17 @@ class TestHelper
         $this->filesystem->put($fileName, $fileContents);
     }
 
-    public function getStubDirectory()
+    public function getStubDirectory(): String
     {
         return __DIR__.'/stubs';
     }
 
-    public function getTempDirectory()
+    public function getStubDbDirectory(): String
+    {
+        return __DIR__.'/stubs-db';
+    }
+
+    public function getTempDirectory(): String
     {
         return __DIR__.'/temp';
     }
@@ -63,7 +68,7 @@ class TestHelper
         return $fullPath;
     }
 
-    public function createTempFile1Mb($fileName, DateTime $date)
+    public function createTempFile1Mb($fileName, DateTime $date): String
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);
 
@@ -76,6 +81,23 @@ class TestHelper
         copy($sourceFile, $fullPath);
 
         touch($fullPath, $date->getTimestamp());
+
+        return $fullPath;
+    }
+
+    public function createSQLiteDatabase($fileName): String
+    {
+        $directory = $this->getTempDirectory().'/'.dirname($fileName);
+
+        $this->filesystem->makeDirectory($directory, 0755, true, true);
+
+        $sourceFile = $this->getStubDbDirectory().'/database.sqlite';
+
+        $fullPath = $this->getTempDirectory().'/'.$fileName;
+
+        copy($sourceFile, $fullPath);
+
+        touch($fullPath);
 
         return $fullPath;
     }
