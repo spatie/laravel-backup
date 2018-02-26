@@ -51,16 +51,12 @@ class BackupJob
         return $this;
     }
 
-    public function onlyDbName(array $dbNames): self
+    public function onlyDbName(array $allowedDbNames): self
     {
-        $allowedNames = collect($dbNames);
-
-        $filteredDumpers = $this->dbDumpers->filter(
-            function ($dbDumper, $connectionName) use ($allowedNames) {
-                return $allowedNames->contains($connectionName);
+        $this->dbDumpers = $this->dbDumpers->filter(
+            function (DbDumper $dbDumper, string $connectionName) use ($allowedDbNames) {
+                return in_array($connectionName, $allowedDbNames);
             });
-
-        $this->dbDumpers = $filteredDumpers;
 
         return $this;
     }
