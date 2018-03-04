@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'exception_message' => 'Hara mesajı: :message',
+    'exception_message' => 'Hata mesajı: :message',
     'exception_trace' => 'Hata izleri: :trace',
     'exception_message_title' => 'Hata mesajı',
     'exception_trace_title' => 'Hata izleri',
