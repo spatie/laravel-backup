@@ -2,6 +2,8 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.4.1 - 2018-03-04
+- fix typo
 
 # 5.4.0 - 2018-03-01
 - add turkish translation
