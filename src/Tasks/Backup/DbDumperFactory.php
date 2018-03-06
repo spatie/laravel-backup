@@ -42,7 +42,7 @@ class DbDumperFactory
         }
 
         if (config('backup.backup.dump_from_master') !== 'AUTO') {
-            $dbDumper = $dbDumper->setGtidPurged(config("backup.backup.dump_from_master") ?? 'AUTO');
+            $dbDumper = $dbDumper->setGtidPurged(config('backup.backup.dump_from_master') ?? 'AUTO');
         }
 
         if (isset($dbConfig['dump'])) {
