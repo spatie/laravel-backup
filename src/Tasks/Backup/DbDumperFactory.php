@@ -41,7 +41,7 @@ class DbDumperFactory
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
         }
 
-        if (config('backup.backup.dump_from_master') !== "AUTO") {
+        if (config('backup.backup.dump_from_master') !== 'AUTO') {
             $dbDumper = $dbDumper->setGtidPurged(config("backup.backup.dump_from_master") ?? 'AUTO');
         }
 
