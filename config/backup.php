@@ -51,6 +51,13 @@ return [
          */
         'gzip_database_dump' => false,
 
+        /*
+         * Dump the databse from master if using a master/slave configuration.
+         * Default is OFF, but you can use AUTO and ON
+         * see: https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#option_mysqldump_set-gtid-purged
+         */
+        'dump_from_master' => 'OFF',
+
         'destination' => [
 
             /*
