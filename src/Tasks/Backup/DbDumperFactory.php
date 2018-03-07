@@ -41,6 +41,10 @@ class DbDumperFactory
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
         }
 
+        if ($dbDumper instanceof MySql && config('backup.backup.dump_from_master') !== 'AUTO') {
+            $dbDumper = $dbDumper->setGtidPurged(config('backup.backup.dump_from_master') ?? 'AUTO');
+        }
+
         if (isset($dbConfig['dump'])) {
             $dbDumper = static::processExtraDumpParameters($dbConfig['dump'], $dbDumper);
         }
