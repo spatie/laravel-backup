@@ -9,6 +9,11 @@ class BackupCollection extends Collection
     /** @var null|int */
     protected $sizeCache = null;
 
+    /** @var array */
+    protected static $allowedMimeTypes = [
+        'application/zip', 'application/x-zip', 'application/x-gzip'
+    ];
+
     /**
      * @param \Illuminate\Contracts\Filesystem\Filesystem|null $disk
      * @param array                                            $files
@@ -18,7 +23,11 @@ class BackupCollection extends Collection
     public static function createFromFiles($disk, array $files): self
     {
         return (new static($files))
-            ->filter(function ($path) {
+            ->filter(function ($path) use ($disk) {
+                if ($disk && method_exists($disk, 'mimeType')) {
+                    return in_array($disk->mimeType($path), self::$allowedMimeTypes);
+                }
+
                 return pathinfo($path, PATHINFO_EXTENSION) === 'zip';
             })
             ->map(function ($path) use ($disk) {
