@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.5.0 - 2018-03-17
+- add Hindi translation
+
 # 5.4.1 - 2018-03-04
 - fix typo
 
