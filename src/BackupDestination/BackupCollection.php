@@ -11,7 +11,7 @@ class BackupCollection extends Collection
 
     /** @var array */
     protected static $allowedMimeTypes = [
-        'application/zip', 'application/x-zip', 'application/x-gzip'
+        'application/zip', 'application/x-zip', 'application/x-gzip',
     ];
 
     /**
