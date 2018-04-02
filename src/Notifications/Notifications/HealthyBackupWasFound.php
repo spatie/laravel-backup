@@ -30,6 +30,7 @@ class HealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
+            ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
             ->content(trans('backup::notifications.healthy_backup_found_subject_title', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
