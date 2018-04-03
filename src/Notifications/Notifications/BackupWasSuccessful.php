@@ -30,6 +30,7 @@ class BackupWasSuccessful extends BaseNotification
     {
         return (new SlackMessage)
             ->success()
+            ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
             ->content(trans('backup::notifications.backup_successful_subject_title'))
             ->attachment(function (SlackAttachment $attachment) {

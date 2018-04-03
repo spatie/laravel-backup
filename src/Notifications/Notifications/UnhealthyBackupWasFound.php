@@ -32,6 +32,7 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         return (new SlackMessage)
             ->error()
+            ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
             ->content(trans('backup::notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
             ->attachment(function (SlackAttachment $attachment) {
