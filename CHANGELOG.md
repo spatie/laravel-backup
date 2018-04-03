@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.6.0 - 2018-04-03
+- add `icon` and `username` to slack config
+
 # 5.5.1 - 2018-03-17
 - fix French translation
 
