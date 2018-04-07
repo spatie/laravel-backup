@@ -64,8 +64,7 @@ return [
             'disks' => [
                 'local',
             ],
-        ],
-        
+        ],        
         'temp_directory' => storage_path('app/backup-temp'),
     ],
 
