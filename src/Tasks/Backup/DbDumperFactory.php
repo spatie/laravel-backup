@@ -52,7 +52,7 @@ class DbDumperFactory
     {
         $driver = strtolower($dbDriver);
 
-        if ($driver === 'mysql') {
+        if ($driver === 'mysql' || $driver === 'mariadb') {
             return new MySql();
         }
 
