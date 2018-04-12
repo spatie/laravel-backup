@@ -101,9 +101,9 @@ class BackupCollectionTest extends TestCase
     /** @test */
     public function it_can_determine_the_size_of_the_backups()
     {
-        $this->createFileOnBackupDisk('file1.zip', 1, 'some content');
-        $this->createFileOnBackupDisk('file2.zip', 1, 'even more content');
-        $this->createFileOnBackupDisk('file3.zip', 1, 'you guessed it: content');
+        $this->createFileOnBackupDisk('file1.zip', 1, gzencode('some content'));
+        $this->createFileOnBackupDisk('file2.zip', 1, gzencode('even more content'));
+        $this->createFileOnBackupDisk('file3.zip', 1, gzencode('you guessed it: content'));
 
         $totalSize = filesize($this->testHelper->getTempDirectory().'/mysite.com/file1.zip')
             + filesize($this->testHelper->getTempDirectory().'/mysite.com/file2.zip')
