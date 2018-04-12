@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.6.1 - 2018-04-13
+
+- improved compatiblity with MariaDB
+- improved compatiblity with Google Drive
+
 # 5.6.0 - 2018-04-03
 - add `icon` and `username` to slack config
 
