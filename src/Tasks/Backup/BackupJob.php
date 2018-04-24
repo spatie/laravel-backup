@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Exception;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Spatie\DbDumper\DbDumper;
 use Illuminate\Support\Collection;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -236,6 +237,7 @@ class BackupJob
                 consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
 
                 $compressedDumpPath = Gzip::compress($temporaryFilePath);
+                File::delete($temporaryFilePath);
 
                 return $compressedDumpPath;
             }
