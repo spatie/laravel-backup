@@ -3,9 +3,12 @@
 namespace Spatie\Backup\Test\Integration\BackupCollectionTest;
 
 use Storage;
+use Exception;
 use Carbon\Carbon;
+use League\Flysystem\Filesystem;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Test\Integration\TestCase;
+use League\Flysystem\Adapter\Local as LocalAdapter;
 use Spatie\Backup\BackupDestination\BackupCollection;
 
 class BackupCollectionTest extends TestCase
@@ -116,6 +119,41 @@ class BackupCollectionTest extends TestCase
         $this->assertSame($totalSize, $backupCollection->size());
     }
 
+    /** @test */
+    public function it_checks_mime_type_instead_of_extension()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(['mimetype' => 'application/zip']);
+        $this->createFileOnBackupDisk('file1');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(1, $backups);
+    }
+
+    /** @test */
+    public function it_skips_mime_type_check_if_mime_type_is_false()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(false);
+        $this->createFileOnBackupDisk('file1.zip');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(1, $backups);
+    }
+
+    /** @test */
+    public function it_skips_mime_type_check_if_getting_mime_type_throws_exception()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(function () {
+            throw new Exception('No mime type specified');
+        });
+        $this->createFileOnBackupDisk('file1.zip');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(1, $backups);
+    }
+
     protected function getBackupCollectionForCurrentDiskContents(): BackupCollection
     {
         $disk = Storage::disk('local');
@@ -132,5 +170,30 @@ class BackupCollectionTest extends TestCase
             Carbon::now()->subDays($ageInDays),
             $contents
         );
+    }
+
+    protected function localFilesystemOnMimeTypeCheckToReturn($mimeType)
+    {
+        LocalAdapterWithMimeType::$mimeType = $mimeType;
+
+        Storage::extend('local', function ($app, $config) {
+            return new Filesystem(new LocalAdapterWithMimeType($config['root']));
+        });
+    }
+}
+
+class LocalAdapterWithMimeType extends LocalAdapter
+{
+    /** @var array|false|callable */
+    public static $mimeType;
+
+    /**
+     * @param string $path
+     *
+     * @return array|false
+     */
+    public function getMimetype($path)
+    {
+        return is_callable(static::$mimeType) ? (static::$mimeType)() : static::$mimeType;
     }
 }
