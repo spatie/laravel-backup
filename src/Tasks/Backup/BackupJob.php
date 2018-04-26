@@ -4,7 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Exception;
 use Carbon\Carbon;
-use Illuminate\Http\File;
+use Illuminate\Support\Facades\File;
 use Spatie\DbDumper\DbDumper;
 use Illuminate\Support\Collection;
 use Spatie\DbDumper\Databases\Sqlite;
