@@ -6,7 +6,6 @@ use Exception;
 use Carbon\Carbon;
 use Spatie\DbDumper\DbDumper;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
@@ -229,18 +228,14 @@ class BackupJob
 
             $fileName = "{$dbType}-{$dbName}.sql";
 
+            if (config('backup.backup.gzip_database_dump')) {
+                $fileName .= '.gz';
+                $dbDumper->enableCompression();
+            }
+
             $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
             $dbDumper->dumpToFile($temporaryFilePath);
-
-            if (config('backup.backup.gzip_database_dump')) {
-                consoleOutput()->info("Gzipping {$dbDumper->getDbName()}...");
-
-                $compressedDumpPath = Gzip::compress($temporaryFilePath);
-                File::delete($temporaryFilePath);
-
-                return $compressedDumpPath;
-            }
 
             return $temporaryFilePath;
         })->toArray();
