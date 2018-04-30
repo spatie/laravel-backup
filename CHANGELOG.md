@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.6.4 - 2018-04-30
+
+- gzipping is now handled by db-dumper
+
 # 5.6.3 - 2018-04-26
 
 - fix wrong import
