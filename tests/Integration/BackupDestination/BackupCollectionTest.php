@@ -3,9 +3,12 @@
 namespace Spatie\Backup\Test\Integration\BackupCollectionTest;
 
 use Storage;
+use Exception;
 use Carbon\Carbon;
+use League\Flysystem\Filesystem;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Test\Integration\TestCase;
+use League\Flysystem\Adapter\Local as LocalAdapter;
 use Spatie\Backup\BackupDestination\BackupCollection;
 
 class BackupCollectionTest extends TestCase
@@ -116,6 +119,52 @@ class BackupCollectionTest extends TestCase
         $this->assertSame($totalSize, $backupCollection->size());
     }
 
+    /** @test */
+    public function it_checks_zip_extension_before_checking_mime_type()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(false);
+        $this->createFileOnBackupDisk('file1.zip');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(1, $backups);
+    }
+
+    /** @test */
+    public function it_checks_mime_type_when_no_zip_extension_present()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(['mimetype' => 'application/zip']);
+        $this->createFileOnBackupDisk('file1');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(1, $backups);
+    }
+
+    /** @test */
+    public function it_skips_file_if_filesystem_mime_type_check_returns_false()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(false);
+        $this->createFileOnBackupDisk('file1');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(0, $backups);
+    }
+
+    /** @test */
+    public function it_skips_file_if_exceptions_throw_by_filesystem_mime_type_check()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(function () {
+            throw new Exception('No mime type specified');
+        });
+        $this->createFileOnBackupDisk('file1');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(0, $backups);
+    }
+
     protected function getBackupCollectionForCurrentDiskContents(): BackupCollection
     {
         $disk = Storage::disk('local');
@@ -132,5 +181,30 @@ class BackupCollectionTest extends TestCase
             Carbon::now()->subDays($ageInDays),
             $contents
         );
+    }
+
+    protected function localFilesystemOnMimeTypeCheckToReturn($mimeType)
+    {
+        LocalAdapterWithMimeType::$mimeType = $mimeType;
+
+        Storage::extend('local', function ($app, $config) {
+            return new Filesystem(new LocalAdapterWithMimeType($config['root']));
+        });
+    }
+}
+
+class LocalAdapterWithMimeType extends LocalAdapter
+{
+    /** @var array|false|callable */
+    public static $mimeType;
+
+    /**
+     * @param string $path
+     *
+     * @return array|false
+     */
+    public function getMimetype($path)
+    {
+        return is_callable(static::$mimeType) ? (static::$mimeType)() : static::$mimeType;
     }
 }
