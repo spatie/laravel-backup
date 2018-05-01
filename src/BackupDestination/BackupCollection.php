@@ -4,6 +4,7 @@ namespace Spatie\Backup\BackupDestination;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Spatie\Backup\Helpers\File;
 
 class BackupCollection extends Collection
 {
@@ -14,7 +15,7 @@ class BackupCollection extends Collection
     {
         return (new static($files))
             ->filter(function ($path) use ($disk) {
-                return (new BackupPath)->isBackupFile($disk, $path);
+                return (new File)->isZipFile($disk, $path);
             })
             ->map(function ($path) use ($disk) {
                 return new Backup($disk, $path);
