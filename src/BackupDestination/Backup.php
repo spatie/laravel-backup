@@ -46,9 +46,6 @@ class Backup
         return $this->disk->size($this->path);
     }
 
-    /**
-     * Delete the backup from the disk.
-     */
     public function delete()
     {
         $this->disk->delete($this->path);

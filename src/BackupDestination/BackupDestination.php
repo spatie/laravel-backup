@@ -135,18 +135,12 @@ class BackupDestination
         return $this->backups()->size();
     }
 
-    /**
-     * @return \Spatie\Backup\BackupDestination\Backup|null
-     */
-    public function newestBackup()
+    public function newestBackup(): ?Backup
     {
         return $this->backups()->newest();
     }
 
-    /**
-     * @return \Spatie\Backup\BackupDestination\Backup|null
-     */
-    public function oldestBackup()
+    public function oldestBackup(): ?Backup
     {
         return $this->backups()->oldest();
     }

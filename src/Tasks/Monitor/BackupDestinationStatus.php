@@ -66,15 +66,12 @@ class BackupDestinationStatus
         return $this->backupDestination->backups()->count();
     }
 
-    /**
-     * @return \Carbon\Carbon|null
-     */
-    public function dateOfNewestBackup()
+    public function dateOfNewestBackup(): ?Carbon
     {
         $newestBackup = $this->backupDestination->newestBackup();
 
         if (is_null($newestBackup)) {
-            return;
+            return null;
         }
 
         return $newestBackup->date();

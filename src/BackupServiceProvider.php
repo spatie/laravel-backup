@@ -12,9 +12,6 @@ use Spatie\Backup\Notifications\EventHandler;
 
 class BackupServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     */
     public function boot()
     {
         $this->publishes([
@@ -28,9 +25,6 @@ class BackupServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'backup');
     }
 
-    /**
-     * Register the application services.
-     */
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/backup.php', 'backup');

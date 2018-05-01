@@ -2,18 +2,14 @@
 
 namespace Spatie\Backup\Notifications;
 
+use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
 use Illuminate\Support\Collection;
 use Illuminate\Notifications\Notification;
 
 abstract class BaseNotification extends Notification
 {
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array
-     */
-    public function via()
+    public function via(): array
     {
         $notificationChannels = config('backup.notifications.notifications.'.static::class);
 
@@ -58,10 +54,7 @@ abstract class BaseNotification extends Notification
         ])->filter();
     }
 
-    /**
-     * @return \Spatie\Backup\BackupDestination\BackupDestination|null
-     */
-    public function backupDestination()
+    public function backupDestination(): ?BackupDestination
     {
         if (isset($this->event->backupDestination)) {
             return $this->event->backupDestination;
@@ -70,5 +63,7 @@ abstract class BaseNotification extends Notification
         if (isset($this->event->backupDestinationStatus)) {
             return $this->event->backupDestinationStatus->backupDestination();
         }
+
+        return null;
     }
 }

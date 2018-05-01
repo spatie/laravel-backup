@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\BackupDestination;
 
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 
 class BackupCollection extends Collection
@@ -9,13 +10,7 @@ class BackupCollection extends Collection
     /** @var null|int */
     protected $sizeCache = null;
 
-    /**
-     * @param \Illuminate\Contracts\Filesystem\Filesystem|null $disk
-     * @param array                                            $files
-     *
-     * @return \Spatie\Backup\BackupDestination\BackupCollection
-     */
-    public static function createFromFiles($disk, array $files): self
+    public static function createFromFiles(?FileSystem $disk, array $files): self
     {
         return (new static($files))
             ->filter(function ($path) use ($disk) {
@@ -30,18 +25,12 @@ class BackupCollection extends Collection
             ->values();
     }
 
-    /**
-     * @return \Spatie\Backup\BackupDestination\Backup|null
-     */
-    public function newest()
+    public function newest(): ?Backup
     {
         return $this->first();
     }
 
-    /**
-     * @return \Spatie\Backup\BackupDestination\Backup|null
-     */
-    public function oldest()
+    public function oldest(): ?Backup
     {
         return $this
             ->filter->exists()

@@ -50,13 +50,6 @@ class FileSelection
         return $this;
     }
 
-    /**
-     * Enable or disable the following of symlinks.
-     *
-     * @param bool $shouldFollowLinks
-     *
-     * @return \Spatie\Backup\Tasks\Backup\FileSelection
-     */
     public function shouldFollowLinks(bool $shouldFollowLinks): self
     {
         $this->shouldFollowLinks = $shouldFollowLinks;

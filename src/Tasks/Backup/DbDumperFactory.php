@@ -11,11 +11,6 @@ use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
 class DbDumperFactory
 {
-    /**
-     * @param string $dbConnectionName
-     *
-     * @return \Spatie\DbDumper\DbDumper
-     */
     public static function createFromConnection(string $dbConnectionName): DbDumper
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
@@ -71,14 +66,7 @@ class DbDumperFactory
         throw CannotCreateDbDumper::unsupportedDriver($driver);
     }
 
-    /**
-     * @param array $dumpConfiguration
-     *
-     * @param $dbDumper
-     *
-     * @return mixed
-     */
-    protected static function processExtraDumpParameters(array $dumpConfiguration, $dbDumper): DbDumper
+    protected static function processExtraDumpParameters(array $dumpConfiguration, DbDumper $dbDumper): DbDumper
     {
         collect($dumpConfiguration)->each(function ($configValue, $configName) use ($dbDumper) {
             $methodName = lcfirst(studly_case(is_numeric($configName) ? $configValue : $configName));
@@ -94,13 +82,6 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-    /**
-     * @param \Spatie\DbDumper\DbDumper $dbDumper
-     * @param string $methodName
-     * @param string|null $methodValue
-     *
-     * @return \Spatie\DbDumper\DbDumper
-     */
     protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, $methodValue): DbDumper
     {
         if (! $methodValue) {

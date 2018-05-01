@@ -8,11 +8,6 @@ class Notifiable
 {
     use NotifiableTrait;
 
-    /**
-     * Route notifications for the mail channel.
-     *
-     * @return string
-     */
     public function routeNotificationForMail()
     {
         return config('backup.notifications.mail.to');
