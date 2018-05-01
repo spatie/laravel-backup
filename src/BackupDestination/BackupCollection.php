@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\BackupDestination;
 
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
 use Spatie\Backup\Helpers\File;
+use Illuminate\Support\Collection;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class BackupCollection extends Collection
 {
