@@ -21,7 +21,7 @@ class BackupPath
      */
     public function isBackupFile($disk, string $path) : bool
     {
-        return $this->hasAllowedMimeType($disk, $path) ?: $this->hasZipExtension($path);
+        return $this->hasZipExtension($path) ?: $this->hasAllowedMimeType($disk, $path);
     }
 
     /**

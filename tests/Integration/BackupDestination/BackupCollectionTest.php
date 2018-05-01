@@ -120,18 +120,7 @@ class BackupCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_mime_type_instead_of_extension()
-    {
-        $this->localFilesystemOnMimeTypeCheckToReturn(['mimetype' => 'application/zip']);
-        $this->createFileOnBackupDisk('file1');
-
-        $backups = $this->getBackupCollectionForCurrentDiskContents();
-
-        $this->assertCount(1, $backups);
-    }
-
-    /** @test */
-    public function it_skips_mime_type_check_if_mime_type_is_false()
+    public function it_checks_zip_extension_before_checking_mime_type()
     {
         $this->localFilesystemOnMimeTypeCheckToReturn(false);
         $this->createFileOnBackupDisk('file1.zip');
@@ -142,16 +131,38 @@ class BackupCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_skips_mime_type_check_if_getting_mime_type_throws_exception()
+    public function it_checks_mime_type_when_no_zip_extension_present()
     {
-        $this->localFilesystemOnMimeTypeCheckToReturn(function () {
-            throw new Exception('No mime type specified');
-        });
-        $this->createFileOnBackupDisk('file1.zip');
+        $this->localFilesystemOnMimeTypeCheckToReturn(['mimetype' => 'application/zip']);
+        $this->createFileOnBackupDisk('file1');
 
         $backups = $this->getBackupCollectionForCurrentDiskContents();
 
         $this->assertCount(1, $backups);
+    }
+
+    /** @test */
+    public function it_skips_file_if_filesystem_mime_type_check_returns_false()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(false);
+        $this->createFileOnBackupDisk('file1');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(0, $backups);
+    }
+
+    /** @test */
+    public function it_skips_file_if_exceptions_throw_by_filesystem_mime_type_check()
+    {
+        $this->localFilesystemOnMimeTypeCheckToReturn(function () {
+            throw new Exception('No mime type specified');
+        });
+        $this->createFileOnBackupDisk('file1');
+
+        $backups = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertCount(0, $backups);
     }
 
     protected function getBackupCollectionForCurrentDiskContents(): BackupCollection
