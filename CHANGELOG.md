@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.6.6 - 2018-05-05
+
+- fix composer requirementd
+
 # 5.6.5 - 2018-05-01
 
 - only zip files will get threated as backup files
