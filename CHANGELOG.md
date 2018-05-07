@@ -8,6 +8,8 @@ All notable changes to `laravel-backup` will be documented in this file.
 
 # 5.6.5 - 2018-05-01
 
+**THIS RELEASE WAS DELETED BECAUSE IT COULD GET PULLED IN WITH ONLY PHP7.0 installed**
+
 - only zip files will get threated as backup files
 - drop support for PHP 7.0
 
