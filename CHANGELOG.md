@@ -4,7 +4,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 
 # 5.6.6 - 2018-05-05
 
-- fix composer requirementd
+- fix composer requirements
 
 # 5.6.5 - 2018-05-01
 
