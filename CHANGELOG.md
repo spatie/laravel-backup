@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.7.0 - 2018-05-11
+
+- add Persian translation
+
 # 5.6.6 - 2018-05-05
 
 - fix composer requirements
