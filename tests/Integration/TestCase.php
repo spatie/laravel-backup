@@ -9,6 +9,7 @@ use Spatie\Backup\BackupServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use League\Flysystem\FileNotFoundException;
 use Orchestra\Testbench\TestCase as Orchestra;
+use ZipArchive;
 
 abstract class TestCase extends Orchestra
 {
@@ -158,11 +159,12 @@ abstract class TestCase extends Orchestra
         $this->assertFalse($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} doesn't contain a file name {$filename}");
     }
 
-    protected function fileExistsInZip($zipPath, $filename)
+    protected function fileExistsInZip($zipPath, $filename): bool
     {
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
+        
         if ($zip->open($zipPath) === true) {
-            return $zip->locateName($filename, \ZipArchive::FL_NODIR) !== false;
+            return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
         }
 
         return false;
