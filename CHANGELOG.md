@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.8.0 - 2018-06-09
+
+- add Polish translation
+
 # 5.7.0 - 2018-05-11
 
 - add Persian translation
