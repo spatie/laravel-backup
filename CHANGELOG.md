@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.9.0 - 2018-06-18
+
+- add `temporary_directory` config option
+
 # 5.8.0 - 2018-06-09
 
 - add Polish translation
