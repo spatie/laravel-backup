@@ -67,7 +67,7 @@ return [
         ],
 
         /*
-         * The directory where the backup temporary files will be stored
+         * The directory where the temporary files will be stored.
          */
         'temporary_directory' => storage_path('app/backup-temp'),
     ],
