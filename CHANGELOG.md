@@ -8,6 +8,8 @@ All notable changes to `laravel-backup` will be documented in this file.
 
 # 5.9.0 - 2018-06-18
 
+**THIS VERSION IS BROKEN, DO NOT USE**
+
 - add `temporary_directory` config option
 
 # 5.8.0 - 2018-06-09
