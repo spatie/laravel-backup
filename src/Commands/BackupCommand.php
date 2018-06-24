@@ -51,7 +51,7 @@ class BackupCommand extends BaseCommand
 
             $backupJob->run();
 
-            consoleOutput()->comment('Backup completed!');
+            consoleOutput()->comment('Backup completed! @ '.date('Y-m-d H:i:s'));
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
