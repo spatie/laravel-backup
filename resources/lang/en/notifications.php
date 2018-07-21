@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'application_name' => 'Application name',
+    'backup_name' => 'Backup name',
+    'disk_name' => 'Disk',
+    'newest_backup_size' => 'Newest backup size',
+    'amount_of_backups' => 'Amount of backups',
+    'total_storage_used' => 'Total storage used',
+    'newest_backup_date' => 'Newest backup date',
+    'oldest_backup_date' => 'Oldest backup date',
+    'no_backups' => 'No backups were made yet',
+
     'exception_message' => 'Exception message: :message',
     'exception_trace' => 'Exception trace: :trace',
     'exception_message_title' => 'Exception message',

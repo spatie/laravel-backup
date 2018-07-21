@@ -43,14 +43,14 @@ abstract class BaseNotification extends Notification
         $oldestBackup = $backupDestination->oldestBackup();
 
         return collect([
-            'Application name' => $this->applicationName(),
-            'Backup name' => $this->backupName(),
-            'Disk' => $backupDestination->diskName(),
-            'Newest backup size' => $newestBackup ? Format::humanReadableSize($newestBackup->size()) : 'No backups were made yet',
-            'Amount of backups' => (string) $backupDestination->backups()->count(),
-            'Total storage used' => Format::humanReadableSize($backupDestination->backups()->size()),
-            'Newest backup date' => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
-            'Oldest backup date' => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
+            trans('backup::notifications.application_name') => $this->applicationName(),
+            trans('backup::notifications.backup_name') => $this->backupName(),
+            trans('backup::notifications.disk_name') => $backupDestination->diskName(),
+            trans('backup::notifications.newest_backup_size') => $newestBackup ? Format::humanReadableSize($newestBackup->size()) : trans('backup::notifications.no_backups'),
+            trans('backup::notifications.amount_of_backups') => (string) $backupDestination->backups()->count(),
+            trans('backup::notifications.total_storage_used') => Format::humanReadableSize($backupDestination->backups()->size()),
+            trans('backup::notifications.newest_backup_date') => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : trans('backup::notifications.no_backups'),
+            trans('backup::notifications.oldest_backup_date') => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : trans('backup::notifications.no_backups'),
         ])->filter();
     }
 
