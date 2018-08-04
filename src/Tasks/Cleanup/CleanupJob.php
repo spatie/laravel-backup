@@ -20,7 +20,7 @@ class CleanupJob
     /** @var bool */
     protected $sendNotifications = true;
 
-    public function __construct(Collection $backupDestinations, CleanupStrategy $strategy, bool $disableNotifications)
+    public function __construct(Collection $backupDestinations, CleanupStrategy $strategy, bool $disableNotifications = false)
     {
         $this->backupDestinations = $backupDestinations;
 

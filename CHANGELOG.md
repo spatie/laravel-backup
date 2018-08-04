@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+# 5.9.3 - 2018-08-04
+
+- set default for `disableNotifications` on `CleanupJob`
+
 # 5.9.2 - 2018-08-04
 
 - resolve `CleanupStrategy` out of the container
