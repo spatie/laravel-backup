@@ -6,6 +6,7 @@ use Exception;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 
 class CleanupCommand extends BaseCommand
 {
@@ -14,6 +15,16 @@ class CleanupCommand extends BaseCommand
 
     /** @var string */
     protected $description = 'Remove all backups older than specified number of days in config.';
+
+    /** @var \Spatie\Backup\Tasks\Cleanup\CleanupStrategy */
+    protected $strategy;
+
+    public function __construct(CleanupStrategy $strategy)
+    {
+        parent::__construct();
+
+        $this->strategy = $strategy;
+    }
 
     public function handle()
     {
@@ -26,9 +37,7 @@ class CleanupCommand extends BaseCommand
 
             $backupDestinations = BackupDestinationFactory::createFromArray($config['backup']);
 
-            $strategy = app($config['cleanup']['strategy']);
-
-            $cleanupJob = new CleanupJob($backupDestinations, $strategy, $disableNotifications);
+            $cleanupJob = new CleanupJob($backupDestinations, $this->strategy, $disableNotifications);
 
             $cleanupJob->run();
 
