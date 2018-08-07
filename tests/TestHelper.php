@@ -20,7 +20,7 @@ class TestHelper
         $this->initializeDirectory($this->getTempDirectory());
     }
 
-    public function initializeDirectory($directory)
+    public function initializeDirectory(string $directory)
     {
         $this->filesystem->deleteDirectory($directory);
 
@@ -29,7 +29,7 @@ class TestHelper
         $this->addGitignoreTo($directory);
     }
 
-    public function addGitignoreTo($directory)
+    public function addGitignoreTo(string $directory)
     {
         $fileName = "{$directory}/.gitignore";
 
@@ -38,22 +38,22 @@ class TestHelper
         $this->filesystem->put($fileName, $fileContents);
     }
 
-    public function getStubDirectory(): String
+    public function getStubDirectory(): string
     {
         return __DIR__.'/stubs';
     }
 
-    public function getStubDbDirectory(): String
+    public function getStubDbDirectory(): string
     {
         return __DIR__.'/stubs-db';
     }
 
-    public function getTempDirectory(): String
+    public function getTempDirectory(): string
     {
         return __DIR__.'/temp';
     }
 
-    public function createTempFileWithAge($fileName, DateTime $date, $contents = '')
+    public function createTempFileWithAge($fileName, DateTime $date, $contents = ''): string
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);
 
@@ -68,7 +68,7 @@ class TestHelper
         return $fullPath;
     }
 
-    public function createTempFile1Mb($fileName, DateTime $date): String
+    public function createTempFile1Mb(string $fileName, DateTime $date): string
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);
 
@@ -85,7 +85,7 @@ class TestHelper
         return $fullPath;
     }
 
-    public function createSQLiteDatabase($fileName): String
+    public function createSQLiteDatabase(string $fileName): string
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);
 
