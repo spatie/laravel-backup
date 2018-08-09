@@ -10,7 +10,6 @@ use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\MonitorCommand;
 use Spatie\Backup\Notifications\EventHandler;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
-use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
 
 class BackupServiceProvider extends ServiceProvider
 {
