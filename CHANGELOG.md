@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 5.10.1 - 2018-08-24
+
+- allow Laravel 5.7
+
 ## 5.10.0 - 2018-08-09
 
 - add `stream()` on `Backup`
