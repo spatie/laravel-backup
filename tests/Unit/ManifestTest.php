@@ -60,7 +60,7 @@ class ManifestTest extends TestCase
     /** @test */
     public function it_implements_the_countable_interface()
     {
-        $this->assertSame(0, count($this->manifest));
+        $this->assertCount(0, $this->manifest);
     }
 
     /** @test */
@@ -80,7 +80,7 @@ class ManifestTest extends TestCase
 
         $this->manifest->addFiles($testFiles);
 
-        $this->assertSame(count($testFiles), count($this->manifest));
+        $this->assertCount(count($testFiles), $this->manifest);
     }
 
     /** @test */
