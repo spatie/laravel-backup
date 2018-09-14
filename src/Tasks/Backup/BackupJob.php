@@ -235,6 +235,11 @@ class BackupJob
                 $dbDumper->enableCompression();
             }
 
+            if (config('backup.backup.bzip2_database_dump')) {
+                $fileName .= '.bz2';
+                $dbDumper->enableCompression('bzip2 -f9');
+            }
+
             $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
             $dbDumper->dumpToFile($temporaryFilePath);

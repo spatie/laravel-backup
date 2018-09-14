@@ -66,7 +66,7 @@ return [
          * It will use the first true value.
          */
         'gzip_database_dump' => false,
-        
+
         'bzip2_database_dump' => false,
 
 
