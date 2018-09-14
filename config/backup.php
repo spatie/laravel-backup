@@ -62,9 +62,13 @@ return [
         ],
 
         /*
-         * The database dump can be gzipped to decrease diskspace usage.
+         * The database dump can be compressed to decrease diskspace usage.
+         * It will use the first true value.
          */
         'gzip_database_dump' => false,
+
+        'bzip2_database_dump' => false,
+
 
         'destination' => [
 
