@@ -63,12 +63,13 @@ return [
 
         /*
          * The database dump can be compressed to decrease diskspace usage.
-         * It will use the first true value.
+         *
+         * Out of the box Laravel-backup supplies
+         * Spatie\DbDumper\Compressors\GzipCompressor::class.
+         *
+         * If you do not want any compressor at all, set it to null.
          */
-        'gzip_database_dump' => false,
-        
-        'bzip2_database_dump' => false,
-
+        'compressor_for_database_dump' => null,
 
         'destination' => [
 
