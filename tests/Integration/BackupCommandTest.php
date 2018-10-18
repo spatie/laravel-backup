@@ -328,7 +328,7 @@ class BackupCommandTest extends TestCase
     public function it_compress_the_database_dump()
     {
         $this->app['config']->set('backup.backup.source.databases', ['sqlite']);
-        $this->app['config']->set('compressor_for_database_dump', GzipCompressor::class);
+        $this->app['config']->set('database_dump_compressor', GzipCompressor::class);
 
         $this->setUpDatabase($this->app);
 

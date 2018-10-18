@@ -67,9 +67,12 @@ return [
          * Out of the box Laravel-backup supplies
          * Spatie\DbDumper\Compressors\GzipCompressor::class.
          *
+         * You can also create custom compressor. More info on that here:
+         * https://github.com/spatie/db-dumper#using-compression
+         *
          * If you do not want any compressor at all, set it to null.
          */
-        'compressor_for_database_dump' => null,
+        'database_dump_compressor' => null,
 
         'destination' => [
 

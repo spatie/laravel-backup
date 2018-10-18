@@ -236,7 +236,7 @@ class BackupJob
                 $fileName .= '.'.$dbDumper->getCompressorExtension();
             }
 
-            if ($compressor = config('compressor_for_database_dump')) {
+            if ($compressor = config('database_dump_compressor')) {
                 $dbDumper->useCompressor(new $compressor());
                 $fileName .= '.'.$dbDumper->getCompressorExtension();
             }
