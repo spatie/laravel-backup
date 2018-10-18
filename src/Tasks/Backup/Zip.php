@@ -33,15 +33,22 @@ class Zip
 
     protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip)
     {
-        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME);
+        $result = $pathToFile;
 
+        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME);
         $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME);
 
         if (starts_with($fileDirectory, $zipDirectory)) {
-            return str_replace($zipDirectory, '', $pathToFile);
+            $result = str_replace($zipDirectory, '', $result);
         }
 
-        return $pathToFile;
+        /* remove drive letter */
+        $result = preg_match('/^[A-Z]:/i', $result) ? substr($result, 2) : $result;
+
+        /* only use / path separator */
+        $result = str_replace('\\', '/', $result);
+
+        return $result;
     }
 
     public function __construct(string $pathToZip)
