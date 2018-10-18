@@ -49,4 +49,21 @@ class ZipTest extends TestCase
 
         $this->assertNotEquals(0, $this->zip->size());
     }
+
+
+    /** @test */
+    public function it_can_determine_name_of_file_in_zip()
+    {
+        $this->assertEquals(
+            '/Users/jon.doe/Documents/GitHub/laravel-backup/tests/temp/.gitignore',
+            $this->testHelper->callMethod(
+                $this->zip,
+                'determineNameOfFileInZip',
+                array(
+                    'C:\Users\jon.doe\Documents\GitHub\laravel-backup\tests/temp\.gitignore',
+                    'C:\Users\jon.doe\Documents\GitHub\laravel-backup\vendor\orchestra\testbench-core\src\Concerns/../../laravel\storage\app/backup-temp\temp\2016-01-01-21-01-01.zip'
+                )
+            )
+        );
+    }
 }

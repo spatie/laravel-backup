@@ -10,6 +10,19 @@ class TestHelper
     /** @var \Illuminate\Filesystem\Filesystem */
     protected $filesystem;
 
+    /**
+     * Call method on object, useful for calling protected methods
+     */
+    public static function callMethod($obj, $name, array $args)
+    {
+        $class = new \ReflectionClass($obj);
+
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($obj, $args);
+    }
+
     public function __construct()
     {
         $this->filesystem = new Filesystem();
