@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 5.11.1 - 2018-10-20
+
+- fix bug where compressor config option would not be respected
+
 ## 5.11.0 - 2018-10-18
 
 - add support for database compressors
