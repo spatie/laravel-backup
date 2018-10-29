@@ -155,4 +155,11 @@ class BackupDestination
 
         return $newestBackup->date()->gt($date);
     }
+
+    public function fresh(): BackupDestination
+    {
+        $this->backupCollectionCache = null;
+
+        return $this;
+    }
 }
