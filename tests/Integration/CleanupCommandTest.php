@@ -205,4 +205,18 @@ class CleanupCommandTest extends TestCase
             'mysite/test2000.txt',
         ]);
     }
+
+    /** @test */
+    public function it_should_display_correct_used_storage_amount_after_cleanup()
+    {
+        $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 4);
+
+        collect(range(0, 10))->each(function (int $number) {
+            $this->testHelper->createTempFile1Mb("mysite/test{$number}.zip", Carbon::now()->subDays($number));
+        });
+
+        Artisan::call('backup:clean');
+
+        $this->seeInConsoleOutput('after cleanup: 4 MB.');
+    }
 }
