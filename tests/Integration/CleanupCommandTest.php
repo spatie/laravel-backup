@@ -221,11 +221,10 @@ class CleanupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_zip_without_error()
+    public function it_can_clean_backups_and_send_notification_without_cache_error()
     {
         $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 2);
 
-        // Create a temp zip file with a given size
         $this->testHelper->createTempZipFile('mysite/test001.zip', Carbon::now()->subDays(1), 2.2);
         $this->testHelper->createTempZipFile('mysite/test002.zip', Carbon::now()->subDays(2), 2.2);
         $this->testHelper->createTempZipFile('mysite/test003.zip', Carbon::now()->subDays(3), 2.2);
