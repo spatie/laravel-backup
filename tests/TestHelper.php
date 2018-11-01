@@ -85,6 +85,27 @@ class TestHelper
         return $fullPath;
     }
 
+    public function createTempZipFile(string $fileName, DateTime $date, float $size): string
+    {
+        $directory = $this->getTempDirectory().'/'.dirname($fileName);
+
+        $this->filesystem->makeDirectory($directory, 0755, true, true);
+
+        $fullPath = $this->getTempDirectory().'/'.$fileName;
+
+        $handle = fopen($fullPath, 'w');
+
+        fseek($handle, $size * 1024 * 1024, SEEK_CUR);
+
+        fwrite($handle, '0');
+
+        fclose($handle);
+
+        touch($fullPath, $date->getTimestamp());
+
+        return $fullPath;
+    }
+
     public function createSQLiteDatabase(string $fileName): string
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);
