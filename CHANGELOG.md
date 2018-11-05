@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 5.11.3 - 2018-01-03
+
+- fix bugs regarding cleaning backups
+
 ## 5.11.2 - 2018-10-30
 
 - make sure the backup size is correctly displayed
