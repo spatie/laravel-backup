@@ -149,6 +149,7 @@ return [
             'disks' => ['local'],
             'newest_backups_should_not_be_older_than_days' => 1,
             'storage_used_may_not_be_higher_than_megabytes' => 5000,
+            'inspections' => [],
         ],
 
         /*
@@ -157,6 +158,7 @@ return [
             'disks' => ['local', 's3'],
             'newest_backups_should_not_be_older_than_days' => 1,
             'storage_used_may_not_be_higher_than_megabytes' => 5000,
+            'inspections' => [],
         ],
         */
     ],

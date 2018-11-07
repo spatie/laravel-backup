@@ -24,10 +24,17 @@ class BackupDestinationStatus
     /** @var bool */
     protected $reachable;
 
-    public function __construct(BackupDestination $backupDestination, string $diskName)
+    /** @var array */
+    protected $inspections;
+
+    /** @var HealthInspectionFailure|null */
+    protected $failedInspection;
+
+    public function __construct(BackupDestination $backupDestination, string $diskName, array $inspections = [])
     {
         $this->backupDestination = $backupDestination;
         $this->diskName = $diskName;
+        $this->inspections = $inspections;
 
         $this->reachable = $this->backupDestination->isReachable();
     }
@@ -133,6 +140,10 @@ class BackupDestinationStatus
             return false;
         }
 
+        if ($this->failsInspections()) {
+            return false;
+        }
+
         return true;
     }
 
@@ -155,5 +166,34 @@ class BackupDestinationStatus
     public function backupDestination(): BackupDestination
     {
         return $this->backupDestination;
+    }
+
+    public function getFailedInspection()
+    {
+        return $this->failedInspection;
+    }
+
+    protected function failsInspections()
+    {
+        $this->runInspections();
+
+        return $this->getFailedInspection() !== null;
+    }
+
+    protected function runInspections()
+    {
+        $this->failedInspection = null;
+
+        $currentInspection = null;
+
+        try {
+            collect($this->inspections)->each(function (HealthInspection $inspection) use (&$currentInspection) {
+                $currentInspection = $inspection;
+                $inspection->handle($this->backupDestination);
+            });
+        }
+        catch (\Exception $exception) {
+            $this->failedInspection = new HealthInspectionFailure($currentInspection, $exception);
+        }
     }
 }
