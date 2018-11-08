@@ -124,6 +124,10 @@ return [
         ],
 
         'slack' => [
+            /*
+             * Avoid setting the variable in `config()` for it will return a null value.
+             * Use `env()` helper instead, or string of the url.
+             */
             'webhook_url' => '',
 
             /*
