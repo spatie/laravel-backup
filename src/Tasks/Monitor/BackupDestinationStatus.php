@@ -191,8 +191,7 @@ class BackupDestinationStatus
                 $currentInspection = $inspection;
                 $inspection->handle($this->backupDestination);
             });
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             $this->failedInspection = new HealthInspectionFailure($currentInspection, $exception);
         }
     }

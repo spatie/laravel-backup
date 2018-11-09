@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Notifications\Notifications;
 
-use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Notifications\BaseNotification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;

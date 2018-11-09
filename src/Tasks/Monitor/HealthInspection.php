@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Tasks\Monitor;
 
 use Illuminate\Support\Str;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
+use Spatie\Backup\BackupDestination\BackupDestination;
 
 abstract class HealthInspection
 {
