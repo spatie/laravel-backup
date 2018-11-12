@@ -27,7 +27,7 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_can_remove_old_backups_until_using_less_than_maximum_storage()
     {
-        $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 2);
+        $this->app['config']->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
 
         $this->testHelper->createTempFile1Mb('mysite/test1.zip', Carbon::now()->subDays(1));
         $this->testHelper->createTempFile1Mb('mysite/test2.zip', Carbon::now()->subDays(2));
@@ -209,7 +209,7 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_should_display_correct_used_storage_amount_after_cleanup()
     {
-        $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 4);
+        $this->app['config']->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 4);
 
         collect(range(0, 10))->each(function (int $number) {
             $this->testHelper->createTempFile1Mb("mysite/test{$number}.zip", Carbon::now()->subDays($number));
@@ -223,7 +223,7 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_can_clean_backups_and_send_notification_without_cache_error()
     {
-        $this->app['config']->set('backup.cleanup.defaultStrategy.deleteOldestBackupsWhenUsingMoreMegabytesThan', 2);
+        $this->app['config']->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
 
         $this->testHelper->createTempZipFile('mysite/test001.zip', Carbon::now()->subDays(1), 2.2);
         $this->testHelper->createTempZipFile('mysite/test002.zip', Carbon::now()->subDays(2), 2.2);

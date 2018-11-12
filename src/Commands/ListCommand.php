@@ -17,7 +17,7 @@ class ListCommand extends BaseCommand
 
     public function handle()
     {
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitorBackups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
 
         $this->displayOverview($statuses);
 
