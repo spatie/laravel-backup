@@ -34,7 +34,7 @@ return [
                 /*
                  * Determines if symlinks should be followed.
                  */
-                'followLinks' => false,
+                'follow_links' => false,
             ],
 
             /*
