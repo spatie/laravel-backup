@@ -1,3 +1,7 @@
+# From v5 to v6
+
+All keys in the config file are now snake_cases. Rename any camelCased keys to their snake_cased counterparts.
+
 # From v4 to v5
 
 The config file has been renamed. Change the name of the config file from `laravel-backup.php` to `backup.php`

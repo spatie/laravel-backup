@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.0.0 - UNRELEASED
+
+- all config keys are now snake_cased
+
 ## 5.11.3 - 2018-11-03
 
 - fix bugs regarding cleaning backups
