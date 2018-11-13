@@ -27,7 +27,7 @@ class UnhealthyBackupWasFound extends BaseNotification
 
         if (optional($this->inspectionFailure())->wasUnexpected()) {
             $mailMessage
-                ->line('Inspection: '.$this->inspectionFailure()->inspection()->name())
+                ->line('Inspection: '.$this->inspectionFailure()->check()->name())
                 ->line(trans('backup::notifications.exception_message', ['message' => $this->inspectionFailure()->reason()->getMessage()]))
                 ->line(trans('backup::notifications.exception_trace', ['trace' => $this->inspectionFailure()->reason()->getTraceAsString()]));
         }
@@ -51,7 +51,7 @@ class UnhealthyBackupWasFound extends BaseNotification
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
                         ->title('Inspection')
-                        ->content($this->inspectionFailure()->inspection()->name());
+                        ->content($this->inspectionFailure()->check()->name());
                 })
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
@@ -75,18 +75,18 @@ class UnhealthyBackupWasFound extends BaseNotification
         if (! $backupStatus->isReachable()) {
             return trans('backup::notification.unhealthy_backup_found_not_reachable', ['error' => $backupStatus->connectionError()]);
         }
-
-        if ($backupStatus->amountOfBackups() === 0) {
-            return trans('backup::notifications.unhealthy_backup_found_empty');
-        }
-
-        if ($backupStatus->usesTooMuchStorage()) {
-            return trans('backup::notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
-        }
-
-        if ($backupStatus->newestBackupIsTooOld()) {
-            return trans('backup::notifications.unhealthy_backup_found_old', ['date' => $backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')]);
-        }
+//
+//        if ($backupStatus->amountOfBackups() === 0) {
+//            return trans('backup::notifications.unhealthy_backup_found_empty');
+//        }
+//
+//        if ($backupStatus->usesTooMuchStorage()) {
+//            return trans('backup::notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
+//        }
+//
+//        if ($backupStatus->newestBackupIsTooOld()) {
+//            return trans('backup::notifications.unhealthy_backup_found_old', ['date' => $backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')]);
+//        }
 
         if ($this->inspectionFailure() && ! $this->inspectionFailure()->wasUnexpected()) {
             return $this->inspectionFailure()->reason()->getMessage();

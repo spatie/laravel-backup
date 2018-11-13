@@ -21,15 +21,15 @@ class BackupDestinationStatusFactory
         return collect($monitorConfig['disks'])->map(function ($diskName) use ($monitorConfig) {
             $backupDestination = BackupDestination::create($diskName, $monitorConfig['name']);
 
-            return (new BackupDestinationStatus($backupDestination, $diskName, static::buildInspections($monitorConfig)))
-                ->setMaximumAgeOfNewestBackupInDays($monitorConfig['newest_backups_should_not_be_older_than_days'])
-                ->setMaximumStorageUsageInMegabytes($monitorConfig['storage_used_may_not_be_higher_than_megabytes']);
+            return new BackupDestinationStatus($backupDestination, static::buildInspections($monitorConfig));
+//                ->setMaximumAgeOfNewestBackupInDays($monitorConfig['newest_backups_should_not_be_older_than_days'])
+//                ->setMaximumStorageUsageInMegabytes($monitorConfig['storage_used_may_not_be_higher_than_megabytes']);
         });
     }
 
     protected static function buildInspections($monitorConfig)
     {
-        return collect(array_get($monitorConfig, 'inspections'))->map(function ($options, $inspection) {
+        return collect(array_get($monitorConfig, 'health_checks'))->map(function ($options, $inspection) {
             if (is_int($inspection)) {
                 $inspection = $options;
                 $options = [];

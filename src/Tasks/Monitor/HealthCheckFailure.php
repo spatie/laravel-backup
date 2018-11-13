@@ -5,21 +5,21 @@ namespace Spatie\Backup\Tasks\Monitor;
 use Exception;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 
-class HealthInspectionFailure
+class HealthCheckFailure
 {
-    /** @var HealthInspection */
+    /** @var HealthCheck */
     protected $inspection;
 
     /** @var Exception */
     protected $exception;
 
-    public function __construct(HealthInspection $inspection, Exception $exception)
+    public function __construct(HealthCheck $inspection, Exception $exception)
     {
         $this->inspection = $inspection;
         $this->exception = $exception;
     }
 
-    public function inspection()
+    public function check()
     {
         return $this->inspection;
     }

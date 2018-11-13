@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\Test\Integration\TestCase;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
-use Spatie\Backup\Tasks\Monitor\HealthInspection;
+use Spatie\Backup\Tasks\Monitor\HealthCheck;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound as UnhealthyBackupWasFoundNotification;
 
@@ -23,20 +23,6 @@ class UnhealthyBackupWasFoundTest extends TestCase
         parent::setUp();
 
         $this->testHelper->initializeTempDirectory();
-
-        $this->app['config']->set('backup.backup.destination.disks', ['local']);
-        $this->app['config']->set('backup.backup.source.databases', ['db1']);
-        $this->app['config']->set('backup.backup.source.files.include', []);
-        $this->app['config']->set('backup.monitor_backups.0.inspections', []);
-        $this->app['config']->set('filesystems.disks.local', ['driver' => 'local', 'root' => $this->testHelper->getTempDirectory()]);
-    }
-
-    /** @test */
-    public function it_will_fire_an_event_on_no_backup_present()
-    {
-        $this->expectsEvents(UnhealthyBackupWasFound::class);
-
-        Artisan::call('backup:monitor');
     }
 
     /** @test */
@@ -112,9 +98,9 @@ class UnhealthyBackupWasFoundTest extends TestCase
 
     protected function makeInspectionFail(\Exception $customException = null)
     {
-        FakeFailingHealthInspection::$reason = $customException;
+        FakeFailingHealthCheck::$reason = $customException;
 
-        $this->app['config']->set('backup.monitor_backups.0.inspections', [FakeFailingHealthInspection::class]);
+        $this->app['config']->set('backup.monitor_backups.0.health_checks', [FakeFailingHealthCheck::class]);
 
         return $this;
     }
@@ -127,7 +113,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
     }
 }
 
-class FakeFailingHealthInspection extends HealthInspection
+class FakeFailingHealthCheck extends HealthCheck
 {
     public static $reason;
 
