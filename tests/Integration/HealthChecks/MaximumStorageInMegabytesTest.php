@@ -2,13 +2,11 @@
 
 namespace Spatie\Backup\Test\Integration\Events;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Events\HealthyBackupWasFound;
-use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
-use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
 class MaximumStorageInMegabytesTest extends TestCase
 {
@@ -19,7 +17,7 @@ class MaximumStorageInMegabytesTest extends TestCase
         $this->testHelper->initializeTempDirectory();
 
         $this->app['config']->set('backup.monitor_backups.0.health_checks', [
-            MaximumStorageInMegabytes::class => ['allowance' => 1]
+            MaximumStorageInMegabytes::class => ['allowance' => 1],
         ]);
     }
 

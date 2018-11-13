@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Tasks\Monitor\HealthChecks;
 
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
+use Spatie\Backup\BackupDestination\BackupDestination;
 
 class MaximumStorageInMegabytes extends HealthCheck
 {
@@ -20,7 +20,7 @@ class MaximumStorageInMegabytes extends HealthCheck
         $this->failIf($this->exceedsAllowance($usage = $backupDestination->usedStorage()),
             trans('backup::notifications.unhealthy_backup_found_full', [
                 'disk_usage' => $this->humanReadableSize($usage),
-                'disk_limit' => $this->humanReadableSize($this->bytes($this->allowance))
+                'disk_limit' => $this->humanReadableSize($this->bytes($this->allowance)),
             ])
         );
     }

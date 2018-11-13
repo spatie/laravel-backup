@@ -5,6 +5,7 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Spatie\Backup\Notifications\BaseNotification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Spatie\Backup\Tasks\Monitor\HealthCheckFailure;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Spatie\Backup\Events\UnhealthyBackupWasFound as UnhealthyBackupWasFoundEvent;
 
@@ -25,11 +26,11 @@ class UnhealthyBackupWasFound extends BaseNotification
             $mailMessage->line("{$name}: $value");
         });
 
-        if (optional($this->inspectionFailure())->wasUnexpected()) {
+        if ($this->failure()->wasUnexpected()) {
             $mailMessage
-                ->line('Inspection: '.$this->inspectionFailure()->check()->name())
-                ->line(trans('backup::notifications.exception_message', ['message' => $this->inspectionFailure()->reason()->getMessage()]))
-                ->line(trans('backup::notifications.exception_trace', ['trace' => $this->inspectionFailure()->reason()->getTraceAsString()]));
+                ->line('Health check: '.$this->failure()->check()->name())
+                ->line(trans('backup::notifications.exception_message', ['message' => $this->failure()->reason()->getMessage()]))
+                ->line(trans('backup::notifications.exception_trace', ['trace' => $this->failure()->reason()->getTraceAsString()]));
         }
 
         return $mailMessage;
@@ -46,22 +47,22 @@ class UnhealthyBackupWasFound extends BaseNotification
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
 
-        if (optional($this->inspectionFailure())->wasUnexpected()) {
+        if ($this->failure()->wasUnexpected()) {
             $slackMessage
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
-                        ->title('Inspection')
-                        ->content($this->inspectionFailure()->check()->name());
+                        ->title('Health check')
+                        ->content($this->failure()->check()->name());
                 })
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
                         ->title(trans('backup::notifications.exception_message_title'))
-                        ->content($this->inspectionFailure()->reason()->getMessage());
+                        ->content($this->failure()->reason()->getMessage());
                 })
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
                         ->title(trans('backup::notifications.exception_trace_title'))
-                        ->content($this->inspectionFailure()->reason()->getTraceAsString());
+                        ->content($this->failure()->reason()->getTraceAsString());
                 });
         }
 
@@ -70,34 +71,16 @@ class UnhealthyBackupWasFound extends BaseNotification
 
     protected function problemDescription(): string
     {
-        $backupStatus = $this->event->backupDestinationStatus;
-
-        if (! $backupStatus->isReachable()) {
-            return trans('backup::notification.unhealthy_backup_found_not_reachable', ['error' => $backupStatus->connectionError()]);
-        }
-//
-//        if ($backupStatus->amountOfBackups() === 0) {
-//            return trans('backup::notifications.unhealthy_backup_found_empty');
-//        }
-//
-//        if ($backupStatus->usesTooMuchStorage()) {
-//            return trans('backup::notifications.unhealthy_backup_found_full', ['disk_usage' => $backupStatus->humanReadableUsedStorage(), 'disk_limit' => $backupStatus->humanReadableAllowedStorage()]);
-//        }
-//
-//        if ($backupStatus->newestBackupIsTooOld()) {
-//            return trans('backup::notifications.unhealthy_backup_found_old', ['date' => $backupStatus->dateOfNewestBackup()->format('Y/m/d h:i:s')]);
-//        }
-
-        if ($this->inspectionFailure() && ! $this->inspectionFailure()->wasUnexpected()) {
-            return $this->inspectionFailure()->reason()->getMessage();
+        if ($this->failure()->wasUnexpected()) {
+            return trans('backup::notifications.unhealthy_backup_found_unknown');
         }
 
-        return trans('backup::notifications.unhealthy_backup_found_unknown');
+        return $this->failure()->reason()->getMessage();
     }
 
-    protected function inspectionFailure()
+    protected function failure(): HealthCheckFailure
     {
-        return $this->event->backupDestinationStatus->getFailedInspection();
+        return $this->event->backupDestinationStatus->getFailedHealthCheck();
     }
 
     public function setEvent(UnhealthyBackupWasFoundEvent $event)

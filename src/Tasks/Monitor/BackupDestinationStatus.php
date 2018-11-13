@@ -6,57 +6,88 @@ use Exception;
 use Carbon\Carbon;
 use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Tasks\Monitor\HealthChecks\IsReachable;
 
 class BackupDestinationStatus
 {
     /** @var \Spatie\Backup\BackupDestination\BackupDestination */
     protected $backupDestination;
 
-    /** @var bool */
-    protected $reachable;
-
     /** @var array */
-    protected $inspections;
+    protected $healthChecks;
 
     /** @var HealthCheckFailure|null */
-    protected $failedInspection;
+    protected $failedHealthCheck;
 
-    public function __construct(BackupDestination $backupDestination, array $inspections = [])
+    public function __construct(BackupDestination $backupDestination, array $healthChecks = [])
     {
         $this->backupDestination = $backupDestination;
-        $this->inspections = $inspections;
+        $this->healthChecks = $healthChecks;
 
-        $this->reachable = $this->backupDestination->isReachable();
+        $this->reachable = $this->backupDestination->isReachable(); // TODO REMOVE
     }
-//
-//    public function setMaximumAgeOfNewestBackupInDays(int $days): self
-//    {
-//        $this->maximumAgeOfNewestBackupInDays = $days;
-//
-//        return $this;
-//    }
-//
-//    public function maximumAgeOfNewestBackupInDays(): int
-//    {
-//        return $this->maximumAgeOfNewestBackupInDays;
-//    }
-//
-//    public function setMaximumStorageUsageInMegabytes(float $megabytes): self
-//    {
-//        $this->maximumStorageUsageInMegabytes = $megabytes;
-//
-//        return $this;
-//    }
+
+    public function backupDestination(): BackupDestination
+    {
+        return $this->backupDestination;
+    }
 
     public function backupName(): string
     {
-        return $this->backupDestination->backupName();
+        return $this->backupDestination()->backupName();
     }
 
     public function diskName(): string
     {
-        return $this->backupDestination->diskName();
+        return $this->backupDestination()->diskName();
     }
+
+    public function isHealthy(): bool
+    {
+        $healthChecks = $this->getHealthChecks();
+
+        foreach ($healthChecks as $healthCheck) {
+            if (($result = $this->check($healthCheck)) !== true) {
+                $this->failedHealthCheck = $result;
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function check(HealthCheck $check)
+    {
+        try {
+            $check->handle($this->backupDestination());
+        } catch (\Exception $exception) {
+            return new HealthCheckFailure($check, $exception);
+        }
+
+        return true;
+    }
+
+    public function getHealthChecks()
+    {
+        return collect($this->healthChecks)->prepend(new IsReachable());
+    }
+
+    public function getFailedHealthCheck()
+    {
+        return $this->failedHealthCheck;
+    }
+
+    // _________________________________________________________________________________________________________________
+
+    /** @var int */
+    protected $maximumAgeOfNewestBackupInDays = 1;
+
+    /** @var int */
+    protected $maximumStorageUsageInMegabytes = 5000;
+
+    /** @var bool */
+    protected $reachable;
 
     public function connectionError(): Exception
     {
@@ -67,60 +98,6 @@ class BackupDestinationStatus
     {
         return $this->reachable;
     }
-
-    public function isHealthy(): bool
-    {
-        if (! $this->isReachable()) {
-            return false;
-        }
-
-        if ($this->failsInspections()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function backupDestination(): BackupDestination
-    {
-        return $this->backupDestination;
-    }
-
-    public function getFailedInspection()
-    {
-        return $this->failedInspection;
-    }
-
-    protected function failsInspections()
-    {
-        $this->runInspections();
-
-        return $this->getFailedInspection() !== null;
-    }
-
-    protected function runInspections()
-    {
-        $this->failedInspection = null;
-
-        $currentInspection = null;
-
-        try {
-            collect($this->inspections)->each(function (HealthCheck $inspection) use (&$currentInspection) {
-                $currentInspection = $inspection;
-                $inspection->handle($this->backupDestination);
-            });
-        } catch (\Exception $exception) {
-            $this->failedInspection = new HealthCheckFailure($currentInspection, $exception);
-        }
-    }
-
-    // _________________________________________________________________________________________________________________
-
-    /** @var int */
-    protected $maximumAgeOfNewestBackupInDays = 1;
-
-    /** @var int */
-    protected $maximumStorageUsageInMegabytes = 5000;
 
     /**
      * @deprecated
@@ -201,5 +178,4 @@ class BackupDestinationStatus
     {
         return Format::humanReadableSize($this->usedStorage());
     }
-
 }
