@@ -73,7 +73,7 @@ class ListCommand extends BaseCommand
                     $backupDestinationStatus->backupDestination()->backupName(),
                     $backupDestinationStatus->backupDestination()->diskName(),
                     $backupDestinationStatus->getFailedHealthCheck()->check()->name(),
-                    $backupDestinationStatus->getFailedHealthCheck()->reason(),
+                    $backupDestinationStatus->getFailedHealthCheck()->reason()->getMessage(),
                 ];
             });
 
