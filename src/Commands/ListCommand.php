@@ -4,6 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Spatie\Backup\Helpers\Format;
 use Illuminate\Support\Collection;
+use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
@@ -20,8 +21,7 @@ class ListCommand extends BaseCommand
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
 
         $this->displayOverview($statuses);
-
-        $this->displayConnectionErrors($statuses);
+        $this->displayFailures($statuses);
     }
 
     protected function displayOverview(Collection $backupDestinationStatuses)
@@ -37,61 +37,58 @@ class ListCommand extends BaseCommand
 
     public function convertToRow(BackupDestinationStatus $backupDestinationStatus): array
     {
+        $destination = $backupDestinationStatus->backupDestination();
+
         $row = [
-            $backupDestinationStatus->backupName(),
-            $backupDestinationStatus->diskName(),
-            Format::emoji($backupDestinationStatus->isReachable()),
+            $destination->backupName(),
+            'disk' => $destination->diskName(),
+            Format::emoji($destination->isReachable()),
             Format::emoji($backupDestinationStatus->isHealthy()),
-            'amount' => $backupDestinationStatus->amountOfBackups(),
-            'newest' => $backupDestinationStatus->dateOfNewestBackup()
-                ? Format::ageInDays($backupDestinationStatus->dateOfNewestBackup())
-                : 'No backups present',
-            'usedStorage' => $backupDestinationStatus->humanReadableUsedStorage(),
+            'amount' => $destination->backups()->count(),
+            'newest' => $this->getFormattedBackupDate($destination->newestBackup()),
+            'usedStorage' => Format::humanReadableSize($destination->usedStorage()),
         ];
 
-        if (! $backupDestinationStatus->isReachable()) {
+        if (! $destination->isReachable()) {
             foreach (['amount', 'newest', 'usedStorage'] as $propertyName) {
                 $row[$propertyName] = '/';
             }
         }
 
-        $row = $this->applyStylingToRow($row, $backupDestinationStatus);
-
-        return $row;
-    }
-
-    protected function applyStylingToRow(array $row, BackupDestinationStatus $backupDestinationStatus): array
-    {
-        if ($backupDestinationStatus->newestBackupIsTooOld() || (! $backupDestinationStatus->dateOfNewestBackup())) {
-            $row['newest'] = "<error>{$row['newest']}</error>";
-        }
-
-        if ($backupDestinationStatus->usesTooMuchStorage()) {
-            $row['usedStorage'] = "<error>{$row['usedStorage']} </error>";
+        if ($backupDestinationStatus->getFailedHealthCheck() !== null) {
+            $row['disk'] = '<error>'.$row['disk'].'</error>';
         }
 
         return $row;
     }
 
-    protected function displayConnectionErrors(Collection $backupDestinationStatuses)
+    protected function displayFailures(Collection $backupDestinationStatuses)
     {
-        $unreachableBackupDestinationStatuses = $backupDestinationStatuses
-            ->reject(function (BackupDestinationStatus $backupDestinationStatus) {
-                return $backupDestinationStatus->isReachable();
+        $failed = $backupDestinationStatuses
+            ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
+                return $backupDestinationStatus->getFailedHealthCheck() !== null;
+            })
+            ->map(function (BackupDestinationStatus $backupDestinationStatus) {
+                return [
+                    $backupDestinationStatus->backupDestination()->backupName(),
+                    $backupDestinationStatus->backupDestination()->diskName(),
+                    $backupDestinationStatus->getFailedHealthCheck()->check()->name(),
+                    $backupDestinationStatus->getFailedHealthCheck()->reason(),
+                ];
             });
 
-        if ($unreachableBackupDestinationStatuses->isEmpty()) {
-            return;
-        }
-
-        $this->warn('');
-        $this->warn('Unreachable backup destinations');
-        $this->warn('-------------------------------');
-
-        $unreachableBackupDestinationStatuses->each(function (BackupDestinationStatus $backupStatus) {
-            $this->warn("Could not reach backups for {$backupStatus->backupName()} on disk {$backupStatus->diskName()} because:");
-            $this->warn($backupStatus->connectionError()->getMessage());
+        if ($failed->isNotEmpty()) {
             $this->warn('');
-        });
+            $this->warn('Unhealthy backup destinations');
+            $this->warn('-------------------------------');
+            $this->table(['Name', 'Disk', 'Failed check', 'Description'], $failed->all());
+        }
+    }
+
+    protected function getFormattedBackupDate(Backup $backup = null)
+    {
+        return is_null($backup)
+            ? 'No backups present'
+            : Format::ageInDays($backup->date());
     }
 }

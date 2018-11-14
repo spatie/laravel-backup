@@ -8,20 +8,20 @@ use Spatie\Backup\Exceptions\InvalidHealthCheck;
 class HealthCheckFailure
 {
     /** @var HealthCheck */
-    protected $inspection;
+    protected $healthCheck;
 
     /** @var Exception */
     protected $exception;
 
-    public function __construct(HealthCheck $inspection, Exception $exception)
+    public function __construct(HealthCheck $healthCheck, Exception $exception)
     {
-        $this->inspection = $inspection;
+        $this->healthCheck = $healthCheck;
         $this->exception = $exception;
     }
 
     public function check()
     {
-        return $this->inspection;
+        return $this->healthCheck;
     }
 
     public function reason()

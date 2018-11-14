@@ -12,7 +12,8 @@ class BackupDestinationStatusFactory
         return collect($monitorConfiguration)->flatMap(function (array $monitorProperties) {
             return BackupDestinationStatusFactory::createForSingleMonitor($monitorProperties);
         })->sortBy(function (BackupDestinationStatus $backupDestinationStatus) {
-            return "{$backupDestinationStatus->backupName()}-{$backupDestinationStatus->diskName()}";
+            return $backupDestinationStatus->backupDestination()->backupName().'-'.
+                $backupDestinationStatus->backupDestination()->diskName();
         });
     }
 
