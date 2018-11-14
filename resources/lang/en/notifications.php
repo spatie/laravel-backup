@@ -32,4 +32,5 @@ return [
     'unhealthy_backup_found_old' => 'The latest backup made on :date is considered too old.',
     'unhealthy_backup_found_unknown' => 'Sorry, an exact reason cannot be determined.',
     'unhealthy_backup_found_full' => 'The backups are using too much storage. Current usage is :disk_usage which is higher than the allowed limit of :disk_limit.',
+    'unhealthy_backup_found_size_reduction' => 'The size of your latest backup has reduced from :from_size to :to_size (:percentage) compared to the previous backup.',
 ];
