@@ -49,4 +49,18 @@ class MaximumAgeInDaysTest extends TestCase
 
         Artisan::call('backup:monitor');
     }
+
+    /** @test */
+    public function it_accepts_a_shorthand_value_in_config()
+    {
+        $this->testHelper->createTempFile1Mb('mysite/test.zip', Carbon::now()->subSecond()->subDay());
+
+        $this->app['config']->set('backup.monitor_backups.0.health_checks', [
+            MaximumAgeInDays::class => 2,
+        ]);
+
+        $this->expectsEvents(HealthyBackupWasFound::class);
+
+        Artisan::call('backup:monitor');
+    }
 }
