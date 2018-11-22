@@ -17,7 +17,7 @@ class MaximumStorageInMegabytesTest extends TestCase
         $this->testHelper->initializeTempDirectory();
 
         $this->app['config']->set('backup.monitor_backups.0.health_checks', [
-            MaximumStorageInMegabytes::class => ['allowance' => 1],
+            MaximumStorageInMegabytes::class => 1,
         ]);
     }
 

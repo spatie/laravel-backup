@@ -20,8 +20,7 @@ class ListCommand extends BaseCommand
     {
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
 
-        $this->displayOverview($statuses);
-        $this->displayFailures($statuses);
+        $this->displayOverview($statuses)->displayFailures($statuses);
     }
 
     protected function displayOverview(Collection $backupDestinationStatuses)
@@ -33,6 +32,8 @@ class ListCommand extends BaseCommand
         });
 
         $this->table($headers, $rows);
+
+        return $this;
     }
 
     public function convertToRow(BackupDestinationStatus $backupDestinationStatus): array
@@ -83,6 +84,8 @@ class ListCommand extends BaseCommand
             $this->warn('-------------------------------');
             $this->table(['Name', 'Disk', 'Failed check', 'Description'], $failed->all());
         }
+
+        return $this;
     }
 
     protected function getFormattedBackupDate(Backup $backup = null)

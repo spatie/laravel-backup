@@ -42,7 +42,7 @@ abstract class TestCase extends Orchestra
     {
         $this->testHelper->initializeTempDirectory();
 
-//        $app['config']->set('backup.monitor_backups.0.health_checks', []);
+        $app['config']->set('backup.monitor_backups.0.health_checks', []);
 
         $app['config']->set('mail.driver', 'log');
 
