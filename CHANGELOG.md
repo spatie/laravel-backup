@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 5.11.4 - 2018-11-27
+
+- restore lumen compatibility
+
 ## 5.11.3 - 2018-11-03
 
 - fix bugs regarding cleaning backups
