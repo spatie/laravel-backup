@@ -1,6 +1,8 @@
 # From v5 to v6
 
-All keys in the config file are now snake_cases. Rename any camelCased keys to their snake_cased counterparts.
+- All keys in the config file are now snake_cases. Rename any camelCased keys to their snake_cased counterparts.
+- The `health_checks` config keys now contain actual check classes. Modify your config file so it uses the actual check classes.
+
 
 # From v4 to v5
 
