@@ -41,19 +41,4 @@ class MaximumStorageInMegabytesTest extends TestCase
 
         Artisan::call('backup:monitor');
     }
-
-    /** @test */
-    public function it_will_not_fail_when_0_is_set_as_a_maximum()
-    {
-        $this->app['config']->set('backup.monitor_backups.0.health_checks', [
-            MaximumStorageInMegabytes::class => 0,
-        ]);
-
-        $this->testHelper->createTempFile1Mb('mysite/test_1.zip', now()->subSeconds(2));
-        $this->testHelper->createTempFile1Mb('mysite/test_2.zip', now()->subSeconds(1));
-
-        $this->expectsEvents(HealthyBackupWasFound::class);
-
-        Artisan::call('backup:monitor');
-    }
 }
