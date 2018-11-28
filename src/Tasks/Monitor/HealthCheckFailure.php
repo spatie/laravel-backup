@@ -7,29 +7,30 @@ use Spatie\Backup\Exceptions\InvalidHealthCheck;
 
 class HealthCheckFailure
 {
-    /** @var HealthCheck */
+    /** @var \Spatie\Backup\Tasks\Monitor */
     protected $healthCheck;
 
-    /** @var Exception */
+    /** @var \Exception */
     protected $exception;
 
     public function __construct(HealthCheck $healthCheck, Exception $exception)
     {
         $this->healthCheck = $healthCheck;
+
         $this->exception = $exception;
     }
 
-    public function check()
+    public function healthCheck(): HealthCheck
     {
         return $this->healthCheck;
     }
 
-    public function reason()
+    public function exception(): Exception
     {
         return $this->exception;
     }
 
-    public function wasUnexpected()
+    public function wasUnexpected(): bool
     {
         return ! $this->exception instanceof InvalidHealthCheck;
     }

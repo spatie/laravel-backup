@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Tasks\Monitor;
 
+use Exception;
+use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\IsReachable;
 
@@ -14,11 +16,12 @@ class BackupDestinationStatus
     protected $healthChecks;
 
     /** @var HealthCheckFailure|null */
-    protected $failedHealthCheck;
+    protected $healthCheckFailure;
 
     public function __construct(BackupDestination $backupDestination, array $healthChecks = [])
     {
         $this->backupDestination = $backupDestination;
+
         $this->healthChecks = $healthChecks;
     }
 
@@ -30,31 +33,34 @@ class BackupDestinationStatus
     public function check(HealthCheck $check)
     {
         try {
-            $check->handle($this->backupDestination());
-        } catch (\Exception $exception) {
+            $check->checkHealth($this->backupDestination());
+        } catch (Exception $exception) {
             return new HealthCheckFailure($check, $exception);
         }
 
         return true;
     }
 
-    public function getHealthChecks()
+    public function getHealthChecks(): Collection
     {
         return collect($this->healthChecks)->prepend(new IsReachable());
     }
 
-    public function getFailedHealthCheck()
+    public function getHealthCheckFailure(): ?HealthCheckFailure
     {
-        return $this->failedHealthCheck;
+        return $this->healthCheckFailure;
     }
 
     public function isHealthy(): bool
     {
         $healthChecks = $this->getHealthChecks();
 
+
         foreach ($healthChecks as $healthCheck) {
-            if (($result = $this->check($healthCheck)) !== true) {
-                $this->failedHealthCheck = $result;
+            $checkResult = $this->check($healthCheck);
+
+            if ($checkResult instanceof HealthCheckFailure) {
+                $this->healthCheckFailure = $checkResult;
 
                 return false;
             }

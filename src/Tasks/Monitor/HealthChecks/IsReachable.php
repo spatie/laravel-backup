@@ -7,7 +7,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 
 class IsReachable extends HealthCheck
 {
-    public function handle(BackupDestination $backupDestination)
+    public function checkHealth(BackupDestination $backupDestination)
     {
         $this->failUnless(
             $backupDestination->isReachable(),

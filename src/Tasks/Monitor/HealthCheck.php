@@ -8,7 +8,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 
 abstract class HealthCheck
 {
-    abstract public function handle(BackupDestination $backupDestination);
+    abstract public function checkHealth(BackupDestination $backupDestination);
 
     public function name()
     {

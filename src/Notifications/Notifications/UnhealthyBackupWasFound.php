@@ -28,9 +28,9 @@ class UnhealthyBackupWasFound extends BaseNotification
 
         if ($this->failure()->wasUnexpected()) {
             $mailMessage
-                ->line('Health check: '.$this->failure()->check()->name())
-                ->line(trans('backup::notifications.exception_message', ['message' => $this->failure()->reason()->getMessage()]))
-                ->line(trans('backup::notifications.exception_trace', ['trace' => $this->failure()->reason()->getTraceAsString()]));
+                ->line('Health check: '.$this->failure()->healthCheck()->name())
+                ->line(trans('backup::notifications.exception_message', ['message' => $this->failure()->exception()->getMessage()]))
+                ->line(trans('backup::notifications.exception_trace', ['trace' => $this->failure()->exception()->getTraceAsString()]));
         }
 
         return $mailMessage;
@@ -52,17 +52,17 @@ class UnhealthyBackupWasFound extends BaseNotification
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
                         ->title('Health check')
-                        ->content($this->failure()->check()->name());
+                        ->content($this->failure()->healthCheck()->name());
                 })
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
                         ->title(trans('backup::notifications.exception_message_title'))
-                        ->content($this->failure()->reason()->getMessage());
+                        ->content($this->failure()->exception()->getMessage());
                 })
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
                         ->title(trans('backup::notifications.exception_trace_title'))
-                        ->content($this->failure()->reason()->getTraceAsString());
+                        ->content($this->failure()->exception()->getTraceAsString());
                 });
         }
 
@@ -75,12 +75,12 @@ class UnhealthyBackupWasFound extends BaseNotification
             return trans('backup::notifications.unhealthy_backup_found_unknown');
         }
 
-        return $this->failure()->reason()->getMessage();
+        return $this->failure()->exception()->getMessage();
     }
 
     protected function failure(): HealthCheckFailure
     {
-        return $this->event->backupDestinationStatus->getFailedHealthCheck();
+        return $this->event->backupDestinationStatus->getHealthCheckFailure();
     }
 
     public function setEvent(UnhealthyBackupWasFoundEvent $event)

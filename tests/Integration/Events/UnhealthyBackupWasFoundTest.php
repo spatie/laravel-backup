@@ -117,7 +117,7 @@ class FakeFailingHealthCheck extends HealthCheck
 {
     public static $reason;
 
-    public function handle(BackupDestination $backupDestination)
+    public function checkHealth(BackupDestination $backupDestination)
     {
         throw (static::$reason ?: new \Exception('some exception message'));
     }

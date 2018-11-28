@@ -16,7 +16,7 @@ class MaximumAgeInDays extends HealthCheck
         $this->days = $days;
     }
 
-    public function handle(BackupDestination $backupDestination)
+    public function checkHealth(BackupDestination $backupDestination)
     {
         $this->failIf(
             $this->hasNoBackups($backupDestination),

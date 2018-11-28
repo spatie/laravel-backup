@@ -56,7 +56,7 @@ class ListCommand extends BaseCommand
             }
         }
 
-        if ($backupDestinationStatus->getFailedHealthCheck() !== null) {
+        if ($backupDestinationStatus->getHealthCheckFailure() !== null) {
             $row['disk'] = '<error>'.$row['disk'].'</error>';
         }
 
@@ -67,14 +67,14 @@ class ListCommand extends BaseCommand
     {
         $failed = $backupDestinationStatuses
             ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
-                return $backupDestinationStatus->getFailedHealthCheck() !== null;
+                return $backupDestinationStatus->getHealthCheckFailure() !== null;
             })
             ->map(function (BackupDestinationStatus $backupDestinationStatus) {
                 return [
                     $backupDestinationStatus->backupDestination()->backupName(),
                     $backupDestinationStatus->backupDestination()->diskName(),
-                    $backupDestinationStatus->getFailedHealthCheck()->check()->name(),
-                    $backupDestinationStatus->getFailedHealthCheck()->reason()->getMessage(),
+                    $backupDestinationStatus->getHealthCheckFailure()->healthCheck()->name(),
+                    $backupDestinationStatus->getHealthCheckFailure()->exception()->getMessage(),
                 ];
             });
 
