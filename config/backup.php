@@ -147,16 +147,20 @@ return [
         [
             'name' => config('app.name'),
             'disks' => ['local'],
-            'newest_backups_should_not_be_older_than_days' => 1,
-            'storage_used_may_not_be_higher_than_megabytes' => 5000,
+            'health_checks' => [
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
+            ],
         ],
 
         /*
         [
             'name' => 'name of the second app',
             'disks' => ['local', 's3'],
-            'newest_backups_should_not_be_older_than_days' => 1,
-            'storage_used_may_not_be_higher_than_megabytes' => 5000,
+            'health_checks' => [
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 1,
+            ],
         ],
         */
     ],
