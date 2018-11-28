@@ -8,6 +8,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 
 class MaximumStorageInMegabytes extends HealthCheck
 {
+    /** @var int */
     protected $maximumSizeInMegaBytes;
 
     public function __construct(int $maximumSizeInMegaBytes = 5000)
@@ -17,17 +18,20 @@ class MaximumStorageInMegabytes extends HealthCheck
 
     public function handle(BackupDestination $backupDestination)
     {
-        $this->failIf($this->exceedsAllowance($usage = $backupDestination->usedStorage()),
+        $usageInBytes = $backupDestination->usedStorage();
+
+        $this->failIf(
+            $this->exceedsAllowance($usageInBytes),
             trans('backup::notifications.unhealthy_backup_found_full', [
-                'disk_usage' => $this->humanReadableSize($usage),
+                'disk_usage' => $this->humanReadableSize($usageInBytes),
                 'disk_limit' => $this->humanReadableSize($this->bytes($this->maximumSizeInMegaBytes)),
             ])
         );
     }
 
-    protected function exceedsAllowance($usage): bool
+    protected function exceedsAllowance(int $usageInBytes): bool
     {
-        return $usage > $this->bytes($this->maximumSizeInMegaBytes);
+        return $usageInBytes > $this->bytes($this->maximumSizeInMegaBytes);
     }
 
     protected function bytes(int $megaBytes): int

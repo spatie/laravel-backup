@@ -8,6 +8,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 
 class MaximumAgeInDays extends HealthCheck
 {
+    /** @var int */
     protected $days;
 
     public function __construct($days = 1)
@@ -17,13 +18,15 @@ class MaximumAgeInDays extends HealthCheck
 
     public function handle(BackupDestination $backupDestination)
     {
-        $this->failIf($this->hasNoBackups($backupDestination),
+        $this->failIf(
+            $this->hasNoBackups($backupDestination),
             trans('backup::notifications.unhealthy_backup_found_empty')
         );
 
         $newestBackup = $backupDestination->backups()->newest();
 
-        $this->failIf($this->isTooOld($newestBackup),
+        $this->failIf(
+            $this->isTooOld($newestBackup),
             trans('backup::notifications.unhealthy_backup_found_old', ['date' => $newestBackup->date()->format('Y/m/d h:i:s')])
         );
     }
@@ -35,6 +38,14 @@ class MaximumAgeInDays extends HealthCheck
 
     protected function isTooOld(Backup $backup)
     {
-        return $this->days !== null && $backup->date()->lt(now()->subDays($this->days));
+        if (is_null($this->days)) {
+            return false;
+        }
+
+        if ($backup->date()->gt(now()->subDays($this->days))) {
+            return false;
+        }
+
+        return true;
     }
 }

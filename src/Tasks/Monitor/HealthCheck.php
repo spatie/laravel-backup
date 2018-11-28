@@ -15,19 +15,19 @@ abstract class HealthCheck
         return Str::title(class_basename($this));
     }
 
-    protected function fail($message)
+    protected function fail(string $message)
     {
-        throw new InvalidHealthCheck($message);
+        throw InvalidHealthCheck::because($message);
     }
 
-    protected function failIf($condition, $message)
+    protected function failIf(bool $condition, string $message)
     {
         if ($condition) {
             $this->fail($message);
         }
     }
 
-    protected function failUnless($condition, $message)
+    protected function failUnless(bool $condition, string $message)
     {
         if (! $condition) {
             $this->fail($message);

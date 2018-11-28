@@ -6,7 +6,7 @@ use Exception;
 
 class InvalidHealthCheck extends Exception
 {
-    public static function description(string $message): self
+    public static function because(string $message): self
     {
         return new static($message);
     }

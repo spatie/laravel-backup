@@ -142,6 +142,8 @@ return [
      * Here you can specify which backups should be monitored.
      * If a backup does not meet the specified requirements the
      * UnHealthyBackupWasFound event will be fired.
+     *
+     *
      */
     'monitor_backups' => [
         [
