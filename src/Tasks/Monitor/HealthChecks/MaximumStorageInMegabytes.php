@@ -18,6 +18,10 @@ class MaximumStorageInMegabytes extends HealthCheck
 
     public function checkHealth(BackupDestination $backupDestination)
     {
+        if ($this->maximumSizeInMegaBytes === 0) {
+            return;
+        }
+
         $usageInBytes = $backupDestination->usedStorage();
 
         $this->failIf(
