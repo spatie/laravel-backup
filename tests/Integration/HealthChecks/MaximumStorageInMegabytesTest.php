@@ -22,7 +22,7 @@ class MaximumStorageInMegabytesTest extends TestCase
     }
 
     /** @test */
-    public function it_succeeds_when_fresh_backup_present()
+    public function it_succeeds_when_a_fresh_backup_is_present()
     {
         $this->expectsEvents(HealthyBackupWasFound::class);
 
@@ -32,7 +32,7 @@ class MaximumStorageInMegabytesTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_max_mb_exceeded()
+    public function it_fails_when_max_mb_has_been_exceeded()
     {
         $this->testHelper->createTempFile1Mb('mysite/test_1.zip', now()->subSeconds(2));
         $this->testHelper->createTempFile1Mb('mysite/test_2.zip', now()->subSeconds(1));

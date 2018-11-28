@@ -23,7 +23,7 @@ class MaximumAgeInDaysTest extends TestCase
     }
 
     /** @test */
-    public function it_succeeds_when_fresh_backup_present()
+    public function it_succeeds_when_a_fresh_backup_present()
     {
         $this->expectsEvents(HealthyBackupWasFound::class);
 
@@ -33,7 +33,7 @@ class MaximumAgeInDaysTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_no_backup_present()
+    public function it_fails_when_no_backups_are_present()
     {
         $this->expectsEvents(UnhealthyBackupWasFound::class);
 
@@ -41,7 +41,7 @@ class MaximumAgeInDaysTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_max_days_exceeded()
+    public function it_fails_when_max_days_has_been_exceeded()
     {
         $this->testHelper->createTempFile1Mb('mysite/test.zip', Carbon::now()->subSecond()->subDay());
 
