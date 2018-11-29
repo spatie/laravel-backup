@@ -6,8 +6,8 @@ use Exception;
 
 class InvalidBackupDestination extends Exception
 {
-    public static function diskNotSet(): self
+    public static function diskNotSet(string $backupName): self
     {
-        return new static('There is no disk set for the backup destination');
+        return new static("There is no disk set for the backup named {$backupName}");
     }
 }

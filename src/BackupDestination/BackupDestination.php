@@ -75,7 +75,7 @@ class BackupDestination
     public function write(string $file)
     {
         if (is_null($this->disk)) {
-            throw InvalidBackupDestination::diskNotSet();
+            throw InvalidBackupDestination::diskNotSet($this->backupName);
         }
 
         $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
