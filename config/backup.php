@@ -87,6 +87,13 @@ return [
             'disks' => [
                 'local',
             ],
+
+            /*
+             *  The extra options for set file visibility, storageClass, etc
+             */
+            'extra_options' => [
+                //
+            ],
         ],
 
         /*

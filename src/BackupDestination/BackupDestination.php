@@ -82,7 +82,9 @@ class BackupDestination
 
         $handle = fopen($file, 'r+');
 
-        $this->disk->getDriver()->writeStream($destination, $handle);
+        $options = config('backup.backup.destination.extra_options') ?? null;
+        
+        $this->disk->getDriver()->writeStream($destination, $handle, $options);
 
         if (is_resource($handle)) {
             fclose($handle);
