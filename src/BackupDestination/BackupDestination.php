@@ -119,7 +119,7 @@ class BackupDestination
     {
         $extraConfig = config('filesystems.disks.'.$this->diskName().'.dump_extra_options') ?? null;
 
-        if(! is_array($extraConfig) || (count($extraConfig) < 1))
+        if (! is_array($extraConfig) || (count($extraConfig) < 1))
             return [];
 
         return $extraConfig;
