@@ -85,7 +85,7 @@ class BackupDestination
         $options = $this->extraOptions();
 
         $this->disk->getDriver()->writeStream($destination, $handle, $options);
-        
+
         if (is_resource($handle)) {
             fclose($handle);
         }
@@ -117,10 +117,10 @@ class BackupDestination
 
     public function extraOptions(): ?string
     {
-        $extraConfig =  config('filesystems.disks.'.$this->diskName().'.dump_extra_options') ?? null;
+        $extraConfig = config('filesystems.disks.'.$this->diskName().'.dump_extra_options') ?? null;
 
-        if(!is_array($extraConfig) || (count($extraConfig) < 1))
-            return null;
+        if(! is_array($extraConfig) || (count($extraConfig) < 1))
+            return [];
 
         return $extraConfig;
     }
