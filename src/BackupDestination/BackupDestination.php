@@ -115,9 +115,9 @@ class BackupDestination
         return $this->connectionError;
     }
 
-    public function extraOptions(): ?string
+    public function extraOptions(): ?array
     {
-        $extraConfig = config('filesystems.disks.'.$this->diskName().'.dump_extra_options') ?? null;
+        $extraConfig = config('filesystems.disks.'.$this->diskName().'.dump_extra_options') ?? [];
 
         if (! is_array($extraConfig) || (count($extraConfig) < 1)) {
             return [];
