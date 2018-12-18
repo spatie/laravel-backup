@@ -126,7 +126,6 @@ class BackupDestination
         return $extraConfig;
     }
 
-
     public function isReachable(): bool
     {
         if (is_null($this->disk)) {
