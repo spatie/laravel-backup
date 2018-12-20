@@ -117,7 +117,7 @@ class BackupDestination
 
     public function extraOptions(): ?array
     {
-        $extraConfig = config('filesystems.disks.'.$this->diskName().'.dump_extra_options') ?? [];
+        $extraConfig = config('filesystems.disks.'.$this->diskName().'.backup_extra_options') ?? [];
 
         if (! is_array($extraConfig) || (count($extraConfig) < 1)) {
             return [];
