@@ -67,9 +67,10 @@ class BackupTest extends TestCase
     {
         $this->app['config']->set('filesystems.disks.s3-test-backup', [
             'driver' => 's3',
+
             'dump_extra_options' => [
-                'StorageClass' => 'COLD',
-            ],
+                'StorageClass' => 'COLD'
+            ]
         ]);
 
         $this->app['config']->set('backup.backup.destination.disks', [
@@ -78,7 +79,7 @@ class BackupTest extends TestCase
 
         $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
-        $this->assertSame(['StorageClass' => 'COLD'], $backupDestination->extraOptions());
+        $this->assertEquals(['StorageClass' => 'COLD'], $backupDestination->extraOptions());
     }
 
     /** @test */
