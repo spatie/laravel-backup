@@ -68,7 +68,7 @@ class BackupTest extends TestCase
         $this->app['config']->set('filesystems.disks.s3-test-backup', [
             'driver' => 's3',
 
-            'dump_extra_options' => [
+            'backup_extra_options' => [
                 'StorageClass' => 'COLD',
             ],
         ]);
