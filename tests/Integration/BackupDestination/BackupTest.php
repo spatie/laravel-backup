@@ -2,11 +2,11 @@
 
 namespace Spatie\Backup\Test\Integration\BackupDestination;
 
-use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Storage;
 use Carbon\Carbon;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class BackupTest extends TestCase
 {
@@ -98,7 +98,6 @@ class BackupTest extends TestCase
         $this->assertSame([], $backupDestination->extraOptions());
     }
 
-
     protected function getBackupForFile(string $name, int $ageInDays = 0, string $contents = ''): Backup
     {
         $disk = Storage::disk('local');
@@ -113,6 +112,4 @@ class BackupTest extends TestCase
 
         return new Backup($disk, $path);
     }
-
-
 }
