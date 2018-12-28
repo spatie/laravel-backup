@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'exception_message' => 'Exceptie bericht: :message',
-    'exception_trace' => 'Exceptie trace: :trace',
-    'exception_message_title' => 'Exceptie bericht',
-    'exception_trace_title' => 'Exceptie trace',
+    'exception_message' => 'Fout bericht: :message',
+    'exception_trace' => 'Fout trace: :trace',
+    'exception_message_title' => 'Fout bericht',
+    'exception_trace_title' => 'Fout trace',
 
     'backup_failed_subject' => 'Back-up van :application_name mislukt',
     'backup_failed_body' => 'Belangrijk: Er ging iets fout tijdens het maken van een back-up van :application_name',
