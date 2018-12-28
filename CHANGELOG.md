@@ -2,10 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-## 6.0.0 - 2018-11-28
+## UNRELEASED
 
 - all config keys are now snake_cased
 - health checks have been converted to their own class
+- add Dutch translations
 
 ## 5.12.0 - 2018-11-28
 
