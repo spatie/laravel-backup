@@ -29,6 +29,11 @@ class TestHelper
         $this->addGitignoreTo($directory);
     }
 
+    public function removeTempDirectory()
+    {
+        return $this->filesystem->deleteDirectory($this->getTempDirectory());
+    }
+
     public function addGitignoreTo(string $directory)
     {
         $fileName = "{$directory}/.gitignore";

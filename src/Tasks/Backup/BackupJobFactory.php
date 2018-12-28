@@ -19,7 +19,7 @@ class BackupJobFactory
     {
         return FileSelection::create($sourceFiles['include'])
             ->excludeFilesFrom($sourceFiles['exclude'])
-            ->shouldFollowLinks(isset($sourceFiles['followLinks']) && $sourceFiles['followLinks']);
+            ->shouldFollowLinks(isset($sourceFiles['follow_links']) && $sourceFiles['follow_links']);
     }
 
     protected static function createDbDumpers(array $dbConnectionNames): Collection

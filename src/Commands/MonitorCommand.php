@@ -17,17 +17,19 @@ class MonitorCommand extends BaseCommand
 
     public function handle()
     {
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitorBackups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
 
         $statuses->each(function (BackupDestinationStatus $backupDestinationStatus) {
+            $diskName = $backupDestinationStatus->backupDestination()->diskName();
+
             if ($backupDestinationStatus->isHealthy()) {
-                $this->info("The backups on {$backupDestinationStatus->diskName()} are considered healthy.");
+                $this->info("The backups on {$diskName} are considered healthy.");
                 event(new HealthyBackupWasFound($backupDestinationStatus));
 
                 return;
             }
 
-            $this->error("The backups on {$backupDestinationStatus->diskName()} are considered unhealthy!");
+            $this->error("The backups on {$diskName} are considered unhealthy!");
             event(new UnHealthyBackupWasFound($backupDestinationStatus));
         });
     }
