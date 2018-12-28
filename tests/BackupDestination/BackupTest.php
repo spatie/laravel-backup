@@ -43,7 +43,7 @@ class BackupTest extends TestCase
     {
         $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
 
-        $fileSize = filesize($this->testHelper->getTempDirectory().'/'.$backup->path());
+        $fileSize = Storage::disk('local')->size('mysite.com/test.zip');
 
         $this->assertSame($fileSize, $backup->size());
 

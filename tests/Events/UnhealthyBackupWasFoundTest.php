@@ -78,12 +78,10 @@ class UnhealthyBackupWasFoundTest extends TestCase
             $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
             $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
             $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
-            $this->assertNotNull(collect($slack->attachments)->firstWhere('content', 'some exception message'));
 
             $mail = $notification->toMail();
             $this->assertNotNull(collect($mail->introLines)->first($this->searchString(trans('backup::notifications.unhealthy_backup_found_unknown'))));
             $this->assertNotNull(collect($mail->introLines)->first($this->searchString('Health check: ')));
-            $this->assertNotNull(collect($mail->introLines)->first($this->searchString('Exception message: some exception message')));
             $this->assertNotNull(collect($mail->introLines)->first($this->searchString('Exception trace: ')));
 
             return true;
