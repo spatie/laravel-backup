@@ -82,9 +82,11 @@ class BackupDestination
 
         $handle = fopen($file, 'r+');
 
-        $options = $this->extraOptions();
-
-        $this->disk->getDriver()->writeStream($destination, $handle, $options);
+        $this->disk->getDriver()->writeStream(
+            $destination,
+            $handle,
+            $this->extraOptions()
+        );
 
         if (is_resource($handle)) {
             fclose($handle);
@@ -115,15 +117,9 @@ class BackupDestination
         return $this->connectionError;
     }
 
-    public function extraOptions(): ?array
+    public function extraOptions(): array
     {
-        $extraConfig = config('filesystems.disks.'.$this->diskName().'.backup_extra_options') ?? [];
-
-        if (! is_array($extraConfig) || (count($extraConfig) < 1)) {
-            return [];
-        }
-
-        return $extraConfig;
+        return config("filesystems.disks.{$this->diskName()}.backup_options") ?? [];
     }
 
     public function isReachable(): bool
