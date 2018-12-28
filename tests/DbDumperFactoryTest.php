@@ -17,16 +17,14 @@ class DbDumperFactoryTest extends TestCase
 
         config()->set('database.default', 'mysql');
 
-        $dbConfig = [
+        config()->set('database.connections.mysql', [
             'driver' => 'mysql',
             'host' => 'localhost',
             'username' => 'root',
             'password' => 'myPassword',
             'database' => 'myDb',
             'dump' => ['add_extra_option' => '--extra-option=value'],
-        ];
-
-        config()->set('database.connections.mysql', $dbConfig);
+        ]);
     }
 
     /** @test */
@@ -42,7 +40,6 @@ class DbDumperFactoryTest extends TestCase
         config()->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => 'database.sqlite',
-            // host, username and password are not required for the sqlite driver
         ]);
 
         $this->assertInstanceOf(Sqlite::class, DbDumperFactory::createFromConnection('sqlite'));
