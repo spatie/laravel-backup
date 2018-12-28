@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Unit;
+namespace Spatie\Backup\Tests;
 
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;

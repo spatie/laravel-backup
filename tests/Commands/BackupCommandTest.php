@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Integration\Commands;
+namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;

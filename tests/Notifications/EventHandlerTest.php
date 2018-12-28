@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Integration\Notifications;
+namespace Spatie\Backup\Tests\Notifications;
 
 use Exception;
 use Notification;

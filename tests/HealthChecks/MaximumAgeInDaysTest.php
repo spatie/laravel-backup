@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Integration\Events;
+namespace Spatie\Backup\Tests\HealthChecks;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;

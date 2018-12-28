@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Integration\Events;
+namespace Spatie\Backup\Tests\Events;
 
 use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\Events\BackupManifestWasCreated;

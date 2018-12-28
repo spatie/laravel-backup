@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Integration\BackupDestination;
+namespace Spatie\Backup\Tests\BackupDestination;
 
 use Storage;
 use Exception;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Integration\Events;
+namespace Spatie\Backup\Tests\Events;
 
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tests\TestCase;
