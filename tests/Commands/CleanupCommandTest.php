@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Tests\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Tests\TestCase;
@@ -41,14 +41,14 @@ class CleanupCommandTest extends TestCase
     public function it_can_remove_old_backups_from_the_backup_directory()
     {
         [$expectedRemainingBackups, $expectedDeletedBackups] = Collection::times(1000)
-            ->flatMap(function(int $numberOfDays) {
-                $date = Carbon::now()->subDays($numberOfDays);
+            ->flatMap(function (int $numberOfDays) {
+                $date = now()->subDays($numberOfDays);
 
                 return [
                     $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_first.zip", $date),
                     $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_second.zip", $date->addHour(2)),
                 ];
-            })->partition(function(string $backupPath) {
+            })->partition(function (string $backupPath) {
                 return in_array($backupPath, [
                     'mysite/test_20131231_first.zip',
                     'mysite/test_20141231_first.zip',
@@ -102,11 +102,11 @@ class CleanupCommandTest extends TestCase
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        $expectedRemainingBackups->each(function($path) {
+        $expectedRemainingBackups->each(function ($path) {
             Storage::disk('local')->assertExists($path);
         });
 
-        $expectedDeletedBackups->each(function($path) {
+        $expectedDeletedBackups->each(function ($path) {
             Storage::disk('local')->assertMissing($path);
         });
     }
@@ -114,81 +114,57 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_will_leave_non_zip_files_alone()
     {
-        $this->testHelper->createTempFileWithAge('mysite/test1.txt', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFileWithAge('mysite/test2.txt', Carbon::now()->subDays(2));
-        $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
-        $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
+        $paths = collect([
+            $this->createFileOnDisk('local', 'mysite/test1.txt', now()->subDays(1)),
+            $this->createFileOnDisk('local', 'mysite/test2.txt', now()->subDays(2)),
+            $this->createFileOnDisk('local', 'mysite/test1000.txt', now()->subDays(1000)),
+            $this->createFileOnDisk('local', 'mysite/test2000.txt', now()->subDays(2000)),
+        ]);
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        $this->assertTempFilesExist([
-            'mysite/test1.txt',
-            'mysite/test2.txt',
-            'mysite/test1000.txt',
-            'mysite/test2000.txt',
-        ]);
+        $paths->each(function (string $path) {
+            Storage::disk('local')->assertExists($path);
+        });
     }
 
     /** @test */
     public function it_will_never_delete_the_newest_backup()
     {
-        foreach (range(5, 10) as $numberOfYears) {
-            $date = Carbon::now()->subYears($numberOfYears);
-
-            $this->testHelper->createTempFileWithAge("mysite/test_{$date->format('Ymd')}.zip", $date);
-        }
+        $backupPaths = collect(range(5,10))->map(function(int $numberOfYears) {
+            $date = now()->subYears($numberOfYears);
+            return $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}.zip", $date);
+        });
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        $this->assertTempFilesExist(['mysite/test_20110101.zip']);
+        Storage::disk('local')->assertExists($backupPaths->first());
 
-        $this->assertTempFilesNotExist([
-            'mysite/test_20060101.zip',
-            'mysite/test_20070101.zip',
-            'mysite/test_20080101.zip',
-            'mysite/test_20090101.zip',
-            'mysite/test_200100101.zip',
-        ]);
+        $backupPaths->shift();
+
+        $backupPaths->each(function(string $path) {
+            Storage::disk('local')->assertMissing($path);
+        });
     }
 
     /** @test */
     public function it_should_trigger_the_cleanup_successful_event()
     {
-        $this->expectsEvents(CleanupWasSuccessful::class);
-
-        $this->testHelper->createTempFileWithAge('mysite/test1.txt', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFileWithAge('mysite/test2.txt', Carbon::now()->subDays(2));
-        $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
-        $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
+        Event::fake();
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        $this->assertTempFilesExist([
-            'mysite/test1.txt',
-            'mysite/test2.txt',
-            'mysite/test1000.txt',
-            'mysite/test2000.txt',
-        ]);
+        Event::assertDispatched(CleanupWasSuccessful::class);
     }
 
     /** @test */
-    public function it_should_omit_the_cleanup_successful_event()
+    public function it_should_omit_the_cleanup_successful_event_when_the_notifications_are_disabled()
     {
-        $this->doesntExpectEvents(CleanupWasSuccessful::class);
+        Event::fake();
 
-        $this->testHelper->createTempFileWithAge('mysite/test1.txt', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFileWithAge('mysite/test2.txt', Carbon::now()->subDays(2));
-        $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
-        $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
+        $this->artisan('backup:clean', ['--disable-notifications' => true])->assertExitCode(0);
 
-        Artisan::call('backup:clean', ['--disable-notifications' => true]);
-
-        $this->assertTempFilesExist([
-            'mysite/test1.txt',
-            'mysite/test2.txt',
-            'mysite/test1000.txt',
-            'mysite/test2000.txt',
-        ]);
+        Event::assertNotDispatched(CleanupWasSuccessful::class);
     }
 
     /** @test */
@@ -196,26 +172,12 @@ class CleanupCommandTest extends TestCase
     {
         config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 4);
 
-        collect(range(0, 10))->each(function (int $number) {
-            $this->testHelper->createTempFile1Mb("mysite/test{$number}.zip", Carbon::now()->subDays($number));
+        Collection::times(10)->each(function (int $number) {
+            $this->createFile1MbOnDisk('local', "mysite/test{$number}.zip", now()->subDays($number));
         });
-
-        $this->artisan('backup:clean')->assertExitCode(0);
-
-        $this->seeInConsoleOutput('after cleanup: 4 MB.');
-    }
-
-    /** @test */
-    public function it_can_clean_backups_and_send_notification_without_cache_error()
-    {
-        config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
-
-        $this->testHelper->createTempZipFile('mysite/test001.zip', Carbon::now()->subDays(1), 2.2);
-        $this->testHelper->createTempZipFile('mysite/test002.zip', Carbon::now()->subDays(2), 2.2);
-        $this->testHelper->createTempZipFile('mysite/test003.zip', Carbon::now()->subDays(3), 2.2);
 
         Artisan::call('backup:clean');
 
-        $this->seeInConsoleOutput('Cleanup completed!');
+        $this->seeInConsoleOutput('after cleanup: 4 MB.');
     }
 }
