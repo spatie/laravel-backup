@@ -4,8 +4,8 @@ namespace Spatie\Backup\Tests\BackupDestination;
 
 use Storage;
 use Carbon\Carbon;
-use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Tests\TestCase;
+use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class BackupTest extends TestCase
