@@ -2,9 +2,8 @@
 
 namespace Spatie\Backup\Tests;
 
-use Illuminate\Support\Facades\Schema;
 use ZipArchive;
-use Spatie\Backup\Tests\TestHelper;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Console\Kernel;
 use Spatie\Backup\BackupServiceProvider;

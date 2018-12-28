@@ -3,9 +3,9 @@
 namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
+use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 
 class BackupCommandTest extends TestCase

@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Spatie\Backup\Tests\TestHelper;
 use Spatie\Backup\Tasks\Backup\Zip;
 
 class ZipTest extends TestCase
