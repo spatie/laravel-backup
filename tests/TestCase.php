@@ -15,16 +15,6 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var \Spatie\Backup\Tests\TestHelper */
-    protected $testHelper;
-
-    public function setUp()
-    {
-        $this->testHelper = new TestHelper();
-
-        parent::setUp();
-    }
-
     /**
      * @param \Illuminate\Foundation\Application $app
      *
@@ -42,7 +32,7 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
-        $this->testHelper->initializeTempDirectory();
+        $this->initializeTempDirectory();
 
         config()->set('backup.monitor_backups.0.health_checks', []);
 
@@ -70,7 +60,7 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        touch($this->testHelper->getTempDirectory().'/database.sqlite');
+        touch($this->getTempDirectory().'/database.sqlite');
 
         Schema::create('test_models', function (Blueprint $table) {
             $table->increments('id');
@@ -178,5 +168,33 @@ abstract class TestCase extends Orchestra
     public function getTempDirectory(): string
     {
         return __DIR__.'/temp';
+    }
+
+    public function initializeTempDirectory()
+    {
+        $this->initializeDirectory($this->getTempDirectory());
+    }
+
+    public function initializeDirectory(string $directory)
+    {
+        File::deleteDirectory($directory);
+
+        File::makeDirectory($directory);
+
+        $this->addGitignoreTo($directory);
+    }
+
+    public function removeTempDirectory()
+    {
+        return $this->filesystem->deleteDirectory($this->getTempDirectory());
+    }
+
+    public function addGitignoreTo(string $directory)
+    {
+        $fileName = "{$directory}/.gitignore";
+
+        $fileContents = '*'.PHP_EOL.'!.gitignore';
+
+        File::put($fileName, $fileContents);
     }
 }

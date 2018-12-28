@@ -2,15 +2,10 @@
 
 namespace Spatie\Backup\Tests;
 
-use PHPUnit\Framework\TestCase;
-use Spatie\Backup\Tests\TestHelper;
 use Spatie\Backup\Tasks\Backup\Zip;
 
 class ZipTest extends TestCase
 {
-    /** @var \Spatie\Backup\Tests\TestHelper */
-    protected $testHelper;
-
     /** @var string */
     protected $pathToZip;
 
@@ -21,11 +16,9 @@ class ZipTest extends TestCase
     {
         parent::setUp();
 
-        $this->testHelper = new TestHelper();
+        $this->initializeTempDirectory();
 
-        $this->testHelper->initializeTempDirectory();
-
-        $this->pathToZip = "{$this->testHelper->getTempDirectory()}/test.zip";
+        $this->pathToZip = "{$this->getTempDirectory()}/test.zip";
 
         $this->zip = new Zip($this->pathToZip);
     }

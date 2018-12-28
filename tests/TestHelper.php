@@ -43,21 +43,6 @@ class TestHelper
         $this->filesystem->put($fileName, $fileContents);
     }
 
-    public function getStubDirectory(): string
-    {
-        return __DIR__.'/stubs';
-    }
-
-    public function getStubDbDirectory(): string
-    {
-        return __DIR__.'/stubs-db';
-    }
-
-    public function getTempDirectory(): string
-    {
-        return __DIR__.'/temp';
-    }
-
     public function createTempFileWithAge($fileName, DateTime $date, $contents = ''): string
     {
         $directory = $this->getTempDirectory().'/'.dirname($fileName);

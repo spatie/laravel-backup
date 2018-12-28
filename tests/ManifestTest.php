@@ -3,15 +3,10 @@
 namespace Spatie\Backup\Tests;
 
 use Generator;
-use PHPUnit\Framework\TestCase;
-use Spatie\Backup\Tests\TestHelper;
 use Spatie\Backup\Tasks\Backup\Manifest;
 
 class ManifestTest extends TestCase
 {
-    /** @var \Spatie\Backup\Tests\TestHelper */
-    protected $testHelper;
-
     /** @var string */
     protected $pathToManifest;
 
@@ -22,11 +17,9 @@ class ManifestTest extends TestCase
     {
         parent::setUp();
 
-        $this->testHelper = new TestHelper();
+        $this->initializeTempDirectory();
 
-        $this->testHelper->initializeTempDirectory();
-
-        $this->pathToManifest = "{$this->testHelper->getTempDirectory()}/manifest.txt";
+        $this->pathToManifest = "{$this->getTempDirectory()}/manifest.txt";
 
         $this->manifest = new Manifest($this->pathToManifest);
     }
@@ -66,7 +59,7 @@ class ManifestTest extends TestCase
     /** @test */
     public function a_file_can_be_added_to_it()
     {
-        $this->manifest->addFiles($this->testHelper->getStubDirectory().'/file1');
+        $this->manifest->addFiles($this->getStubDirectory().'/file1');
 
         $this->assertSame(1, $this->manifest->count());
     }
@@ -109,7 +102,7 @@ class ManifestTest extends TestCase
     protected function getTestFiles(): array
     {
         return collect(range(1, 3))->map(function (int $number) {
-            return $this->testHelper->getStubDirectory()."/file{$number}.txt";
+            return $this->getStubDirectory()."/file{$number}.txt";
         })->toArray();
     }
 }

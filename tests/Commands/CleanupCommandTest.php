@@ -16,8 +16,6 @@ class CleanupCommandTest extends TestCase
         parent::setUp();
 
         $this->setNow(2016, 1, 1, 22, 00, 00);
-
-        $this->testHelper->initializeTempDirectory();
     }
 
     /** @test */

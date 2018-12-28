@@ -2,8 +2,6 @@
 
 namespace Spatie\Backup\Tests;
 
-use PHPUnit\Framework\TestCase;
-use Spatie\Backup\Tests\TestHelper;
 use Spatie\Backup\Tasks\Backup\FileSelection;
 
 class FileSelectionTest extends TestCase
@@ -15,7 +13,7 @@ class FileSelectionTest extends TestCase
     {
         parent::setUp();
 
-        $this->sourceDirectory = (new TestHelper())->getStubDirectory();
+        $this->sourceDirectory = $this->getStubDirectory();
     }
 
     protected function assertSameArrayContent($expected, $actual, $message = '')
