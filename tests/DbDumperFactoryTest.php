@@ -15,7 +15,7 @@ class DbDumperFactoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->app['config']->set('database.default', 'mysql');
+        config()->set('database.default', 'mysql');
 
         $dbConfig = [
             'driver' => 'mysql',
@@ -26,7 +26,7 @@ class DbDumperFactoryTest extends TestCase
             'dump' => ['add_extra_option' => '--extra-option=value'],
         ];
 
-        $this->app['config']->set('database.connections.mysql', $dbConfig);
+        config()->set('database.connections.mysql', $dbConfig);
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class DbDumperFactoryTest extends TestCase
     /** @test */
     public function it_can_create_sqlite_instance()
     {
-        $this->app['config']->set('database.connections.sqlite', [
+        config()->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => 'database.sqlite',
             // host, username and password are not required for the sqlite driver
@@ -66,7 +66,7 @@ class DbDumperFactoryTest extends TestCase
             'dump' => ['add_extra_option' => '--extra-option=value'],
         ];
 
-        $this->app['config']->set('database.connections.mysql', $dbConfig);
+        config()->set('database.connections.mysql', $dbConfig);
 
         $dumper = DbDumperFactory::createFromConnection('mysql');
 
@@ -92,7 +92,7 @@ class DbDumperFactoryTest extends TestCase
             'dump' => ['add_extra_option' => '--extra-option=value'],
         ];
 
-        $this->app['config']->set('database.connections.mysql', $dbConfig);
+        config()->set('database.connections.mysql', $dbConfig);
 
         $dumper = DbDumperFactory::createFromConnection('mysql');
 
@@ -113,7 +113,7 @@ class DbDumperFactoryTest extends TestCase
     {
         $dumpConfig = ['use_single_transaction'];
 
-        $this->app['config']->set('database.connections.mysql.dump', $dumpConfig);
+        config()->set('database.connections.mysql.dump', $dumpConfig);
 
         $this->assertContains('--single-transaction', $this->getDumpCommand());
     }
@@ -123,7 +123,7 @@ class DbDumperFactoryTest extends TestCase
     {
         $dumpConfig = ['include_tables' => ['table1', 'table2']];
 
-        $this->app['config']->set('database.connections.mysql.dump', $dumpConfig);
+        config()->set('database.connections.mysql.dump', $dumpConfig);
 
         $this->assertContains(implode(' ', $dumpConfig['include_tables']), $this->getDumpCommand());
     }
@@ -133,7 +133,7 @@ class DbDumperFactoryTest extends TestCase
     {
         $dumpConfig = ['add_extra_option' => '--extra-option=value'];
 
-        $this->app['config']->set('database.connections.mysql.dump', $dumpConfig);
+        config()->set('database.connections.mysql.dump', $dumpConfig);
 
         $this->assertContains($dumpConfig['add_extra_option'], $this->getDumpCommand());
     }

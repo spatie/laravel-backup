@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Tests\TestCase;
 
@@ -13,39 +14,26 @@ class CleanupCommandTest extends TestCase
     {
         parent::setUp();
 
-        Carbon::setTestNow(Carbon::create(2016, 1, 1, 22, 00, 00));
+        $this->setNow(2016, 1, 1, 22, 00, 00);
 
         $this->testHelper->initializeTempDirectory();
-
-        $app = $this->app;
-
-        $app['config']->set('filesystems.disks.local', [
-            'driver' => 'local',
-            'root' => $this->testHelper->getTempDirectory(),
-        ]);
     }
 
     /** @test */
     public function it_can_remove_old_backups_until_using_less_than_maximum_storage()
     {
-        $this->app['config']->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
+        config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
+        $this->createFile1MbOnDisk('local', 'mysite/test1.zip', now()->subDays(1));
+        $this->createFile1MbOnDisk('local', 'mysite/test2.zip', now()->subDays(2));
+        $this->createFile1MbOnDisk('local', 'mysite/test3.zip', now()->subDays(3));
+        $this->createFile1MbOnDisk('local', 'mysite/test4.zip', now()->subDays(4));
 
-        $this->testHelper->createTempFile1Mb('mysite/test1.zip', Carbon::now()->subDays(1));
-        $this->testHelper->createTempFile1Mb('mysite/test2.zip', Carbon::now()->subDays(2));
-        $this->testHelper->createTempFile1Mb('mysite/test3.zip', Carbon::now()->subDays(3));
-        $this->testHelper->createTempFile1Mb('mysite/test4.zip', Carbon::now()->subDays(4));
+        $this->artisan('backup:clean')->assertExitCode(0);
 
-        Artisan::call('backup:clean');
-
-        $this->assertTempFilesExist([
-            'mysite/test1.zip',
-            'mysite/test2.zip',
-        ]);
-
-        $this->assertTempFilesNotExist([
-            'mysite/test3.zip',
-            'mysite/test4.zip',
-        ]);
+        Storage::disk('local')->assertExists('mysite/test1.zip');
+        Storage::disk('local')->assertExists('mysite/test2.zip');
+        Storage::disk('local')->assertMissing('mysite/test3.zip');
+        Storage::disk('local')->assertMissing('mysite/test4.zip');
     }
 
     /** @test */
@@ -56,8 +44,8 @@ class CleanupCommandTest extends TestCase
         collect(range(0, 1000))->each(function (int $numberOfDays) use ($allBackups) {
             $date = Carbon::now()->subDays($numberOfDays);
 
-            $allBackups->push($this->testHelper->createTempFileWithAge("mysite/test_{$date->format('Ymd')}_first.zip", $date));
-            $allBackups->push($this->testHelper->createTempFileWithAge("mysite/test_{$date->format('Ymd')}_second.zip", $date->addHour(2)));
+            $allBackups->push($this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_first.zip", $date));
+            $allBackups->push($this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_second.zip", $date->addHour(2)));
         });
 
         $remainingBackups = collect([
@@ -110,9 +98,11 @@ class CleanupCommandTest extends TestCase
             'mysite/test_20160101_first.zip',
         ]);
 
-        Artisan::call('backup:clean');
+        $this->artisan('backup:clean')->assertExitCode(0);
 
-        $this->assertTempFilesExist($remainingBackups->toArray());
+        foreach($remainingBackups->toArray() as $path) {
+            Storage::disk('local')->assertExists($path);
+        }
 
         $deletedBackups = $allBackups
             ->map(function ($fullPath) {
@@ -124,7 +114,10 @@ class CleanupCommandTest extends TestCase
             return $remainingBackups->contains($deletedPath);
         });
 
-        $this->assertTempFilesNotExist($deletedBackups->toArray());
+        foreach($deletedBackups->toArray() as $path) {
+            Storage::disk('local')->assertMissing($path);
+
+        };
     }
 
     /** @test */
@@ -135,7 +128,7 @@ class CleanupCommandTest extends TestCase
         $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
         $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
 
-        Artisan::call('backup:clean');
+        $this->artisan('backup:clean')->assertExitCode(0);
 
         $this->assertTempFilesExist([
             'mysite/test1.txt',
@@ -154,7 +147,7 @@ class CleanupCommandTest extends TestCase
             $this->testHelper->createTempFileWithAge("mysite/test_{$date->format('Ymd')}.zip", $date);
         }
 
-        Artisan::call('backup:clean');
+        $this->artisan('backup:clean')->assertExitCode(0);
 
         $this->assertTempFilesExist(['mysite/test_20110101.zip']);
 
@@ -177,7 +170,7 @@ class CleanupCommandTest extends TestCase
         $this->testHelper->createTempFileWithAge('mysite/test1000.txt', Carbon::now()->subDays(1000));
         $this->testHelper->createTempFileWithAge('mysite/test2000.txt', Carbon::now()->subDays(2000));
 
-        Artisan::call('backup:clean');
+        $this->artisan('backup:clean')->assertExitCode(0);
 
         $this->assertTempFilesExist([
             'mysite/test1.txt',
@@ -210,13 +203,13 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_should_display_correct_used_storage_amount_after_cleanup()
     {
-        $this->app['config']->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 4);
+        config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 4);
 
         collect(range(0, 10))->each(function (int $number) {
             $this->testHelper->createTempFile1Mb("mysite/test{$number}.zip", Carbon::now()->subDays($number));
         });
 
-        Artisan::call('backup:clean');
+        $this->artisan('backup:clean')->assertExitCode(0);
 
         $this->seeInConsoleOutput('after cleanup: 4 MB.');
     }
@@ -224,7 +217,7 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_can_clean_backups_and_send_notification_without_cache_error()
     {
-        $this->app['config']->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
+        config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
 
         $this->testHelper->createTempZipFile('mysite/test001.zip', Carbon::now()->subDays(1), 2.2);
         $this->testHelper->createTempZipFile('mysite/test002.zip', Carbon::now()->subDays(2), 2.2);

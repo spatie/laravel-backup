@@ -100,7 +100,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
     {
         FakeFailingHealthCheck::$reason = $customException;
 
-        $this->app['config']->set('backup.monitor_backups.0.health_checks', [FakeFailingHealthCheck::class]);
+        config()->set('backup.monitor_backups.0.health_checks', [FakeFailingHealthCheck::class]);
 
         return $this;
     }

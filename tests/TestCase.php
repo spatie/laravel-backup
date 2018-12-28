@@ -2,14 +2,14 @@
 
 namespace Spatie\Backup\Tests;
 
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Schema;
 use ZipArchive;
-use Spatie\Backup\Tests\TestHelper;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Console\Kernel;
 use Spatie\Backup\BackupServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
-use League\Flysystem\FileNotFoundException;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -75,27 +75,6 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
             $table->string('name');
         });
-    }
-
-    public function assertFileExistsOnDisk(string $fileName, string $diskName)
-    {
-        $this->assertTrue($this->fileExistsOnDisk($fileName, $diskName), "Failed asserting that `{$fileName}` exists on disk `{$diskName}`");
-    }
-
-    public function assertFileNotExistsOnDisk(string $fileName, string $diskName)
-    {
-        $this->assertFalse($this->fileExistsOnDisk($fileName, $diskName), "Failed asserting that `{$fileName}` does not exist on disk `{$diskName}`");
-    }
-
-    public function fileExistsOnDisk(string $fileName, string $diskName): bool
-    {
-        try {
-            Storage::disk($diskName)->getMetaData($fileName);
-
-            return true;
-        } catch (FileNotFoundException $exception) {
-            return false;
-        }
     }
 
     public function assertTempFilesExist(array $files)
@@ -166,6 +145,22 @@ abstract class TestCase extends Orchestra
         return false;
     }
 
+    protected function createFileOnDisk(string $diskName, string $filePath, DateTime $date)
+    {
+        Storage::disk($diskName)->put($filePath, 'content of testfile');
+
+        touch($this->getFullDiskPath($diskName, $filePath), $date->getTimestamp());
+    }
+
+    protected function createFile1MbOnDisk(string $diskName, string $filePath, DateTime $date)
+    {
+        $sourceFile = $this->getStubDirectory().'/1Mb.file';
+
+        Storage::disk($diskName)->put($filePath, file_get_contents($sourceFile));
+
+        touch($this->getFullDiskPath($diskName, $filePath), $date->getTimestamp());
+    }
+
     protected function getFullDiskPath(string $diskName, string $filePath): string
     {
         return $this->getDiskRootPath($diskName) . DIRECTORY_SEPARATOR . $filePath;
@@ -174,5 +169,17 @@ abstract class TestCase extends Orchestra
     protected function getDiskRootPath(string $diskName): string
     {
         return Storage::disk($diskName)->getDriver()->getAdapter()->getPathPrefix();
+    }
+
+    public function setNow($year, $month, $day, $hour = 0, $minutes = 0, $seconds = 0)
+    {
+        $date = Carbon::create($year, $month, $day, $hour, $minutes, $seconds);
+
+        Carbon::setTestNow($date);
+    }
+
+    public function getStubDirectory(): string
+    {
+        return __DIR__.'/stubs';
     }
 }

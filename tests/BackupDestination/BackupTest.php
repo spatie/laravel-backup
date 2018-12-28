@@ -65,7 +65,7 @@ class BackupTest extends TestCase
     /** @test */
     public function it_push_backup_extra_option_to_write_stream_if_set()
     {
-        $this->app['config']->set('filesystems.disks.s3-test-backup', [
+        config()->set('filesystems.disks.s3-test-backup', [
             'driver' => 's3',
 
             'backup_options' => [
@@ -73,7 +73,7 @@ class BackupTest extends TestCase
             ],
         ]);
 
-        $this->app['config']->set('backup.backup.destination.disks', [
+        config()->set('backup.backup.destination.disks', [
             's3-test-backup',
         ]);
 
@@ -85,12 +85,12 @@ class BackupTest extends TestCase
     /** @test */
     public function it_push_empty_default_backup_extra_option_to_write_stream_if_not_set()
     {
-        $this->app['config']->set('filesystems.disks.s3-test-backup', [
+        config()->set('filesystems.disks.s3-test-backup', [
             'driver' => 'local',
 
         ]);
 
-        $this->app['config']->set('backup.backup.destination.disks', [
+        config()->set('backup.backup.destination.disks', [
             'local',
         ]);
 

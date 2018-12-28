@@ -17,7 +17,7 @@ class MaximumAgeInDaysTest extends TestCase
 
         $this->testHelper->initializeTempDirectory();
 
-        $this->app['config']->set('backup.monitor_backups.0.health_checks', [
+        config()->set('backup.monitor_backups.0.health_checks', [
             MaximumAgeInDays::class => ['days' => 1],
         ]);
     }
@@ -55,7 +55,7 @@ class MaximumAgeInDaysTest extends TestCase
     {
         $this->testHelper->createTempFile1Mb('mysite/test.zip', Carbon::now()->subSecond()->subDay());
 
-        $this->app['config']->set('backup.monitor_backups.0.health_checks', [
+        config()->set('backup.monitor_backups.0.health_checks', [
             MaximumAgeInDays::class => 2,
         ]);
 

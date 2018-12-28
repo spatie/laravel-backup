@@ -11,7 +11,7 @@ class ListCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->app['config']->set('backup.backup.destination.disks', [
+        config()->set('backup.backup.destination.disks', [
             'local',
         ]);
     }

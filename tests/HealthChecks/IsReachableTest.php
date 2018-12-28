@@ -22,7 +22,7 @@ class IsReachableTest extends TestCase
     /** @test */
     public function it_fails_when_backup_destination_is_not_reachable()
     {
-        $this->app['config']->set('filesystems.disks.local.root', '/foo/bar');
+        config()->set('filesystems.disks.local.root', '/foo/bar');
 
         $this->expectsEvents(UnhealthyBackupWasFound::class);
 

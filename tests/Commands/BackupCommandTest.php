@@ -24,9 +24,7 @@ class BackupCommandTest extends TestCase
 
         Event::fake();
 
-        $this->date = Carbon::create('2016', 1, 1, 21, 1, 1);
-
-        Carbon::setTestNow($this->date);
+        $this->setNow(2016, 1, 1, 21, 1, 1);
 
         $this->expectedZipPath = 'mysite/2016-01-01-21-01-01.zip';
 
@@ -77,6 +75,7 @@ class BackupCommandTest extends TestCase
         Storage::disk('local')->put('testing-file.txt', 'dummy content');
 
         $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
+
 
         $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
     }
@@ -163,7 +162,7 @@ class BackupCommandTest extends TestCase
             ])
             ->assertExitCode(0);
 
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
+        Storage::disk('local')->assertExists($this->expectedZipPath);
 
         $this
             ->artisan('backup:run', [
@@ -244,8 +243,8 @@ class BackupCommandTest extends TestCase
 
         $this->seeInConsoleOutput('There is no backup destination with a disk named');
 
-        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'local');
-        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'secondLocal');
+        Storage::disk('local')->assertMissing($this->expectedZipPath);
+        Storage::disk('secondLocal')->assertMissing($this->expectedZipPath);
     }
 
     /** @test */
