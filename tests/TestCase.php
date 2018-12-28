@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tests;
 
+use Illuminate\Support\Facades\Schema;
 use ZipArchive;
 use Spatie\Backup\Tests\TestHelper;
 use Illuminate\Support\Facades\Storage;
@@ -42,32 +43,32 @@ abstract class TestCase extends Orchestra
     {
         $this->testHelper->initializeTempDirectory();
 
-        $app['config']->set('backup.monitor_backups.0.health_checks', []);
+        config()->set('backup.monitor_backups.0.health_checks', []);
 
-        $app['config']->set('mail.driver', 'log');
+        config()->set('mail.driver', 'log');
 
-        $app['config']->set('database.connections.db1', [
+        config()->set('database.connections.db1', [
             'driver' => 'sqlite',
             'database' => $this->testHelper->createSQLiteDatabase('database1.sqlite'),
         ]);
-        $app['config']->set('database.connections.db2', [
+        config()->set('database.connections.db2', [
             'driver' => 'sqlite',
             'database' => $this->testHelper->createSQLiteDatabase('database2.sqlite'),
         ]);
 
-        $app['config']->set('database.default', 'db1');
+        config()->set('database.default', 'db1');
 
-        $app['config']->set('filesystems.disks.local', [
+        config()->set('filesystems.disks.local', [
             'driver' => 'local',
             'root' => $this->testHelper->getTempDirectory(),
         ]);
 
-        $app['config']->set('filesystems.disks.secondLocal', [
+        config()->set('filesystems.disks.secondLocal', [
             'driver' => 'local',
             'root' => $this->testHelper->getTempDirectory().'/secondDisk',
         ]);
 
-        $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
+        config()->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
     }
 
     /**
@@ -77,7 +78,7 @@ abstract class TestCase extends Orchestra
     {
         touch($this->testHelper->getTempDirectory().'/database.sqlite');
 
-        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
+        Schema::create('test_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
