@@ -3,9 +3,9 @@
 namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
+use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Events\CleanupWasSuccessful;
-use Spatie\Backup\Tests\TestCase;
 
 class CleanupCommandTest extends TestCase
 {

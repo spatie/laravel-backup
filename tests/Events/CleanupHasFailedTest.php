@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tests\Events;
 
-use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tests\TestCase;
+use Spatie\Backup\Events\CleanupHasFailed;
 
 class CleanupHasFailedTest extends TestCase
 {

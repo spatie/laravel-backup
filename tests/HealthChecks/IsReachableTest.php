@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tests\HealthChecks;
 
-use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 
