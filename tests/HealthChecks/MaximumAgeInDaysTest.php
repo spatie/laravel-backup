@@ -3,9 +3,8 @@
 namespace Spatie\Backup\Tests\HealthChecks;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Tests\TestCase;
+use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
