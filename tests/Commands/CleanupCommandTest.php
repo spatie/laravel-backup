@@ -22,10 +22,10 @@ class CleanupCommandTest extends TestCase
     public function it_can_remove_old_backups_until_using_less_than_maximum_storage()
     {
         config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
-        $this->createFile1MbOnDisk('local', 'mysite/test1.zip', now()->subDays(1));
-        $this->createFile1MbOnDisk('local', 'mysite/test2.zip', now()->subDays(2));
-        $this->createFile1MbOnDisk('local', 'mysite/test3.zip', now()->subDays(3));
-        $this->createFile1MbOnDisk('local', 'mysite/test4.zip', now()->subDays(4));
+        $this->create1MbFileOnDisk('local', 'mysite/test1.zip', now()->subDays(1));
+        $this->create1MbFileOnDisk('local', 'mysite/test2.zip', now()->subDays(2));
+        $this->create1MbFileOnDisk('local', 'mysite/test3.zip', now()->subDays(3));
+        $this->create1MbFileOnDisk('local', 'mysite/test4.zip', now()->subDays(4));
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
@@ -171,7 +171,7 @@ class CleanupCommandTest extends TestCase
         config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 4);
 
         Collection::times(10)->each(function (int $number) {
-            $this->createFile1MbOnDisk('local', "mysite/test{$number}.zip", now()->subDays($number));
+            $this->create1MbFileOnDisk('local', "mysite/test{$number}.zip", now()->subDays($number));
         });
 
         Artisan::call('backup:clean');

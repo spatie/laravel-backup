@@ -25,7 +25,7 @@ class MaximumStorageInMegabytesTest extends TestCase
     /** @test */
     public function it_succeeds_when_a_fresh_backup_is_present()
     {
-        $this->createFile1MbOnDisk('local','mysite/test.zip', now());
+        $this->create1MbFileOnDisk('local','mysite/test.zip', now());
 
         $this->artisan('backup:monitor')->assertExitCode(0);
 
@@ -35,8 +35,8 @@ class MaximumStorageInMegabytesTest extends TestCase
     /** @test */
     public function it_fails_when_max_mb_has_been_exceeded()
     {
-        $this->createFile1MbOnDisk('local','mysite/test_1.zip', now()->subSeconds(2));
-        $this->createFile1MbOnDisk('local','mysite/test_2.zip', now()->subSeconds(1));
+        $this->create1MbFileOnDisk('local','mysite/test_1.zip', now()->subSeconds(2));
+        $this->create1MbFileOnDisk('local','mysite/test_2.zip', now()->subSeconds(1));
 
         $this->artisan('backup:monitor')->assertExitCode(0);
 

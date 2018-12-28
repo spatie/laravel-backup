@@ -26,7 +26,7 @@ class MaximumAgeInDaysTest extends TestCase
     /** @test */
     public function it_succeeds_when_a_fresh_backup_present()
     {
-        $this->createFile1MbOnDisk('local', 'mysite/test.zip', Carbon::now()->subSecond());
+        $this->create1MbFileOnDisk('local', 'mysite/test.zip', Carbon::now()->subSecond());
 
         $this->artisan('backup:monitor')->assertExitCode(0);
 
@@ -44,7 +44,7 @@ class MaximumAgeInDaysTest extends TestCase
     /** @test */
     public function it_fails_when_max_days_has_been_exceeded()
     {
-        $this->createFile1MbOnDisk('local', 'mysite/test.zip', Carbon::now()->subSecond()->subDay());
+        $this->create1MbFileOnDisk('local', 'mysite/test.zip', Carbon::now()->subSecond()->subDay());
 
         $this->artisan('backup:monitor')->assertExitCode(0);
 
@@ -54,7 +54,7 @@ class MaximumAgeInDaysTest extends TestCase
     /** @test */
     public function it_accepts_a_shorthand_value_in_config()
     {
-        $this->createFile1MbOnDisk('local', 'mysite/test.zip', Carbon::now()->subSecond()->subDay());
+        $this->create1MbFileOnDisk('local', 'mysite/test.zip', Carbon::now()->subSecond()->subDay());
 
         config()->set('backup.monitor_backups.0.health_checks', [
             MaximumAgeInDays::class => 2,

@@ -42,6 +42,7 @@ abstract class TestCase extends Orchestra
             'driver' => 'sqlite',
             'database' => $this->createSQLiteDatabase('database1.sqlite'),
         ]);
+
         config()->set('database.connections.db2', [
             'driver' => 'sqlite',
             'database' => $this->createSQLiteDatabase('database2.sqlite'),
@@ -51,8 +52,6 @@ abstract class TestCase extends Orchestra
 
         Storage::fake('local');
         Storage::fake('secondLocal');
-
-        config()->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
     }
 
     /**
@@ -72,24 +71,38 @@ abstract class TestCase extends Orchestra
     {
         $consoleOutput = $this->app[Kernel::class]->output();
 
-        $this->assertContains($expectedText, $consoleOutput, "Did not see `{$expectedText}` in console output: `$consoleOutput`");
+        $this->assertContains(
+            $expectedText,
+            $consoleOutput,
+            "Did not see `{$expectedText}` in console output: `$consoleOutput`"
+        );
     }
 
     protected function doNotSeeInConsoleOutput($unExpectedText)
     {
         $consoleOutput = $this->app[Kernel::class]->output();
 
-        $this->assertNotContains($unExpectedText, $consoleOutput, "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`");
+        $this->assertNotContains(
+            $unExpectedText,
+            $consoleOutput,
+            "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`"
+        );
     }
 
     protected function assertFileExistsInZip(string $diskName, string $zipPath, string $fileName)
     {
-        $this->assertTrue($this->fileExistsInZip($diskName, $zipPath, $fileName), "Failed to assert that {$zipPath} contains a file name {$fileName}");
+        $this->assertTrue(
+            $this->fileExistsInZip($diskName, $zipPath, $fileName),
+            "Failed to assert that {$zipPath} contains a file name {$fileName}"
+        );
     }
 
     protected function assertFileDoesntExistsInZip(string $diskName, string $zipPath, string $fileName)
     {
-        $this->assertFalse($this->fileExistsInZip($diskName, $zipPath, $fileName), "Failed to assert that {$zipPath} doesn't contain a file name {$fileName}");
+        $this->assertFalse(
+            $this->fileExistsInZip($diskName, $zipPath, $fileName),
+            "Failed to assert that {$zipPath} doesn't contain a file name {$fileName}"
+        );
     }
 
     protected function fileExistsInZip(string $diskName, string $zipPath, string $fileName): bool
@@ -103,16 +116,16 @@ abstract class TestCase extends Orchestra
         return false;
     }
 
-    protected function createFileOnDisk(string $diskName, string $filePath, DateTime $date, $content = 'content of testfile'): string
+    protected function createFileOnDisk(string $diskName, string $filePath, DateTime $date): string
     {
-        Storage::disk($diskName)->put($filePath, $content);
+        Storage::disk($diskName)->put($filePath, 'dummy content');
 
         touch($this->getFullDiskPath($diskName, $filePath), $date->getTimestamp());
 
         return $filePath;
     }
 
-    protected function createFile1MbOnDisk(string $diskName, string $filePath, DateTime $date)
+    protected function create1MbFileOnDisk(string $diskName, string $filePath, DateTime $date)
     {
         $sourceFile = $this->getStubDirectory().'/1Mb.file';
 
