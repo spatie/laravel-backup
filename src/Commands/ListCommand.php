@@ -81,7 +81,7 @@ class ListCommand extends BaseCommand
         if ($failed->isNotEmpty()) {
             $this->warn('');
             $this->warn('Unhealthy backup destinations');
-            $this->warn('-------------------------------');
+            $this->warn('-----------------------------');
             $this->table(['Name', 'Disk', 'Failed check', 'Description'], $failed->all());
         }
 
