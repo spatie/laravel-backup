@@ -79,7 +79,7 @@ class BackupTest extends TestCase
 
         $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
-        $this->assertEquals(['StorageClass' => 'COLD'], $backupDestination->extraOptions());
+        $this->assertEquals(['StorageClass' => 'COLD'], $backupDestination->getDiskOptions());
     }
 
     /** @test */
@@ -96,7 +96,7 @@ class BackupTest extends TestCase
 
         $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
-        $this->assertSame([], $backupDestination->extraOptions());
+        $this->assertSame([], $backupDestination->getDiskOptions());
     }
 
     protected function getBackupForFile(string $name, int $ageInDays = 0, string $contents = ''): Backup

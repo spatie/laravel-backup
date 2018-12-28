@@ -85,7 +85,7 @@ class BackupDestination
         $this->disk->getDriver()->writeStream(
             $destination,
             $handle,
-            $this->extraOptions()
+            $this->getDiskOptions()
         );
 
         if (is_resource($handle)) {
@@ -117,7 +117,7 @@ class BackupDestination
         return $this->connectionError;
     }
 
-    public function extraOptions(): array
+    public function getDiskOptions(): array
     {
         return config("filesystems.disks.{$this->diskName()}.backup_options") ?? [];
     }
