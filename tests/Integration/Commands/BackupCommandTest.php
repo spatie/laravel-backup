@@ -1,10 +1,11 @@
 <?php
 
-namespace Spatie\Backup\Test\Integration;
+namespace Spatie\Backup\Test\Integration\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Test\Integration\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 
 class BackupCommandTest extends TestCase

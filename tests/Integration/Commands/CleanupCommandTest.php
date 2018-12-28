@@ -1,10 +1,11 @@
 <?php
 
-namespace Spatie\Backup\Test\Integration;
+namespace Spatie\Backup\Test\Integration\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Test\Integration\TestCase;
 
 class CleanupCommandTest extends TestCase
 {
