@@ -55,7 +55,6 @@ class BackupDestinationStatus
     {
         $healthChecks = $this->getHealthChecks();
 
-
         foreach ($healthChecks as $healthCheck) {
             $checkResult = $this->check($healthCheck);
 
