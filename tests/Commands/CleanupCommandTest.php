@@ -3,11 +3,11 @@
 namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
+use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
-use Spatie\Backup\Tests\TestCase;
 
 class CleanupCommandTest extends TestCase
 {
@@ -41,14 +41,14 @@ class CleanupCommandTest extends TestCase
     public function it_can_remove_old_backups_from_the_backup_directory()
     {
         [$expectedRemainingBackups, $expectedDeletedBackups] = Collection::times(1000)
-            ->flatMap(function(int $numberOfDays) {
+            ->flatMap(function (int $numberOfDays) {
                 $date = Carbon::now()->subDays($numberOfDays);
 
                 return [
                     $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_first.zip", $date),
                     $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_second.zip", $date->addHour(2)),
                 ];
-            })->partition(function(string $backupPath) {
+            })->partition(function (string $backupPath) {
                 return in_array($backupPath, [
                     'mysite/test_20131231_first.zip',
                     'mysite/test_20141231_first.zip',
@@ -102,11 +102,11 @@ class CleanupCommandTest extends TestCase
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        $expectedRemainingBackups->each(function($path) {
+        $expectedRemainingBackups->each(function ($path) {
             Storage::disk('local')->assertExists($path);
         });
 
-        $expectedDeletedBackups->each(function($path) {
+        $expectedDeletedBackups->each(function ($path) {
             Storage::disk('local')->assertMissing($path);
         });
     }
