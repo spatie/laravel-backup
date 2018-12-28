@@ -15,6 +15,8 @@ class CleanupCommandTest extends TestCase
     {
         parent::setUp();
 
+        Event::fake();
+
         $this->setNow(2016, 1, 1, 22, 00, 00);
     }
 
@@ -148,7 +150,6 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_should_trigger_the_cleanup_successful_event()
     {
-        Event::fake();
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
@@ -158,8 +159,6 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_should_omit_the_cleanup_successful_event_when_the_notifications_are_disabled()
     {
-        Event::fake();
-
         $this->artisan('backup:clean', ['--disable-notifications' => true])->assertExitCode(0);
 
         Event::assertNotDispatched(CleanupWasSuccessful::class);
