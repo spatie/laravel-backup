@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Tests\Integration\Events;
 
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Tests\Integration\TestCase;
+use Spatie\Backup\Tests\TestCase;
 
 class BackupHasFailedTest extends TestCase
 {

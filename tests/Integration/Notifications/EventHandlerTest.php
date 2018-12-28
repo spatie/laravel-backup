@@ -6,7 +6,7 @@ use Exception;
 use Notification;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Tests\Integration\TestCase;
+use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailed as BackupHasFailedNotification;
 

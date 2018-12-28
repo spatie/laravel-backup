@@ -5,7 +5,7 @@ namespace Spatie\Backup\Tests\Unit;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\Databases\PostgreSql;
-use Spatie\Backup\Tests\Integration\TestCase;
+use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\Tasks\Backup\DbDumperFactory;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 

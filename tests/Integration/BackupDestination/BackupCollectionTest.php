@@ -7,7 +7,7 @@ use Exception;
 use Carbon\Carbon;
 use League\Flysystem\Filesystem;
 use Spatie\Backup\BackupDestination\Backup;
-use Spatie\Backup\Tests\Integration\TestCase;
+use Spatie\Backup\Tests\TestCase;
 use League\Flysystem\Adapter\Local as LocalAdapter;
 use Spatie\Backup\BackupDestination\BackupCollection;
 

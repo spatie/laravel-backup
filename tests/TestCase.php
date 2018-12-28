@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Tests\Integration;
+namespace Spatie\Backup\Tests;
 
 use ZipArchive;
 use Spatie\Backup\Tests\TestHelper;

@@ -4,7 +4,7 @@ namespace Spatie\Backup\Tests\Integration\Events;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Tests\Integration\TestCase;
+use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;

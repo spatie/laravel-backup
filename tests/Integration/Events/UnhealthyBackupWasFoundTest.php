@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Notifications\Notifiable;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
-use Spatie\Backup\Tests\Integration\TestCase;
+use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\BackupDestination\BackupDestination;

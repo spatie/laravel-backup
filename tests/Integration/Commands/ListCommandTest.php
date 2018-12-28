@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Tests\Integration\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Tests\Integration\TestCase;
+use Spatie\Backup\Tests\TestCase;
 
 class ListCommandTest extends TestCase
 {
