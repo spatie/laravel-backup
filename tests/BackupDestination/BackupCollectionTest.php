@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Tests\BackupDestination;
 
-use Storage;
 use Exception;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Filesystem;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Tests\TestCase;
