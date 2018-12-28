@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
@@ -39,85 +40,75 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_can_remove_old_backups_from_the_backup_directory()
     {
-        $allBackups = collect();
+        [$expectedRemainingBackups, $expectedDeletedBackups] = Collection::times(1000)
+            ->flatMap(function(int $numberOfDays) {
+                $date = Carbon::now()->subDays($numberOfDays);
 
-        collect(range(0, 1000))->each(function (int $numberOfDays) use ($allBackups) {
-            $date = Carbon::now()->subDays($numberOfDays);
-
-            $allBackups->push($this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_first.zip", $date));
-            $allBackups->push($this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_second.zip", $date->addHour(2)));
-        });
-
-        $remainingBackups = collect([
-            'mysite/test_20131231_first.zip',
-            'mysite/test_20141231_first.zip',
-            'mysite/test_20150630_first.zip',
-            'mysite/test_20150731_first.zip',
-            'mysite/test_20150831_first.zip',
-            'mysite/test_20150930_first.zip',
-            'mysite/test_20151018_first.zip',
-            'mysite/test_20151025_first.zip',
-            'mysite/test_20151101_first.zip',
-            'mysite/test_20151108_first.zip',
-            'mysite/test_20151115_first.zip',
-            'mysite/test_20151122_first.zip',
-            'mysite/test_20151129_first.zip',
-            'mysite/test_20151206_first.zip',
-            'mysite/test_20151209_first.zip',
-            'mysite/test_20151210_first.zip',
-            'mysite/test_20151211_first.zip',
-            'mysite/test_20151212_first.zip',
-            'mysite/test_20151213_first.zip',
-            'mysite/test_20151214_first.zip',
-            'mysite/test_20151215_first.zip',
-            'mysite/test_20151216_first.zip',
-            'mysite/test_20151217_first.zip',
-            'mysite/test_20151218_first.zip',
-            'mysite/test_20151219_first.zip',
-            'mysite/test_20151220_first.zip',
-            'mysite/test_20151221_first.zip',
-            'mysite/test_20151222_first.zip',
-            'mysite/test_20151223_first.zip',
-            'mysite/test_20151224_first.zip',
-            'mysite/test_20151225_second.zip',
-            'mysite/test_20151225_first.zip',
-            'mysite/test_20151226_second.zip',
-            'mysite/test_20151226_first.zip',
-            'mysite/test_20151226_first.zip',
-            'mysite/test_20151227_second.zip',
-            'mysite/test_20151227_first.zip',
-            'mysite/test_20151228_second.zip',
-            'mysite/test_20151228_first.zip',
-            'mysite/test_20151229_second.zip',
-            'mysite/test_20151229_first.zip',
-            'mysite/test_20151230_second.zip',
-            'mysite/test_20151230_first.zip',
-            'mysite/test_20151231_second.zip',
-            'mysite/test_20151231_first.zip',
-            'mysite/test_20160101_second.zip',
-            'mysite/test_20160101_first.zip',
-        ]);
+                return [
+                    $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_first.zip", $date),
+                    $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_second.zip", $date->addHour(2)),
+                ];
+            })->partition(function(string $backupPath) {
+                return in_array($backupPath, [
+                    'mysite/test_20131231_first.zip',
+                    'mysite/test_20141231_first.zip',
+                    'mysite/test_20150630_first.zip',
+                    'mysite/test_20150731_first.zip',
+                    'mysite/test_20150831_first.zip',
+                    'mysite/test_20150930_first.zip',
+                    'mysite/test_20151018_first.zip',
+                    'mysite/test_20151025_first.zip',
+                    'mysite/test_20151101_first.zip',
+                    'mysite/test_20151108_first.zip',
+                    'mysite/test_20151115_first.zip',
+                    'mysite/test_20151122_first.zip',
+                    'mysite/test_20151129_first.zip',
+                    'mysite/test_20151206_first.zip',
+                    'mysite/test_20151209_first.zip',
+                    'mysite/test_20151210_first.zip',
+                    'mysite/test_20151211_first.zip',
+                    'mysite/test_20151212_first.zip',
+                    'mysite/test_20151213_first.zip',
+                    'mysite/test_20151214_first.zip',
+                    'mysite/test_20151215_first.zip',
+                    'mysite/test_20151216_first.zip',
+                    'mysite/test_20151217_first.zip',
+                    'mysite/test_20151218_first.zip',
+                    'mysite/test_20151219_first.zip',
+                    'mysite/test_20151220_first.zip',
+                    'mysite/test_20151221_first.zip',
+                    'mysite/test_20151222_first.zip',
+                    'mysite/test_20151223_first.zip',
+                    'mysite/test_20151224_first.zip',
+                    'mysite/test_20151225_second.zip',
+                    'mysite/test_20151225_first.zip',
+                    'mysite/test_20151226_second.zip',
+                    'mysite/test_20151226_first.zip',
+                    'mysite/test_20151226_first.zip',
+                    'mysite/test_20151227_second.zip',
+                    'mysite/test_20151227_first.zip',
+                    'mysite/test_20151228_second.zip',
+                    'mysite/test_20151228_first.zip',
+                    'mysite/test_20151229_second.zip',
+                    'mysite/test_20151229_first.zip',
+                    'mysite/test_20151230_second.zip',
+                    'mysite/test_20151230_first.zip',
+                    'mysite/test_20151231_second.zip',
+                    'mysite/test_20151231_first.zip',
+                    'mysite/test_20160101_second.zip',
+                    'mysite/test_20160101_first.zip',
+                ]);
+            });
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        foreach($remainingBackups->toArray() as $path) {
+        $expectedRemainingBackups->each(function($path) {
             Storage::disk('local')->assertExists($path);
-        }
-
-        $deletedBackups = $allBackups
-            ->map(function ($fullPath) {
-                $tempPath = str_replace($this->testHelper->getTempDirectory().'/', '', $fullPath);
-
-                return $tempPath;
-            })
-        ->reject(function (string $deletedPath) use ($remainingBackups) {
-            return $remainingBackups->contains($deletedPath);
         });
 
-        foreach($deletedBackups->toArray() as $path) {
+        $expectedDeletedBackups->each(function($path) {
             Storage::disk('local')->assertMissing($path);
-
-        };
+        });
     }
 
     /** @test */

@@ -145,11 +145,13 @@ abstract class TestCase extends Orchestra
         return false;
     }
 
-    protected function createFileOnDisk(string $diskName, string $filePath, DateTime $date)
+    protected function createFileOnDisk(string $diskName, string $filePath, DateTime $date): string
     {
         Storage::disk($diskName)->put($filePath, 'content of testfile');
 
         touch($this->getFullDiskPath($diskName, $filePath), $date->getTimestamp());
+
+        return $filePath;
     }
 
     protected function createFile1MbOnDisk(string $diskName, string $filePath, DateTime $date)
