@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tests;
 
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
@@ -49,11 +50,11 @@ abstract class TestCase extends Orchestra
 
         config()->set('database.connections.db1', [
             'driver' => 'sqlite',
-            'database' => $this->testHelper->createSQLiteDatabase('database1.sqlite'),
+            'database' => $this->createSQLiteDatabase('database1.sqlite'),
         ]);
         config()->set('database.connections.db2', [
             'driver' => 'sqlite',
-            'database' => $this->testHelper->createSQLiteDatabase('database2.sqlite'),
+            'database' => $this->createSQLiteDatabase('database2.sqlite'),
         ]);
 
         config()->set('database.default', 'db1');
@@ -150,5 +151,32 @@ abstract class TestCase extends Orchestra
     public function getStubDirectory(): string
     {
         return __DIR__.'/stubs';
+    }
+
+    public function createSQLiteDatabase(string $fileName): string
+    {
+        $directory = $this->getTempDirectory().'/'.dirname($fileName);
+
+        File::makeDirectory($directory, 0755, true, true);
+
+        $sourceFile = $this->getStubDbDirectory().'/database.sqlite';
+
+        $fullPath = $this->getTempDirectory().'/'.$fileName;
+
+        copy($sourceFile, $fullPath);
+
+        touch($fullPath);
+
+        return $fullPath;
+    }
+
+    public function getStubDbDirectory(): string
+    {
+        return __DIR__.'/stubs-db';
+    }
+
+    public function getTempDirectory(): string
+    {
+        return __DIR__.'/temp';
     }
 }
