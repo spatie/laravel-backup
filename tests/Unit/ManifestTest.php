@@ -1,15 +1,15 @@
 <?php
 
-namespace Spatie\Backup\Test\Unit;
+namespace Spatie\Backup\Tests\Unit;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
-use Spatie\Backup\Test\TestHelper;
+use Spatie\Backup\Tests\TestHelper;
 use Spatie\Backup\Tasks\Backup\Manifest;
 
 class ManifestTest extends TestCase
 {
-    /** @var \Spatie\Backup\Test\TestHelper */
+    /** @var \Spatie\Backup\Tests\TestHelper */
     protected $testHelper;
 
     /** @var string */

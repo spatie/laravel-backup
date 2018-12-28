@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Backup\Test\Integration\BackupDestination;
+namespace Spatie\Backup\Tests\Integration\BackupDestination;
 
 use Storage;
 use Exception;
 use Carbon\Carbon;
 use League\Flysystem\Filesystem;
 use Spatie\Backup\BackupDestination\Backup;
-use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Tests\Integration\TestCase;
 use League\Flysystem\Adapter\Local as LocalAdapter;
 use Spatie\Backup\BackupDestination\BackupCollection;
 

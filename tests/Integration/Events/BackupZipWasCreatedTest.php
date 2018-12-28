@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Backup\Test\Integration\Events;
+namespace Spatie\Backup\Tests\Integration\Events;
 
-use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Tests\Integration\TestCase;
 use Spatie\Backup\Events\BackupZipWasCreated;
 
 class BackupZipWasCreatedTest extends TestCase

@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Backup\Test\Unit;
+namespace Spatie\Backup\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Spatie\Backup\Test\TestHelper;
+use Spatie\Backup\Tests\TestHelper;
 use Spatie\Backup\Tasks\Backup\FileSelection;
 
 class FileSelectionTest extends TestCase

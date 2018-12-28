@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Backup\Test;
+namespace Spatie\Backup\Tests;
 
 use DateTime;
 use Illuminate\Filesystem\Filesystem;

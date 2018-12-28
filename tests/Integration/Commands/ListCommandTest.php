@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Backup\Test\Integration\Commands;
+namespace Spatie\Backup\Tests\Integration\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Tests\Integration\TestCase;
 
 class ListCommandTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Backup\Test\Integration\Events;
+namespace Spatie\Backup\Tests\Integration\Events;
 
 use Spatie\Backup\Events\CleanupHasFailed;
-use Spatie\Backup\Test\Integration\TestCase;
+use Spatie\Backup\Tests\Integration\TestCase;
 
 class CleanupHasFailedTest extends TestCase
 {

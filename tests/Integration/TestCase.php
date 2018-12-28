@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Backup\Test\Integration;
+namespace Spatie\Backup\Tests\Integration;
 
 use ZipArchive;
-use Spatie\Backup\Test\TestHelper;
+use Spatie\Backup\Tests\TestHelper;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Console\Kernel;
 use Spatie\Backup\BackupServiceProvider;
@@ -13,7 +13,7 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var \Spatie\Backup\Test\TestHelper */
+    /** @var \Spatie\Backup\Tests\TestHelper */
     protected $testHelper;
 
     public function setUp()

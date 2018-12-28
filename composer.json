@@ -45,7 +45,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Backup\\Test\\": "tests"
+            "Spatie\\Backup\\Tests\\": "tests"
         }
     },
     "scripts": {
