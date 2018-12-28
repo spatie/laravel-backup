@@ -2,11 +2,11 @@
 
 namespace Spatie\Backup\Tests;
 
-use Carbon\Carbon;
 use DateTime;
+use ZipArchive;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use ZipArchive;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Console\Kernel;
 use Spatie\Backup\BackupServiceProvider;
@@ -136,7 +136,7 @@ abstract class TestCase extends Orchestra
 
     protected function getFullDiskPath(string $diskName, string $filePath): string
     {
-        return $this->getDiskRootPath($diskName) . DIRECTORY_SEPARATOR . $filePath;
+        return $this->getDiskRootPath($diskName).DIRECTORY_SEPARATOR.$filePath;
     }
 
     protected function getDiskRootPath(string $diskName): string

@@ -3,11 +3,11 @@
 namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Artisan;
+use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 
 class BackupCommandTest extends TestCase
@@ -76,7 +76,6 @@ class BackupCommandTest extends TestCase
 
         $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
 
-
         $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
     }
 
@@ -97,10 +96,10 @@ class BackupCommandTest extends TestCase
     {
         $tempDirectoryPath = storage_path('app/backup-temp/temp');
 
-        if (!file_exists($tempDirectoryPath)) {
+        if (! file_exists($tempDirectoryPath)) {
             mkdir($tempDirectoryPath, 0777, true);
         }
-        touch($tempDirectoryPath . DIRECTORY_SEPARATOR . 'testing-file-temp.txt');
+        touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file-temp.txt');
 
         $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
 
@@ -116,7 +115,7 @@ class BackupCommandTest extends TestCase
 
         $filename = 'testing-filename.zip';
 
-        $this->expectedZipPath = 'mysite/' . $filename;
+        $this->expectedZipPath = 'mysite/'.$filename;
 
         $this->artisan('backup:run', ['--only-files' => true, '--filename' => $filename])->assertExitCode(0);
 
