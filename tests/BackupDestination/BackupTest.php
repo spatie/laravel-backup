@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tests\BackupDestination;
 
-use Storage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
@@ -27,17 +27,15 @@ class BackupTest extends TestCase
 
         $backup = $this->getBackupForFile($fileName);
 
-        $fullPath = $this->testHelper->getTempDirectory().'/'.$backup->path();
-
         $this->assertTrue($backup->exists());
 
-        $this->assertFileExists($fullPath);
+        Storage::disk('local')->assertExists('mysite.com/test.zip');
 
         $backup->delete();
 
         $this->assertFalse($backup->exists());
 
-        $this->assertFileNotExists($fullPath);
+        Storage::disk('local')->assertMissing('mysite.com/test.zip');
     }
 
     /** @test */
@@ -45,7 +43,7 @@ class BackupTest extends TestCase
     {
         $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
 
-        $fileSize = filesize($this->testHelper->getTempDirectory().'/'.$backup->path());
+        $fileSize = Storage::disk('local')->size('mysite.com/test.zip');
 
         $this->assertSame($fileSize, $backup->size());
 
@@ -65,7 +63,7 @@ class BackupTest extends TestCase
     /** @test */
     public function it_push_backup_extra_option_to_write_stream_if_set()
     {
-        $this->app['config']->set('filesystems.disks.s3-test-backup', [
+        config()->set('filesystems.disks.s3-test-backup', [
             'driver' => 's3',
 
             'backup_options' => [
@@ -73,7 +71,7 @@ class BackupTest extends TestCase
             ],
         ]);
 
-        $this->app['config']->set('backup.backup.destination.disks', [
+        config()->set('backup.backup.destination.disks', [
             's3-test-backup',
         ]);
 
@@ -85,12 +83,12 @@ class BackupTest extends TestCase
     /** @test */
     public function it_push_empty_default_backup_extra_option_to_write_stream_if_not_set()
     {
-        $this->app['config']->set('filesystems.disks.s3-test-backup', [
+        config()->set('filesystems.disks.s3-test-backup', [
             'driver' => 'local',
 
         ]);
 
-        $this->app['config']->set('backup.backup.destination.disks', [
+        config()->set('backup.backup.destination.disks', [
             'local',
         ]);
 
@@ -99,17 +97,13 @@ class BackupTest extends TestCase
         $this->assertSame([], $backupDestination->getDiskOptions());
     }
 
-    protected function getBackupForFile(string $name, int $ageInDays = 0, string $contents = ''): Backup
+    protected function getBackupForFile(string $name, int $ageInDays = 0): Backup
     {
         $disk = Storage::disk('local');
 
         $path = 'mysite.com/'.$name;
 
-        $this->testHelper->createTempFileWithAge(
-            $path,
-            Carbon::now()->subDays($ageInDays),
-            $contents
-        );
+        $this->createFileOnDisk('local',$path, Carbon::now()->subDays($ageInDays));
 
         return new Backup($disk, $path);
     }

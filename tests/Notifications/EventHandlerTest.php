@@ -36,7 +36,7 @@ class EventHandlerTest extends TestCase
      */
     public function it_will_send_a_notification_via_the_configured_notification_channels(array $expectedChannels)
     {
-        $this->app['config']->set('backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
+        config()->set('backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
 
         $this->fireBackupHasFailedEvent();
 
