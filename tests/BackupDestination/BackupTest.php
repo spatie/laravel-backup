@@ -3,9 +3,9 @@
 namespace Spatie\Backup\Tests\BackupDestination;
 
 use Carbon\Carbon;
+use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\BackupDestination\Backup;
-use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class BackupTest extends TestCase
@@ -103,7 +103,7 @@ class BackupTest extends TestCase
 
         $path = 'mysite.com/'.$name;
 
-        $this->createFileOnDisk('local',$path, Carbon::now()->subDays($ageInDays));
+        $this->createFileOnDisk('local', $path, Carbon::now()->subDays($ageInDays));
 
         return new Backup($disk, $path);
     }

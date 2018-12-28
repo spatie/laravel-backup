@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Tests\Commands;
 
-use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Tests\TestCase;
 
 class ListCommandTest extends TestCase
