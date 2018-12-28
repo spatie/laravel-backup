@@ -77,24 +77,6 @@ abstract class TestCase extends Orchestra
         });
     }
 
-    public function assertTempFilesExist(array $files)
-    {
-        foreach ($files as $file) {
-            $path = $this->testHelper->getTempDirectory().'/'.$file;
-
-            $this->assertFileExists($path);
-        }
-    }
-
-    public function assertTempFilesNotExist(array $files)
-    {
-        foreach ($files as $file) {
-            $path = $this->testHelper->getTempDirectory().'/'.$file;
-
-            $this->assertFileNotExists($path);
-        }
-    }
-
     protected function seeInConsoleOutput($expectedText)
     {
         $consoleOutput = $this->app[Kernel::class]->output();
@@ -107,21 +89,6 @@ abstract class TestCase extends Orchestra
         $consoleOutput = $this->app[Kernel::class]->output();
 
         $this->assertNotContains($unExpectedText, $consoleOutput, "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`");
-    }
-
-    protected function assertPathExists($path)
-    {
-        $this->assertTrue($this->pathExists($path), "Failed to assert that the directory `{$path}` exists");
-    }
-
-    protected function assertPathNotExists($path)
-    {
-        $this->assertFalse($this->pathExists($path), "Failed to assert that the directory `{$path}` does not exist");
-    }
-
-    protected function pathExists($path): bool
-    {
-        return is_dir($path) && file_exists($path);
     }
 
     protected function assertFileExistsInZip(string $diskName, string $zipPath, string $fileName)
