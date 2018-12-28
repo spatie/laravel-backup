@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tests\Events;
 
-use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Tests\TestCase;
+use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 
 class CleanupWasSuccessfulTest extends TestCase

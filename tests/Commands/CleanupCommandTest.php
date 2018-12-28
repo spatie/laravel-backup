@@ -2,12 +2,12 @@
 
 namespace Spatie\Backup\Tests\Commands;
 
+use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
-use Spatie\Backup\Tests\TestCase;
 
 class CleanupCommandTest extends TestCase
 {
@@ -129,8 +129,9 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_will_never_delete_the_newest_backup()
     {
-        $backupPaths = collect(range(5,10))->map(function(int $numberOfYears) {
+        $backupPaths = collect(range(5, 10))->map(function (int $numberOfYears) {
             $date = now()->subYears($numberOfYears);
+
             return $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}.zip", $date);
         });
 
@@ -140,7 +141,7 @@ class CleanupCommandTest extends TestCase
 
         $backupPaths->shift();
 
-        $backupPaths->each(function(string $path) {
+        $backupPaths->each(function (string $path) {
             Storage::disk('local')->assertMissing($path);
         });
     }
