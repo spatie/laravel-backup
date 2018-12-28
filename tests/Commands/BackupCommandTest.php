@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tests\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
@@ -42,13 +43,10 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_can_backup_only_the_files()
     {
-        $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
+        $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
 
-        $this->assertEquals(0, $resultCode);
-
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
-
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+        Storage::disk('local')->assertExists($this->expectedZipPath);
+        Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
     }
 
     /** @test */
@@ -62,62 +60,49 @@ class BackupCommandTest extends TestCase
 
         $this->expectedZipPath = 'mysite/custom_name_2016-01-01-09-01-01.zip';
 
-        $resultCode = Artisan::call('backup:run', ['--only-files' => true]);
+        $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
 
-        $this->assertEquals(0, $resultCode);
-
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
-
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+        Storage::disk('local')->assertExists($this->expectedZipPath);
+        Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
     }
 
     /** @test */
     public function it_includes_files_from_the_local_disks_in_the_backup()
     {
-        $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
+        config()->set('backup.backup.source.files.include', [$this->getDiskRootPath('local')]);
 
-        $this->app['config']->set('backup.backup.source.files.include', [$backupDisk]);
+        Storage::disk('local')->put('testing-file.txt', 'dummy content');
 
-        touch($backupDisk.DIRECTORY_SEPARATOR.'testing-file.txt');
+        $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
 
-        Artisan::call('backup:run', ['--only-files' => true]);
-
-        $zipFullPath = $backupDisk.DIRECTORY_SEPARATOR.$this->expectedZipPath;
-        $this->assertFileExistsInZip($zipFullPath, 'testing-file.txt');
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
     }
 
     /** @test */
     public function it_excludes_the_backup_destination_from_the_backup()
     {
-        $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
+        $this->app['config']->set('backup.backup.source.files.include', [$this->getDiskRootPath('local')]);
 
-        $this->app['config']->set('backup.backup.source.files.include', [$backupDisk]);
+        Storage::disk('local')->put('mysite/testing-file.txt', 'dummy content');
 
-        mkdir($backupDisk.DIRECTORY_SEPARATOR.'mysite', 0777, true);
-        touch($backupDisk.DIRECTORY_SEPARATOR.'mysite'.DIRECTORY_SEPARATOR.'testing-file.txt');
+        $this->artisan('backup:run', ['--only-files' => true]);
 
-        Artisan::call('backup:run', ['--only-files' => true]);
-
-        $zipFullPath = $backupDisk.DIRECTORY_SEPARATOR.$this->expectedZipPath;
-        $this->assertFileDoesntExistsInZip($zipFullPath, 'testing-file.txt');
+        $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
     }
 
     /** @test */
     public function it_excludes_the_temporary_directory_from_the_backup()
     {
-        $backupDisk = $this->app['config']->get('filesystems.disks.local.root');
-
         $tempDirectoryPath = storage_path('app/backup-temp/temp');
 
         if (! file_exists($tempDirectoryPath)) {
             mkdir($tempDirectoryPath, 0777, true);
         }
-        touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file.txt');
+        touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file-temp.txt');
 
-        Artisan::call('backup:run', ['--only-files' => true]);
+        $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
 
-        $zipFullPath = $backupDisk.DIRECTORY_SEPARATOR.$this->expectedZipPath;
-        $this->assertFileDoesntExistsInZip($zipFullPath, 'testing-file.txt');
+        $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, 'testing-file-temp.txt');
     }
 
     /** @test */
@@ -131,27 +116,22 @@ class BackupCommandTest extends TestCase
 
         $this->expectedZipPath = 'mysite/'.$filename;
 
-        $resultCode = Artisan::call('backup:run', ['--only-files' => true, '--filename' => $filename]);
+        $this->artisan('backup:run', ['--only-files' => true, '--filename' => $filename])->assertExitCode(0);
 
-        $this->assertEquals(0, $resultCode);
-
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'local');
-
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+        Storage::disk('local')->assertExists($this->expectedZipPath);
+        Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
     }
 
     /** @test */
     public function it_can_backup_to_a_specific_disk()
     {
-        $resultCode = Artisan::call('backup:run', [
+        $this->artisan('backup:run', [
             '--only-files'   => true,
             '--only-to-disk' => 'secondLocal',
-        ]);
+        ])->assertExitCode(0);
 
-        $this->assertEquals(0, $resultCode);
-
-        $this->assertFileNotExistsOnDisk($this->expectedZipPath, 'local');
-        $this->assertFileExistsOnDisk($this->expectedZipPath, 'secondLocal');
+        Storage::disk('local')->assertMissing($this->expectedZipPath);
+        Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
     }
 
     /** @test */

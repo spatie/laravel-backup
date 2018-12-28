@@ -58,15 +58,8 @@ abstract class TestCase extends Orchestra
 
         config()->set('database.default', 'db1');
 
-        config()->set('filesystems.disks.local', [
-            'driver' => 'local',
-            'root' => $this->testHelper->getTempDirectory(),
-        ]);
-
-        config()->set('filesystems.disks.secondLocal', [
-            'driver' => 'local',
-            'root' => $this->testHelper->getTempDirectory().'/secondDisk',
-        ]);
+        Storage::fake('local');
+        Storage::fake('secondLocal');
 
         config()->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
     }
@@ -152,24 +145,34 @@ abstract class TestCase extends Orchestra
         return is_dir($path) && file_exists($path);
     }
 
-    protected function assertFileExistsInZip($zipPath, $filename)
+    protected function assertFileExistsInZip(string $diskName, string $zipPath, string $fileName)
     {
-        $this->assertTrue($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} contains a file name {$filename}");
+        $this->assertTrue($this->fileExistsInZip($diskName, $zipPath, $fileName), "Failed to assert that {$zipPath} contains a file name {$fileName}");
     }
 
-    protected function assertFileDoesntExistsInZip($zipPath, $filename)
+    protected function assertFileDoesntExistsInZip(string $diskName, string $zipPath, string $fileName)
     {
-        $this->assertFalse($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} doesn't contain a file name {$filename}");
+        $this->assertFalse($this->fileExistsInZip($diskName, $zipPath, $fileName), "Failed to assert that {$zipPath} doesn't contain a file name {$fileName}");
     }
 
-    protected function fileExistsInZip($zipPath, $filename): bool
+    protected function fileExistsInZip(string $diskName, string $zipPath, string $fileName): bool
     {
         $zip = new ZipArchive();
 
-        if ($zip->open($zipPath) === true) {
-            return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
+        if ($zip->open($this->getFullDiskPath($diskName, $zipPath)) === true) {
+            return $zip->locateName($fileName, ZipArchive::FL_NODIR) !== false;
         }
 
         return false;
+    }
+
+    protected function getFullDiskPath(string $diskName, string $filePath): string
+    {
+        return $this->getDiskRootPath($diskName) . DIRECTORY_SEPARATOR . $filePath;
+    }
+
+    protected function getDiskRootPath(string $diskName): string
+    {
+        return Storage::disk($diskName)->getDriver()->getAdapter()->getPathPrefix();
     }
 }
