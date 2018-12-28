@@ -3,7 +3,9 @@
 namespace Spatie\Backup\Tests\Events;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Notifications\Notifiable;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
@@ -18,22 +20,18 @@ class UnhealthyBackupWasFoundTest extends TestCase
     /** @var \Carbon\Carbon */
     protected $date;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->testHelper->initializeTempDirectory();
-    }
-
     /** @test */
     public function it_will_fire_an_event_on_failed_health_check()
     {
-        $this->fakeBackup();
-        $this->makeHealthCheckFail();
+        Event::fake();
 
-        $this->expectsEvents(UnhealthyBackupWasFound::class);
+        $this
+            ->fakeBackup()
+            ->makeHealthCheckFail()
+            ->artisan('backup:monitor')
+            ->assertExitCode(0);
 
-        Artisan::call('backup:monitor');
+        Event::assertDispatched(UnhealthyBackupWasFound::class);
     }
 
     /** @test **/
@@ -41,10 +39,10 @@ class UnhealthyBackupWasFoundTest extends TestCase
     {
         Notification::fake();
 
-        $this->fakeBackup();
-        $this->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'));
-
-        Artisan::call('backup:monitor');
+        $this
+            ->fakeBackup()
+            ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
+            ->artisan('backup:monitor')->assertExitCode(0);
 
         Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
@@ -68,10 +66,11 @@ class UnhealthyBackupWasFoundTest extends TestCase
     {
         Notification::fake();
 
-        $this->fakeBackup();
-        $this->makeHealthCheckFail();
-
-        Artisan::call('backup:monitor');
+        $this
+            ->fakeBackup()
+            ->makeHealthCheckFail()
+            ->artisan('backup:monitor')
+            ->assertExitCode(0);
 
         Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
             $slack = $notification->toSlack();
@@ -91,12 +90,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
         });
     }
 
-    protected function fakeBackup()
-    {
-        $this->testHelper->createTempFile1Mb('mysite/test1.zip', Carbon::now()->subSecond());
-    }
-
-    protected function makeHealthCheckFail(\Exception $customException = null)
+    protected function makeHealthCheckFail(Exception $customException = null)
     {
         FakeFailingHealthCheck::$reason = $customException;
 
@@ -111,6 +105,13 @@ class UnhealthyBackupWasFoundTest extends TestCase
             return str_contains($text, $string);
         };
     }
+
+    protected function fakeBackup()
+    {
+        $this->createFileOnDisk('local', 'mysite/test1.zip', now()->subSecond());
+
+        return $this;
+    }
 }
 
 class FakeFailingHealthCheck extends HealthCheck
@@ -119,6 +120,6 @@ class FakeFailingHealthCheck extends HealthCheck
 
     public function checkHealth(BackupDestination $backupDestination)
     {
-        throw (static::$reason ?: new \Exception('some exception message'));
+        throw (static::$reason ?: new Exception('dummy exception message'));
     }
 }
