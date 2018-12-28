@@ -7,6 +7,14 @@ All notable changes to `laravel-backup` will be documented in this file.
 - all config keys are now snake_cased
 - health checks have been converted to their own class
 
+## 5.12.0 - 2018-11-28
+
+- added the ability to use `backup_options` on a disk defined in the `filesystems` config file
+
+## 5.11.4 - 2018-11-27
+
+- restore lumen compatibility
+
 ## 5.11.3 - 2018-11-03
 
 - fix bugs regarding cleaning backups

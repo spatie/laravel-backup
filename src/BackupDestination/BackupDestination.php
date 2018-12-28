@@ -82,7 +82,11 @@ class BackupDestination
 
         $handle = fopen($file, 'r+');
 
-        $this->disk->getDriver()->writeStream($destination, $handle);
+        $this->disk->getDriver()->writeStream(
+            $destination,
+            $handle,
+            $this->getDiskOptions()
+        );
 
         if (is_resource($handle)) {
             fclose($handle);
@@ -111,6 +115,11 @@ class BackupDestination
     public function connectionError(): Exception
     {
         return $this->connectionError;
+    }
+
+    public function getDiskOptions(): array
+    {
+        return config("filesystems.disks.{$this->diskName()}.backup_options") ?? [];
     }
 
     public function isReachable(): bool
