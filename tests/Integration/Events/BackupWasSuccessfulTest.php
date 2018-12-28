@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tests\Integration\Events;
 
-use Spatie\Backup\Tests\Integration\TestCase;
 use Spatie\Backup\Events\BackupWasSuccessful;
+use Spatie\Backup\Tests\Integration\TestCase;
 
 class BackupWasSuccessfulTest extends TestCase
 {

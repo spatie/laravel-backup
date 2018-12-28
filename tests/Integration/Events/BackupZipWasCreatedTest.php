@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tests\Integration\Events;
 
-use Spatie\Backup\Tests\Integration\TestCase;
 use Spatie\Backup\Events\BackupZipWasCreated;
+use Spatie\Backup\Tests\Integration\TestCase;
 
 class BackupZipWasCreatedTest extends TestCase
 {
