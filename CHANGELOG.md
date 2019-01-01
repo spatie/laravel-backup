@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.0.1 - 2019-01-01
+
+- fix `monitor_backups.name` default config value
+
 ## 6.0.0 - 2018-12-29
 
 - all config keys are now snake_cased
