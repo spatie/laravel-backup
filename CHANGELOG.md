@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.0.3 - 2019-01-03
+
+- set default backup name
+
 ## 6.0.2 - 2019-01-03
 
 - set default backup name
