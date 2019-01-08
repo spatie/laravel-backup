@@ -102,13 +102,9 @@ class CleanupCommandTest extends TestCase
 
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        $expectedRemainingBackups->each(function ($path) {
-            Storage::disk('local')->assertExists($path);
-        });
-
-        $expectedDeletedBackups->each(function ($path) {
-            Storage::disk('local')->assertMissing($path);
-        });
+        Storage::disk('local')
+            ->assertExists($expectedRemainingBackups->toArray())
+            ->assertMissing($expectedDeletedBackups->toArray());
     }
 
     /** @test */
