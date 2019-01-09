@@ -229,7 +229,12 @@ class BackupJob
 
             $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
 
-            $fileName = "{$dbType}-{$dbName}.sql";
+	        if ($dbDumper instanceof MongoDb) {
+		        $fileName = "{$dbType}-{$dbName}";
+	        }else{
+		        $fileName = "{$dbType}-{$dbName}.sql";
+	        }
+
 
             if (config('backup.backup.gzip_database_dump')) {
                 $dbDumper->useCompressor(new GzipCompressor());
