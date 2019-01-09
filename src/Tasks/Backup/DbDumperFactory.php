@@ -32,6 +32,10 @@ class DbDumperFactory
             $dbDumper->setDefaultCharacterSet($dbConfig['charset'] ?? '');
         }
 
+	    if ($dbDumper instanceof MongoDb) {
+		    $dbDumper->setAuthenticationDatabase(config("backup.backup.mongodb_user_auth") ?? '');
+	    }
+
         if (isset($dbConfig['port'])) {
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
         }
