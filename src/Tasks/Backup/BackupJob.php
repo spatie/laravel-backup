@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Exception;
 use Carbon\Carbon;
+use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\DbDumper;
 use Illuminate\Support\Collection;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -230,7 +231,7 @@ class BackupJob
             $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
 
 	        if ($dbDumper instanceof MongoDb) {
-		        $fileName = "{$dbType}-{$dbName}";
+		        $fileName = "{$dbType}-{$dbName}.archive";
 	        }else{
 		        $fileName = "{$dbType}-{$dbName}.sql";
 	        }
