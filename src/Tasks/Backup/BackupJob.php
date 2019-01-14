@@ -229,7 +229,7 @@ class BackupJob
             $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
 
             $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
-	        $fileName = $dbDumper instanceof MongoDb ? "{$dbType}-{$dbName}.archive" : "{$dbType}-{$dbName}.sql";
+	        $fileName = "{$dbType}-{$dbName}.{$this->getExtension($dbDumper)}";
 	        
             if (config('backup.backup.gzip_database_dump')) {
                 $dbDumper->useCompressor(new GzipCompressor());
@@ -274,4 +274,13 @@ class BackupJob
             event($notification);
         }
     }
+
+	/**
+	 * @param $dbDumper
+	 *
+	 * @return string
+	 */
+	protected function getExtension($dbDumper) {
+		return $dbDumper instanceof MongoDb ? "archive" : "sql";
+	}
 }
