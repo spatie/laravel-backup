@@ -229,14 +229,8 @@ class BackupJob
             $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
 
             $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
-
-	        if ($dbDumper instanceof MongoDb) {
-		        $fileName = "{$dbType}-{$dbName}.archive";
-	        }else{
-		        $fileName = "{$dbType}-{$dbName}.sql";
-	        }
-
-
+	        $fileName = $dbDumper instanceof MongoDb ? "{$dbType}-{$dbName}.archive" : "{$dbType}-{$dbName}.sql";
+	        
             if (config('backup.backup.gzip_database_dump')) {
                 $dbDumper->useCompressor(new GzipCompressor());
                 $fileName .= '.'.$dbDumper->getCompressorExtension();
