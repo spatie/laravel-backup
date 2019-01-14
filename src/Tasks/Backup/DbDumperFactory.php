@@ -33,7 +33,7 @@ class DbDumperFactory
         }
 
 	    if ($dbDumper instanceof MongoDb) {
-		    $dbDumper->setAuthenticationDatabase(config("backup.backup.mongodb_user_auth") ?? '');
+		    $dbDumper->setAuthenticationDatabase(config('database.connections.mongodb.dump.mongodb_user_auth') ?? '');
 	    }
 
         if (isset($dbConfig['port'])) {
