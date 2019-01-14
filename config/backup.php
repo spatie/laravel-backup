@@ -60,7 +60,7 @@ return [
                 'mysql',
             ],
         ],
-        'mongodb_user_auth' => env('MONGO_DB_AUTH', 'admin'),
+
         /*
          * The database dump can be compressed to decrease diskspace usage.
          *
