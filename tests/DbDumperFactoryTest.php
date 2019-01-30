@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Tests;
 
-use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\Backup\Tasks\Backup\DbDumperFactory;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
@@ -25,22 +25,22 @@ class DbDumperFactoryTest extends TestCase
             'database' => 'myDb',
             'dump' => ['add_extra_option' => '--extra-option=value'],
         ]);
-	    $dbConfig = [
-		    'driver'   => 'mongodb',
-		    'host'     => 'localhost',
-		    'port'     => 27017,
-		    'database' => 'myDb',
-		    'username' => 'root',
-		    'password' => 'myPassword',
-		    'options'  => [
-			    'database' => 'admin' // sets the authentication database required by mongo 3
-		    ],
-		    'dump' => [
-			    'mongodb_user_auth' => 'admin'
-		    ]
-	    ];
-	    config()->set('database.connections.mongodb', $dbConfig);
-	    config()->set('backup.backup.mongodb_user_auth', 'admin');
+        $dbConfig = [
+            'driver'   => 'mongodb',
+            'host'     => 'localhost',
+            'port'     => 27017,
+            'database' => 'myDb',
+            'username' => 'root',
+            'password' => 'myPassword',
+            'options'  => [
+                'database' => 'admin', // sets the authentication database required by mongo 3
+            ],
+            'dump' => [
+                'mongodb_user_auth' => 'admin',
+            ],
+        ];
+        config()->set('database.connections.mongodb', $dbConfig);
+        config()->set('backup.backup.mongodb_user_auth', 'admin');
     }
 
     /** @test */
@@ -62,23 +62,23 @@ class DbDumperFactoryTest extends TestCase
         $this->assertInstanceOf(Sqlite::class, DbDumperFactory::createFromConnection('sqlite'));
     }
 
-	/** @test */
-	public function it_can_create_mongodb_instance()
-	{
-		$dbConfig = [
-			'driver'   => 'mongodb',
-			'host'     => 'localhost',
-			'port'     => 27017,
-			'database' => 'myDb',
-			'username' => 'root',
-			'password' => 'myPassword',
-			'options'  => [
-				'database' => 'admin' // sets the authentication database required by mongo 3
-			]
-		];
-		config()->set('database.connections.mongodb', $dbConfig);
-		$this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mongodb'));
-	}
+    /** @test */
+    public function it_can_create_mongodb_instance()
+    {
+        $dbConfig = [
+            'driver'   => 'mongodb',
+            'host'     => 'localhost',
+            'port'     => 27017,
+            'database' => 'myDb',
+            'username' => 'root',
+            'password' => 'myPassword',
+            'options'  => [
+                'database' => 'admin', // sets the authentication database required by mongo 3
+            ],
+        ];
+        config()->set('database.connections.mongodb', $dbConfig);
+        $this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mongodb'));
+    }
 
     /** @test */
     public function it_will_use_the_read_db_when_one_is_defined()
