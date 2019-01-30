@@ -32,9 +32,9 @@ class DbDumperFactory
             $dbDumper->setDefaultCharacterSet($dbConfig['charset'] ?? '');
         }
 
-	    if ($dbDumper instanceof MongoDb) {
-		    $dbDumper->setAuthenticationDatabase(config('database.connections.mongodb.dump.mongodb_user_auth') ?? '');
-	    }
+        if ($dbDumper instanceof MongoDb) {
+            $dbDumper->setAuthenticationDatabase(config('database.connections.mongodb.dump.mongodb_user_auth') ?? '');
+        }
 
         if (isset($dbConfig['port'])) {
             $dbDumper = $dbDumper->setPort($dbConfig['port']);
