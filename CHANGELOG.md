@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.0.4 - 2019-01-30
+
+- fix mongo auth error
+- fix mongo export extension
+
 ## 6.0.3 - 2019-01-03
 
 - set default backup name

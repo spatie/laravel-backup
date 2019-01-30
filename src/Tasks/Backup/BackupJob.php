@@ -229,6 +229,7 @@ class BackupJob
             $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
 
             $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
+
 	        $fileName = "{$dbType}-{$dbName}.{$this->getExtension($dbDumper)}";
 	        
             if (config('backup.backup.gzip_database_dump')) {
@@ -275,12 +276,10 @@ class BackupJob
         }
     }
 
-	/**
-	 * @param $dbDumper
-	 *
-	 * @return string
-	 */
-	protected function getExtension($dbDumper) {
-		return $dbDumper instanceof MongoDb ? "archive" : "sql";
+
+	protected function getExtension(DbDumper $dbDumper): string {
+		return $dbDumper instanceof MongoDb
+            ? 'archive'
+            : 'sql';
 	}
 }

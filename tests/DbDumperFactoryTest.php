@@ -17,30 +17,20 @@ class DbDumperFactoryTest extends TestCase
 
         config()->set('database.default', 'mysql');
 
-        config()->set('database.connections.mysql', [
-            'driver' => 'mysql',
-            'host' => 'localhost',
+	    config()->set('database.connections.mongodb', [
+            'driver'   => 'mongodb',
+            'host'     => 'localhost',
+            'port'     => 27017,
+            'database' => 'myDb',
             'username' => 'root',
             'password' => 'myPassword',
-            'database' => 'myDb',
-            'dump' => ['add_extra_option' => '--extra-option=value'],
+            'options'  => [
+                'database' => 'admin'
+            ],
+            'dump' => [
+                'mongodb_user_auth' => 'admin'
+            ]
         ]);
-	    $dbConfig = [
-		    'driver'   => 'mongodb',
-		    'host'     => 'localhost',
-		    'port'     => 27017,
-		    'database' => 'myDb',
-		    'username' => 'root',
-		    'password' => 'myPassword',
-		    'options'  => [
-			    'database' => 'admin' // sets the authentication database required by mongo 3
-		    ],
-		    'dump' => [
-			    'mongodb_user_auth' => 'admin'
-		    ]
-	    ];
-	    config()->set('database.connections.mongodb', $dbConfig);
-	    config()->set('backup.backup.mongodb_user_auth', 'admin');
     }
 
     /** @test */
