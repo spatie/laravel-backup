@@ -4,10 +4,10 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Exception;
 use Carbon\Carbon;
-use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\DbDumper;
 use Illuminate\Support\Collection;
 use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -230,8 +230,8 @@ class BackupJob
 
             $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
 
-	        $fileName = "{$dbType}-{$dbName}.{$this->getExtension($dbDumper)}";
-	        
+            $fileName = "{$dbType}-{$dbName}.{$this->getExtension($dbDumper)}";
+
             if (config('backup.backup.gzip_database_dump')) {
                 $dbDumper->useCompressor(new GzipCompressor());
                 $fileName .= '.'.$dbDumper->getCompressorExtension();
@@ -276,10 +276,10 @@ class BackupJob
         }
     }
 
-
-	protected function getExtension(DbDumper $dbDumper): string {
-		return $dbDumper instanceof MongoDb
+    protected function getExtension(DbDumper $dbDumper): string
+    {
+        return $dbDumper instanceof MongoDb
             ? 'archive'
             : 'sql';
-	}
+    }
 }
