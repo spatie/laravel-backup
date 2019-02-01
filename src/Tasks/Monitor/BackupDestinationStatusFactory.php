@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Monitor;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
@@ -28,7 +29,7 @@ class BackupDestinationStatusFactory
 
     protected static function buildHealthChecks($monitorConfig)
     {
-        return collect(array_get($monitorConfig, 'health_checks'))->map(function ($options, $class) {
+        return collect(Arr::get($monitorConfig, 'health_checks'))->map(function ($options, $class) {
             if (is_int($class)) {
                 $class = $options;
                 $options = [];

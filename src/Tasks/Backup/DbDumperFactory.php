@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Spatie\DbDumper\DbDumper;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -16,14 +18,14 @@ class DbDumperFactory
         $dbConfig = config("database.connections.{$dbConnectionName}");
 
         if (isset($dbConfig['read'])) {
-            $dbConfig = array_except(
+            $dbConfig = Arr::except(
                 array_merge($dbConfig, $dbConfig['read']),
                 ['read', 'write']
             );
         }
 
         $dbDumper = static::forDriver($dbConfig['driver'])
-            ->setHost(array_first(array_wrap($dbConfig['host'] ?? '')))
+            ->setHost(Arr::first(Arr::wrap($dbConfig['host'] ?? '')))
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'] ?? '')
             ->setPassword($dbConfig['password'] ?? '');
@@ -73,7 +75,7 @@ class DbDumperFactory
     protected static function processExtraDumpParameters(array $dumpConfiguration, DbDumper $dbDumper): DbDumper
     {
         collect($dumpConfiguration)->each(function ($configValue, $configName) use ($dbDumper) {
-            $methodName = lcfirst(studly_case(is_numeric($configName) ? $configValue : $configName));
+            $methodName = lcfirst(Str::studly(is_numeric($configName) ? $configValue : $configName));
             $methodValue = is_numeric($configName) ? null : $configValue;
 
             $methodName = static::determineValidMethodName($dbDumper, $methodName);
