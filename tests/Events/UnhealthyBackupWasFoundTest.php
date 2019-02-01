@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tests\Events;
 
 use Exception;
+use Illuminate\Support\Str;
 use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Notifications\Notifiable;
@@ -98,7 +99,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
     protected function searchString($string)
     {
         return function ($text) use ($string) {
-            return str_contains($text, $string);
+            return Str::contains($text, $string);
         };
     }
 
