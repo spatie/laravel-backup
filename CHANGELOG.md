@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.0.5 - 2019-02-01
+
+- use Str:: and Arr:: instead of helper methods
+
 ## 6.0.4 - 2019-01-30
 
 - fix mongo auth error
