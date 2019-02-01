@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use ZipArchive;
+use Illuminate\Support\Str;
 use Spatie\Backup\Helpers\Format;
 
 class Zip
@@ -37,7 +38,7 @@ class Zip
 
         $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME);
 
-        if (starts_with($fileDirectory, $zipDirectory)) {
+        if (Str::startsWith($fileDirectory, $zipDirectory)) {
             return str_replace($zipDirectory, '', $pathToFile);
         }
 

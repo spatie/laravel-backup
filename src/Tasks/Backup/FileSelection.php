@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
 
@@ -111,7 +112,7 @@ class FileSelection
     protected function shouldExclude(string $path): bool
     {
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (starts_with(realpath($path), $excludedPath)) {
+            if (Str::startsWith(realpath($path), $excludedPath)) {
                 return true;
             }
         }
