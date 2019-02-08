@@ -6,7 +6,7 @@ return [
     'exception_message_title' => 'Exception message',
     'exception_trace_title' => 'Exception trace',
 
-    'backup_failed_subject' => 'Failed back up of :application_name',
+    'backup_failed_subject' => 'Failed backup of :application_name',
     'backup_failed_body' => 'Important: An error occurred while backing up :application_name',
 
     'backup_successful_subject' => 'Successful new backup of :application_name',
