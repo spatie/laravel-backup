@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.0.6 - 2019-02-21
+
+- add Czech translations
+
 ## 6.0.5 - 2019-02-01
 
 - use Str:: and Arr:: instead of helper methods
