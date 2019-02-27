@@ -44,7 +44,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_can_backup_only_the_files()
     {
-        $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
 
         Storage::disk('local')->assertExists($this->expectedZipPath);
         Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
@@ -74,7 +74,7 @@ class BackupCommandTest extends TestCase
 
         Storage::disk('local')->put('testing-file.txt', 'dummy content');
 
-        $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
 
         $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
     }
@@ -86,7 +86,7 @@ class BackupCommandTest extends TestCase
 
         Storage::disk('local')->put('mysite/testing-file.txt', 'dummy content');
 
-        $this->artisan('backup:run', ['--only-files' => true]);
+        $this->artisan('backup:run --only-files');
 
         $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
     }
@@ -101,7 +101,7 @@ class BackupCommandTest extends TestCase
         }
         touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file-temp.txt');
 
-        $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
 
         $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, 'testing-file-temp.txt');
     }
@@ -126,10 +126,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_can_backup_to_a_specific_disk()
     {
-        $this->artisan('backup:run', [
-            '--only-files' => true,
-            '--only-to-disk' => 'secondLocal',
-        ])->assertExitCode(0);
+        $this->artisan('backup:run --only-files --only-to-disk=secondLocal')->assertExitCode(0);
 
         Storage::disk('local')->assertMissing($this->expectedZipPath);
         Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
@@ -139,35 +136,25 @@ class BackupCommandTest extends TestCase
     public function it_can_selectively_backup_db()
     {
         $this
-            ->artisan('backup:run', [
-                '--only-db' => true,
-                '--db-name' => ['db1'],
-            ])
+            ->artisan('backup:run --only-db --db-name=db1')
             ->assertExitCode(0);
         Storage::disk('local')->assertExists($this->expectedZipPath);
 
         $this
-            ->artisan('backup:run', [
-                '--only-db' => true,
-                '--db-name' => ['db2'],
-            ])->assertExitCode(0);
-
-        Storage::disk('local')->assertExists($this->expectedZipPath);
-
-        $this
-            ->artisan('backup:run', [
-                '--only-db' => true,
-                '--db-name' => ['db1', 'db2'],
-            ])
+            ->artisan('backup:run --only-db --db-name=db2')
             ->assertExitCode(0);
 
         Storage::disk('local')->assertExists($this->expectedZipPath);
 
         $this
-            ->artisan('backup:run', [
-                '--only-db' => true,
-                '--db-name' => ['wrongname'],
-            ])
+            ->artisan('backup:run --only-db --db-name=db1 --db-name=db2')
+            ->assertExitCode(0);
+
+        Storage::disk('local')->assertExists($this->expectedZipPath);
+
+        $this
+            ->artisan('backup:run --only-db --db-name=wrongName')
+
             ->assertExitCode(1);
     }
 
@@ -181,9 +168,8 @@ class BackupCommandTest extends TestCase
 
         $this->expectedZipPath = 'mysite/2016-01-01-09-01-01.zip';
 
-        $this
-            ->artisan('backup:run', ['--only-files' => true])
-            ->assertExitCode(0);
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
+
 
         Storage::disk('local')->assertExists($this->expectedZipPath);
         Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
@@ -195,9 +181,7 @@ class BackupCommandTest extends TestCase
 
         $this->expectedZipPath = 'mysite/2016-01-01-21-01-01.zip';
 
-        $this
-            ->artisan('backup:run', ['--only-files' => true])
-            ->assertExitCode(0);
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
 
         Storage::disk('local')->assertExists($this->expectedZipPath);
         Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
@@ -206,10 +190,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_will_fail_when_try_to_backup_only_the_files_and_only_the_db()
     {
-        $resultCode = Artisan::call('backup:run', [
-            '--only-files' => true,
-            '--only-db' => true,
-        ]);
+        $resultCode = Artisan::call('backup:run --only-files --only-db');
 
         $this->assertEquals(1, $resultCode);
 
@@ -223,10 +204,7 @@ class BackupCommandTest extends TestCase
     public function it_will_fail_when_trying_to_backup_a_non_existing_database()
     {
         //use an invalid db name to trigger failure
-        Artisan::call('backup:run', [
-            '--only-db' => true,
-            '--db-name' => ['wrongname'],
-        ]);
+        Artisan::call('backup:run --only-files --only-db --db-name=wrongName');
 
         $this->seeInConsoleOutput('Backup failed');
     }
@@ -234,9 +212,8 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_will_fail_when_trying_to_backup_to_an_non_existing_diskname()
     {
-        $resultCode = Artisan::call('backup:run', [
-            '--only-to-disk' => 'non existing disk',
-        ]);
+        $resultCode = Artisan::call('backup:run --only-to-disk=non-exisiting-disk');
+
 
         $this->assertEquals(1, $resultCode);
 
@@ -264,7 +241,7 @@ class BackupCommandTest extends TestCase
 
         $this->setUpDatabase($this->app);
 
-        $this->artisan('backup:run', ['--only-db' => true])->assertExitCode(0);
+        $this->artisan('backup:run --only-db')->assertExitCode(0);
 
         $this->assertFileExistsInZip('local', $this->expectedZipPath, 'sqlite-database.sql');
 
@@ -281,12 +258,7 @@ class BackupCommandTest extends TestCase
     public function it_should_trigger_the_backup_failed_event()
     {
         // use an invalid dbname to trigger failure
-        $this
-            ->artisan('backup:run', [
-            '--db-name' => ['wrongname'],
-            '--only-db' => true,
-        ])
-        ->assertExitCode(1);
+        $this->artisan('backup:run --only-db --db-name=wrongName')->assertExitCode(1);
 
         Event::assertDispatched(BackupHasFailed::class);
     }
@@ -295,13 +267,7 @@ class BackupCommandTest extends TestCase
     public function it_should_omit_the_backup_failed_event_with_no_notifications_flag()
     {
         //use an invalid dbname to trigger failure
-        $this
-            ->artisan('backup:run', [
-            '--only-db' => true,
-            '--db-name' => ['wrongname'],
-            '--disable-notifications' => true,
-        ])
-        ->assertExitCode(1);
+        $this->artisan('backup:run --only-db --db-name=wrongName --disable-notifications')->assertExitCode(1);
 
         Event::assertNotDispatched(BackupHasFailed::class);
     }
@@ -314,9 +280,7 @@ class BackupCommandTest extends TestCase
 
         $this->setUpDatabase($this->app);
 
-        $this
-            ->artisan('backup:run', ['--only-db' => true])
-            ->assertExitCode(0);
+        $this->artisan('backup:run --only-db')->assertExitCode(0);
 
         $this->assertFileExistsInZip('local', $this->expectedZipPath, 'sqlite-database.sql.gz');
 

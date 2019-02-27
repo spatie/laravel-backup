@@ -45,7 +45,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
 
         Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
-            $this->assertContains($msg, $slack->content);
+            $this->assertStringContainsString($msg, $slack->content);
             $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
             $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
             $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
@@ -73,7 +73,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
 
         Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
             $slack = $notification->toSlack();
-            $this->assertContains(trans('backup::notifications.unhealthy_backup_found_unknown'), $slack->content);
+            $this->assertStringContainsString(trans('backup::notifications.unhealthy_backup_found_unknown'), $slack->content);
             $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
             $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
             $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));

@@ -137,7 +137,7 @@ class DbDumperFactoryTest extends TestCase
 
         config()->set('database.connections.mysql.dump', $dumpConfig);
 
-        $this->assertContains('--single-transaction', $this->getDumpCommand());
+        $this->assertStringContainsString('--single-transaction', $this->getDumpCommand());
     }
 
     /** @test */
@@ -147,7 +147,7 @@ class DbDumperFactoryTest extends TestCase
 
         config()->set('database.connections.mysql.dump', $dumpConfig);
 
-        $this->assertContains(implode(' ', $dumpConfig['include_tables']), $this->getDumpCommand());
+        $this->assertStringContainsString(implode(' ', $dumpConfig['include_tables']), $this->getDumpCommand());
     }
 
     /** @test */
@@ -157,7 +157,7 @@ class DbDumperFactoryTest extends TestCase
 
         config()->set('database.connections.mysql.dump', $dumpConfig);
 
-        $this->assertContains($dumpConfig['add_extra_option'], $this->getDumpCommand());
+        $this->assertStringContainsString($dumpConfig['add_extra_option'], $this->getDumpCommand());
     }
 
     protected function getDumpCommand(): string

@@ -155,7 +155,7 @@ class CleanupCommandTest extends TestCase
     /** @test */
     public function it_should_omit_the_cleanup_successful_event_when_the_notifications_are_disabled()
     {
-        $this->artisan('backup:clean', ['--disable-notifications' => true])->assertExitCode(0);
+        $this->artisan('backup:clean --disable-notifications')->assertExitCode(0);
 
         Event::assertNotDispatched(CleanupWasSuccessful::class);
     }
