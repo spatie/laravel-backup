@@ -9,7 +9,7 @@ use Spatie\Backup\Events\UnhealthyBackupWasFound;
 
 class IsReachableTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

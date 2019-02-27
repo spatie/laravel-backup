@@ -13,7 +13,7 @@ class ManifestTest extends TestCase
     /** @var \Spatie\Backup\Tasks\Backup\Manifest */
     protected $manifest;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -12,7 +12,7 @@ class ZipTest extends TestCase
     /** @var \Spatie\Backup\Tasks\Backup\Zip */
     protected $zip;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -11,7 +11,7 @@ use Spatie\Backup\Events\CleanupWasSuccessful;
 
 class CleanupCommandTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

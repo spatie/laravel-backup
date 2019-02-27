@@ -8,7 +8,7 @@ use Spatie\Backup\Events\BackupHasFailed;
 
 class BackupHasFailedTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

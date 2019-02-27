@@ -11,7 +11,7 @@ use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
 
 class MaximumAgeInDaysTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

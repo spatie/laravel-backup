@@ -9,7 +9,7 @@ class FileSelectionTest extends TestCase
     /** @string */
     protected $sourceDirectory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
