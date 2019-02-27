@@ -31,7 +31,7 @@
         "symfony/finder": "^4.2"
     },
     "require-dev": {
-        "laravel/slack-notification-channel": "^2.0",
+        "laravel/slack-notification-channel": "^1.0|^2.0",
         "mockery/mockery": "^1.0",
         "orchestra/testbench": "~3.7.0|~3.8.0",
         "phpunit/phpunit": "^7.5"
