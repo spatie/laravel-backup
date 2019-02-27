@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.1.1 - 2019-02-27
+
+- fix translation
+
 ## 6.1.0 - 2019-02-27
 
 - add support for Laravel 5.8
