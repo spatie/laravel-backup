@@ -170,7 +170,6 @@ class BackupCommandTest extends TestCase
 
         $this->artisan('backup:run --only-files')->assertExitCode(0);
 
-
         Storage::disk('local')->assertExists($this->expectedZipPath);
         Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
 
@@ -213,7 +212,6 @@ class BackupCommandTest extends TestCase
     public function it_will_fail_when_trying_to_backup_to_an_non_existing_diskname()
     {
         $resultCode = Artisan::call('backup:run --only-to-disk=non-exisiting-disk');
-
 
         $this->assertEquals(1, $resultCode);
 
