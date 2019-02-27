@@ -12,7 +12,7 @@ use Spatie\Backup\Notifications\Notifications\BackupHasFailed as BackupHasFailed
 
 class EventHandlerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

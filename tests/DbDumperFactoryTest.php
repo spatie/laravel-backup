@@ -11,7 +11,7 @@ use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
 class DbDumperFactoryTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

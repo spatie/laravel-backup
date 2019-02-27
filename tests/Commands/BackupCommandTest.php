@@ -18,7 +18,7 @@ class BackupCommandTest extends TestCase
     /** @var string */
     protected $expectedZipPath;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
