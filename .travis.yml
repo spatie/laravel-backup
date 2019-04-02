@@ -1,26 +1,27 @@
 language: php
 
-php:
-  - 7.2
-  - 7.3
-
-sudo: false
-
 cache:
   directories:
     - $HOME/.composer/cache
 
-env:
-  matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS=""
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.2
+      env: LARAVEL='5.8.*' TESTBENCH='3.8.*' COMPOSER_FLAGS='--prefer-lowest'
+    - php: 7.2
+      env: LARAVEL='5.8.*' TESTBENCH='3.8.*' COMPOSER_FLAGS='--prefer-stable'
+    - php: 7.3
+      env: LARAVEL='5.8.*' TESTBENCH='3.8.*' COMPOSER_FLAGS='--prefer-lowest'
+    - php: 7.3
+      env: LARAVEL='5.8.*' TESTBENCH='3.8.*' COMPOSER_FLAGS='--prefer-stable'
 
-before_script:
+before_install:
   - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+  - travis_retry composer require --no-update --no-interaction "illuminate/support:${LARAVEL}" "orchestra/testbench:${TESTBENCH}"
+
+install:
+  - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction --no-suggest
 
 script:
-  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
-after_script:
-  - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+  - vendor/bin/phpunit
