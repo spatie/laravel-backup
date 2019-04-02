@@ -90,14 +90,12 @@ class DbDumperFactory
 
     protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, $methodValue): DbDumper
     {
-        if (! $methodValue) {
+       if ($methodValue) {
+            $dbDumper->$methodName($methodValue);
+        } else {
             $dbDumper->$methodName();
-
-            return $dbDumper;
         }
-
-        $dbDumper->$methodName($methodValue);
-
+        
         return $dbDumper;
     }
 
