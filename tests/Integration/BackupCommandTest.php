@@ -276,7 +276,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_appends_the_database_type_to_backup_file_name_to_prevent_overwrite()
     {
-        $this->app['config']->set('backup.backup.source.databases', ['sqlite']);
+        $this->app['config']->set('backup.backup.source.databases', ['db1', 'db2']);
 
         $this->setUpDatabase($this->app);
 
@@ -286,11 +286,13 @@ class BackupCommandTest extends TestCase
 
         $backupDiskLocal = $this->app['config']->get('filesystems.disks.local.root');
         $backupFileLocal = $backupDiskLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
-        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-database.sql');
+        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-db1-database.sql');
+        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-db2-database.sql');
 
         $backupDiskSecondLocal = $this->app['config']->get('filesystems.disks.secondLocal.root');
         $backupFileSecondLocal = $backupDiskSecondLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
-        $this->assertFileExistsInZip($backupFileSecondLocal, 'sqlite-database.sql');
+        $this->assertFileExistsInZip($backupFileSecondLocal, 'sqlite-db1-database.sql');
+        $this->assertFileExistsInZip($backupFileSecondLocal, 'sqlite-db2-database.sql');
 
         /*
          * Close the database connection to unlock the sqlite file for deletion.
@@ -338,7 +340,7 @@ class BackupCommandTest extends TestCase
 
         $backupDiskLocal = $this->app['config']->get('filesystems.disks.local.root');
         $backupFileLocal = $backupDiskLocal.DIRECTORY_SEPARATOR.$this->expectedZipPath;
-        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-database.sql.gz');
+        $this->assertFileExistsInZip($backupFileLocal, 'sqlite-sqlite-database.sql.gz');
 
         /*
          * Close the database connection to unlock the sqlite file for deletion.

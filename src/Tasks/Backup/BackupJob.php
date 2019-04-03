@@ -222,12 +222,15 @@ class BackupJob
      */
     protected function dumpDatabases(): array
     {
-        return $this->dbDumpers->map(function (DbDumper $dbDumper) {
+        return $this->dbDumpers->map(function (DbDumper $dbDumper, $key) {
             consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
             $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
 
-            $dbName = $dbDumper instanceof Sqlite ? 'database' : $dbDumper->getDbName();
+            $dbName = $dbDumper->getDbName();
+            if ($dbDumper instanceof Sqlite) {
+                $dbName = $key.'-database';
+            }
 
             $fileName = "{$dbType}-{$dbName}.sql";
 
