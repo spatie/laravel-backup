@@ -235,15 +235,17 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_appends_the_database_type_to_backup_file_name_to_prevent_overwrite()
     {
-        config()->set('backup.backup.source.databases', ['sqlite']);
+        config()->set('backup.backup.source.databases', ['db1', 'db2']);
 
         $this->setUpDatabase($this->app);
 
         $this->artisan('backup:run --only-db')->assertExitCode(0);
 
-        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'sqlite-database.sql');
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'sqlite-db1-database.sql');
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'sqlite-db2-database.sql');
 
-        $this->assertFileExistsInZip('secondLocal', $this->expectedZipPath, 'sqlite-database.sql');
+        $this->assertFileExistsInZip('secondLocal', $this->expectedZipPath, 'sqlite-db1-database.sql');
+        $this->assertFileExistsInZip('secondLocal', $this->expectedZipPath, 'sqlite-db2-database.sql');
 
         /*
          * Close the database connection to unlock the sqlite file for deletion.
@@ -280,7 +282,7 @@ class BackupCommandTest extends TestCase
 
         $this->artisan('backup:run --only-db')->assertExitCode(0);
 
-        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'sqlite-database.sql.gz');
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'sqlite-sqlite-database.sql.gz');
 
         /*
          * Close the database connection to unlock the sqlite file for deletion.
