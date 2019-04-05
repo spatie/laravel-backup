@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.1.2 - 2019-04-05
+
+- fix naming bug when dumping multiple sqlite db's
+
 ## 6.1.1 - 2019-02-27
 
 - fix translation
