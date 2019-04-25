@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.2.0 - 2019-04-25
+
+- add support to add custom dumpers to DbDumperFactory (#900)
+
 ## 6.1.2 - 2019-04-05
 
 - fix naming bug when dumping multiple sqlite db's
