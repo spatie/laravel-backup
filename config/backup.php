@@ -10,6 +10,11 @@ return [
          */
         'name' => env('APP_NAME', 'laravel-backup'),
 
+        /*
+        * Password protect the zip, no password will be used if the password is null or a empty string.
+        */
+        'password' => null,
+
         'source' => [
 
             'files' => [

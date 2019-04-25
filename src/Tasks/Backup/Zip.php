@@ -17,11 +17,16 @@ class Zip
     /** @var string */
     protected $pathToZip;
 
+    /** @var string */
+    protected $password;
+
     public static function createForManifest(Manifest $manifest, string $pathToZip): self
     {
         $zip = new static($pathToZip);
 
         $zip->open();
+
+        $zip->setPassword(config('backup.backup.password', null));
 
         foreach ($manifest->files() as $file) {
             $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
@@ -43,6 +48,11 @@ class Zip
         }
 
         return $pathToFile;
+    }
+
+    public static function formatZipFilename(string $filename): string
+    {
+        return ltrim($filename, DIRECTORY_SEPARATOR);
     }
 
     public function __construct(string $pathToZip)
@@ -84,6 +94,35 @@ class Zip
     }
 
     /**
+     * @param string|null $password
+     * @return Zip
+     */
+    public function setPassword(?string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @param string $nameInZip
+     *
+     * @return Zip
+     */
+    protected function passwordProtectFile(string $nameInZip): self
+    {
+        if (empty($this->password)) {
+            return $this;
+        }
+
+        if (!$this->zipFile->setEncryptionName($nameInZip, ZipArchive::EM_AES_256, $this->password)) {
+            consoleOutput()->warn('Cannot password protect ' . $nameInZip);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param string|array $files
      * @param string $nameInZip
      *
@@ -101,7 +140,11 @@ class Zip
 
         foreach ($files as $file) {
             if (file_exists($file)) {
-                $this->zipFile->addFile($file, ltrim($nameInZip, DIRECTORY_SEPARATOR)).PHP_EOL;
+                $localName = self::formatZipFilename($nameInZip ?? $file);
+
+                if ($this->zipFile->addFile($file, $localName).PHP_EOL) {
+                    $this->passwordProtectFile($localName);
+                }
             }
             $this->fileCount++;
         }

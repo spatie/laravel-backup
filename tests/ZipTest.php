@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tests;
 
 use Spatie\Backup\Tasks\Backup\Zip;
+use ZipArchive;
 
 class ZipTest extends TestCase
 {
@@ -41,5 +42,33 @@ class ZipTest extends TestCase
         $this->zip->close();
 
         $this->assertNotEquals(0, $this->zip->size());
+    }
+
+    /** @test */
+    public function it_can_password_protect_a_zip_file()
+    {
+        $this->zip->setPassword('password');
+
+        $this->zip->add(__FILE__);
+
+        $this->zip->close();
+
+        $zipToTest = new ZipArchive($this->pathToZip);
+        $zipFilename = Zip::formatZipFilename(__FILE__);
+
+        $this->assertTrue($zipToTest->open($this->pathToZip));
+
+        // Check if we cannot read the file because no password is given
+        $this->assertFalse($zipToTest->getFromName($zipFilename));
+        $this->assertEquals('No password provided', $zipToTest->getStatusString());
+
+        // Check if we cannot read the file because a invalid password is given
+        $zipToTest->setPassword('invalid password');
+        $this->assertFalse($zipToTest->getFromName($zipFilename));
+        $this->assertEquals('Wrong password provided', $zipToTest->getStatusString());
+
+        // Check if we cannot read the file because a invalid password is given
+        $zipToTest->setPassword('password');
+        $this->assertNotEmpty($zipToTest->getFromName($zipFilename));
     }
 }
