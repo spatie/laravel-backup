@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tests;
 
-use Spatie\Backup\Tasks\Backup\Zip;
 use ZipArchive;
+use Spatie\Backup\Tasks\Backup\Zip;
 
 class ZipTest extends TestCase
 {

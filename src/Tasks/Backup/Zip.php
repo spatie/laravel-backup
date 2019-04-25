@@ -99,8 +99,8 @@ class Zip
      */
     public function setPassword(?string $password): self
     {
-        if (!empty($password) && !method_exists(ZipArchive::class, 'setEncryptionName')) {
-            consoleOutput()->warn('Password encryption requires PHP 7.2 >= and libzip-dev >= 1.2.0');
+        if (! empty($password) && ! method_exists(ZipArchive::class, 'setEncryptionName')) {
+            consoleOutput()->info('Password encryption requires PHP 7.2 >= and libzip-dev >= 1.2.0');
 
             return $this;
         }
@@ -121,8 +121,8 @@ class Zip
             return $this;
         }
 
-        if (!$this->zipFile->setEncryptionName($nameInZip, ZipArchive::EM_AES_256, $this->password)) {
-            consoleOutput()->warn("Cannot password protect {$nameInZip}");
+        if (! $this->zipFile->setEncryptionName($nameInZip, ZipArchive::EM_AES_256, $this->password)) {
+            consoleOutput()->error("Cannot password protect {$nameInZip}");
         }
 
         return $this;
