@@ -160,6 +160,16 @@ class DbDumperFactoryTest extends TestCase
         $this->assertStringContainsString($dumpConfig['add_extra_option'], $this->getDumpCommand());
     }
 
+    /** @test */
+    public function it_can_create_instances_of_custom_dumpers()
+    {
+        DbDumperFactory::extend('mysql', function () {
+            return new MongoDb();
+        });
+
+        $this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mysql'));
+    }
+
     protected function getDumpCommand(): string
     {
         $dumpFile = '';

@@ -13,6 +13,8 @@ use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
 class DbDumperFactory
 {
+    protected static $custom = [];
+
     public static function createFromConnection(string $dbConnectionName): DbDumper
     {
         $dbConfig = config("database.connections.{$dbConnectionName}");
@@ -49,9 +51,18 @@ class DbDumperFactory
         return $dbDumper;
     }
 
+    public static function extend(string $driver, callable $callback)
+    {
+        static::$custom[$driver] = $callback;
+    }
+
     protected static function forDriver($dbDriver): DbDumper
     {
         $driver = strtolower($dbDriver);
+
+        if (isset(static::$custom[$driver])) {
+            return (static::$custom[$driver])();
+        }
 
         if ($driver === 'mysql' || $driver === 'mariadb') {
             return new MySql();
