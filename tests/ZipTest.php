@@ -58,17 +58,21 @@ class ZipTest extends TestCase
 
         $this->assertTrue($zipToTest->open($this->pathToZip));
 
-        // Check if we cannot read the file because no password is given
-        $this->assertFalse($zipToTest->getFromName($zipFilename));
-        $this->assertEquals('No password provided', $zipToTest->getStatusString());
+        if (method_exists(ZipArchive::class, 'setEncryptionName')) {
+            // Check if we cannot read the file because no password is given
+            $this->assertFalse($zipToTest->getFromName($zipFilename));
+            $this->assertEquals('No password provided', $zipToTest->getStatusString());
 
-        // Check if we cannot read the file because a invalid password is given
-        $zipToTest->setPassword('invalid password');
-        $this->assertFalse($zipToTest->getFromName($zipFilename));
-        $this->assertEquals('Wrong password provided', $zipToTest->getStatusString());
+            // Check if we cannot read the file because a invalid password is given
+            $zipToTest->setPassword('invalid password');
+            $this->assertFalse($zipToTest->getFromName($zipFilename));
+            $this->assertEquals('Wrong password provided', $zipToTest->getStatusString());
 
-        // Check if we cannot read the file because a invalid password is given
-        $zipToTest->setPassword('password');
-        $this->assertNotEmpty($zipToTest->getFromName($zipFilename));
+            // Check if we cannot read the file because a invalid password is given
+            $zipToTest->setPassword('password');
+            $this->assertNotEmpty($zipToTest->getFromName($zipFilename));
+        } else {
+            $this->assertNotEmpty($zipToTest->getFromName($zipFilename));
+        }
     }
 }
