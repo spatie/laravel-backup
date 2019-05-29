@@ -10,7 +10,8 @@ class BackupDestinationFactory
     {
         return collect($config['destination']['disks'])
             ->map(function ($filesystemName) use ($config) {
-                return BackupDestination::create($filesystemName, $config['name']);
+                $backupPath = is_array($config['name']) ? (array_key_exists($filesystemName, $config['name']) ? $config['name'][$filesystemName] : $config['default_name']) : $config['name'];
+                return BackupDestination::create($filesystemName, $backupPath);
             });
     }
 }
