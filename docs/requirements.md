@@ -1,6 +1,6 @@
 ---
 title: Requirements
-order: 3
+weight: 3
 ---
 
 This backup package requires **PHP 7.2**, with the [ZIP module](http://php.net/manual/en/book.zip.php) and **Laravel 5.8 or higher**. It's not compatible with Windows servers.

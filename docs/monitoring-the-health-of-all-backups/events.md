@@ -1,6 +1,6 @@
 ---
 title: Events
-order: 3
+weight: 3
 ---
 
 These events are fired by the monitor.

@@ -1,6 +1,6 @@
 ---
 title: Events
-order: 2
+weight: 2
 ---
 
 These events are fired during the cleanup process.

@@ -1,6 +1,6 @@
 ---
 title: Postcardware
-order: 2
+weight: 2
 ---
 
 You're free to use this package, but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.

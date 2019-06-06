@@ -1,6 +1,6 @@
 ---
 title: Taking backups
-order: 1
+weight: 1
 ---
 
 You can backup your app by running:

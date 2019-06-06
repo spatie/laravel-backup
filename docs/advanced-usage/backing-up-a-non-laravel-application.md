@@ -1,6 +1,6 @@
 ---
 title: Backing up a non-laravel application
-order: 2
+weight: 2
 ---
 
 This package is tailor-made for use inside Laravel applications. But with a little bit of good will you can use it to backup non-Laravel applications as well.

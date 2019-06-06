@@ -1,4 +1,4 @@
 ---
 title: Sending notifications
-order: 4
+weight: 4
 ---

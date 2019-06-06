@@ -1,4 +1,4 @@
 ---
 title: Cleaning up old backups
-order: 2
+weight: 2
 ---

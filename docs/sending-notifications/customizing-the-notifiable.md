@@ -1,6 +1,6 @@
 ---
 title: Customizing the notifiable
-order: 3
+weight: 3
 ---
 
 Laravel 5.3's notifications are sent to a notifiable. A notifiable provides configuration values that determine how notifications will be sent. 
