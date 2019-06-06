@@ -1,5 +1,6 @@
 ---
 title: Sending notifications
+order: 1
 ---
 
 The package leverages Laravel 5.3's native notifications to let you know that your backups are ok, or not. Out of the box it can send notifcations via mail and Slack (for Slack you'll need to require `guzzlehttp/guzzle` in your project). 

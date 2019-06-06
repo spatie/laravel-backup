@@ -1,5 +1,6 @@
 ---
 title: Adding extra notification channels
+order: 2
 ---
 
 By default the package send notifications via email or Slack. It's easy to add an extra notification channel such as Telegram or native mobile push notification, etc.

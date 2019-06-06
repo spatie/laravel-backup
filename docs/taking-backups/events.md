@@ -1,5 +1,6 @@
 ---
 title: Events
+order: 2
 ---
 
 These events are fired during the backup process.

@@ -1,5 +1,6 @@
 ---
 title: Installation and setup
+order: 5
 ---
 
 ## Basic installation

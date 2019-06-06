@@ -1,5 +1,6 @@
 ---
 title: Monitoring the health of all backups
+order: 1
 ---
 
 The package can check the health of backups for every application where it is installed. A backup is considered unhealthy if the date of the latest backup is too far in the past to be useful or if the amount of storage space required for all backups is not available.

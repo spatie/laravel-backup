@@ -1,5 +1,6 @@
 ---
 title: Creating your custom health check
+order: 2
 ---
 
  You can create your own custom health check by letting a class extend `Spatie\Backup\Tasks\Monitor\HealthCheck`. 

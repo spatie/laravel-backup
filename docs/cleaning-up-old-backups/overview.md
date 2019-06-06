@@ -1,5 +1,6 @@
 ---
 title: Cleaning up old backups
+order: 1
 ---
 
 Over time the number of backups and the storage required to store them will grow. At some point you will want to clean up old backups.

@@ -1,5 +1,6 @@
 ---
 title: Adding extra files to a backup
+order: 1
 ---
 The package ships with a BackupManifestWasCreated event that enables you to add additional files to the backup zip file.
 
