@@ -51,7 +51,18 @@ return [
              *                'table_to_exclude_from_backup',
              *                'another_table_to_exclude'
              *            ]
-             *       ]
+             *       ],
+             * ],
+             *
+             * If you are using only InnoDB tables on a MySQL server, you can
+             * also supply the useSingleTransaction option to avoid table locking.
+             *
+             * E.g.
+             * 'mysql' => [
+             *       ...
+             *      'dump' => [
+             *           'useSingleTransaction' => true,
+             *       ],
              * ],
              *
              * For a complete list of available customization options, see https://github.com/spatie/db-dumper
