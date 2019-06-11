@@ -53,6 +53,7 @@ return [
              *            ]
              *       ]
              * ],
+			 * 'useSingleTransaction' => true, // Can be used when using only InnoDB tables, to avoid locking the DB.
              *
              * For a complete list of available customization options, see https://github.com/spatie/db-dumper
              */
