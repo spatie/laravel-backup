@@ -11,7 +11,7 @@ class BackupDestinationStatusFactory
     public static function createForMonitorConfig(array $monitorConfiguration): Collection
     {
         return collect($monitorConfiguration)->flatMap(function (array $monitorProperties) {
-            return BackupDestinationStatusFactory::createForSingleMonitor($monitorProperties);
+            return self::createForSingleMonitor($monitorProperties);
         })->sortBy(function (BackupDestinationStatus $backupDestinationStatus) {
             return $backupDestinationStatus->backupDestination()->backupName().'-'.
                 $backupDestinationStatus->backupDestination()->diskName();
