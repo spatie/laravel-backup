@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.2.1 - 2019-07-01
+
+- prevent excessive IO calls by caching backup properties
+
 ## 6.2.0 - 2019-04-25
 
 - add support to add custom dumpers to DbDumperFactory (#900)
