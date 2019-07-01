@@ -47,7 +47,6 @@ class Backup
     {
         if ($this->date === null) {
             $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
-            $this->exists = true;
         }
 
         return $this->date;
@@ -64,7 +63,6 @@ class Backup
             }
 
             $this->size = $this->disk->size($this->path);
-            $this->exists = true;
         }
 
         return $this->size;
@@ -78,8 +76,6 @@ class Backup
     public function delete()
     {
         $this->exists = null;
-        $this->date = null;
-        $this->size = null;
 
         $this->disk->delete($this->path);
 
