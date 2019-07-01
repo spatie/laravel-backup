@@ -13,6 +13,15 @@ class Backup
     /** @var string */
     protected $path;
 
+    /** @var bool */
+    protected $exists;
+
+    /** @var Carbon */
+    protected $date;
+
+    /** @var int */
+    protected $size;
+
     public function __construct(Filesystem $disk, string $path)
     {
         $this->disk = $disk;
@@ -27,12 +36,20 @@ class Backup
 
     public function exists(): bool
     {
-        return $this->disk->exists($this->path);
+        if ($this->exists === null) {
+            $this->exists = $this->disk->exists($this->path);
+        }
+
+        return $this->exists;
     }
 
     public function date(): Carbon
     {
-        return Carbon::createFromTimestamp($this->disk->lastModified($this->path));
+        if ($this->date === null) {
+            $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
+        }
+
+        return $this->date;
     }
 
     /**
@@ -40,11 +57,15 @@ class Backup
      */
     public function size(): int
     {
-        if (! $this->exists()) {
-            return 0;
+        if ($this->size === null) {
+            if (! $this->exists()) {
+                return 0;
+            }
+
+            $this->size = $this->disk->size($this->path);
         }
 
-        return $this->disk->size($this->path);
+        return $this->size;
     }
 
     public function stream()
@@ -54,6 +75,8 @@ class Backup
 
     public function delete()
     {
+        $this->exists = null;
+
         $this->disk->delete($this->path);
 
         consoleOutput()->info("Deleted backup `{$this->path}`.");
