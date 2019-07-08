@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.3.0 - 2019-07-08
+
+- add zh-CN & zh-TW
+
 ## 6.2.1 - 2019-07-01
 
 - prevent excessive IO calls by caching backup properties
