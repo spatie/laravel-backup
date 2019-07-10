@@ -38,6 +38,6 @@ It has one public property `$manifest` which is an instance of `Spatie\Backup\Ta
 
 `Spatie\Backup\Events\BackupZipWasCreated`
 
-This event will be fired right after the zipfile - containg the dumps of the databases and any files that were selected for backup - was creatted, and before that zip will get copied over to the backup destination(s). You can use this event to do last minute manipulations on the created zip file.
+This event will be fired right after the zipfile - containing the dumps of the databases and any files that were selected for backup - is created, and before that zip will get copied over to the backup destination(s). You can use this event to do last minute manipulations on the created zip file.
 
 It has one public method `$pathToZip` which contains a path to the created zipfile.
