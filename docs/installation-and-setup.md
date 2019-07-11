@@ -271,7 +271,7 @@ If your application is broken, the scheduled jobs cannot run anymore. You might 
 
 To find out about problems with your backups, the package ships with monitoring functionality. It will inform you when backups become too old or when they take up too much storage.
 
-Learn how to [set up monitoring](/laravel-backup/v5/monitoring-the-health-of-all-backups/overview).
+Learn how to [set up monitoring](/laravel-backup/v6/monitoring-the-health-of-all-backups/overview).
 
 ## Dumping the database
 `mysqldump` is used to backup MySQL databases. `pg_dump` is used to dump PostgreSQL databases. If these binaries are not installed in a default location, you can add a key named `dump.dump_binary_path` in Laravel's own `database.php` config file. **Only fill in the path to the binary**. Do not include the name of the binary itself.
