@@ -1,17 +1,17 @@
 <?php
 
 return [
-    'exception_message' => '異常信息: :message',
-    'exception_trace' => '異常跟踪: :trace',
-    'exception_message_title' => '異常信息',
-    'exception_trace_title' => '異常跟踪',
+    'exception_message' => '異常訊息: :message',
+    'exception_trace' => '異常追蹤: :trace',
+    'exception_message_title' => '異常訊息',
+    'exception_trace_title' => '異常追蹤',
 
     'backup_failed_subject' => ':application_name 備份失敗',
     'backup_failed_body' => '重要說明：備份 :application_name 時發生錯誤',
 
     'backup_successful_subject' => ':application_name 備份成功',
     'backup_successful_subject_title' => '備份成功！',
-    'backup_successful_body' => '好消息, :application_name 備份成功，位于磁盤 :disk_name 中。',
+    'backup_successful_body' => '好消息, :application_name 備份成功，位於磁盤 :disk_name 中。',
 
     'cleanup_failed_subject' => '清除 :application_name 的備份失敗。',
     'cleanup_failed_body' => '清除備份 :application_name 時發生錯誤',
