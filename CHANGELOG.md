@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.3.1 - 2019-07-16
+
+- fix typo in zh-TW backup notification
+
 ## 6.3.0 - 2019-07-08
 
 - add zh-CN & zh-TW
