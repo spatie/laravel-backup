@@ -131,7 +131,7 @@ return [
         's3' => [
             'driver' => 's3',
             // ...
-            'backup_options => [
+            'backup_options' => [
                // add extra options here
             ],
         ],
