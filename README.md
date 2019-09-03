@@ -24,12 +24,12 @@ Spatie is a web design agency in Antwerp, Belgium. You'll find an overview of al
 
 ## Installation and usage
 
-This package requires PHP 7.2 and Laravel 5.8 or higher.  
+This package requires PHP 7.2 and Laravel 6.0 or higher.  
 You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup/v6.
 
 ## Using an older version of PHP / Laravel?
 
-If you are on a PHP version below 7.2 or a Laravel version below 5.8 just use an older version of this package. 
+If you are on a PHP version below 7.2 or a Laravel version below 6.0 just use an older version of this package. 
 
 Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3), [on version 4](https://docs.spatie.be/laravel-backup/v4) and [on version 5](https://docs.spatie.be/laravel-backup/v5). We won't introduce new features to v5 and below anymore but we will still fix bugs.
 
