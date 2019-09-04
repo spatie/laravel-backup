@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.4.0 - 2019-09-04
+
+- make compatible with Laravel 6
+
 ## 6.3.1 - 2019-07-16
 
 - fix typo in zh-TW backup notification
