@@ -18,7 +18,7 @@ return [
 
     'cleanup_successful_subject' => 'Kopie zapasowe aplikacji :application_name zostały pomyślnie wyczyszczone',
     'cleanup_successful_subject_title' => 'Kopie zapasowe zostały pomyślnie wyczyszczone!',
-    'cleanup_successful_body' => 'Czyszczenie kopii zapasowych aplikacji :application_name na dysku :disk_name zakończone sukcecem.',
+    'cleanup_successful_body' => 'Czyszczenie kopii zapasowych aplikacji :application_name na dysku :disk_name zakończone sukcesem.',
 
     'healthy_backup_found_subject' => 'Kopie zapasowe aplikacji :application_name na dysku :disk_name są poprawne',
     'healthy_backup_found_subject_title' => 'Kopie zapasowe aplikacji :application_name są poprawne',
