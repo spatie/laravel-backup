@@ -275,7 +275,11 @@ class BackupJob
     protected function sendNotification($notification)
     {
         if ($this->sendNotifications) {
-            event($notification);
+            try {
+                event($notification);
+            } catch (Exception $exception) {
+                consoleOutput()->error("Sending notification failed because: {$exception->getMessage()}.");
+            }
         }
     }
 
