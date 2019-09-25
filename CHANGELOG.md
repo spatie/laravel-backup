@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.4.1 - 2019-09-25
+
+- fix backup stopping on notification failure (#960)
+
 ## 6.4.0 - 2019-09-04
 
 - make compatible with Laravel 6
