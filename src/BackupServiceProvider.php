@@ -20,7 +20,7 @@ class BackupServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/backup'),
+            __DIR__.'/../resources/lang' => "{$this->app['path.lang']}/vendor/backup",
         ]);
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'backup');
