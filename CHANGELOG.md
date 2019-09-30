@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.4.2 - 2019-09-30
+
+- fix for customized lang paths (#964)
+
 ## 6.4.1 - 2019-09-25
 
 - fix backup stopping on notification failure (#960)
