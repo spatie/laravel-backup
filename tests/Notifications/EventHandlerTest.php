@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Tests\Notifications;
 
 use Exception;
-use Notification;
+use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;

@@ -3,7 +3,7 @@ title: Sending notifications
 weight: 1
 ---
 
-The package leverages Laravel 5.3's native notifications to let you know that your backups are ok, or not. Out of the box it can send notifcations via mail and Slack (for Slack you'll need to require `guzzlehttp/guzzle` in your project). 
+The package leverages Laravel 5.3's native notifications to let you know that your backups are ok, or not. Out of the box it can send notifications via mail and Slack (for Slack you'll need to require `guzzlehttp/guzzle` in your project). 
 
 ## Configuration
 
@@ -37,7 +37,12 @@ This is the portion of the configuration that will determine when and how notifi
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'your@email.com',
+            'to' => 'your@example.com',
+
+            'from' => [
+                'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+                'name' => env('MAIL_FROM_NAME', 'Example'),
+            ],
         ],
 
         'slack' => [
