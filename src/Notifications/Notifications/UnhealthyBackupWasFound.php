@@ -18,6 +18,7 @@ class UnhealthyBackupWasFound extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->error()
+            ->from(config('backup.mail.from.address', 'mail.from.address'), config('backup.mail.from.name', 'mail.from.name'))
             ->subject(trans('backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
             ->line(trans('backup::notifications.unhealthy_backup_found_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line($this->problemDescription());
