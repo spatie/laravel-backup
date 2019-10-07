@@ -2,7 +2,13 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.5.1 - 2019-10-07
+
+- fix email notifications not being sent #973
+
 ## 6.5.0 - 2019-10-07
+
+**THIS VERSION CONTAINS A BREAKING BUG, DO NOT USE**
 
 - add custom from address for mail notifications (#967)
 
