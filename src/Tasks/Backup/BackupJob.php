@@ -275,10 +275,10 @@ class BackupJob
     protected function sendNotification($notification)
     {
         if ($this->sendNotifications) {
-            rescue(function() use ($notification) {
+            rescue(function () use ($notification) {
                 event($notification);
-            }, function() {
-                consoleOutput()->error("Sending notification failed");
+            }, function () {
+                consoleOutput()->error('Sending notification failed');
             });
         }
     }
