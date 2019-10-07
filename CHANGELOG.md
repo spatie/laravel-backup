@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.5.0 - 2019-10-07
+
+- add custom from address for mail notifications (#967)
+
 ## 6.4.2 - 2019-09-30
 
 - fix for customized lang paths (#964)
