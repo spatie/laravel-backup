@@ -29,6 +29,11 @@ class Backup
         $this->path = $path;
     }
 
+    public function disk(): Filesystem
+    {
+        return $this->disk;
+    }
+
     public function path(): string
     {
         return $this->path;
