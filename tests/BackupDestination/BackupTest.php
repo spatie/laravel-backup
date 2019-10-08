@@ -11,6 +11,16 @@ use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 class BackupTest extends TestCase
 {
     /** @test */
+    public function it_can_determine_the_disk_of_the_backup()
+    {
+        $fileName = 'test.zip';
+
+        $backup = $this->getBackupForFile($fileName);
+
+        $this->assertSame(Storage::disk('local'), $backup->disk());
+    }
+
+    /** @test */
     public function it_can_determine_the_path_of_the_backup()
     {
         $fileName = 'test.zip';

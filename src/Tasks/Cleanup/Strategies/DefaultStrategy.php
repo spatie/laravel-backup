@@ -84,9 +84,7 @@ class DefaultStrategy extends CleanupStrategy
             $groupedBackupsByDateProperty->each(function (Collection $group) {
                 $group->shift();
 
-                $group->each(function (Backup $backup) {
-                    $backup->delete();
-                });
+                $group->each->delete();
             });
         });
     }
@@ -95,9 +93,7 @@ class DefaultStrategy extends CleanupStrategy
     {
         $backups->filter(function (Backup $backup) use ($endDate) {
             return $backup->exists() && $backup->date()->lt($endDate);
-        })->each(function (Backup $backup) {
-            $backup->delete();
-        });
+        })->each->delete();
     }
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups)
