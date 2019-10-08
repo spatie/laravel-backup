@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.6.0 - 2019-10-08
+
+- add disk getter function on Backup (#974)
+
 ## 6.5.1 - 2019-10-07
 
 - fix email notifications not being sent #973
