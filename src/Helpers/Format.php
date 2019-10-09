@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class Format
 {
-    public static function humanReadableSize(int $sizeInBytes): string
+    public static function humanReadableSize(float $sizeInBytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 

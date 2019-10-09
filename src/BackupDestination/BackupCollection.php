@@ -8,7 +8,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class BackupCollection extends Collection
 {
-    /** @var null|int */
+    /** @var null|float */
     protected $sizeCache = null;
 
     public static function createFromFiles(?FileSystem $disk, array $files): self
@@ -38,7 +38,7 @@ class BackupCollection extends Collection
             ->last();
     }
 
-    public function size(): int
+    public function size(): float
     {
         if ($this->sizeCache !== null) {
             return $this->sizeCache;
