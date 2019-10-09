@@ -115,7 +115,19 @@ class BackupCollectionTest extends TestCase
 
         $this->assertGreaterThan(0, $backupCollection->size());
 
-        $this->assertSame($totalSize, $backupCollection->size());
+        $this->assertSame(floatval($totalSize), $backupCollection->size());
+    }
+
+    /** @test */
+    public function it_need_a_float_type_size()
+    {
+        $this->createFileOnBackupDisk('file1.zip', 3);
+        $this->createFileOnBackupDisk('file2.zip', 1);
+        $this->createFileOnBackupDisk('file3.zip', 2);
+
+        $backupCollection = $this->getBackupCollectionForCurrentDiskContents();
+
+        $this->assertIsFloat($backupCollection->size());
     }
 
     protected function getBackupCollectionForCurrentDiskContents(): BackupCollection
