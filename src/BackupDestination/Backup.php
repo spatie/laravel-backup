@@ -60,7 +60,7 @@ class Backup
     /**
      * Get the size in bytes.
      */
-    public function size(): int
+    public function size(): flaot
     {
         if ($this->size === null) {
             if (! $this->exists()) {

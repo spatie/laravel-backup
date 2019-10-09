@@ -59,7 +59,7 @@ class Zip
         return $this->pathToZip;
     }
 
-    public function size(): int
+    public function size(): float
     {
         if ($this->fileCount === 0) {
             return 0;

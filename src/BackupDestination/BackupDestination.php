@@ -139,7 +139,7 @@ class BackupDestination
         }
     }
 
-    public function usedStorage(): int
+    public function usedStorage(): float
     {
         return $this->backups()->size();
     }
