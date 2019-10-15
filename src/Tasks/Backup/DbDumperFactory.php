@@ -10,7 +10,7 @@ use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\PostgreSql;
-use Illuminate\Database\ConfigurationUrlParser;
+use Illuminate\Support\ConfigurationUrlParser;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
 class DbDumperFactory
