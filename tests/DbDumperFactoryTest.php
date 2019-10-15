@@ -31,6 +31,20 @@ class DbDumperFactoryTest extends TestCase
                 'mongodb_user_auth' => 'admin',
             ],
         ]);
+
+        config()->set('database.connections.pgsql', [
+            'driver'   => 'pgsql',
+            'url'      => 'pgsql://homestead:password:15432@localhost/homestead',
+            'host'     => '127.0.0.1',
+            'port'     => '5432',
+            'database' => 'forge',
+            'username' => 'forge',
+            'password' => '',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+            'sslmode'  => 'prefer',
+        ]);
     }
 
     /** @test */
@@ -68,6 +82,25 @@ class DbDumperFactoryTest extends TestCase
         ];
         config()->set('database.connections.mongodb', $dbConfig);
         $this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mongodb'));
+    }
+
+    /** @test */
+    public function it_can_create_instance_from_database_url()
+    {
+        $dbConfig = [
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'port'     => '15432',
+            'database' => 'forge',
+            'username' => 'homestead',
+            'password' => 'password',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+            'sslmode'  => 'prefer',
+        ];
+        config()->set('database.connections.pgsql', $dbConfig);
+        $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
     }
 
     /** @test */
