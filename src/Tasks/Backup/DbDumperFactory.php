@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Spatie\DbDumper\DbDumper;
@@ -9,6 +10,7 @@ use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\PostgreSql;
+use Illuminate\Database\ConfigurationUrlParser;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 
 class DbDumperFactory
@@ -17,7 +19,12 @@ class DbDumperFactory
 
     public static function createFromConnection(string $dbConnectionName): DbDumper
     {
-        $dbConfig = config("database.connections.{$dbConnectionName}");
+        $parser = new ConfigurationUrlParser();
+        try {
+            $dbConfig = $parser->parseConfiguration(config("database.connections.{$dbConnectionName}"));
+        } catch (Exception $e) {
+            throw CannotCreateDbDumper::unsupportedDriver($dbConnectionName);
+        }
 
         if (isset($dbConfig['read'])) {
             $dbConfig = Arr::except(
