@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.7.0 - 2019-10-16
+
+- handle database urls for database connections (#980)
+
 ## 6.6.1 - 2019-10-09
 
 - fix working with large backups on 32bit PHP installations
