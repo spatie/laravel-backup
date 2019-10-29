@@ -4,7 +4,6 @@ namespace Spatie\Backup\Commands;
 
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
-use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
 class MonitorCommand extends BaseCommand
