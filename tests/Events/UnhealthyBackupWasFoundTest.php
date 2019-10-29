@@ -41,7 +41,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
         $this
             ->fakeBackup()
             ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
-            ->artisan('backup:monitor')->(1);
+            ->artisan('backup:monitor')->assertExitCode(1);
 
         Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
