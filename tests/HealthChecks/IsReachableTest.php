@@ -29,7 +29,7 @@ class IsReachableTest extends TestCase
     {
         config()->set('backup.monitor_backups.0.disks', ['nonExistingDisk']);
 
-        $this->artisan('backup:monitor')->assertExitCode(0);
+        $this->artisan('backup:monitor')->assertExitCode(1);
 
         Event::assertDispatched(UnhealthyBackupWasFound::class);
     }

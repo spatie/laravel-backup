@@ -37,7 +37,7 @@ class MaximumStorageInMegabytesTest extends TestCase
         $this->create1MbFileOnDisk('local', 'mysite/test_1.zip', now()->subSeconds(2));
         $this->create1MbFileOnDisk('local', 'mysite/test_2.zip', now()->subSeconds(1));
 
-        $this->artisan('backup:monitor')->assertExitCode(0);
+        $this->artisan('backup:monitor')->assertExitCode(1);
 
         Event::assertDispatched(UnhealthyBackupWasFound::class);
     }
