@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.7.3 - 2019-10-31
+
+- the monitor command will now really return non zero error code if there is a problem detected (#986)
+
 ## 6.7.2 - 2019-10-29
 
 - the monitor command will now return non zero error code if there is a problem detected (#986)
