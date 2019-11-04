@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 
 class FileSelection
