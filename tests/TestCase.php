@@ -2,16 +2,16 @@
 
 namespace Spatie\Backup\Tests;
 
-use DateTime;
-use ZipArchive;
 use Carbon\Carbon;
+use DateTime;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Console\Kernel;
-use Spatie\Backup\BackupServiceProvider;
-use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Backup\BackupServiceProvider;
+use ZipArchive;
 
 abstract class TestCase extends Orchestra
 {

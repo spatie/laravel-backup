@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tasks\Monitor\HealthChecks;
 
-use Spatie\Backup\Tasks\Monitor\HealthCheck;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Tasks\Monitor\HealthCheck;
 
 class IsReachable extends HealthCheck
 {
