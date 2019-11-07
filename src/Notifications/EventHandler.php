@@ -54,7 +54,7 @@ class EventHandler
             });
 
         if (! $notificationClass) {
-            throw NotificationCouldNotBeSent::noNotifcationClassForEvent($event);
+            throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
         }
 
         return app($notificationClass)->setEvent($event);
