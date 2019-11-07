@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\Notifications;
 
-use Spatie\Backup\Helpers\Format;
-use Illuminate\Support\Collection;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Helpers\Format;
 
 abstract class BaseNotification extends Notification
 {

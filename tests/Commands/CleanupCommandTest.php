@@ -2,12 +2,12 @@
 
 namespace Spatie\Backup\Tests\Commands;
 
-use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Tests\TestCase;
 
 class CleanupCommandTest extends TestCase
 {

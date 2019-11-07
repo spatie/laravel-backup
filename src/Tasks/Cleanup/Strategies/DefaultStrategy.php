@@ -4,10 +4,10 @@ namespace Spatie\Backup\Tasks\Cleanup\Strategies;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Spatie\Backup\Tasks\Cleanup\Period;
 use Spatie\Backup\BackupDestination\Backup;
-use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 use Spatie\Backup\BackupDestination\BackupCollection;
+use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
+use Spatie\Backup\Tasks\Cleanup\Period;
 
 class DefaultStrategy extends CleanupStrategy
 {

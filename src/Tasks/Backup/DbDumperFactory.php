@@ -3,15 +3,15 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use Exception;
+use Illuminate\Database\ConfigurationUrlParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Spatie\DbDumper\DbDumper;
-use Spatie\DbDumper\Databases\MySql;
-use Spatie\DbDumper\Databases\Sqlite;
-use Spatie\DbDumper\Databases\MongoDb;
-use Spatie\DbDumper\Databases\PostgreSql;
-use Illuminate\Database\ConfigurationUrlParser;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+use Spatie\DbDumper\Databases\MongoDb;
+use Spatie\DbDumper\Databases\MySql;
+use Spatie\DbDumper\Databases\PostgreSql;
+use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\DbDumper\DbDumper;
 
 class DbDumperFactory
 {

@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Tasks\Monitor\HealthChecks;
 
+use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
-use Spatie\Backup\BackupDestination\BackupDestination;
 
 class MaximumStorageInMegabytes extends HealthCheck
 {
