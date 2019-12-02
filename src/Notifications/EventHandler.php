@@ -2,12 +2,12 @@
 
 namespace Spatie\Backup\Notifications;
 
-use Spatie\Backup\Events\BackupHasFailed;
-use Illuminate\Notifications\Notification;
-use Spatie\Backup\Events\CleanupHasFailed;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Notifications\Notification;
+use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
+use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
@@ -54,7 +54,7 @@ class EventHandler
             });
 
         if (! $notificationClass) {
-            throw NotificationCouldNotBeSent::noNotifcationClassForEvent($event);
+            throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
         }
 
         return app($notificationClass)->setEvent($event);

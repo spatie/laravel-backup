@@ -3,10 +3,10 @@
 namespace Spatie\Backup\Tests\BackupDestination;
 
 use Carbon\Carbon;
-use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupCollection;
+use Spatie\Backup\Tests\TestCase;
 
 class BackupCollectionTest extends TestCase
 {

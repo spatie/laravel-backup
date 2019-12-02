@@ -6,7 +6,7 @@ The package ships with a BackupManifestWasCreated event that enables you to add 
 
 When backup process starts, the package will create a manifest of all file that are selected for backup. Once the manifest has been created, a zip file is made containing all the files in the manifest. The zip file will be copied to the backup destinations you configured.
 
-However, if you have cases where you need to add additonal files to a particular backup, you can do so, between the creation of the manifest and the ceation of the zip file.
+However, if you have cases where you need to add additional files to a particular backup, you can do so, between the creation of the manifest and the creation of the zip file.
 
 Right after the manifest is created and **before** the zip file is created the `Spatie\Backup\Events\BackupManifestWasCreated` event is fired. This is what is looks like:
 

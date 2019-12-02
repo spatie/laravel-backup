@@ -2,12 +2,12 @@
 
 namespace Spatie\Backup\Tests;
 
-use Spatie\DbDumper\Databases\MySql;
-use Spatie\DbDumper\Databases\Sqlite;
-use Spatie\DbDumper\Databases\MongoDb;
-use Spatie\DbDumper\Databases\PostgreSql;
-use Spatie\Backup\Tasks\Backup\DbDumperFactory;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+use Spatie\Backup\Tasks\Backup\DbDumperFactory;
+use Spatie\DbDumper\Databases\MongoDb;
+use Spatie\DbDumper\Databases\MySql;
+use Spatie\DbDumper\Databases\PostgreSql;
+use Spatie\DbDumper\Databases\Sqlite;
 
 class DbDumperFactoryTest extends TestCase
 {
@@ -30,6 +30,20 @@ class DbDumperFactoryTest extends TestCase
             'dump' => [
                 'mongodb_user_auth' => 'admin',
             ],
+        ]);
+
+        config()->set('database.connections.pgsql', [
+            'driver'   => 'pgsql',
+            'url'      => 'pgsql://homestead:password:15432@localhost/homestead',
+            'host'     => '127.0.0.1',
+            'port'     => '5432',
+            'database' => 'forge',
+            'username' => 'forge',
+            'password' => '',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+            'sslmode'  => 'prefer',
         ]);
     }
 
@@ -68,6 +82,25 @@ class DbDumperFactoryTest extends TestCase
         ];
         config()->set('database.connections.mongodb', $dbConfig);
         $this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mongodb'));
+    }
+
+    /** @test */
+    public function it_can_create_instance_from_database_url()
+    {
+        $dbConfig = [
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'port'     => '15432',
+            'database' => 'forge',
+            'username' => 'homestead',
+            'password' => 'password',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+            'sslmode'  => 'prefer',
+        ];
+        config()->set('database.connections.pgsql', $dbConfig);
+        $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
     }
 
     /** @test */

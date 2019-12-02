@@ -2,9 +2,9 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use ZipArchive;
 use Illuminate\Support\Str;
 use Spatie\Backup\Helpers\Format;
+use ZipArchive;
 
 class Zip
 {

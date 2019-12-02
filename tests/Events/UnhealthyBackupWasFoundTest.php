@@ -3,16 +3,16 @@
 namespace Spatie\Backup\Tests\Events;
 
 use Exception;
-use Illuminate\Support\Str;
-use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
-use Spatie\Backup\Notifications\Notifiable;
 use Illuminate\Support\Facades\Notification;
-use Spatie\Backup\Tasks\Monitor\HealthCheck;
-use Spatie\Backup\Exceptions\InvalidHealthCheck;
-use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Illuminate\Support\Str;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Spatie\Backup\Exceptions\InvalidHealthCheck;
+use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound as UnhealthyBackupWasFoundNotification;
+use Spatie\Backup\Tasks\Monitor\HealthCheck;
+use Spatie\Backup\Tests\TestCase;
 
 class UnhealthyBackupWasFoundTest extends TestCase
 {
@@ -28,7 +28,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
             ->fakeBackup()
             ->makeHealthCheckFail()
             ->artisan('backup:monitor')
-            ->assertExitCode(0);
+            ->assertExitCode(1);
 
         Event::assertDispatched(UnhealthyBackupWasFound::class);
     }
@@ -41,7 +41,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
         $this
             ->fakeBackup()
             ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
-            ->artisan('backup:monitor')->assertExitCode(0);
+            ->artisan('backup:monitor')->assertExitCode(1);
 
         Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
@@ -69,7 +69,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
             ->fakeBackup()
             ->makeHealthCheckFail()
             ->artisan('backup:monitor')
-            ->assertExitCode(0);
+            ->assertExitCode(1);
 
         Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
             $slack = $notification->toSlack();

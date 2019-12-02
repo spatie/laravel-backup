@@ -46,7 +46,7 @@ This section of the configuration determines which files and databases will be b
       * The name of this application. You can use this name to monitor
       * the backups.
       */
-     'name' => env('APP_URL'),
+     'name' => env('APP_NAME', 'laravel-backup'),
 
      'source' => [
 

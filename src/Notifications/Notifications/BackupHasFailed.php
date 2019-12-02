@@ -2,11 +2,11 @@
 
 namespace Spatie\Backup\Notifications\Notifications;
 
-use Spatie\Backup\Notifications\BaseNotification;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\BackupHasFailed as BackupHasFailedEvent;
+use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailed extends BaseNotification
 {

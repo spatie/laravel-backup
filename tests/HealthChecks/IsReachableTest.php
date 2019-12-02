@@ -2,10 +2,10 @@
 
 namespace Spatie\Backup\Tests\HealthChecks;
 
-use Spatie\Backup\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Spatie\Backup\Tests\TestCase;
 
 class IsReachableTest extends TestCase
 {
@@ -29,7 +29,7 @@ class IsReachableTest extends TestCase
     {
         config()->set('backup.monitor_backups.0.disks', ['nonExistingDisk']);
 
-        $this->artisan('backup:monitor')->assertExitCode(0);
+        $this->artisan('backup:monitor')->assertExitCode(1);
 
         Event::assertDispatched(UnhealthyBackupWasFound::class);
     }
