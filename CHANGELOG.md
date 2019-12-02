@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.6.2 - 2019-12-02
+
+- make compatible with PHP 7.4
+
 ## 6.6.1 - 2019-10-09
 
 - fix working with large backups on 32bit PHP installations
