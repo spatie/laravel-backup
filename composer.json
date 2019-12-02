@@ -35,8 +35,8 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "mockery/mockery": "^1.0",
         "orchestra/testbench": "3.8.*|4.*",
-        "phpunit/phpunit": "^8.0"
-        
+        "phpunit/phpunit": "^8.4"
+
     },
     "autoload": {
         "psr-4": {
