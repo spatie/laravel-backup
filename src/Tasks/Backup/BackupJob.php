@@ -202,13 +202,13 @@ class BackupJob
 
     protected function createZipContainingEveryFileInManifest(Manifest $manifest)
     {
-        consoleOutput()->info("Zipping {$manifest->count()} files...");
+        consoleOutput()->info("Zipping {$manifest->count()} files and directories...");
 
         $pathToZip = $this->temporaryDirectory->path(config('backup.backup.destination.filename_prefix').$this->filename);
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
-        consoleOutput()->info("Created zip containing {$zip->count()} files. Size is {$zip->humanReadableSize()}");
+        consoleOutput()->info("Created zip containing {$zip->count()} files and directories. Size is {$zip->humanReadableSize()}");
 
         $this->sendNotification(new BackupZipWasCreated($pathToZip));
 
