@@ -107,7 +107,6 @@ class Zip
             if (is_file($file)) {
                 $this->zipFile->addFile($file, ltrim($nameInZip, DIRECTORY_SEPARATOR)).PHP_EOL;
             }
-            
             $this->fileCount++;
         }
 
