@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.7.6 - 2019-12-12
+
+- empty directories are now being backed up (#1008)
+
 ## 6.7.5 - 2019-12-02
 
 - make compatible with PHP 7.4
