@@ -69,8 +69,7 @@ class FileSelection
 
         $finder = (new Finder())
             ->ignoreDotFiles(false)
-            ->ignoreVCS(false)
-            ->files();
+            ->ignoreVCS(false);
 
         if ($this->shouldFollowLinks) {
             $finder->followLinks();

@@ -100,7 +100,11 @@ class Zip
         }
 
         foreach ($files as $file) {
-            if (file_exists($file)) {
+            if (is_dir($file)) {
+                $this->zipFile->addEmptyDir($file);
+            }
+
+            if (is_file($file)) {
                 $this->zipFile->addFile($file, ltrim($nameInZip, DIRECTORY_SEPARATOR)).PHP_EOL;
             }
             $this->fileCount++;
