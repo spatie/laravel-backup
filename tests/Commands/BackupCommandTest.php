@@ -135,12 +135,6 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_can_selectively_backup_db()
     {
-        Artisan::call('backup:run --only-db --db-name=db1');
-        dd(Artisan::output());
-
-        $this
-            ->artisan('backup:run --only-db --db-name=db1');
-
         $this
             ->artisan('backup:run --only-db --db-name=db1')
             ->assertExitCode(0);

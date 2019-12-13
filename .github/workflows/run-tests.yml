@@ -22,6 +22,11 @@ jobs:
             -   name: Checkout code
                 uses: actions/checkout@v1
 
+            -   name: Install SQLite 3
+                run: |
+                    sudo apt-get update
+                    sudo apt-get install sqlite3
+
             -   name: Cache dependencies
                 uses: actions/cache@v1
                 with:
