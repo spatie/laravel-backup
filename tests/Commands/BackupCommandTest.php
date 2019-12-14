@@ -138,6 +138,7 @@ class BackupCommandTest extends TestCase
         $this
             ->artisan('backup:run --only-db --db-name=db1')
             ->assertExitCode(0);
+
         Storage::disk('local')->assertExists($this->expectedZipPath);
 
         $this
@@ -154,7 +155,6 @@ class BackupCommandTest extends TestCase
 
         $this
             ->artisan('backup:run --only-db --db-name=wrongName')
-
             ->assertExitCode(1);
     }
 
