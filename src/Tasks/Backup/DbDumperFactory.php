@@ -34,7 +34,6 @@ class DbDumperFactory
         }
 
         $dbDumper = static::forDriver($dbConfig['driver'] ?? '')
-            ->setHost(Arr::first(Arr::wrap($dbConfig['host'] ?? '')))
             ->setDbName($dbConfig['database'])
             ->setUserName($dbConfig['username'] ?? '')
             ->setPassword($dbConfig['password'] ?? '');
@@ -45,6 +44,10 @@ class DbDumperFactory
 
         if ($dbDumper instanceof MongoDb) {
             $dbDumper->setAuthenticationDatabase(config('database.connections.mongodb.dump.mongodb_user_auth') ?? '');
+        }
+
+        if (isset($dbConfig['host']) && !empty($dbConfig['host'])) {
+            $dbDumper = $dbDumper->setHost(Arr::first(Arr::wrap($dbConfig['host'])));
         }
 
         if (isset($dbConfig['port'])) {
