@@ -70,6 +70,16 @@ return [
             'databases' => [
                 'mysql',
             ],
+
+            /*
+             * Alternatively, you may define an FQN for an invocable class that generates an array
+             * with connection names. Note that using this option will override the database list
+             * defined above entirely.
+             *
+             * E.g.
+             *      'database_generator' => App\YourNamespace\SomeGenerator::class,
+             */
+            'database_generator' => null,
         ],
 
         /*

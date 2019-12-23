@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
@@ -11,7 +12,7 @@ class BackupJobFactory
     {
         return (new BackupJob())
             ->setFileSelection(static::createFileSelection($config['backup']['source']['files']))
-            ->setDbDumpers(static::createDbDumpers($config['backup']['source']['databases']))
+            ->setDbDumpers(static::createDbDumpers(static::getSourceDatabaseConnections($config['backup']['source'])))
             ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']));
     }
 
@@ -27,5 +28,16 @@ class BackupJobFactory
         return collect($dbConnectionNames)->mapWithKeys(function (string $dbConnectionName) {
             return [$dbConnectionName=>DbDumperFactory::createFromConnection($dbConnectionName)];
         });
+    }
+
+    protected static function getSourceDatabaseConnections(array $sourceConfig): array
+    {
+        $generatorClass = Arr::get($sourceConfig, 'database_generator');
+
+        if ($generatorClass === null) {
+            return $sourceConfig['databases'];
+        }
+
+        return (new $generatorClass)();
     }
 }
