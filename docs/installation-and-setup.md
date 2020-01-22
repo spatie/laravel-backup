@@ -265,6 +265,19 @@ protected function schedule(Schedule $schedule)
 
 Of course, the times used in the code above are just examples. Adjust them to suit your own preferences.
 
+If a backup cannot be taken successfully, the `backup:run` command returns an exit code of 1 which signals a general error, so you can use laravel's task hooks to specify code to be executed if the scheduled backup succeeds or fails:
+
+```
+   $schedule
+      ->command('backup:run')->daily()->at('01:00')
+      ->onFailure(function () {
+         ...
+      })
+      ->onSuccess(function () {
+         ...
+      });
+```
+
 ## Monitoring
 
 If your application is broken, the scheduled jobs cannot run anymore. You might also simply forget to add a cron job needed to trigger Laravel's scheduling. In either case, you may think backups are being made when in fact nothing is being backed up.
