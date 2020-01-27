@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.7.7 - 2020-01-26
+
+- fix MongoDB authentication connection name (#1025)
+
 ## 6.7.6 - 2019-12-12
 
 - empty directories are now being backed up (#1008)
