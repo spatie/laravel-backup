@@ -27,21 +27,21 @@ class FileSelectionTest extends TestCase
         $fileSelection = new FileSelection($this->sourceDirectory);
 
         $testFiles = $this->getTestFiles([
-                '.dotfile',
-                '1Mb.file',
-                'directory1',
-                'directory1/directory1',
-                'directory1/directory1/file1.txt',
-                'directory1/directory1/file2.txt',
-                'directory1/file1.txt',
-                'directory1/file2.txt',
-                'directory2',
-                'directory2/directory1',
-                'directory2/directory1/file1.txt',
-                'file1.txt',
-                'file2.txt',
-                'file3.txt',
-            ]);
+            '.dotfile',
+            '1Mb.file',
+            'directory1',
+            'directory1/directory1',
+            'directory1/directory1/file1.txt',
+            'directory1/directory1/file2.txt',
+            'directory1/file1.txt',
+            'directory1/file2.txt',
+            'directory2',
+            'directory2/directory1',
+            'directory2/directory1/file1.txt',
+            'file1.txt',
+            'file2.txt',
+            'file3.txt',
+        ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
         $this->assertSameArray($testFiles, $selectedFiles);
@@ -54,15 +54,15 @@ class FileSelectionTest extends TestCase
                         ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
 
         $testFiles = $this->getTestFiles([
-                '.dotfile',
-                '1Mb.file',
-                'directory2',
-                'directory2/directory1',
-                'directory2/directory1/file1.txt',
-                'file1.txt',
-                'file2.txt',
-                'file3.txt',
-            ]);
+            '.dotfile',
+            '1Mb.file',
+            'directory2',
+            'directory2/directory1',
+            'directory2/directory1/file1.txt',
+            'file1.txt',
+            'file2.txt',
+            'file3.txt',
+        ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
         $this->assertSameArray($testFiles, $selectedFiles);
@@ -75,16 +75,16 @@ class FileSelectionTest extends TestCase
             ->excludeFilesFrom("{$this->sourceDirectory}/*/directory1");
 
         $testFiles = $this->getTestFiles([
-                '.dotfile',
-                '1Mb.file',
-                'directory1',
-                'directory1/file1.txt',
-                'directory1/file2.txt',
-                'directory2',
-                'file1.txt',
-                'file2.txt',
-                'file3.txt',
-            ]);
+            '.dotfile',
+            '1Mb.file',
+            'directory1',
+            'directory1/file1.txt',
+            'directory1/file2.txt',
+            'directory2',
+            'file1.txt',
+            'file2.txt',
+            'file3.txt',
+        ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
         $this->assertSameArray($testFiles, $selectedFiles);
@@ -119,14 +119,14 @@ class FileSelectionTest extends TestCase
             ]));
 
         $testFiles = $this->getTestFiles([
-                '.dotfile',
-                '1Mb.file',
-                'directory1',
-                'directory1/file1.txt',
-                'directory1/file2.txt',
-                'file1.txt',
-                'file3.txt',
-            ]);
+            '.dotfile',
+            '1Mb.file',
+            'directory1',
+            'directory1/file1.txt',
+            'directory1/file2.txt',
+            'file1.txt',
+            'file3.txt',
+        ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
         $this->assertSameArray($testFiles, $selectedFiles);
