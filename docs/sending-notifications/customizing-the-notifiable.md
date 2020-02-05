@@ -20,7 +20,7 @@ class BackupNotifiable extends Notifiable
 {
     public function routeNotificationForAnotherNotificationChannel()
     {
-        return config('laravel-backup.notifications.another_notification_channel.property');
+        return config('backup.notifications.another_notification_channel.property');
     }
 }
 
