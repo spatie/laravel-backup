@@ -108,7 +108,6 @@ class DefaultStrategy extends CleanupStrategy
         if (($backups->size() + $this->newestBackup->size()) <= $maximumSize) {
             return;
         }
-
         $oldest->delete();
 
         $backups = $backups->filter->exists();
