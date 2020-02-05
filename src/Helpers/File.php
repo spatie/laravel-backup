@@ -14,7 +14,7 @@ class File
         'application/x-gzip',
     ];
 
-    public function isZipFile(?Filesystem $disk, string $path) : bool
+    public function isZipFile(?Filesystem $disk, string $path): bool
     {
         if ($this->hasZipExtension($path)) {
             return true;
