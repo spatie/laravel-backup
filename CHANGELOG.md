@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.7.8 - 2020-02-19
+
+- add Finnish localization (#1039)
+
 ## 6.7.7 - 2020-01-26
 
 - fix MongoDB authentication connection name (#1025)
