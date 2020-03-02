@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.8.0 - 2020-03-02
+
+- add support for Laravel 7
+
 ## 6.7.8 - 2020-02-19
 
 - add Finnish localization (#1039)
