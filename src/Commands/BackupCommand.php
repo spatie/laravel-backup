@@ -22,7 +22,7 @@ class BackupCommand extends BaseCommand
         $disableNotifications = $this->option('disable-notifications');
 
         if ($this->option('timeout') && is_numeric($this->option('timeout'))) {
-            set_time_limit((int)$this->option('timeout'));
+            set_time_limit((int) $this->option('timeout'));
         }
 
         try {
