@@ -10,7 +10,7 @@ use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 class BackupCommand extends BaseCommand
 {
     /** @var string */
-    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications}';
+    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=}';
 
     /** @var string */
     protected $description = 'Run the backup.';
@@ -20,6 +20,10 @@ class BackupCommand extends BaseCommand
         consoleOutput()->comment('Starting backup...');
 
         $disableNotifications = $this->option('disable-notifications');
+
+        if ($this->option('timeout') && is_numeric($this->option('timeout'))) {
+            set_time_limit((int) $this->option('timeout'));
+        }
 
         try {
             $this->guardAgainstInvalidOptions();
