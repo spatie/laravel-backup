@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.8.1 - 2020-03-11
+
+- added support to set execution timeout (#1046)
+
 ## 6.8.0 - 2020-03-02
 
 - add support for Laravel 7
