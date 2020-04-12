@@ -62,7 +62,7 @@ This is the part of the configuration where you can specify which applications s
 
 The `MaximumAgeInDays` check will fail if the latest backup is older that the specified amount of days. If you don't need this check, just remove it.
 
-The `MaximumStorageInMegabytes` check will fail if the total size of your backups is greater that the specified amount of megabyts. If you don't need this check just remove it.
+The `MaximumStorageInMegabytes` check will fail if the total size of your backups is greater that the specified amount of megabytes. If you don't need this check just remove it.
 
 The `name` of a monitor should match the value you have specified in the `backup.name`-key of the config file in
 the application that is being backed up.
