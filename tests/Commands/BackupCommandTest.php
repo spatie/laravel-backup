@@ -211,7 +211,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_will_fail_when_trying_to_backup_to_an_non_existing_diskname()
     {
-        $resultCode = Artisan::call('backup:run --only-to-disk=non-exisiting-disk');
+        $resultCode = Artisan::call('backup:run --only-to-disk=non-existing-disk');
 
         $this->assertEquals(1, $resultCode);
 
