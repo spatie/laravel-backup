@@ -14,6 +14,11 @@ class UnhealthyBackupWasFound extends BaseNotification
     /** @var \Spatie\Backup\Events\UnhealthyBackupWasFound */
     protected $event;
 
+    public function __construct(UnhealthyBackupWasFoundEvent $event)
+    {
+        $this->event = $event;
+    }
+
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
@@ -82,12 +87,5 @@ class UnhealthyBackupWasFound extends BaseNotification
     protected function failure(): HealthCheckFailure
     {
         return $this->event->backupDestinationStatus->getHealthCheckFailure();
-    }
-
-    public function setEvent(UnhealthyBackupWasFoundEvent $event)
-    {
-        $this->event = $event;
-
-        return $this;
     }
 }

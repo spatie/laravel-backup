@@ -13,6 +13,11 @@ class BackupWasSuccessful extends BaseNotification
     /** @var \Spatie\Backup\Events\BackupWasSuccessful */
     protected $event;
 
+    public function __construct(BackupWasSuccessfulEvent $event)
+    {
+        $this->event = $event;
+    }
+
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
@@ -37,12 +42,5 @@ class BackupWasSuccessful extends BaseNotification
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
-    }
-
-    public function setEvent(BackupWasSuccessfulEvent $event)
-    {
-        $this->event = $event;
-
-        return $this;
     }
 }

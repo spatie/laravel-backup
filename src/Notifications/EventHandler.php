@@ -57,7 +57,7 @@ class EventHandler
             throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
         }
 
-        return app($notificationClass)->setEvent($event);
+        return new $notificationClass($event);
     }
 
     protected function allBackupEventClasses(): array

@@ -13,6 +13,11 @@ class CleanupHasFailed extends BaseNotification
     /** @var \Spatie\Backup\Events\CleanupHasFailed */
     protected $event;
 
+    public function __construct(CleanupHasFailedEvent $event)
+    {
+        $this->event = $event;
+    }
+
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
@@ -50,12 +55,5 @@ class CleanupHasFailed extends BaseNotification
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
-    }
-
-    public function setEvent(CleanupHasFailedEvent $event)
-    {
-        $this->event = $event;
-
-        return $this;
     }
 }

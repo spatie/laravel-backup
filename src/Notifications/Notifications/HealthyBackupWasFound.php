@@ -13,6 +13,11 @@ class HealthyBackupWasFound extends BaseNotification
     /** @var \Spatie\Backup\Events\HealthyBackupWasFound */
     protected $event;
 
+    public function __construct(HealthyBackupWasFoundEvent $event)
+    {
+        $this->event = $event;
+    }
+
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage)
@@ -37,12 +42,5 @@ class HealthyBackupWasFound extends BaseNotification
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
-    }
-
-    public function setEvent(HealthyBackupWasFoundEvent $event)
-    {
-        $this->event = $event;
-
-        return $this;
     }
 }
