@@ -8,7 +8,6 @@ use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Helpers\RightAlignedTableStyle;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
-use Symfony\Component\Console\Helper\TableStyle;
 
 class ListCommand extends BaseCommand
 {
