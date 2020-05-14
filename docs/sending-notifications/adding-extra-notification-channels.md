@@ -38,7 +38,7 @@ class BackupHasFailed extends BaseNotification
             ->iOS()
             ->badge(1)
             ->sound('fail')
-            ->body("The backup of {$this->getApplicationName()} to disk {$this->getDiskName()} has failed");
+            ->body("The backup of {$this->applicationName()} to disk {$this->diskName()} has failed");
     }
 }
 ```
