@@ -58,7 +58,7 @@ class DbDumperFactory
         if (isset($dbConfig['unix_socket'])) {
             $dbDumper = $dbDumper->setSocket($dbConfig['unix_socket']);
         }
-        
+
         return $dbDumper;
     }
 
