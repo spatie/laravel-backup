@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.10.0 - 2020-05-20
+
+- add support for the `unix_socket` database config option (#1072)
+
 ## 6.9.0 - 2020-04-20
 
 - add right-aligned numbers in console output
