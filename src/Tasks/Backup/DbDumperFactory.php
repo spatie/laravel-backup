@@ -55,6 +55,10 @@ class DbDumperFactory
             $dbDumper = static::processExtraDumpParameters($dbConfig['dump'], $dbDumper);
         }
 
+        if (isset($dbConfig['unix_socket'])) {
+            $dbDumper = $dbDumper->setSocket($dbConfig['unix_socket']);
+        }
+        
         return $dbDumper;
     }
 
