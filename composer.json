@@ -1,5 +1,5 @@
 {
-    "name": "spatie/laravel-backup",
+    "name": "ossbusiness/laravel-backup",
     "description": "A Laravel 5 package to backup your application",
     "keywords": [
         "spatie",
@@ -7,7 +7,7 @@
         "database",
         "laravel-backup"
     ],
-    "homepage": "https://github.com/spatie/laravel-backup",
+    "homepage": "https://github.com/ossbusiness/laravel-backup",
     "license": "MIT",
     "authors": [
         {
