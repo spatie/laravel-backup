@@ -64,6 +64,10 @@ class BackupJobFactory
                         $dbDumper->useSingleTransaction();
                     }
 
+                    if (isset($dbConfig['dump_skip_extended_insert']) && $dbConfig['dump_skip_extended_insert'] == false) {
+                        $dbDumper->dontUseExtendedInserts();
+                    }
+
                     return $dbDumper;
                     break;
 
