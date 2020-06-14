@@ -68,6 +68,7 @@ class FileSelection
         }
 
         $finder = (new Finder())
+            ->ignoreUnreadableDirs()
             ->ignoreDotFiles(false)
             ->ignoreVCS(false);
 
