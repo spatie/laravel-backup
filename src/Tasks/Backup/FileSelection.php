@@ -64,13 +64,13 @@ class FileSelection
     /**
      * Set if it should ignore the unreadable directories.
      *
-     * @param boolean $IgnoreUnreadableDirs
+     * @param boolean $ignoreUnreadableDirs
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
-    public function shouldIgnoreUnreadableDirs(bool $IgnoreUnreadableDirs): self
+    public function shouldIgnoreUnreadableDirs(bool $ignoreUnreadableDirs): self
     {
-        $this->shouldIgnoreUnreadableDirs = $IgnoreUnreadableDirs;
+        $this->shouldIgnoreUnreadableDirs = $ignoreUnreadableDirs;
 
         return $this;
     }
