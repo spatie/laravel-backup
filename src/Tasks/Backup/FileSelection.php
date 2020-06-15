@@ -64,7 +64,7 @@ class FileSelection
     /**
      * Set if it should ignore the unreadable directories.
      *
-     * @param boolean $ignoreUnreadableDirs
+     * @param bool $ignoreUnreadableDirs
      *
      * @return \Spatie\Backup\Tasks\Backup\FileSelection
      */
