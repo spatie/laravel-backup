@@ -17,6 +17,9 @@ class FileSelection
     /** @var bool */
     protected $shouldFollowLinks = false;
 
+    /** @var bool */
+    protected $shouldIgnoreUnreadableDirs = false;
+
     /**
      * @param array|string $includeFilesAndDirectories
      *
@@ -59,6 +62,20 @@ class FileSelection
     }
 
     /**
+     * Set if it should ignore the unreadable directories.
+     *
+     * @param boolean $ignoreUnreadableDirs
+     *
+     * @return \Spatie\Backup\Tasks\Backup\FileSelection
+     */
+    public function shouldIgnoreUnreadableDirs(bool $ignoreUnreadableDirs): self
+    {
+        $this->shouldIgnoreUnreadableDirs = $ignoreUnreadableDirs;
+
+        return $this;
+    }
+
+    /**
      * @return \Generator|string[]
      */
     public function selectedFiles()
@@ -73,6 +90,10 @@ class FileSelection
 
         if ($this->shouldFollowLinks) {
             $finder->followLinks();
+        }
+
+        if ($this->shouldIgnoreUnreadableDirs) {
+            $finder->ignoreUnreadableDirs();
         }
 
         foreach ($this->includedFiles() as $includedFile) {

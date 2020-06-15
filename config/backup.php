@@ -35,6 +35,11 @@ return [
                  * Determines if symlinks should be followed.
                  */
                 'follow_links' => false,
+
+                /*
+                 * Determines if it should avoid unreadable folders.
+                 */
+                'ignore_unreadable_directories' => false,
             ],
 
             /*
