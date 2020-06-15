@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.11.0 - 2020-06-15
+
+- avoid unreadable folders errors, can be set from config (#1081)
+
 ## 6.10.0 - 2020-05-20
 
 - add support for the `unix_socket` database config option (#1072)
