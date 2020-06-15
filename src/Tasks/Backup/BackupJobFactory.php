@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class BackupJobFactory
@@ -19,7 +20,8 @@ class BackupJobFactory
     {
         return FileSelection::create($sourceFiles['include'])
             ->excludeFilesFrom($sourceFiles['exclude'])
-            ->shouldFollowLinks(isset($sourceFiles['follow_links']) && $sourceFiles['follow_links']);
+            ->shouldFollowLinks(isset($sourceFiles['follow_links']) && $sourceFiles['follow_links'])
+            ->shouldIgnoreUnreadableDirs(Arr::get($sourceFiles, 'ignore_unreadable_directories', false));
     }
 
     protected static function createDbDumpers(array $dbConnectionNames): Collection
