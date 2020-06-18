@@ -3,6 +3,8 @@
 namespace Spatie\Backup\BackupDestination;
 
 use Carbon\Carbon;
+use InvalidArgumentException;
+use Spatie\Backup\Tasks\Backup\BackupJob;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
 class Backup
@@ -51,7 +53,14 @@ class Backup
     public function date(): Carbon
     {
         if ($this->date === null) {
-            $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
+            try {
+                // try to parse the date from the filename
+                $basename = basename($this->path);
+                $this->date = Carbon::createFromFormat(BackupJob::FILENAME_FORMAT, $basename);
+            } catch (InvalidArgumentException $e) {
+                // if that fails, ask the (remote) filesystem
+                $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
+            }
         }
 
         return $this->date;
