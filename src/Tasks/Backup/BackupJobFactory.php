@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 
 class BackupJobFactory

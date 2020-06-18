@@ -3,9 +3,9 @@
 namespace Spatie\Backup\BackupDestination;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use InvalidArgumentException;
 use Spatie\Backup\Tasks\Backup\BackupJob;
-use Illuminate\Contracts\Filesystem\Filesystem;
 
 class Backup
 {
