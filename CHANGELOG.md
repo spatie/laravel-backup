@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.11.1 - 2020-06-17
+
+- reduce number of filesystem calls for Backup `exists` and `date` (#1084)
+
 ## 6.11.0 - 2020-06-15
 
 - avoid unreadable folders errors, can be set from config (#1081)
