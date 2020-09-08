@@ -18,13 +18,13 @@ class DbDumperFactoryTest extends TestCase
         config()->set('database.default', 'mysql');
 
         config()->set('database.connections.mongodb', [
-            'driver'   => 'mongodb',
-            'host'     => 'localhost',
-            'port'     => 27017,
+            'driver' => 'mongodb',
+            'host' => 'localhost',
+            'port' => 27017,
             'database' => 'myDb',
             'username' => 'root',
             'password' => 'myPassword',
-            'options'  => [
+            'options' => [
                 'database' => 'admin',
             ],
             'dump' => [
@@ -33,17 +33,17 @@ class DbDumperFactoryTest extends TestCase
         ]);
 
         config()->set('database.connections.pgsql', [
-            'driver'   => 'pgsql',
-            'url'      => 'pgsql://homestead:password:15432@localhost/homestead',
-            'host'     => '127.0.0.1',
-            'port'     => '5432',
+            'driver' => 'pgsql',
+            'url' => 'pgsql://homestead:password:15432@localhost/homestead',
+            'host' => '127.0.0.1',
+            'port' => '5432',
             'database' => 'forge',
             'username' => 'forge',
             'password' => '',
-            'charset'  => 'utf8',
-            'prefix'   => '',
-            'schema'   => 'public',
-            'sslmode'  => 'prefer',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ]);
     }
 
@@ -70,13 +70,13 @@ class DbDumperFactoryTest extends TestCase
     public function it_can_create_mongodb_instance()
     {
         $dbConfig = [
-            'driver'   => 'mongodb',
-            'host'     => 'localhost',
-            'port'     => 27017,
+            'driver' => 'mongodb',
+            'host' => 'localhost',
+            'port' => 27017,
             'database' => 'myDb',
             'username' => 'root',
             'password' => 'myPassword',
-            'options'  => [
+            'options' => [
                 'database' => 'admin', // sets the authentication database required by mongo 3
             ],
         ];
@@ -88,16 +88,16 @@ class DbDumperFactoryTest extends TestCase
     public function it_can_create_instance_from_database_url()
     {
         $dbConfig = [
-            'driver'   => 'pgsql',
-            'host'     => 'localhost',
-            'port'     => '15432',
+            'driver' => 'pgsql',
+            'host' => 'localhost',
+            'port' => '15432',
             'database' => 'forge',
             'username' => 'homestead',
             'password' => 'password',
-            'charset'  => 'utf8',
-            'prefix'   => '',
-            'schema'   => 'public',
-            'sslmode'  => 'prefer',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ];
         config()->set('database.connections.pgsql', $dbConfig);
         $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
