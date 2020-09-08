@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-## 6.11.2. - 2020-09-07
+## 6.11.2 - 2020-09-07
 
 - add support for Laravel 8
 
