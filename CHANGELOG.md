@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.11.2. - 2020-09-07
+
+- add support for Laravel 8
+
 ## 6.11.1 - 2020-06-17
 
 - reduce number of filesystem calls for Backup `exists` and `date` (#1084)
