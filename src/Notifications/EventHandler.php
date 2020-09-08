@@ -53,7 +53,7 @@ class EventHandler
                 return $notificationName === $eventName;
             });
 
-        if (! $notificationClass) {
+        if (!$notificationClass) {
             throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
         }
 

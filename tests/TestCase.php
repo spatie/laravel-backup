@@ -39,12 +39,12 @@ abstract class TestCase extends Orchestra
         config()->set('mail.driver', 'log');
 
         config()->set('database.connections.db1', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => $this->createSQLiteDatabase('database1.sqlite'),
         ]);
 
         config()->set('database.connections.db2', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => $this->createSQLiteDatabase('database2.sqlite'),
         ]);
 
