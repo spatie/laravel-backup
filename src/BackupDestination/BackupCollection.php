@@ -15,7 +15,7 @@ class BackupCollection extends Collection
     {
         return (new static($files))
             ->filter(function ($path) use ($disk) {
-                return (new File)->isZipFile($disk, $path);
+                return (new File())->isZipFile($disk, $path);
             })
             ->map(function ($path) use ($disk) {
                 return new Backup($disk, $path);

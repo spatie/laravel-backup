@@ -35,7 +35,7 @@ abstract class BaseNotification extends Notification
     {
         $backupDestination = $this->backupDestination();
 
-        if (! $backupDestination) {
+        if (!$backupDestination) {
             return collect();
         }
 
@@ -45,11 +45,11 @@ abstract class BaseNotification extends Notification
         $oldestBackup = $backupDestination->oldestBackup();
 
         return collect([
-            'Application name' => $this->applicationName(),
-            'Backup name' => $this->backupName(),
-            'Disk' => $backupDestination->diskName(),
+            'Application name'   => $this->applicationName(),
+            'Backup name'        => $this->backupName(),
+            'Disk'               => $backupDestination->diskName(),
             'Newest backup size' => $newestBackup ? Format::humanReadableSize($newestBackup->size()) : 'No backups were made yet',
-            'Number of backups' => (string) $backupDestination->backups()->count(),
+            'Number of backups'  => (string) $backupDestination->backups()->count(),
             'Total storage used' => Format::humanReadableSize($backupDestination->backups()->size()),
             'Newest backup date' => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
             'Oldest backup date' => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',

@@ -96,7 +96,7 @@ class BackupCommandTest extends TestCase
     {
         $tempDirectoryPath = storage_path('app/backup-temp/temp');
 
-        if (! file_exists($tempDirectoryPath)) {
+        if (!file_exists($tempDirectoryPath)) {
             mkdir($tempDirectoryPath, 0777, true);
         }
         touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file-temp.txt');

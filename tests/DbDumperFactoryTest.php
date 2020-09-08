@@ -59,7 +59,7 @@ class DbDumperFactoryTest extends TestCase
     public function it_can_create_sqlite_instance()
     {
         config()->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => 'database.sqlite',
         ]);
 
@@ -108,17 +108,17 @@ class DbDumperFactoryTest extends TestCase
     {
         $dbConfig = [
             'driver' => 'mysql',
-            'read' => [
-                'host' => 'localhost-read',
+            'read'   => [
+                'host'     => 'localhost-read',
                 'database' => 'myDb-read',
             ],
             'write' => [
-                'host' => 'localhost-write',
+                'host'     => 'localhost-write',
                 'database' => 'myDb-write',
             ],
             'username' => 'root',
             'password' => 'myPassword',
-            'dump' => ['add_extra_option' => '--extra-option=value'],
+            'dump'     => ['add_extra_option' => '--extra-option=value'],
         ];
 
         config()->set('database.connections.mysql', $dbConfig);
@@ -134,17 +134,17 @@ class DbDumperFactoryTest extends TestCase
     {
         $dbConfig = [
             'driver' => 'mysql',
-            'read' => [
-                'host' => ['localhost-read-1', 'localhost-read-2'],
+            'read'   => [
+                'host'     => ['localhost-read-1', 'localhost-read-2'],
                 'database' => 'myDb-read',
             ],
             'write' => [
-                'host' => 'localhost-write',
+                'host'     => 'localhost-write',
                 'database' => 'myDb-write',
             ],
             'username' => 'root',
             'password' => 'myPassword',
-            'dump' => ['add_extra_option' => '--extra-option=value'],
+            'dump'     => ['add_extra_option' => '--extra-option=value'],
         ];
 
         config()->set('database.connections.mysql', $dbConfig);

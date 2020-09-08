@@ -72,7 +72,7 @@ class Backup
     public function size(): float
     {
         if ($this->size === null) {
-            if (! $this->exists()) {
+            if (!$this->exists()) {
                 return 0;
             }
 

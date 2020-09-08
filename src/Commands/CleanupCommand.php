@@ -43,7 +43,7 @@ class CleanupCommand extends BaseCommand
 
             consoleOutput()->comment('Cleanup completed!');
         } catch (Exception $exception) {
-            if (! $disableNotifications) {
+            if (!$disableNotifications) {
                 event(new CleanupHasFailed($exception));
             }
 

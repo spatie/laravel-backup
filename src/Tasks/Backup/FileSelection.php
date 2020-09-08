@@ -100,7 +100,7 @@ class FileSelection
             yield $includedFile;
         }
 
-        if (! count($this->includedDirectories())) {
+        if (!count($this->includedDirectories())) {
             return;
         }
 

@@ -98,7 +98,7 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups)
     {
-        if (! $oldest = $backups->oldest()) {
+        if (!$oldest = $backups->oldest()) {
             return;
         }
 

@@ -20,6 +20,7 @@ class DbDumperFactory
     public static function createFromConnection(string $dbConnectionName): DbDumper
     {
         $parser = new ConfigurationUrlParser();
+
         try {
             $dbConfig = $parser->parseConfiguration(config("database.connections.{$dbConnectionName}"));
         } catch (Exception $e) {
@@ -112,7 +113,7 @@ class DbDumperFactory
 
     protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, $methodValue): DbDumper
     {
-        if (! $methodValue) {
+        if (!$methodValue) {
             $dbDumper->$methodName();
 
             return $dbDumper;
