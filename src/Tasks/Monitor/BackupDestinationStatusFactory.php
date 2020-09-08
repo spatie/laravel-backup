@@ -42,7 +42,7 @@ class BackupDestinationStatusFactory
     protected static function buildHealthCheck($class, $options)
     {
         // A single value was passed - we'll instantiate it manually assuming it's the first argument
-        if (! is_array($options)) {
+        if (!is_array($options)) {
             return new $class($options);
         }
 

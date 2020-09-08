@@ -60,7 +60,8 @@ class BackupJob
         $this->dbDumpers = $this->dbDumpers->filter(
             function (DbDumper $dbDumper, string $connectionName) use ($allowedDbNames) {
                 return in_array($connectionName, $allowedDbNames);
-            });
+            }
+        );
 
         return $this;
     }
@@ -113,7 +114,7 @@ class BackupJob
             return $backupDestination->diskName() === $diskName;
         });
 
-        if (! count($this->backupDestinations)) {
+        if (!count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -138,13 +139,13 @@ class BackupJob
             ->empty();
 
         try {
-            if (! count($this->backupDestinations)) {
+            if (!count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
             $manifest = $this->createBackupManifest();
 
-            if (! $manifest->count()) {
+            if (!$manifest->count()) {
                 throw InvalidBackupJob::noFilesToBeBackedUp();
             }
 

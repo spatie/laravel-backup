@@ -32,6 +32,6 @@ class HealthCheckFailure
 
     public function wasUnexpected(): bool
     {
-        return ! $this->exception instanceof InvalidHealthCheck;
+        return !$this->exception instanceof InvalidHealthCheck;
     }
 }

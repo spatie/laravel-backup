@@ -29,7 +29,7 @@ abstract class HealthCheck
 
     protected function failUnless(bool $condition, string $message)
     {
-        if (! $condition) {
+        if (!$condition) {
             $this->fail($message);
         }
     }

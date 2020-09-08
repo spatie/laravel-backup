@@ -39,7 +39,7 @@ class Manifest implements Countable
         }
 
         foreach ($filePaths as $filePath) {
-            if (! empty($filePath)) {
+            if (!empty($filePath)) {
                 file_put_contents($this->manifestPath, $filePath.PHP_EOL, FILE_APPEND);
             }
         }
@@ -54,10 +54,10 @@ class Manifest implements Countable
     {
         $file = new SplFileObject($this->path());
 
-        while (! $file->eof()) {
+        while (!$file->eof()) {
             $filePath = $file->fgets();
 
-            if (! empty($filePath)) {
+            if (!empty($filePath)) {
                 yield trim($filePath);
             }
         }

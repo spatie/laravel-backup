@@ -85,7 +85,7 @@ class Zip
 
     /**
      * @param string|array $files
-     * @param string $nameInZip
+     * @param string       $nameInZip
      *
      * @return \Spatie\Backup\Tasks\Backup\Zip
      */

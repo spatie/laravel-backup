@@ -26,14 +26,14 @@ class CleanupJob
 
         $this->strategy = $strategy;
 
-        $this->sendNotifications = ! $disableNotifications;
+        $this->sendNotifications = !$disableNotifications;
     }
 
     public function run()
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) {
             try {
-                if (! $backupDestination->isReachable()) {
+                if (!$backupDestination->isReachable()) {
                     throw new Exception("Could not connect to disk {$backupDestination->diskName()} because: {$backupDestination->connectionError()}");
                 }
 

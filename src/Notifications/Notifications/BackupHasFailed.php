@@ -20,7 +20,7 @@ class BackupHasFailed extends BaseNotification
 
     public function toMail(): MailMessage
     {
-        $mailMessage = (new MailMessage)
+        $mailMessage = (new MailMessage())
             ->error()
             ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
             ->subject(trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
@@ -37,7 +37,7 @@ class BackupHasFailed extends BaseNotification
 
     public function toSlack(): SlackMessage
     {
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->error()
             ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
