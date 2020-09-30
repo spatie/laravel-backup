@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.11.4 - 2020-09-30
+
+- add Portuguese translations
+
 ## 6.11.3 - 2020-09-29
 
 - add Japanse translations
