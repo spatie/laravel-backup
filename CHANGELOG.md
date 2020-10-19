@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
-## 6.11.5 - 2020-10-19
+## 6.11.6 - 2020-10-19
 
 - add funding section
 
