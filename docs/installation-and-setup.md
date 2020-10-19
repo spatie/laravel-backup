@@ -247,6 +247,11 @@ return [
 ];
 ```
 
+## Configuring the backup disk
+
+By default, the backup will be saved into the `public/laravel-backup/` directory of your laravel application. This folder most probably is configured to be public.
+We recommand to create a disk named `backups` (you can use any name you prefer) in `filesystems.php` and specify that name in the `disk` key of the `backup.php` config file.
+
 ## Scheduling
 
 After you have performed the basic installation you can start using the `backup:run`, `backup:clean`, `backup:list` and `backup:monitor`-commands. In most cases you'll want to schedule these commands so you don't have to manually run `backup:run` everytime you need a new backup.
@@ -304,8 +309,8 @@ Here's an example for MySQL:
 		   'use_single_transaction',
 		   'timeout' => 60 * 5, // 5 minute timeout
 		   'exclude_tables' => ['table1', 'table2'],
-		   'add_extra_option' => '--optionname=optionvalue', 
-		]  
+		   'add_extra_option' => '--optionname=optionvalue', // for example '--column_statistics=0'
+		]
 	],
 ```
 
