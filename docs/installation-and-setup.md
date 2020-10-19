@@ -247,11 +247,10 @@ return [
 ];
 ```
 
-## Path of the backup.
+## Configuring the backup disk
 
 By default, the backup will be saved into the `public/laravel-backup/` directory of your laravel application. This folder most probably is configured to be public.
-If you want the backup to be accessible only by authorized users, you should consider to set the `'disks' => 'local'` setting to `'disks' => 'local_secure'`.
-The backup will be saved in the `storage/laravel-backup` directory then.
+We recommand to create a disk named `backups` (you can use any name you prefer) in `filesystems.php` and specify that name in the `disk` key of the `backup.php` config file.
 
 ## Scheduling
 
