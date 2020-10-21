@@ -15,6 +15,8 @@ php artisan backup:run
 
 In addition to making the backup, the package can also clean up old backups, monitor the health of the backups, and show an overview of all backups.
 
+If you need to backup multiple servers, take a look at [our laravel-backup-server package](https://spatie.be/docs/laravel-backup-server/v1/introduction).
+
 ## We have badges!
 
 <section class="article_badges">
