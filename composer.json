@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.3|^8.0",
         "illuminate/console": "^5.8.15|^6.0|^7.0|^8.0",
         "illuminate/contracts": "^5.8.15|^6.0|^7.0|^8.0",
         "illuminate/events": "^5.8.15|^6.0|^7.0|^8.0",
@@ -31,7 +31,6 @@
         "symfony/finder": "^4.2|^5.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
         "laravel/slack-notification-channel": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "mockery/mockery": "^1.3",

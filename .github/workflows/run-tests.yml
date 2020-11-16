@@ -4,13 +4,13 @@ on: [push, pull_request]
 
 jobs:
     tests:
-        runs-on: ubuntu-latest
-
+        runs-on: ${{ matrix.os }}
         strategy:
             fail-fast: true
             matrix:
-                php: [7.3, 7.4]
-                laravel: [6.*, 7.*, 8.*]
+                os: [ubuntu-latest]
+                php: [8.0, 7.4, 7.3]
+                laravel: [6.*, 7.*, 8.*, 5.8.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 include:
                     -   laravel: 8.*
@@ -19,6 +19,8 @@ jobs:
                         testbench: 5.*
                     -   laravel: 6.*
                         testbench: 4.*
+                    -   laravel: 5.8.*
+                        testbench: 3.8.*
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
@@ -31,12 +33,6 @@ jobs:
                     sudo apt-get update
                     sudo apt-get install sqlite3
 
-            -   name: Cache dependencies
-                uses: actions/cache@v2
-                with:
-                    path: ~/.composer/cache/files
-                    key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
@@ -47,7 +43,12 @@ jobs:
             -   name: Install dependencies
                 run: |
                     composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-                    composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+                    composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+
+            -   name: Setup Problem Matches
+                run: |
+                    echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+                    echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Execute tests
                 run: vendor/bin/phpunit
