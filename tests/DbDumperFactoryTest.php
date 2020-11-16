@@ -155,6 +155,7 @@ class DbDumperFactoryTest extends TestCase
         $this->assertEquals('myDb-read', $dumper->getDbName());
     }
 
+    /** @test */
     public function it_will_throw_an_exception_when_creating_an_unknown_type_of_dumper()
     {
         $this->expectException(CannotCreateDbDumper::class);
