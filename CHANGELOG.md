@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.12.0 - 2020-11-19
+
+- allow a `CleanupStrategy` to access its intended `BackupDestination` (#1149)
+
 ## 6.11.6 - 2020-10-19
 
 - add funding section
