@@ -11,8 +11,8 @@ abstract class CleanupStrategy
     /** @var \Illuminate\Contracts\Config\Repository */
     protected $config;
 
-    /** @var \Spatie\Backup\BackupDestination\BackupDestination|null */
-    protected $backupDestination = null;
+    /** @var \Spatie\Backup\BackupDestination\BackupDestination */
+    protected $backupDestination;
 
     public function __construct(Repository $config)
     {
@@ -34,9 +34,9 @@ abstract class CleanupStrategy
     }
 
     /**
-     * @return \Spatie\Backup\BackupDestination\BackupDestination|null
+     * @return \Spatie\Backup\BackupDestination\BackupDestination
      */
-    public function backupDestination(): ?BackupDestination
+    public function backupDestination(): BackupDestination
     {
         return $this->backupDestination;
     }
