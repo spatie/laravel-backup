@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.13.0 - 2020-11-25
+
+- add support for PHP 8.0
+- drop support for Laravel 5.8
+
 ## 6.12.0 - 2020-11-19
 
 - allow a `CleanupStrategy` to access its intended `BackupDestination` (#1149)
