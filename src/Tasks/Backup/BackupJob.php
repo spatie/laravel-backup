@@ -16,6 +16,7 @@ use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
+use File;
 
 class BackupJob
 {
@@ -252,8 +253,16 @@ class BackupJob
 
             $dbDumper->dumpToFile($temporaryFilePath);
 
+            if (!file_exists($this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName))) {
+                $temporaryFilePaths = $this->getTemporaryFilePaths();
+
+                if (!empty($temporaryFilePaths)) {
+                    return $temporaryFilePaths;
+                }
+            }
+
             return $temporaryFilePath;
-        })->toArray();
+        })->flatten()->toArray();
     }
 
     protected function copyToBackupDestinations(string $path)
@@ -291,5 +300,25 @@ class BackupJob
         return $dbDumper instanceof MongoDb
             ? 'archive'
             : 'sql';
+    }
+
+    /**
+     * Checks if files exists in temp folder
+     * TRUE => return an array with file paths
+     * FALSE => return empty array
+     *
+     * @return array
+     */
+    protected function getTemporaryFilePaths(): array
+    {
+        $temporaryFilePaths = [];
+
+        $temporaryFiles = File::files($this->temporaryDirectory->path('db-dumps'));
+        if (!empty($temporaryFiles)) {
+            foreach ($temporaryFiles as $temporaryFile) {
+                $temporaryFilePaths[] = $temporaryFile->getPathname();
+            }
+        }
+        return $temporaryFilePaths;
     }
 }
