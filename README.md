@@ -8,7 +8,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-backup)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 
-This Laravel package [creates a backup of your application](https://docs.spatie.be/laravel-backup/v6/taking-backups/overview). The backup is a zip file that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel 5](http://laravel.com/docs/filesystem).
+This Laravel package [creates a backup of your application](https://docs.spatie.be/laravel-backup/v6/taking-backups/overview). The backup is a zip file that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel](http://laravel.com/docs/filesystem).
 
 Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 
@@ -31,12 +31,12 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation and usage
 
-This package requires PHP 7.3 and Laravel 5.8 or higher.
+This package requires PHP 7.3 and Laravel 6.0 or higher.
 You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup.
 
 ## Using an older version of PHP / Laravel?
 
-If you are on a PHP version below 7.3 or a Laravel version below 5.8 just use an older version of this package.
+If you are on a PHP version below 7.3 or a Laravel version below 6.0 just use an older version of this package.
 
 Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3), [on version 4](https://docs.spatie.be/laravel-backup/v4) and [on version 5](https://docs.spatie.be/laravel-backup/v5). We won't introduce new features to v5 and below anymore but we will still fix bugs.
 
