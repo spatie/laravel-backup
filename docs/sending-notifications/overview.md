@@ -3,7 +3,7 @@ title: Sending notifications
 weight: 1
 ---
 
-The package leverages Laravel's native notifications to let you know that your backups are ok, or not. Out of the box it can send notifications via mail and Slack (for Slack you'll need to require `laravel/slack-notification-channel` in your project). 
+The package leverages Laravel's native notifications to let you know that your backups are ok, or not. Out of the box it can send notifications via mail and Slack (for Slack you'll need to require `laravel/slack-notification-channel` in your project).
 
 ## Configuration
 
@@ -22,12 +22,12 @@ This is the portion of the configuration that will determine when and how notifi
     'notifications' => [
 
         'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class         => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class        => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class     => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class   => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class => ['mail'],
         ],
 
         /*
@@ -47,6 +47,16 @@ This is the portion of the configuration that will determine when and how notifi
 
         'slack' => [
             'webhook_url' => '',
+
+            /*
+             * If this is set to null the default channel of the webhook will be used.
+             */
+            'channel' => null,
+
+            'username' => null,
+
+            'icon' => null,
+
         ],
     ],
 
