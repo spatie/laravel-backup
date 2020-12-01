@@ -3,7 +3,7 @@ title: Sending notifications
 weight: 1
 ---
 
-The package leverages Laravel's native notifications to let you know that your backups are ok, or not. Out of the box it can send notifications via mail and Slack (for Slack you'll need to require `guzzlehttp/guzzle` in your project). 
+The package leverages Laravel's native notifications to let you know that your backups are ok, or not. Out of the box it can send notifications via mail and Slack (for Slack you'll need to require `laravel/slack-notification-channel` in your project). 
 
 ## Configuration
 
@@ -14,7 +14,7 @@ This is the portion of the configuration that will determine when and how notifi
 
     /*
      * You can get notified when specific events occur. Out of the box you can use 'mail' and 'slack'.
-     * For Slack you need to install guzzlehttp/guzzle.
+     * For Slack you need to install laravel/slack-notification-channel.
      *
      * You can also use your own notification classes, just make sure the class is named after one of
      * the `Spatie\Backup\Events` classes.
