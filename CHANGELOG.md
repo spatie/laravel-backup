@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.13.1 - 2020-12-01
+
+- Update README.md, docs and comment in config file (#1154)
+
 ## 6.13.0 - 2020-11-25
 
 - add support for PHP 8.0
