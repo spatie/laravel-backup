@@ -101,7 +101,6 @@ class BackupCommandTest extends TestCase
 
         $this->artisan('backup:run --only-files')->assertExitCode(0);
         $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
-        die;
     }
 
     /** @test */
