@@ -92,6 +92,19 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_backup_using_relative_path()
+    {
+        config()->set('backup.backup.source.files.include', [$this->getDiskRootPath('local')]);
+        config()->set('backup.backup.source.files.relative_path', $this->getDiskRootPath('local'));
+
+        Storage::disk('local')->put('testing-file.txt', 'dummy content');
+
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
+        die;
+    }
+
+    /** @test */
     public function it_excludes_the_temporary_directory_from_the_backup()
     {
         $tempDirectoryPath = storage_path('app/backup-temp/temp');
