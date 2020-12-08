@@ -71,6 +71,13 @@ This section of the configuration determines which files and databases will be b
               * Determines if symlinks should be followed.
               */
              'follow_links' => false,
+
+            /*
+             * This path is used to make directories in resulting zip-file relative
+             * Set to false to include complete absolute path
+             * Example: base_path()
+             */
+            'relative_path' => false,
          ],
 
          /*
