@@ -42,7 +42,7 @@ class Zip
             return str_replace($zipDirectory, '', $pathToFile);
         }
 
-        if($relativePath = config('backup.backup.source.files.relative_path')) {
+        if ($relativePath = config('backup.backup.source.files.relative_path')) {
             if (Str::startsWith($fileDirectory . '/', $relativePath)) {
                 return str_replace($relativePath, '', $pathToFile);
             }
