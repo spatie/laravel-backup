@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.14.0 - 2020-12-08
+
+- add option to add files to zip-file using relative path (#1158)
+
 ## 6.13.1 - 2020-12-01
 
 - Update README.md, docs and comment in config file (#1154)
