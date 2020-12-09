@@ -89,7 +89,12 @@ class Backup
 
     public function delete()
     {
-        $this->disk->delete($this->path);
+        if (! $this->disk->delete($this->path)) {
+            consoleOutput()->error("Failed to delete backup `{$this->path}`.");
+            
+            return;
+        } 
+        
         $this->exists = false;
 
         consoleOutput()->info("Deleted backup `{$this->path}`.");
