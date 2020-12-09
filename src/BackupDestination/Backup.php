@@ -93,7 +93,7 @@ class Backup
             consoleOutput()->error("Failed to delete backup `{$this->path}`.");
             
             return;
-        } 
+        }
         
         $this->exists = false;
 
