@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Events\CleanupWasSuccessfulEvent;
 use Spatie\Backup\Tests\TestCase;
 
 class CleanupCommandTest extends TestCase
@@ -149,7 +149,7 @@ class CleanupCommandTest extends TestCase
     {
         $this->artisan('backup:clean')->assertExitCode(0);
 
-        Event::assertDispatched(CleanupWasSuccessful::class);
+        Event::assertDispatched(CleanupWasSuccessfulEvent::class);
     }
 
     /** @test */
@@ -157,7 +157,7 @@ class CleanupCommandTest extends TestCase
     {
         $this->artisan('backup:clean --disable-notifications')->assertExitCode(0);
 
-        Event::assertNotDispatched(CleanupWasSuccessful::class);
+        Event::assertNotDispatched(CleanupWasSuccessfulEvent::class);
     }
 
     /** @test */

@@ -4,7 +4,7 @@ namespace Spatie\Backup\Events;
 
 use Spatie\Backup\Tasks\Backup\Manifest;
 
-class BackupManifestWasCreated
+class BackupManifestWasCreatedEvent
 {
     public function __construct(
         public Manifest $manifest,

@@ -5,9 +5,9 @@ namespace Spatie\Backup\Tests\Notifications;
 use Exception;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
-use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupHasFailedEvent;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Notifications\Notifications\BackupHasFailed as BackupHasFailedNotification;
+use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BackupHasFailedNotification;
 use Spatie\Backup\Tests\TestCase;
 
 class EventHandlerTest extends TestCase
@@ -60,6 +60,6 @@ class EventHandlerTest extends TestCase
 
         $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
-        event(new BackupHasFailed($exception, $backupDestination));
+        event(new BackupHasFailedEvent($exception, $backupDestination));
     }
 }

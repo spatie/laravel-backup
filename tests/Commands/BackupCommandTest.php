@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupHasFailedEvent;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 
@@ -272,7 +272,7 @@ class BackupCommandTest extends TestCase
         // use an invalid dbname to trigger failure
         $this->artisan('backup:run --only-db --db-name=wrongName')->assertExitCode(1);
 
-        Event::assertDispatched(BackupHasFailed::class);
+        Event::assertDispatched(BackupHasFailedEvent::class);
     }
 
     /** @test */
@@ -281,7 +281,7 @@ class BackupCommandTest extends TestCase
         //use an invalid dbname to trigger failure
         $this->artisan('backup:run --only-db --db-name=wrongName --disable-notifications')->assertExitCode(1);
 
-        Event::assertNotDispatched(BackupHasFailed::class);
+        Event::assertNotDispatched(BackupHasFailedEvent::class);
     }
 
     /** @test */

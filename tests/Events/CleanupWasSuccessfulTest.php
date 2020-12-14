@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Events\CleanupWasSuccessfulEvent;
 use Spatie\Backup\Tests\TestCase;
 
 class CleanupWasSuccessfulTest extends TestCase
@@ -15,6 +15,6 @@ class CleanupWasSuccessfulTest extends TestCase
 
         $this->artisan('backup:clean');
 
-        Event::assertDispatched(CleanupWasSuccessFul::class);
+        Event::assertDispatched(CleanupWasSuccessfulEvent::class);
     }
 }

@@ -5,15 +5,15 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\BackupWasSuccessful as BackupWasSuccessfulEvent;
+use Spatie\Backup\Events\CleanupWasSuccessfulEvent as CleanupWasSuccessfulEvent;
 use Spatie\Backup\Notifications\BaseNotification;
 
-class BackupWasSuccessful extends BaseNotification
+class CleanupWasSuccessfulNotification extends BaseNotification
 {
-    /** @var \Spatie\Backup\Events\BackupWasSuccessful */
+    /** @var \Spatie\Backup\Events\CleanupWasSuccessfulEvent */
     protected $event;
 
-    public function __construct(BackupWasSuccessfulEvent $event)
+    public function __construct(CleanupWasSuccessfulEvent $event)
     {
         $this->event = $event;
     }
@@ -22,8 +22,8 @@ class BackupWasSuccessful extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
-            ->subject(trans('backup::notifications.backup_successful_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('backup::notifications.backup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
+            ->subject(trans('backup::notifications.cleanup_successful_subject', ['application_name' => $this->applicationName()]))
+            ->line(trans('backup::notifications.cleanup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: $value");
@@ -38,7 +38,7 @@ class BackupWasSuccessful extends BaseNotification
             ->success()
             ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
-            ->content(trans('backup::notifications.backup_successful_subject_title'))
+            ->content(trans('backup::notifications.cleanup_successful_subject_title'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });

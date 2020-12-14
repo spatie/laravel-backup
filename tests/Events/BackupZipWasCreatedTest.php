@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Backup\Events\BackupZipWasCreated;
+use Spatie\Backup\Events\BackupZipWasCreatedEvent;
 use Spatie\Backup\Tests\TestCase;
 
 class BackupZipWasCreatedTest extends TestCase
@@ -15,6 +15,6 @@ class BackupZipWasCreatedTest extends TestCase
 
         $this->artisan('backup:run', ['--only-files' => true]);
 
-        Event::assertDispatched(BackupZipWasCreated::class);
+        Event::assertDispatched(BackupZipWasCreatedEvent::class);
     }
 }

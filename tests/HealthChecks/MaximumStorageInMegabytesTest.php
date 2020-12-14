@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Tests\HealthChecks;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Backup\Events\HealthyBackupWasFound;
-use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Spatie\Backup\Events\HealthyBackupWasFoundEvent;
+use Spatie\Backup\Events\UnhealthyBackupWasFoundEvent;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 use Spatie\Backup\Tests\TestCase;
 
@@ -28,7 +28,7 @@ class MaximumStorageInMegabytesTest extends TestCase
 
         $this->artisan('backup:monitor')->assertExitCode(0);
 
-        Event::assertDispatched(HealthyBackupWasFound::class);
+        Event::assertDispatched(HealthyBackupWasFoundEvent::class);
     }
 
     /** @test */
@@ -39,6 +39,6 @@ class MaximumStorageInMegabytesTest extends TestCase
 
         $this->artisan('backup:monitor')->assertExitCode(1);
 
-        Event::assertDispatched(UnhealthyBackupWasFound::class);
+        Event::assertDispatched(UnhealthyBackupWasFoundEvent::class);
     }
 }

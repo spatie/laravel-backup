@@ -5,12 +5,12 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\CleanupHasFailed as CleanupHasFailedEvent;
+use Spatie\Backup\Events\CleanupHasFailedEvent as CleanupHasFailedEvent;
 use Spatie\Backup\Notifications\BaseNotification;
 
-class CleanupHasFailed extends BaseNotification
+class CleanupHasFailedNotification extends BaseNotification
 {
-    /** @var \Spatie\Backup\Events\CleanupHasFailed */
+    /** @var \Spatie\Backup\Events\CleanupHasFailedEvent */
     protected $event;
 
     public function __construct(CleanupHasFailedEvent $event)

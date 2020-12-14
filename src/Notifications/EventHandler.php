@@ -5,12 +5,13 @@ namespace Spatie\Backup\Notifications;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Notifications\Notification;
-use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Events\CleanupHasFailed;
-use Spatie\Backup\Events\CleanupWasSuccessful;
-use Spatie\Backup\Events\HealthyBackupWasFound;
-use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Illuminate\Support\Str;
+use Spatie\Backup\Events\BackupHasFailedEvent;
+use Spatie\Backup\Events\BackupWasSuccessfulEvent;
+use Spatie\Backup\Events\CleanupHasFailedEvent;
+use Spatie\Backup\Events\CleanupWasSuccessfulEvent;
+use Spatie\Backup\Events\HealthyBackupWasFoundEvent;
+use Spatie\Backup\Events\UnhealthyBackupWasFoundEvent;
 use Spatie\Backup\Exceptions\NotificationCouldNotBeSent;
 
 class EventHandler
@@ -43,15 +44,13 @@ class EventHandler
 
     protected function determineNotification($event): Notification
     {
-        $eventName = class_basename($event);
+        $eventBaseClass = class_basename($event);
+
+        $lookingForNotificationClass = Str::replaceLast('Event', 'Notification', $eventBaseClass);
 
         $notificationClass = collect($this->config->get('backup.notifications.notifications'))
             ->keys()
-            ->first(function ($notificationClass) use ($eventName) {
-                $notificationName = class_basename($notificationClass);
-
-                return $notificationName === $eventName;
-            });
+            ->first(fn(string $notificationClass) => class_basename($notificationClass) === $lookingForNotificationClass);
 
         if (! $notificationClass) {
             throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
@@ -63,12 +62,12 @@ class EventHandler
     protected function allBackupEventClasses(): array
     {
         return [
-            BackupHasFailed::class,
-            BackupWasSuccessful::class,
-            CleanupHasFailed::class,
-            CleanupWasSuccessful::class,
-            HealthyBackupWasFound::class,
-            UnhealthyBackupWasFound::class,
+            BackupHasFailedEvent::class,
+            BackupWasSuccessfulEvent::class,
+            CleanupHasFailedEvent::class,
+            CleanupWasSuccessfulEvent::class,
+            HealthyBackupWasFoundEvent::class,
+            UnhealthyBackupWasFoundEvent::class,
         ];
     }
 }

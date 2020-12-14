@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Commands;
 
-use Spatie\Backup\Events\HealthyBackupWasFound;
-use Spatie\Backup\Events\UnhealthyBackupWasFound;
+use Spatie\Backup\Events\HealthyBackupWasFoundEvent;
+use Spatie\Backup\Events\UnhealthyBackupWasFoundEvent;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
 class MonitorCommand extends BaseCommand
@@ -25,11 +25,11 @@ class MonitorCommand extends BaseCommand
 
             if ($backupDestinationStatus->isHealthy()) {
                 $this->info("The backups on {$diskName} are considered healthy.");
-                event(new HealthyBackupWasFound($backupDestinationStatus));
+                event(new HealthyBackupWasFoundEvent($backupDestinationStatus));
             } else {
                 $hasError = true;
                 $this->error("The backups on {$diskName} are considered unhealthy!");
-                event(new UnHealthyBackupWasFound($backupDestinationStatus));
+                event(new UnhealthyBackupWasFoundEvent($backupDestinationStatus));
             }
         }
 

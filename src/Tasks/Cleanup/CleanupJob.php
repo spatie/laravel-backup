@@ -5,8 +5,8 @@ namespace Spatie\Backup\Tasks\Cleanup;
 use Exception;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Events\CleanupHasFailed;
-use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Events\CleanupHasFailedEvent;
+use Spatie\Backup\Events\CleanupWasSuccessfulEvent;
 use Spatie\Backup\Helpers\Format;
 
 class CleanupJob
@@ -43,14 +43,14 @@ class CleanupJob
                     ->setBackupDestination($backupDestination)
                     ->deleteOldBackups($backupDestination->backups());
 
-                $this->sendNotification(new CleanupWasSuccessful($backupDestination));
+                $this->sendNotification(new CleanupWasSuccessfulEvent($backupDestination));
 
                 $usedStorage = Format::humanReadableSize($backupDestination->fresh()->usedStorage());
                 consoleOutput()->info("Used storage after cleanup: {$usedStorage}.");
             } catch (Exception $exception) {
                 consoleOutput()->error("Cleanup failed because: {$exception->getMessage()}.");
 
-                $this->sendNotification(new CleanupHasFailed($exception));
+                $this->sendNotification(new CleanupHasFailedEvent($exception));
 
                 throw $exception;
             }
