@@ -1,3 +1,8 @@
+## From v6 to v7
+
+- All event class names got suffixed with 'Event'. Make sure you update the classnames where you are using these events.
+- All notification class names got suffixed with 'Notification'. Make sure you update the classnames where you are using these notifications.
+
 # From v5 to v6
 
 - All keys in the config file are now snake_cased. Rename any camelCased keys to their snake_cased counterparts.

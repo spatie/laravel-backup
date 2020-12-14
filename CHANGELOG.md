@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.0.0 - 2020-12-14
+
+- drop support for PHP 7
+- drop support for anything below Laravel 8
+
 ## 6.14.0 - 2020-12-08
 
 - add option to add files to zip-file using relative path (#1158)
