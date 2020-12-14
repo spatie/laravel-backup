@@ -50,7 +50,7 @@ class EventHandler
 
         $notificationClass = collect($this->config->get('backup.notifications.notifications'))
             ->keys()
-            ->first(fn(string $notificationClass) => class_basename($notificationClass) === $lookingForNotificationClass);
+            ->first(fn (string $notificationClass) => class_basename($notificationClass) === $lookingForNotificationClass);
 
         if (! $notificationClass) {
             throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
