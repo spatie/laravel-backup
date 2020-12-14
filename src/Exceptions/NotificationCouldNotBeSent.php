@@ -8,8 +8,6 @@ class NotificationCouldNotBeSent extends Exception
 {
     public static function noNotificationClassForEvent($event): self
     {
-        $eventClass = get_class($event);
-
-        return new static("There is no notification class that can handle event `{$eventClass}`.");
+        return new static("There is no notification class that can handle event `{$event::class}`.");
     }
 }

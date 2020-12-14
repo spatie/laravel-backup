@@ -11,7 +11,7 @@ abstract class BaseCommand extends Command
 {
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        app(ConsoleOutput::class)->setOutput($this);
+        app(ConsoleOutput::class)->setCommand($this);
 
         return parent::run($input, $output);
     }
