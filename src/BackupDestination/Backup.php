@@ -9,27 +9,16 @@ use Spatie\Backup\Tasks\Backup\BackupJob;
 
 class Backup
 {
-    /** @var \Illuminate\Contracts\Filesystem\Filesystem */
-    protected $disk;
+    protected bool $exists = true;
 
-    /** @var string */
-    protected $path;
+    protected ?Carbon $date = null;
 
-    /** @var bool */
-    protected $exists;
+    protected ?int $size = null;
 
-    /** @var Carbon */
-    protected $date;
-
-    /** @var int */
-    protected $size;
-
-    public function __construct(Filesystem $disk, string $path)
-    {
-        $this->disk = $disk;
-        $this->path = $path;
-        $this->exists = true;
-    }
+    public function __construct(
+        protected Filesystem $disk,
+        protected string $path,
+    ) {}
 
     public function disk(): Filesystem
     {
@@ -57,7 +46,7 @@ class Backup
                 // try to parse the date from the filename
                 $basename = basename($this->path);
                 $this->date = Carbon::createFromFormat(BackupJob::FILENAME_FORMAT, $basename);
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidArgumentException) {
                 // if that fails, ask the (remote) filesystem
                 $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
             }
@@ -91,10 +80,10 @@ class Backup
     {
         if (! $this->disk->delete($this->path)) {
             consoleOutput()->error("Failed to delete backup `{$this->path}`.");
-            
+
             return;
         }
-        
+
         $this->exists = false;
 
         consoleOutput()->info("Deleted backup `{$this->path}`.");
