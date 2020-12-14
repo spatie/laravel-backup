@@ -11,8 +11,7 @@ use Spatie\Backup\Tasks\Cleanup\Period;
 
 class DefaultStrategy extends CleanupStrategy
 {
-    /** @var \Spatie\Backup\BackupDestination\Backup */
-    protected $newestBackup;
+    protected ?Backup $newestBackup = null;
 
     public function deleteOldBackups(BackupCollection $backups)
     {

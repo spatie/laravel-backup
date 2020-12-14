@@ -9,21 +9,12 @@ use Spatie\Backup\Tasks\Monitor\HealthChecks\IsReachable;
 
 class BackupDestinationStatus
 {
-    /** @var \Spatie\Backup\BackupDestination\BackupDestination */
-    protected $backupDestination;
+    protected ?HealthCheckFailure $healthCheckFailure = null;
 
-    /** @var array */
-    protected $healthChecks;
-
-    /** @var HealthCheckFailure|null */
-    protected $healthCheckFailure;
-
-    public function __construct(BackupDestination $backupDestination, array $healthChecks = [])
-    {
-        $this->backupDestination = $backupDestination;
-
-        $this->healthChecks = $healthChecks;
-    }
+    public function __construct(
+        protected BackupDestination $backupDestination,
+        protected array $healthChecks = []
+    ) {}
 
     public function backupDestination(): BackupDestination
     {

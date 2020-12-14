@@ -8,14 +8,11 @@ use ZipArchive;
 
 class Zip
 {
-    /** @var \ZipArchive */
-    protected $zipFile;
+    protected ZipArchive $zipFile;
 
-    /** @var int */
-    protected $fileCount = 0;
+    protected int $fileCount = 0;
 
-    /** @var string */
-    protected $pathToZip;
+    protected string $pathToZip;
 
     public static function createForManifest(Manifest $manifest, string $pathToZip): self
     {
@@ -89,13 +86,7 @@ class Zip
         $this->zipFile->close();
     }
 
-    /**
-     * @param string|array $files
-     * @param string $nameInZip
-     *
-     * @return \Spatie\Backup\Tasks\Backup\Zip
-     */
-    public function add($files, string $nameInZip = null): self
+    public function add(string|array $files, string $nameInZip = null): self
     {
         if (is_array($files)) {
             $nameInZip = null;

@@ -7,8 +7,7 @@ use SplFileObject;
 
 class Manifest implements Countable
 {
-    /** @var string */
-    protected $manifestPath;
+    protected string $manifestPath;
 
     public static function create(string $manifestPath): self
     {
