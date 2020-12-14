@@ -7,11 +7,9 @@ use Spatie\Backup\Tasks\Backup\Manifest;
 
 class ManifestTest extends TestCase
 {
-    /** @var string */
-    protected $pathToManifest;
+    protected string $pathToManifest;
 
-    /** @var \Spatie\Backup\Tasks\Backup\Manifest */
-    protected $manifest;
+    protected Manifest $manifest;
 
     public function setUp(): void
     {

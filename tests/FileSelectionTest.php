@@ -6,8 +6,7 @@ use Spatie\Backup\Tasks\Backup\FileSelection;
 
 class FileSelectionTest extends TestCase
 {
-    /** @string */
-    protected $sourceDirectory;
+    protected string $sourceDirectory;
 
     public function setUp(): void
     {

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,7 @@ abstract class TestCase extends Orchestra
      *
      * @return array
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             BackupServiceProvider::class,
@@ -54,10 +55,7 @@ abstract class TestCase extends Orchestra
         Storage::fake('secondLocal');
     }
 
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     */
-    protected function setUpDatabase($app)
+    protected function setUpDatabase(Application $app)
     {
         touch($this->getTempDirectory().'/database.sqlite');
 
@@ -67,7 +65,7 @@ abstract class TestCase extends Orchestra
         });
     }
 
-    protected function seeInConsoleOutput($expectedText)
+    protected function seeInConsoleOutput(string $expectedText): void
     {
         $consoleOutput = $this->app[Kernel::class]->output();
 
@@ -78,18 +76,18 @@ abstract class TestCase extends Orchestra
         );
     }
 
-    protected function doNotSeeInConsoleOutput($unExpectedText)
+    protected function doNotSeeInConsoleOutput(string $unexpectedText): void
     {
         $consoleOutput = $this->app[Kernel::class]->output();
 
         $this->assertNotContains(
-            $unExpectedText,
+            $unexpectedText,
             $consoleOutput,
-            "Did not expect to see `{$unExpectedText}` in console output: `$consoleOutput`"
+            "Did not expect to see `{$unexpectedText}` in console output: `$consoleOutput`"
         );
     }
 
-    protected function assertFileExistsInZip(string $diskName, string $zipPath, string $fileName)
+    protected function assertFileExistsInZip(string $diskName, string $zipPath, string $fileName): void
     {
         $this->assertTrue(
             $this->fileExistsInZip($diskName, $zipPath, $fileName),
@@ -97,7 +95,7 @@ abstract class TestCase extends Orchestra
         );
     }
 
-    protected function assertFileDoesntExistsInZip(string $diskName, string $zipPath, string $fileName)
+    protected function assertFileDoesntExistsInZip(string $diskName, string $zipPath, string $fileName): void
     {
         $this->assertFalse(
             $this->fileExistsInZip($diskName, $zipPath, $fileName),
@@ -125,7 +123,7 @@ abstract class TestCase extends Orchestra
         return $filePath;
     }
 
-    protected function create1MbFileOnDisk(string $diskName, string $filePath, DateTime $date)
+    protected function create1MbFileOnDisk(string $diskName, string $filePath, DateTime $date): void
     {
         $sourceFile = $this->getStubDirectory().'/1Mb.file';
 
@@ -188,7 +186,7 @@ abstract class TestCase extends Orchestra
         $this->initializeDirectory($this->getTempDirectory());
     }
 
-    public function initializeDirectory(string $directory)
+    public function initializeDirectory(string $directory): void
     {
         File::deleteDirectory($directory);
 
@@ -197,12 +195,7 @@ abstract class TestCase extends Orchestra
         $this->addGitignoreTo($directory);
     }
 
-    public function removeTempDirectory()
-    {
-        return $this->filesystem->deleteDirectory($this->getTempDirectory());
-    }
-
-    public function addGitignoreTo(string $directory)
+    public function addGitignoreTo(string $directory): void
     {
         $fileName = "{$directory}/.gitignore";
 

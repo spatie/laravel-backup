@@ -21,7 +21,7 @@ class BackupDestinationStatus
         return $this->backupDestination;
     }
 
-    public function check(HealthCheck $check)
+    public function check(HealthCheck $check): bool|HealthCheckFailure
     {
         try {
             $check->checkHealth($this->backupDestination());

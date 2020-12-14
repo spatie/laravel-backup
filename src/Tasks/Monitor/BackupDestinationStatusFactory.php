@@ -39,7 +39,7 @@ class BackupDestinationStatusFactory
             })->toArray();
     }
 
-    protected static function buildHealthCheck($class, $options)
+    protected static function buildHealthCheck(string $class, string|array $options)
     {
         // A single value was passed - we'll instantiate it manually assuming it's the first argument
         if (! is_array($options)) {

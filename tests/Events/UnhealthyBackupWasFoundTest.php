@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tests\Events;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -16,8 +17,7 @@ use Spatie\Backup\Tests\TestCase;
 
 class UnhealthyBackupWasFoundTest extends TestCase
 {
-    /** @var \Carbon\Carbon */
-    protected $date;
+    protected Carbon $date;
 
     /** @test */
     public function it_will_fire_an_event_on_failed_health_check()
