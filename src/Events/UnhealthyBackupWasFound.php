@@ -4,7 +4,7 @@ namespace Spatie\Backup\Events;
 
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 
-class UnhealthyBackupWasFoundEvent
+class UnhealthyBackupWasFound
 {
     public function __construct(
         public BackupDestinationStatus $backupDestinationStatus

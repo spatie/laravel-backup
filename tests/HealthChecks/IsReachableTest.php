@@ -3,8 +3,8 @@
 namespace Spatie\Backup\Tests\HealthChecks;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Backup\Events\HealthyBackupWasFoundEvent;
-use Spatie\Backup\Events\UnhealthyBackupWasFoundEvent;
+use Spatie\Backup\Events\HealthyBackupWasFound;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tests\TestCase;
 
 class IsReachableTest extends TestCase
@@ -21,7 +21,7 @@ class IsReachableTest extends TestCase
     {
         $this->artisan('backup:monitor')->assertExitCode(0);
 
-        Event::assertDispatched(HealthyBackupWasFoundEvent::class);
+        Event::assertDispatched(HealthyBackupWasFound::class);
     }
 
     /** @test */
@@ -31,6 +31,6 @@ class IsReachableTest extends TestCase
 
         $this->artisan('backup:monitor')->assertExitCode(1);
 
-        Event::assertDispatched(UnhealthyBackupWasFoundEvent::class);
+        Event::assertDispatched(UnhealthyBackupWasFound::class);
     }
 }

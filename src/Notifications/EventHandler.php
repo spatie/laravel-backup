@@ -6,12 +6,12 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
-use Spatie\Backup\Events\BackupHasFailedEvent;
-use Spatie\Backup\Events\BackupWasSuccessfulEvent;
-use Spatie\Backup\Events\CleanupHasFailedEvent;
-use Spatie\Backup\Events\CleanupWasSuccessfulEvent;
-use Spatie\Backup\Events\HealthyBackupWasFoundEvent;
-use Spatie\Backup\Events\UnhealthyBackupWasFoundEvent;
+use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupWasSuccessful;
+use Spatie\Backup\Events\CleanupHasFailed;
+use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Events\HealthyBackupWasFound;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\NotificationCouldNotBeSent;
 
 class EventHandler
@@ -62,12 +62,12 @@ class EventHandler
     protected function allBackupEventClasses(): array
     {
         return [
-            BackupHasFailedEvent::class,
-            BackupWasSuccessfulEvent::class,
-            CleanupHasFailedEvent::class,
-            CleanupWasSuccessfulEvent::class,
-            HealthyBackupWasFoundEvent::class,
-            UnhealthyBackupWasFoundEvent::class,
+            BackupHasFailed::class,
+            BackupWasSuccessful::class,
+            CleanupHasFailed::class,
+            CleanupWasSuccessful::class,
+            HealthyBackupWasFound::class,
+            UnhealthyBackupWasFound::class,
         ];
     }
 }

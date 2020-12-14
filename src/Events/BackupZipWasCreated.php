@@ -2,7 +2,7 @@
 
 namespace Spatie\Backup\Events;
 
-class BackupZipWasCreatedEvent
+class BackupZipWasCreated
 {
     public function __construct(
         public string $pathToZip,

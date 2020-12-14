@@ -2,11 +2,13 @@
 
 namespace Spatie\Backup\Events;
 
+use Exception;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
-class CleanupWasSuccessfulEvent
+class BackupHasFailed
 {
     public function __construct(
-        public BackupDestination $backupDestination,
+        Exception $exception,
+        ?BackupDestination $backupDestination = null,
     ) {}
 }

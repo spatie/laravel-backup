@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Backup\Events\BackupHasFailedEvent;
+use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Tests\TestCase;
 
 class BackupHasFailedTest extends TestCase
@@ -22,7 +22,7 @@ class BackupHasFailedTest extends TestCase
 
         $this->artisan('backup:run', ['--only-files' => true]);
 
-        Event::assertDispatched(BackupHasFailedEvent::class);
+        Event::assertDispatched(BackupHasFailed::class);
     }
 
     /** @test */
@@ -33,6 +33,6 @@ class BackupHasFailedTest extends TestCase
 
         $this->artisan('backup:run');
 
-        Event::assertDispatched(BackupHasFailedEvent::class);
+        Event::assertDispatched(BackupHasFailed::class);
     }
 }

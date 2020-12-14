@@ -31,9 +31,9 @@ class BackupManifestWasCreated
 You can use that event to add extra files to the manifest as in the example below where the extra files are passed as an array to the addFiles() method.
 
 ```php
-use Spatie\Backup\Events\BackupManifestWasCreatedEvent;
+use Spatie\Backup\Events\BackupManifestWasCreated;
 
-Event::listen(BackupManifestWasCreatedEvent::class, function (BackupManifestWasCreatedEvent $event) {
+Event::listen(BackupManifestWasCreated::class, function (BackupManifestWasCreated $event) {
    $event->manifest->addFiles([$path1, $path2, ...]);
 });
 ```

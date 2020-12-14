@@ -4,7 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Exception;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
-use Spatie\Backup\Events\CleanupHasFailedEvent;
+use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 
@@ -44,7 +44,7 @@ class CleanupCommand extends BaseCommand
             consoleOutput()->comment('Cleanup completed!');
         } catch (Exception $exception) {
             if (! $disableNotifications) {
-                event(new CleanupHasFailedEvent($exception));
+                event(new CleanupHasFailed($exception));
             }
 
             return 1;

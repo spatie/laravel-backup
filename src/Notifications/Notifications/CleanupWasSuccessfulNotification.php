@@ -5,13 +5,13 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\CleanupWasSuccessfulEvent;
+use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Notifications\BaseNotification;
 
 class CleanupWasSuccessfulNotification extends BaseNotification
 {
     public function __construct(
-        public CleanupWasSuccessfulEvent $event,
+        public CleanupWasSuccessful $event,
     ) {}
 
     public function toMail(): MailMessage

@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
-use Spatie\Backup\Events\BackupHasFailedEvent;
+use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 
@@ -58,7 +58,7 @@ class BackupCommand extends BaseCommand
             consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
             if (! $disableNotifications) {
-                event(new BackupHasFailedEvent($exception));
+                event(new BackupHasFailed($exception));
             }
 
             return 1;

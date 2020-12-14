@@ -7,7 +7,7 @@ These events are fired during the backup process.
 
 ## BackupWasSuccessful
 
-`Spatie\Backup\Events\BackupWasSuccessfulEvent`
+`Spatie\Backup\Events\BackupWasSuccessful`
 
 This event is fired when the zip file containing all files that should be backed up has successfully been copied to a destination filesystem.
 
@@ -16,7 +16,7 @@ of `Spatie\Backup\BackupDestination\BackupDestination`.
 
 ## BackupHasFailed
 
-`Spatie\Backup\Events\BackupHasFailedEvent`
+`Spatie\Backup\Events\BackupHasFailed`
 
 This event will be fired when something goes wrong while backing up. 
 
@@ -28,7 +28,7 @@ It has two public properties:
 
 ## BackupManifestWasCreated
 
-`Spatie\Backup\Events\BackupManifestWasCreatedEvent`
+`Spatie\Backup\Events\BackupManifestWasCreated`
 
 Internally the package will build up a manifest of files. This manifest contains the dumps of the databases and any files that are selected for backup. All the files in the manifest will be zipped.
 
@@ -36,7 +36,7 @@ It has one public property `$manifest` which is an instance of `Spatie\Backup\Ta
 
 ## BackupZipWasCreated
 
-`Spatie\Backup\Events\BackupZipWasCreatedEvent`
+`Spatie\Backup\Events\BackupZipWasCreated`
 
 This event will be fired right after the zipfile - containing the dumps of the databases and any files that were selected for backup - is created, and before that zip will get copied over to the backup destination(s). You can use this event to do last minute manipulations on the created zip file.
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Events\UnhealthyBackupWasFoundEvent;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification as UnhealthyBackupWasFoundNotification;
@@ -30,7 +30,7 @@ class UnhealthyBackupWasFoundTest extends TestCase
             ->artisan('backup:monitor')
             ->assertExitCode(1);
 
-        Event::assertDispatched(UnhealthyBackupWasFoundEvent::class);
+        Event::assertDispatched(UnhealthyBackupWasFound::class);
     }
 
     /** @test **/

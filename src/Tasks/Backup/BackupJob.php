@@ -7,10 +7,10 @@ use Exception;
 use Generator;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Events\BackupHasFailedEvent;
-use Spatie\Backup\Events\BackupManifestWasCreatedEvent;
-use Spatie\Backup\Events\BackupWasSuccessfulEvent;
-use Spatie\Backup\Events\BackupZipWasCreatedEvent;
+use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupManifestWasCreated;
+use Spatie\Backup\Events\BackupWasSuccessful;
+use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 use Spatie\DbDumper\Databases\MongoDb;
@@ -150,7 +150,7 @@ class BackupJob
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
 
-            $this->sendNotification(new BackupHasFailedEvent($exception));
+            $this->sendNotification(new BackupHasFailed($exception));
 
             $this->temporaryDirectory->delete();
 
@@ -170,7 +170,7 @@ class BackupJob
             ->addFiles($databaseDumps)
             ->addFiles($this->filesToBeBackedUp());
 
-        $this->sendNotification(new BackupManifestWasCreatedEvent($manifest));
+        $this->sendNotification(new BackupManifestWasCreated($manifest));
 
         return $manifest;
     }
@@ -208,7 +208,7 @@ class BackupJob
 
         consoleOutput()->info("Created zip containing {$zip->count()} files and directories. Size is {$zip->humanReadableSize()}");
 
-        $this->sendNotification(new BackupZipWasCreatedEvent($pathToZip));
+        $this->sendNotification(new BackupZipWasCreated($pathToZip));
 
         return $pathToZip;
     }
@@ -264,11 +264,11 @@ class BackupJob
 
                     consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->diskName()}.");
 
-                    $this->sendNotification(new BackupWasSuccessfulEvent($backupDestination));
+                    $this->sendNotification(new BackupWasSuccessful($backupDestination));
                 } catch (Exception $exception) {
                     consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
-                    $this->sendNotification(new BackupHasFailedEvent($exception, $backupDestination ?? null));
+                    $this->sendNotification(new BackupHasFailed($exception, $backupDestination ?? null));
                 }
             });
     }

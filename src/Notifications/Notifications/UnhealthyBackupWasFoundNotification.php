@@ -5,14 +5,14 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\UnhealthyBackupWasFoundEvent;
+use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Notifications\BaseNotification;
 use Spatie\Backup\Tasks\Monitor\HealthCheckFailure;
 
 class UnhealthyBackupWasFoundNotification extends BaseNotification
 {
     public function __construct(
-        public UnhealthyBackupWasFoundEvent $event,
+        public UnhealthyBackupWasFound $event,
     ) {}
 
     public function toMail(): MailMessage
