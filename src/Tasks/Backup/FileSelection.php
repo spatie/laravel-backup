@@ -2,52 +2,34 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
+use Generator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 
 class FileSelection
 {
-    /** @var \Illuminate\Support\Collection */
-    protected $includeFilesAndDirectories;
+    protected Collection $includeFilesAndDirectories;
 
-    /** @var \Illuminate\Support\Collection */
-    protected $excludeFilesAndDirectories;
+    protected Collection $excludeFilesAndDirectories;
 
-    /** @var bool */
-    protected $shouldFollowLinks = false;
+    protected bool $shouldFollowLinks = false;
 
-    /** @var bool */
-    protected $shouldIgnoreUnreadableDirs = false;
+    protected bool $shouldIgnoreUnreadableDirs = false;
 
-    /**
-     * @param array|string $includeFilesAndDirectories
-     *
-     * @return \Spatie\Backup\Tasks\Backup\FileSelection
-     */
-    public static function create($includeFilesAndDirectories = []): self
+    public static function create(array|string $includeFilesAndDirectories = []): self
     {
         return new static($includeFilesAndDirectories);
     }
 
-    /**
-     * @param array|string $includeFilesAndDirectories
-     */
-    public function __construct($includeFilesAndDirectories = [])
+    public function __construct(array|string $includeFilesAndDirectories = [])
     {
         $this->includeFilesAndDirectories = collect($includeFilesAndDirectories);
 
         $this->excludeFilesAndDirectories = collect();
     }
 
-    /**
-     * Do not included the given files and directories.
-     *
-     * @param array|string $excludeFilesAndDirectories
-     *
-     * @return \Spatie\Backup\Tasks\Backup\FileSelection
-     */
-    public function excludeFilesFrom($excludeFilesAndDirectories): self
+    public function excludeFilesFrom(array|string $excludeFilesAndDirectories): self
     {
         $this->excludeFilesAndDirectories = $this->excludeFilesAndDirectories->merge($this->sanitize($excludeFilesAndDirectories));
 
@@ -61,13 +43,6 @@ class FileSelection
         return $this;
     }
 
-    /**
-     * Set if it should ignore the unreadable directories.
-     *
-     * @param bool $ignoreUnreadableDirs
-     *
-     * @return \Spatie\Backup\Tasks\Backup\FileSelection
-     */
     public function shouldIgnoreUnreadableDirs(bool $ignoreUnreadableDirs): self
     {
         $this->shouldIgnoreUnreadableDirs = $ignoreUnreadableDirs;
@@ -75,10 +50,7 @@ class FileSelection
         return $this;
     }
 
-    /**
-     * @return \Generator|string[]
-     */
-    public function selectedFiles()
+    public function selectedFiles(): Generator|array
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
             return [];
@@ -101,7 +73,7 @@ class FileSelection
         }
 
         if (! count($this->includedDirectories())) {
-            return;
+            return [];
         }
 
         $finder->in($this->includedDirectories());
@@ -117,16 +89,16 @@ class FileSelection
 
     protected function includedFiles(): array
     {
-        return $this->includeFilesAndDirectories->filter(function ($path) {
-            return is_file($path);
-        })->toArray();
+        return $this
+            ->includeFilesAndDirectories
+            ->filter(fn($path) => is_file($path))->toArray();
     }
 
     protected function includedDirectories(): array
     {
-        return $this->includeFilesAndDirectories->reject(function ($path) {
-            return is_file($path);
-        })->toArray();
+        return $this
+            ->includeFilesAndDirectories
+            ->reject(fn($path) => is_file($path))->toArray();
     }
 
     protected function shouldExclude(string $path): bool
@@ -140,25 +112,12 @@ class FileSelection
         return false;
     }
 
-    /**
-     * @param string|array $paths
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    protected function sanitize($paths): Collection
+    protected function sanitize(string|array $paths): Collection
     {
         return collect($paths)
-            ->reject(function ($path) {
-                return $path === '';
-            })
-            ->flatMap(function ($path) {
-                return glob($path);
-            })
-            ->map(function ($path) {
-                return realpath($path);
-            })
-            ->reject(function ($path) {
-                return $path === false;
-            });
+            ->reject(fn($path) => $path === '')
+            ->flatMap(fn($path) => glob($path))
+            ->map(fn($path) => realpath($path))
+            ->reject(fn($path) => $path === false);
     }
 }

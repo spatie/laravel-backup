@@ -21,23 +21,17 @@ class BackupJob
 {
     public const FILENAME_FORMAT = 'Y-m-d-H-i-s.\z\i\p';
 
-    /** @var \Spatie\Backup\Tasks\Backup\FileSelection */
-    protected FileSelection$fileSelection;
+    protected FileSelection $fileSelection;
 
-    /** @var \Illuminate\Support\Collection */
-    protected $dbDumpers;
+    protected Collection $dbDumpers;
 
-    /** @var \Illuminate\Support\Collection */
-    protected $backupDestinations;
+    protected Collection $backupDestinations;
 
-    /** @var string */
-    protected $filename;
+    protected string $filename;
 
-    /** @var \Spatie\TemporaryDirectory\TemporaryDirectory */
-    protected $temporaryDirectory;
+    protected TemporaryDirectory $temporaryDirectory;
 
-    /** @var bool */
-    protected $sendNotifications = true;
+    protected bool $sendNotifications = true;
 
     public function __construct()
     {
