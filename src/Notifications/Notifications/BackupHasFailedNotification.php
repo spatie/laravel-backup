@@ -5,18 +5,14 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Spatie\Backup\Events\BackupHasFailedEvent as BackupHasFailedEvent;
+use Spatie\Backup\Events\BackupHasFailedEvent;
 use Spatie\Backup\Notifications\BaseNotification;
 
 class BackupHasFailedNotification extends BaseNotification
 {
-    /** @var \Spatie\Backup\Events\BackupHasFailedEvent */
-    protected $event;
-
-    public function __construct(BackupHasFailedEvent $event)
-    {
-        $this->event = $event;
-    }
+    public function __construct(
+        public BackupHasFailedEvent $event,
+    ) {}
 
     public function toMail(): MailMessage
     {
