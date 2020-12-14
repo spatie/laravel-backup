@@ -44,9 +44,7 @@ class EventHandler
 
     protected function determineNotification($event): Notification
     {
-        $eventBaseClass = class_basename($event);
-
-        $lookingForNotificationClass = Str::replaceLast('Event', 'Notification', $eventBaseClass);
+        $lookingForNotificationClass = class_basename($event) . "Notification";
 
         $notificationClass = collect($this->config->get('backup.notifications.notifications'))
             ->keys()
