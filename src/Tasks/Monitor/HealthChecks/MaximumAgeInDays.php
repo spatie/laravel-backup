@@ -8,13 +8,9 @@ use Spatie\Backup\Tasks\Monitor\HealthCheck;
 
 class MaximumAgeInDays extends HealthCheck
 {
-    /** @var int */
-    protected $days;
-
-    public function __construct($days = 1)
-    {
-        $this->days = $days;
-    }
+    public function __construct(
+        protected int $days = 1
+    ) {}
 
     public function checkHealth(BackupDestination $backupDestination)
     {
