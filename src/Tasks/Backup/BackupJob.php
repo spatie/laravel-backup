@@ -22,7 +22,7 @@ class BackupJob
     public const FILENAME_FORMAT = 'Y-m-d-H-i-s.\z\i\p';
 
     /** @var \Spatie\Backup\Tasks\Backup\FileSelection */
-    protected $fileSelection;
+    protected FileSelection$fileSelection;
 
     /** @var \Illuminate\Support\Collection */
     protected $dbDumpers;
