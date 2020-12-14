@@ -13,9 +13,9 @@ class BackupCollection extends Collection
     public static function createFromFiles(?FileSystem $disk, array $files): self
     {
         return (new static($files))
-            ->filter(fn($path) => (new File)->isZipFile($disk, $path))
-            ->map(fn($path) => new Backup($disk, $path))
-            ->sortByDesc(fn(Backup $backup) => $backup->date()->timestamp)
+            ->filter(fn ($path) => (new File)->isZipFile($disk, $path))
+            ->map(fn ($path) => new Backup($disk, $path))
+            ->sortByDesc(fn (Backup $backup) => $backup->date()->timestamp)
             ->values();
     }
 
@@ -27,7 +27,7 @@ class BackupCollection extends Collection
     public function oldest(): ?Backup
     {
         return $this
-            ->filter(fn(Backup $backup) => $backup->exists())
+            ->filter(fn (Backup $backup) => $backup->exists())
             ->last();
     }
 
@@ -37,6 +37,6 @@ class BackupCollection extends Collection
             return $this->sizeCache;
         }
 
-        return $this->sizeCache = $this->sum(fn(Backup $backup) => $backup->size());
+        return $this->sizeCache = $this->sum(fn (Backup $backup) => $backup->size());
     }
 }
