@@ -74,7 +74,7 @@ class BackupDestination
 
     public function write(string $file)
     {
-        if (!is_null($this->connectionError)) {
+        if (! is_null($this->connectionError)) {
             throw InvalidBackupDestination::connectionError($this->diskName);
         }
 
