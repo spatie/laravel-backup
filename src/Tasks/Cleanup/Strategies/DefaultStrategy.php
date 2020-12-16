@@ -22,7 +22,7 @@ class DefaultStrategy extends CleanupStrategy
 
         $backupsPerPeriod = $dateRanges->map(function (Period $period) use ($backups) {
             return $backups
-                ->filter(fn(Backup $backup) => $backup->date()->between($period->startDate(), $period->endDate()));
+                ->filter(fn (Backup $backup) => $backup->date()->between($period->startDate(), $period->endDate()));
         });
 
         $backupsPerPeriod['daily'] = $this->groupByDateFormat($backupsPerPeriod['daily'], 'Ymd');
@@ -71,7 +71,7 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function groupByDateFormat(Collection $backups, string $dateFormat): Collection
     {
-        return $backups->groupBy(fn(Backup $backup) => $backup->date()->format($dateFormat));
+        return $backups->groupBy(fn (Backup $backup) => $backup->date()->format($dateFormat));
     }
 
     protected function removeBackupsForAllPeriodsExceptOne(Collection $backupsPerPeriod)
@@ -80,7 +80,7 @@ class DefaultStrategy extends CleanupStrategy
             $groupedBackupsByDateProperty->each(function (Collection $group) {
                 $group->shift();
 
-                $group->each(fn(Backup $backup) => $backup->delete());
+                $group->each(fn (Backup $backup) => $backup->delete());
             });
         });
     }
@@ -88,8 +88,8 @@ class DefaultStrategy extends CleanupStrategy
     protected function removeBackupsOlderThan(Carbon $endDate, BackupCollection $backups)
     {
         $backups
-            ->filter(fn(Backup $backup) => $backup->exists() && $backup->date()->lt($endDate))
-            ->each(fn(Backup $backup) => $backup->delete());
+            ->filter(fn (Backup $backup) => $backup->exists() && $backup->date()->lt($endDate))
+            ->each(fn (Backup $backup) => $backup->delete());
     }
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups)
@@ -106,7 +106,7 @@ class DefaultStrategy extends CleanupStrategy
         }
         $oldest->delete();
 
-        $backups = $backups->filter(fn(Backup $backup) => $backup->exists());
+        $backups = $backups->filter(fn (Backup $backup) => $backup->exists());
 
         $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
     }
