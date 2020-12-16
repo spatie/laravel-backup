@@ -99,6 +99,6 @@ class ManifestTest extends TestCase
 
     protected function getTestFiles(): array
     {
-        return collect(range(1, 3))->map(fn(int $number) => $this->getStubDirectory()."/file{$number}.txt")->toArray();
+        return collect(range(1, 3))->map(fn (int $number) => $this->getStubDirectory()."/file{$number}.txt")->toArray();
     }
 }
