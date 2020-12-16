@@ -12,7 +12,7 @@ class MaximumStorageInMegabytes extends HealthCheck
         protected int $maximumSizeInMegaBytes = 5000
     )  {}
 
-    public function checkHealth(BackupDestination $backupDestination)
+    public function checkHealth(BackupDestination $backupDestination): void
     {
         $usageInBytes = $backupDestination->usedStorage();
 

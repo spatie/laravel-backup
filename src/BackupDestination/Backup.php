@@ -43,11 +43,10 @@ class Backup
     {
         if ($this->date === null) {
             try {
-                // try to parse the date from the filename
                 $basename = basename($this->path);
+
                 $this->date = Carbon::createFromFormat(BackupJob::FILENAME_FORMAT, $basename);
             } catch (InvalidArgumentException) {
-                // if that fails, ask the (remote) filesystem
                 $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
             }
         }
@@ -76,7 +75,7 @@ class Backup
         return $this->disk->readStream($this->path);
     }
 
-    public function delete()
+    public function delete(): void
     {
         if (! $this->disk->delete($this->path)) {
             consoleOutput()->error("Failed to delete backup `{$this->path}`.");

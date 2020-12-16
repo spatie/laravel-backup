@@ -21,9 +21,8 @@ class DefaultStrategy extends CleanupStrategy
         $dateRanges = $this->calculateDateRanges();
 
         $backupsPerPeriod = $dateRanges->map(function (Period $period) use ($backups) {
-            return $backups->filter(function (Backup $backup) use ($period) {
-                return $backup->date()->between($period->startDate(), $period->endDate());
-            });
+            return $backups
+                ->filter(fn(Backup $backup) => $backup->date()->between($period->startDate(), $period->endDate()));
         });
 
         $backupsPerPeriod['daily'] = $this->groupByDateFormat($backupsPerPeriod['daily'], 'Ymd');
@@ -72,9 +71,7 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function groupByDateFormat(Collection $backups, string $dateFormat): Collection
     {
-        return $backups->groupBy(function (Backup $backup) use ($dateFormat) {
-            return $backup->date()->format($dateFormat);
-        });
+        return $backups->groupBy(fn(Backup $backup) => $backup->date()->format($dateFormat));
     }
 
     protected function removeBackupsForAllPeriodsExceptOne(Collection $backupsPerPeriod)
@@ -83,16 +80,16 @@ class DefaultStrategy extends CleanupStrategy
             $groupedBackupsByDateProperty->each(function (Collection $group) {
                 $group->shift();
 
-                $group->each->delete();
+                $group->each(fn(Backup $backup) => $backup->delete());
             });
         });
     }
 
     protected function removeBackupsOlderThan(Carbon $endDate, BackupCollection $backups)
     {
-        $backups->filter(function (Backup $backup) use ($endDate) {
-            return $backup->exists() && $backup->date()->lt($endDate);
-        })->each->delete();
+        $backups
+            ->filter(fn(Backup $backup) => $backup->exists() && $backup->date()->lt($endDate))
+            ->each(fn(Backup $backup) => $backup->delete());
     }
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups)
@@ -109,7 +106,7 @@ class DefaultStrategy extends CleanupStrategy
         }
         $oldest->delete();
 
-        $backups = $backups->filter->exists();
+        $backups = $backups->filter(fn(Backup $backup) => $backup->exists());
 
         $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
     }

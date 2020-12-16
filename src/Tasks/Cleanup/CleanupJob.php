@@ -29,7 +29,7 @@ class CleanupJob
         $this->sendNotifications = ! $disableNotifications;
     }
 
-    public function run()
+    public function run(): void
     {
         $this->backupDestinations->each(function (BackupDestination $backupDestination) {
             try {

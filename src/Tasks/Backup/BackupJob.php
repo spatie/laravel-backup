@@ -36,9 +36,10 @@ class BackupJob
 
     public function __construct()
     {
-        $this->dontBackupFilesystem();
-        $this->dontBackupDatabases();
-        $this->setDefaultFilename();
+        $this
+            ->dontBackupFilesystem()
+            ->dontBackupDatabases()
+            ->setDefaultFilename();
 
         $this->backupDestinations = new Collection();
     }
@@ -53,9 +54,7 @@ class BackupJob
     public function onlyDbName(array $allowedDbNames): self
     {
         $this->dbDumpers = $this->dbDumpers->filter(
-            function (DbDumper $dbDumper, string $connectionName) use ($allowedDbNames) {
-                return in_array($connectionName, $allowedDbNames);
-            }
+            fn(DbDumper $dbDumper, string $connectionName) => in_array($connectionName, $allowedDbNames)
         );
 
         return $this;
@@ -105,9 +104,9 @@ class BackupJob
 
     public function onlyBackupTo(string $diskName): self
     {
-        $this->backupDestinations = $this->backupDestinations->filter(function (BackupDestination $backupDestination) use ($diskName) {
-            return $backupDestination->diskName() === $diskName;
-        });
+        $this->backupDestinations = $this->backupDestinations->filter(
+            fn(BackupDestination $backupDestination) => $backupDestination->diskName() === $diskName
+        );
 
         if (! count($this->backupDestinations)) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
@@ -185,15 +184,11 @@ class BackupJob
     protected function directoriesUsedByBackupJob(): array
     {
         return $this->backupDestinations
-            ->filter(function (BackupDestination $backupDestination) {
-                return $backupDestination->filesystemType() === 'local';
-            })
-            ->map(function (BackupDestination $backupDestination) {
-                return $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('') . $backupDestination->backupName();
-            })
-            ->each(function (string $backupDestinationDirectory) {
-                $this->fileSelection->excludeFilesFrom($backupDestinationDirectory);
-            })
+            ->filter(fn(BackupDestination $backupDestination) => $backupDestination->filesystemType() === 'local')
+            ->map(
+                fn(BackupDestination $backupDestination) => $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('') . $backupDestination->backupName()
+            )
+            ->each(fn(string $backupDestinationDirectory) => $this->fileSelection->excludeFilesFrom($backupDestinationDirectory))
             ->push($this->temporaryDirectory->path())
             ->toArray();
     }

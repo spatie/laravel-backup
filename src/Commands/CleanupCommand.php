@@ -16,8 +16,7 @@ class CleanupCommand extends BaseCommand
     /** @var string */
     protected $description = 'Remove all backups older than specified number of days in config.';
 
-    /** @var \Spatie\Backup\Tasks\Cleanup\CleanupStrategy */
-    protected $strategy;
+    protected CleanupStrategy $strategy;
 
     public function __construct(CleanupStrategy $strategy)
     {

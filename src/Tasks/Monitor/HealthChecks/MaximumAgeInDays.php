@@ -12,7 +12,7 @@ class MaximumAgeInDays extends HealthCheck
         protected int $days = 1
     ) {}
 
-    public function checkHealth(BackupDestination $backupDestination)
+    public function checkHealth(BackupDestination $backupDestination): void
     {
         $this->failIf(
             $this->hasNoBackups($backupDestination),
@@ -27,12 +27,12 @@ class MaximumAgeInDays extends HealthCheck
         );
     }
 
-    protected function hasNoBackups(BackupDestination $backupDestination)
+    protected function hasNoBackups(BackupDestination $backupDestination): bool
     {
         return $backupDestination->backups()->isEmpty();
     }
 
-    protected function isTooOld(Backup $backup)
+    protected function isTooOld(Backup $backup): bool
     {
         if (is_null($this->days)) {
             return false;
