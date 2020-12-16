@@ -11,7 +11,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification as UnhealthyBackupWasFoundNotification;
+use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
 use Spatie\Backup\Tests\TestCase;
 
@@ -43,7 +43,10 @@ class UnhealthyBackupWasFoundTest extends TestCase
             ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
             ->artisan('backup:monitor')->assertExitCode(1);
 
-        Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
+        Notification::assertSentTo(
+            new Notifiable(),
+            UnhealthyBackupWasFoundNotification::class,
+            function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
             $this->assertStringContainsString($msg, $slack->content);
             $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
