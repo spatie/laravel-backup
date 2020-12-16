@@ -142,7 +142,7 @@ abstract class TestCase extends Orchestra
         return Storage::disk($diskName)->getDriver()->getAdapter()->getPathPrefix();
     }
 
-    public function setNow($year, $month, $day, $hour = 0, $minutes = 0, $seconds = 0)
+    public function setNow(int $year, int $month, int $day, int $hour = 0, int $minutes = 0, int $seconds = 0): void
     {
         $date = Carbon::create($year, $month, $day, $hour, $minutes, $seconds);
 
