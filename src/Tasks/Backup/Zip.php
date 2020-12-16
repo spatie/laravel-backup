@@ -76,12 +76,12 @@ class Zip
         return Format::humanReadableSize($this->size());
     }
 
-    public function open()
+    public function open(): void
     {
         $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
     }
 
-    public function close()
+    public function close(): void
     {
         $this->zipFile->close();
     }
