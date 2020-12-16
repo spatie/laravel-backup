@@ -10,4 +10,9 @@ class InvalidBackupDestination extends Exception
     {
         return new static("There is no disk set for the backup named `{$backupName}`.");
     }
+
+    public static function connectionError(string $diskName): self
+    {
+        return new static ("There is a connection error when trying to connect to disk named `{$diskName}`");
+    }
 }
