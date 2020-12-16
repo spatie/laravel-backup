@@ -4,6 +4,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 
 ## 7.0.0 - 2020-12-14
 
+- clean up of all internals
 - drop support for PHP 7
 - drop support for anything below Laravel 8
 
