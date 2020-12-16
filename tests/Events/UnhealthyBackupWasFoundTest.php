@@ -47,20 +47,21 @@ class UnhealthyBackupWasFoundTest extends TestCase
             new Notifiable(),
             UnhealthyBackupWasFoundNotification::class,
             function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
-            $slack = $notification->toSlack();
-            $this->assertStringContainsString($msg, $slack->content);
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
+                $slack = $notification->toSlack();
+                $this->assertStringContainsString($msg, $slack->content);
+                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
+                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
+                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
 
-            $mail = $notification->toMail();
-            $this->assertNotNull(collect($mail->introLines)->first($this->searchString($msg)));
-            $this->assertNull(collect($mail->introLines)->first($this->searchString('Health check:')));
-            $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception message:')));
-            $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception trace:')));
+                $mail = $notification->toMail();
+                $this->assertNotNull(collect($mail->introLines)->first($this->searchString($msg)));
+                $this->assertNull(collect($mail->introLines)->first($this->searchString('Health check:')));
+                $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception message:')));
+                $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception trace:')));
 
-            return true;
-        });
+                return true;
+            }
+        );
     }
 
     /** @test **/
