@@ -54,10 +54,7 @@ class Backup
         return $this->date;
     }
 
-    /**
-     * Get the size in bytes.
-     */
-    public function size(): float
+    public function sizeInBytes(): float
     {
         if ($this->size === null) {
             if (! $this->exists()) {

@@ -55,9 +55,9 @@ class BackupTest extends TestCase
 
         $fileSize = floatval(Storage::disk('local')->size('mysite.com/test.zip'));
 
-        $this->assertSame($fileSize, $backup->size());
+        $this->assertSame($fileSize, $backup->sizeInBytes());
 
-        $this->assertGreaterThan(0, $backup->size());
+        $this->assertGreaterThan(0, $backup->sizeInBytes());
     }
 
     /** @test */
@@ -67,7 +67,7 @@ class BackupTest extends TestCase
 
         $backup->delete();
 
-        $this->assertSame(0.0, $backup->size());
+        $this->assertSame(0.0, $backup->sizeInBytes());
     }
 
     /** @test */
@@ -112,7 +112,7 @@ class BackupTest extends TestCase
     {
         $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
 
-        $this->assertIsFloat($backup->size());
+        $this->assertIsFloat($backup->sizeInBytes());
     }
 
     protected function getBackupForFile(string $name, int $ageInDays = 0): Backup

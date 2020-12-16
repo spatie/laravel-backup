@@ -37,6 +37,6 @@ class BackupCollection extends Collection
             return $this->sizeCache;
         }
 
-        return $this->sizeCache = $this->sum(fn (Backup $backup) => $backup->size());
+        return $this->sizeCache = $this->sum(fn (Backup $backup) => $backup->sizeInBytes());
     }
 }
