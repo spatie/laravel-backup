@@ -54,7 +54,7 @@ class BackupJob
     public function onlyDbName(array $allowedDbNames): self
     {
         $this->dbDumpers = $this->dbDumpers->filter(
-            fn(DbDumper $dbDumper, string $connectionName) => in_array($connectionName, $allowedDbNames)
+            fn (DbDumper $dbDumper, string $connectionName) => in_array($connectionName, $allowedDbNames)
         );
 
         return $this;
@@ -105,7 +105,7 @@ class BackupJob
     public function onlyBackupTo(string $diskName): self
     {
         $this->backupDestinations = $this->backupDestinations->filter(
-            fn(BackupDestination $backupDestination) => $backupDestination->diskName() === $diskName
+            fn (BackupDestination $backupDestination) => $backupDestination->diskName() === $diskName
         );
 
         if (! count($this->backupDestinations)) {
@@ -184,11 +184,11 @@ class BackupJob
     protected function directoriesUsedByBackupJob(): array
     {
         return $this->backupDestinations
-            ->filter(fn(BackupDestination $backupDestination) => $backupDestination->filesystemType() === 'local')
+            ->filter(fn (BackupDestination $backupDestination) => $backupDestination->filesystemType() === 'local')
             ->map(
-                fn(BackupDestination $backupDestination) => $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('') . $backupDestination->backupName()
+                fn (BackupDestination $backupDestination) => $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('') . $backupDestination->backupName()
             )
-            ->each(fn(string $backupDestinationDirectory) => $this->fileSelection->excludeFilesFrom($backupDestinationDirectory))
+            ->each(fn (string $backupDestinationDirectory) => $this->fileSelection->excludeFilesFrom($backupDestinationDirectory))
             ->push($this->temporaryDirectory->path())
             ->toArray();
     }
