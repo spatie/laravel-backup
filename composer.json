@@ -18,24 +18,25 @@
         }
     ],
     "require": {
-        "php": "^7.3|^8.0",
-        "illuminate/console": "^6.0|^7.0|^8.0",
-        "illuminate/contracts": "^6.0|^7.0|^8.0",
-        "illuminate/events": "^6.0|^7.0|^8.0",
-        "illuminate/filesystem": "^6.0|^7.0|^8.0",
-        "illuminate/notifications": "^6.0|^7.0|^8.0",
-        "illuminate/support": "^6.0|^7.0|^8.0",
-        "league/flysystem": "^1.0.49",
+        "php": "^8.0",
+        "ext-zip": "*",
+        "illuminate/console": "^8.0",
+        "illuminate/contracts": "^8.0",
+        "illuminate/events": "^8.0",
+        "illuminate/filesystem": "^8.0",
+        "illuminate/notifications": "^8.0",
+        "illuminate/support": "^8.0",
+        "league/flysystem": "^1.0.49|^2.0",
         "spatie/db-dumper": "^2.12",
         "spatie/temporary-directory": "^1.1",
-        "symfony/finder": "^4.2|^5.0"
+        "symfony/finder": "^5.0"
     },
     "require-dev": {
         "laravel/slack-notification-channel": "^2.3",
         "league/flysystem-aws-s3-v3": "^1.0",
         "mockery/mockery": "^1.4.2",
-        "orchestra/testbench": "4.*|5.*|6.*",
-        "phpunit/phpunit": "^8.4|^9.0"
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {

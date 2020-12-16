@@ -12,11 +12,9 @@ use Spatie\DbDumper\Compressors\GzipCompressor;
 
 class BackupCommandTest extends TestCase
 {
-    /** @var \Carbon\Carbon */
-    protected $date;
+    protected Carbon $date;
 
-    /** @var string */
-    protected $expectedZipPath;
+    protected string $expectedZipPath;
 
     public function setUp(): void
     {

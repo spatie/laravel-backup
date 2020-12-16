@@ -29,7 +29,7 @@ class MonitorCommand extends BaseCommand
             } else {
                 $hasError = true;
                 $this->error("The backups on {$diskName} are considered unhealthy!");
-                event(new UnHealthyBackupWasFound($backupDestinationStatus));
+                event(new UnhealthyBackupWasFound($backupDestinationStatus));
             }
         }
 

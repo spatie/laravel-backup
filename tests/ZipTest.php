@@ -6,11 +6,9 @@ use Spatie\Backup\Tasks\Backup\Zip;
 
 class ZipTest extends TestCase
 {
-    /** @var string */
-    protected $pathToZip;
+    protected string $pathToZip;
 
-    /** @var \Spatie\Backup\Tasks\Backup\Zip */
-    protected $zip;
+    protected Zip $zip;
 
     public function setUp(): void
     {

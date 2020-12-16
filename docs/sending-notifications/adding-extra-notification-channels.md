@@ -27,7 +27,7 @@ Let say you want to be notified via Pusher push notifications when a backup fail
 ```php
 namespace App\Notifications;
 
-use Spatie\Backup\Notifications\Notifications\BackupHasFailed as BaseNotification;
+use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BaseNotification;
 use NotificationChannels\PusherPushNotifications\Message;
 
 class BackupHasFailed extends BaseNotification

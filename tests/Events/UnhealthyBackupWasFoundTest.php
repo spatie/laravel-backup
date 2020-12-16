@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Tests\Events;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -10,14 +11,13 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound as UnhealthyBackupWasFoundNotification;
+use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
 use Spatie\Backup\Tests\TestCase;
 
 class UnhealthyBackupWasFoundTest extends TestCase
 {
-    /** @var \Carbon\Carbon */
-    protected $date;
+    protected Carbon $date;
 
     /** @test */
     public function it_will_fire_an_event_on_failed_health_check()
@@ -43,21 +43,25 @@ class UnhealthyBackupWasFoundTest extends TestCase
             ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
             ->artisan('backup:monitor')->assertExitCode(1);
 
-        Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
-            $slack = $notification->toSlack();
-            $this->assertStringContainsString($msg, $slack->content);
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
+        Notification::assertSentTo(
+            new Notifiable(),
+            UnhealthyBackupWasFoundNotification::class,
+            function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
+                $slack = $notification->toSlack();
+                $this->assertStringContainsString($msg, $slack->content);
+                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
+                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
+                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
 
-            $mail = $notification->toMail();
-            $this->assertNotNull(collect($mail->introLines)->first($this->searchString($msg)));
-            $this->assertNull(collect($mail->introLines)->first($this->searchString('Health check:')));
-            $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception message:')));
-            $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception trace:')));
+                $mail = $notification->toMail();
+                $this->assertNotNull(collect($mail->introLines)->first($this->searchString($msg)));
+                $this->assertNull(collect($mail->introLines)->first($this->searchString('Health check:')));
+                $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception message:')));
+                $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception trace:')));
 
-            return true;
-        });
+                return true;
+            }
+        );
     }
 
     /** @test **/

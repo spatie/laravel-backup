@@ -23,7 +23,7 @@ class EventHandler
         $this->config = $config;
     }
 
-    public function subscribe(Dispatcher $events)
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen($this->allBackupEventClasses(), function ($event) {
             $notifiable = $this->determineNotifiable();
@@ -43,15 +43,11 @@ class EventHandler
 
     protected function determineNotification($event): Notification
     {
-        $eventName = class_basename($event);
+        $lookingForNotificationClass = class_basename($event) . "Notification";
 
         $notificationClass = collect($this->config->get('backup.notifications.notifications'))
             ->keys()
-            ->first(function ($notificationClass) use ($eventName) {
-                $notificationName = class_basename($notificationClass);
-
-                return $notificationName === $eventName;
-            });
+            ->first(fn (string $notificationClass) => class_basename($notificationClass) === $lookingForNotificationClass);
 
         if (! $notificationClass) {
             throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);

@@ -15,7 +15,7 @@ use Spatie\DbDumper\DbDumper;
 
 class DbDumperFactory
 {
-    protected static $custom = [];
+    protected static array $custom = [];
 
     public static function createFromConnection(string $dbConnectionName): DbDumper
     {
@@ -27,7 +27,7 @@ class DbDumperFactory
 
         try {
             $dbConfig = $parser->parseConfiguration(config("database.connections.{$dbConnectionName}"));
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw CannotCreateDbDumper::unsupportedDriver($dbConnectionName);
         }
 
@@ -131,8 +131,6 @@ class DbDumperFactory
     protected static function determineValidMethodName(DbDumper $dbDumper, string $methodName): string
     {
         return collect([$methodName, 'set'.ucfirst($methodName)])
-            ->first(function (string $methodName) use ($dbDumper) {
-                return method_exists($dbDumper, $methodName);
-            }, '');
+            ->first(fn(string $methodName) => method_exists($dbDumper, $methodName), '');
     }
 }

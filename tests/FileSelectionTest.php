@@ -6,8 +6,7 @@ use Spatie\Backup\Tasks\Backup\FileSelection;
 
 class FileSelectionTest extends TestCase
 {
-    /** @string */
-    protected $sourceDirectory;
+    protected string $sourceDirectory;
 
     public function setUp(): void
     {
@@ -174,11 +173,7 @@ class FileSelectionTest extends TestCase
 
     protected function getTestFiles(array $relativePaths): array
     {
-        $absolutePaths = array_map(function ($path) {
-            return "{$this->sourceDirectory}/{$path}";
-        }, $relativePaths);
-
-        return $absolutePaths;
+        return array_map(fn ($path) => "{$this->sourceDirectory}/{$path}", $relativePaths);
     }
 
     protected function assertSameArray(array $array1, array $array2)
