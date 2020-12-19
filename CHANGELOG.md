@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.0.1 - 2020-12-19
+
+- add support for Norwegian
+
 ## 7.0.0 - 2020-12-16
 
 - clean up of all internals
