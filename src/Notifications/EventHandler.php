@@ -15,13 +15,9 @@ use Spatie\Backup\Exceptions\NotificationCouldNotBeSent;
 
 class EventHandler
 {
-    /** @var \Illuminate\Contracts\Config\Repository */
-    protected $config;
-
-    public function __construct(Repository $config)
-    {
-        $this->config = $config;
-    }
+    public function __construct(
+        protected Repository $config
+    ) {}
 
     public function subscribe(Dispatcher $events): void
     {
