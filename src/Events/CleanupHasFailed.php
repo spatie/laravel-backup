@@ -8,7 +8,7 @@ use Spatie\Backup\BackupDestination\BackupDestination;
 class CleanupHasFailed
 {
     public function __construct(
-        Exception $exception,
-        BackupDestination $backupDestination = null,
+        public Exception $exception,
+        public ?BackupDestination $backupDestination = null,
     ) {}
 }
