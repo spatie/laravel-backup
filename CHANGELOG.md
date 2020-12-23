@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.14.2 - 2020-12-27
+
+- add norwegian
+
 ## 6.14.1 - 2020-12-16
 
 - fix exception messages
