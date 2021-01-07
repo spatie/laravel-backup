@@ -8,7 +8,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-backup)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 
-This Laravel package [creates a backup of your application](https://docs.spatie.be/laravel-backup/v6/taking-backups/overview). The backup is a zip file that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel](http://laravel.com/docs/filesystem).
+This Laravel package [creates a backup of your application](https://spatie.be/docs/laravel-backup/v7/taking-backups/overview). The backup is a zip file that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel](https://laravel.com/docs/filesystem).
 
 Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
 
@@ -18,8 +18,8 @@ Once installed taking a backup of your files and databases is very easy. Just is
 php artisan backup:run
 ```
 
-But we didn't stop there. The package also provides [a backup monitor to check the health of your backups](https://docs.spatie.be/laravel-backup/v6/monitoring-the-health-of-all-backups/overview). You can be [notified via several channels](https://docs.spatie.be/laravel-backup/v6/sending-notifications/overview) when a problem with one of your backups is found.
-To avoid using excessive disk space, the package can also [clean up old backups](https://docs.spatie.be/laravel-backup/v6/cleaning-up-old-backups/overview).
+But we didn't stop there. The package also provides [a backup monitor to check the health of your backups](https://spatie.be/docs/laravel-backup/v7/monitoring-the-health-of-all-backups/overview). You can be [notified via several channels](https://spatie.be/docs/laravel-backup/v7/sending-notifications/overview) when a problem with one of your backups is found.
+To avoid using excessive disk space, the package can also [clean up old backups](https://spatie.be/docs/laravel-backup/v7/cleaning-up-old-backups/overview).
 
 ## Support us
 
@@ -32,13 +32,13 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 ## Installation and usage
 
 This package requires PHP 7.3 and Laravel 6.0 or higher.
-You'll find installation instructions and full documentation on https://docs.spatie.be/laravel-backup.
+You'll find installation instructions and full documentation on https://spatie.be/docs/laravel-backup.
 
 ## Using an older version of PHP / Laravel?
 
 If you are on a PHP version below 7.3 or a Laravel version below 6.0 just use an older version of this package.
 
-Read the extensive [documentation on version 3](https://docs.spatie.be/laravel-backup/v3), [on version 4](https://docs.spatie.be/laravel-backup/v4) and [on version 5](https://docs.spatie.be/laravel-backup/v5). We won't introduce new features to v5 and below anymore but we will still fix bugs.
+Read the extensive [documentation on version 3](https://spatie.be/docs/laravel-backup/v3), [on version 4](https://spatie.be/docs/laravel-backup/v4) and [on version 5](https://spatie.be/docs/laravel-backup/v5). We won't introduce new features to v5 and below anymore but we will still fix bugs.
 
 ## Testing
 
@@ -66,7 +66,7 @@ You're free to use this package, but if it makes it to your production environme
 
 Our address is: Spatie, Kruikstraat 22, 2018 Antwerp, Belgium.
 
-We publish all received postcards [on our company website](https://spatie.be/en/opensource/postcards).
+We publish all received postcards [on our company website](https://spatie.be/open-source/postcards).
 
 ## Credits
 
