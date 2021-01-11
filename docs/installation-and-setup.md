@@ -271,11 +271,11 @@ The commands can be scheduled in Laravel's console kernel, just like any other c
 protected function schedule(Schedule $schedule)
 {
    $schedule->command('backup:clean')->daily()->at('01:00');
-   $schedule->command('backup:run')->daily()->at('02:00');
+   $schedule->command('backup:run')->daily()->at('01:30');
 }
 ```
 
-Of course, the times used in the code above are just examples. Adjust them to suit your own preferences.
+Of course, the times used in the code above are just examples. Adjust them to suit your own preferences. It is generally a good idea to avoid the timeslot between 02:00 and 03:00 at night in areas where daylight saving time changes occur, as this causes sometimes a double backup or (worse) no backup at all.
 
 If a backup cannot be taken successfully, the `backup:run` command returns an exit code of 1 which signals a general error, so you can use laravel's task hooks to specify code to be executed if the scheduled backup succeeds or fails:
 
