@@ -291,7 +291,7 @@ class BackupCommandTest extends TestCase
          * This prevents the errors from other tests trying to delete and recreate the folder.
          */
         $this->app['db']->disconnect();
-    }   
+    }
     
     /** @test */
     public function it_should_trigger_the_backup_failed_event()
