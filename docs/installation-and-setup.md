@@ -321,6 +321,21 @@ Here's an example for MySQL:
 	],
 ```
 
+### File extensions of database dumps
+
+By default, database dump files are named `.sql`, except for the MongoDB driver which are named `.archive`. If you would like to override this, you can set the file extension to be used in the config.
+
+For example, to save a database dump as a `.txt` file:
+```php
+//config/backup.php
+'backup' => [
+    ...,
+    'database_dump_file_extension' => 'txt',
+  ],
+```
+
+> This relates to the names of the database dump files **within** the overall backup `zip` file that is generated.
+
 ### Custom database dumpers
 
 If you need to have a custom database dumper for a driver, you can use `DbDumpFactory::extend()`. It expects the first argument to be the driver name and the second to be a callback that returns an instance of `Spatie\DbDumper\DbDumper`.

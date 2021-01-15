@@ -280,6 +280,10 @@ class BackupJob
 
     protected function getExtension(DbDumper $dbDumper): string
     {
+        if ($extension = config('backup.backup.database_dump_file_extension')) {
+            return $extension;
+        }
+
         return $dbDumper instanceof MongoDb
             ? 'archive'
             : 'sql';
