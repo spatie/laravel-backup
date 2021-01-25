@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup;
 
-use Illuminate\Support\ServiceProvider;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
