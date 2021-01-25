@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.2.0 - 2021-01-25
+
+- use package service provider
+
 ## 7.1.0 - 2021-01-15
 
 - merge features from v6 branch
