@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.1.0 - 2021-01-15
+
+- merge features from v6 branch
+
 ## 7.0.2 - 2020-12-21
 
 - fix events (#1167)
@@ -15,6 +19,10 @@ All notable changes to `laravel-backup` will be documented in this file.
 - clean up of all internals
 - drop support for PHP 7
 - drop support for anything below Laravel 8
+
+## 6.14.2 - 2020-12-27
+
+- add norwegian
 
 ## 6.14.1 - 2020-12-16
 
