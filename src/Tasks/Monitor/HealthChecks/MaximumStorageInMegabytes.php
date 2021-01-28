@@ -10,7 +10,8 @@ class MaximumStorageInMegabytes extends HealthCheck
 {
     public function __construct(
         protected int $maximumSizeInMegaBytes = 5000
-    ) {}
+    ) {
+    }
 
     public function checkHealth(BackupDestination $backupDestination): void
     {

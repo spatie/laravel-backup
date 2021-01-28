@@ -8,5 +8,6 @@ class BackupWasSuccessful
 {
     public function __construct(
         public BackupDestination $backupDestination,
-    ) {}
+    ) {
+    }
 }

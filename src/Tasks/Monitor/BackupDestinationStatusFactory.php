@@ -39,7 +39,7 @@ class BackupDestinationStatusFactory
             })->toArray();
     }
 
-    protected static function buildHealthCheck(string $class, string|array $options): HealthCheck
+    protected static function buildHealthCheck(string $class, string | array $options): HealthCheck
     {
         if (! is_array($options)) {
             return new $class($options);

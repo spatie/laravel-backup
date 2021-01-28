@@ -131,6 +131,6 @@ class DbDumperFactory
     protected static function determineValidMethodName(DbDumper $dbDumper, string $methodName): string
     {
         return collect([$methodName, 'set'.ucfirst($methodName)])
-            ->first(fn(string $methodName) => method_exists($dbDumper, $methodName), '');
+            ->first(fn (string $methodName) => method_exists($dbDumper, $methodName), '');
     }
 }

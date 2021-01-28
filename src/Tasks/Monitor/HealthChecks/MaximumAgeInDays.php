@@ -10,7 +10,8 @@ class MaximumAgeInDays extends HealthCheck
 {
     public function __construct(
         protected int $days = 1
-    ) {}
+    ) {
+    }
 
     public function checkHealth(BackupDestination $backupDestination): void
     {

@@ -8,5 +8,6 @@ class CleanupWasSuccessful
 {
     public function __construct(
         public BackupDestination $backupDestination,
-    ) {}
+    ) {
+    }
 }

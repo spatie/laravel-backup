@@ -12,7 +12,8 @@ class BackupWasSuccessfulNotification extends BaseNotification
 {
     public function __construct(
         public BackupWasSuccessful $event,
-    ) {}
+    ) {
+    }
 
     public function toMail(): MailMessage
     {

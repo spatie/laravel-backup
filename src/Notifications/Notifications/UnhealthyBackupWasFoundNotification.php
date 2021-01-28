@@ -13,7 +13,8 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 {
     public function __construct(
         public UnhealthyBackupWasFound $event,
-    ) {}
+    ) {
+    }
 
     public function toMail(): MailMessage
     {

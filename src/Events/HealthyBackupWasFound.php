@@ -8,5 +8,6 @@ class HealthyBackupWasFound
 {
     public function __construct(
         public BackupDestinationStatus $backupDestinationStatus,
-    ) {}
+    ) {
+    }
 }

@@ -18,7 +18,8 @@ class Backup
     public function __construct(
         protected Filesystem $disk,
         protected string $path,
-    ) {}
+    ) {
+    }
 
     public function disk(): Filesystem
     {
