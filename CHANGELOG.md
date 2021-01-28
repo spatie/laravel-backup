@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.2.1 - 2021-01-28
+
+- fixed notification failure on unreachable disk (#1226)
+
 ## 7.2.0 - 2021-01-25
 
 - use package service provider
