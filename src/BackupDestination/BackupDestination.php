@@ -110,9 +110,7 @@ class BackupDestination
             // in that case we still want to send the notification
             try {
                 $files = $this->disk->allFiles($this->backupName);
-            } catch (\Exception $e) {
-
-            }
+            } catch (Exception) {}
         }
 
         return $this->backupCollectionCache = BackupCollection::createFromFiles(
