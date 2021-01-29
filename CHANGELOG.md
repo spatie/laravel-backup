@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.14.3 - 2021-01-29
+
+- fix for #1225 (#1227)
+
 ## 6.14.2 - 2020-12-27
 
 - add norwegian
