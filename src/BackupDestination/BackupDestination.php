@@ -110,12 +110,13 @@ class BackupDestination
 
         $files = [];
 
-        if (!is_null($this->disk)) {
+        if (! is_null($this->disk)) {
             // $this->disk->allFiles() may fail when $this->disk is not reachable
             // in that case we still want to send the notification
             try {
                 $files = $this->disk->allFiles($this->backupName);
-            } catch (Exception $ex) {}
+            } catch (Exception $ex) {
+            }
         }
 
         return $this->backupCollectionCache = BackupCollection::createFromFiles(
