@@ -4,10 +4,16 @@ namespace Spatie\Backup\Events;
 
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 
-class UnhealthyBackupWasFound
+class UnhealthyBackupWasFound implements ShouldBeNotified
 {
     public function __construct(
-        public BackupDestinationStatus $backupDestinationStatus
+        public BackupDestinationStatus $backupDestinationStatus,
+        protected bool $shouldBeNotified = true,
     ) {
+    }
+
+    public function shouldBeNotified(): bool
+    {
+        return $this->shouldBeNotified();
     }
 }
