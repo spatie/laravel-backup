@@ -302,10 +302,10 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_should_omit_the_backup_failed_event_with_no_event_firing_flag()
+    public function it_should_omit_the_backup_failed_event_with_no_event_flag()
     {
         // use an invalid dbname to trigger failure
-        $this->artisan('backup:run --only-db --db-name=wrongName --disable-events-firing')->assertExitCode(1);
+        $this->artisan('backup:run --only-db --db-name=wrongName --disable-events')->assertExitCode(1);
 
         Event::assertNotDispatched(BackupHasFailed::class);
     }
@@ -333,12 +333,12 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_should_not_send_notifications_if_disable_events_firing_flag()
+    public function it_should_not_send_notifications_if_disable_events_flag()
     {
         Notification::fake();
 
         // use an invalid dbname to trigger failure
-        $this->artisan('backup:run --only-db --db-name=wrongName --disable-events-firing')->assertExitCode(1);
+        $this->artisan('backup:run --only-db --db-name=wrongName --disable-events')->assertExitCode(1);
 
         Event::assertNotDispatched(BackupHasFailed::class);
         Notification::assertNothingSent();

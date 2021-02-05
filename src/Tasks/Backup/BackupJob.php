@@ -75,7 +75,7 @@ class BackupJob
         return $this;
     }
 
-    public function disableEventsFiring(): self
+    public function disableEvents(): self
     {
         $this->fireEvents = false;
 

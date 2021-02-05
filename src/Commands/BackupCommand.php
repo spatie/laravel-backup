@@ -15,7 +15,7 @@ class BackupCommand extends BaseCommand
                             {--db-name=*}
                             {--only-files}
                             {--only-to-disk=}
-                            {--disable-events-firing : Whether the command should disable events firing}
+                            {--disable-events : Whether the command should disable events firing}
                             {--disable-notifications : Whether the command should disable notifications}
                             {--timeout=}';
 
@@ -26,7 +26,7 @@ class BackupCommand extends BaseCommand
         consoleOutput()->comment('Starting backup...');
 
         $disableNotifications = $this->option('disable-notifications');
-        $disableEventsFiring = $this->option('disable-events-firing');
+        $disableEvents = $this->option('disable-events');
 
         if ($this->option('timeout') && is_numeric($this->option('timeout'))) {
             set_time_limit((int) $this->option('timeout'));
@@ -60,8 +60,8 @@ class BackupCommand extends BaseCommand
                 $backupJob->disableNotifications();
             }
 
-            if ($disableEventsFiring) {
-                $backupJob->disableEventsFiring();
+            if ($disableEvents) {
+                $backupJob->disableEvents();
             }
 
             $backupJob->run();
@@ -70,7 +70,7 @@ class BackupCommand extends BaseCommand
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
-            if (! $disableEventsFiring) {
+            if (! $disableEvents) {
                 event(new BackupHasFailed($exception, shouldBeNotified: !$disableNotifications));
             }
 
