@@ -5,6 +5,7 @@ namespace Spatie\Backup\Tests\Commands;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Tests\TestCase;
@@ -290,7 +291,7 @@ class BackupCommandTest extends TestCase
          */
         $this->app['db']->disconnect();
     }
-    
+
     /** @test */
     public function it_should_trigger_the_backup_failed_event()
     {
@@ -301,12 +302,46 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_should_omit_the_backup_failed_event_with_no_notifications_flag()
+    public function it_should_omit_the_backup_failed_event_with_no_event_flag()
     {
-        //use an invalid dbname to trigger failure
-        $this->artisan('backup:run --only-db --db-name=wrongName --disable-notifications')->assertExitCode(1);
+        // use an invalid dbname to trigger failure
+        $this->artisan('backup:run --only-db --db-name=wrongName --disable-events')->assertExitCode(1);
 
         Event::assertNotDispatched(BackupHasFailed::class);
+    }
+
+    /** @test */
+    public function it_should_not_send_notifications_when_disable_notifications_flag()
+    {
+        Notification::fake();
+
+        // use an invalid dbname to trigger failure
+        $this->artisan('backup:run --only-db --db-name=wrongName --disable-notifications')->assertExitCode(1);
+
+        Notification::assertNothingSent();
+    }
+
+    /** @test */
+    public function it_should_still_fire_events_when_disable_notifications_flag()
+    {
+        Notification::fake();
+
+        // use an invalid dbname to trigger failure
+        $this->artisan('backup:run --only-db --db-name=wrongName --disable-notifications')->assertExitCode(1);
+
+        Event::assertDispatched(BackupHasFailed::class);
+    }
+
+    /** @test */
+    public function it_should_not_send_notifications_if_disable_events_flag()
+    {
+        Notification::fake();
+
+        // use an invalid dbname to trigger failure
+        $this->artisan('backup:run --only-db --db-name=wrongName --disable-events')->assertExitCode(1);
+
+        Event::assertNotDispatched(BackupHasFailed::class);
+        Notification::assertNothingSent();
     }
 
     /** @test */

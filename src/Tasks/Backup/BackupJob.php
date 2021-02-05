@@ -33,6 +33,7 @@ class BackupJob
     protected TemporaryDirectory $temporaryDirectory;
 
     protected bool $sendNotifications = true;
+    protected bool $fireEvents = true;
 
     public function __construct()
     {
@@ -70,6 +71,13 @@ class BackupJob
     public function disableNotifications(): self
     {
         $this->sendNotifications = false;
+
+        return $this;
+    }
+
+    public function disableEvents(): self
+    {
+        $this->fireEvents = false;
 
         return $this;
     }
@@ -149,7 +157,7 @@ class BackupJob
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
 
-            $this->sendNotification(new BackupHasFailed($exception));
+            $this->fireEvent(new BackupHasFailed($exception, shouldBeNotified: $this->sendNotifications));
 
             $this->temporaryDirectory->delete();
 
@@ -169,7 +177,7 @@ class BackupJob
             ->addFiles($databaseDumps)
             ->addFiles($this->filesToBeBackedUp());
 
-        $this->sendNotification(new BackupManifestWasCreated($manifest));
+        $this->fireEvent(new BackupManifestWasCreated($manifest, shouldBeNotified: $this->sendNotifications));
 
         return $manifest;
     }
@@ -203,7 +211,7 @@ class BackupJob
 
         consoleOutput()->info("Created zip containing {$zip->count()} files and directories. Size is {$zip->humanReadableSize()}");
 
-        $this->sendNotification(new BackupZipWasCreated($pathToZip));
+        $this->fireEvent(new BackupZipWasCreated($pathToZip, shouldBeNotified: $this->sendNotifications));
 
         return $pathToZip;
     }
@@ -259,20 +267,20 @@ class BackupJob
 
                     consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->diskName()}.");
 
-                    $this->sendNotification(new BackupWasSuccessful($backupDestination));
+                    $this->fireEvent(new BackupWasSuccessful($backupDestination, shouldBeNotified: $this->sendNotifications));
                 } catch (Exception $exception) {
                     consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
-                    $this->sendNotification(new BackupHasFailed($exception, $backupDestination ?? null));
+                    $this->fireEvent(new BackupHasFailed($exception, $backupDestination ?? null, shouldBeNotified: $this->sendNotifications));
                 }
             });
     }
 
-    protected function sendNotification($notification): void
+    protected function fireEvent($event): void
     {
-        if ($this->sendNotifications) {
+        if ($this->fireEvents) {
             rescue(
-                fn () => event($notification),
+                fn () => event($event),
                 fn () => consoleOutput()->error('Sending notification failed')
             );
         }

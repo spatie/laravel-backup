@@ -9,7 +9,15 @@ use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 
 class BackupCommand extends BaseCommand
 {
-    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=}';
+    protected $signature = 'backup:run
+                            {--filename=}
+                            {--only-db}
+                            {--db-name=*}
+                            {--only-files}
+                            {--only-to-disk=}
+                            {--disable-events : Whether the command should disable events firing}
+                            {--disable-notifications : Whether the command should disable notifications}
+                            {--timeout=}';
 
     protected $description = 'Run the backup.';
 
@@ -18,6 +26,7 @@ class BackupCommand extends BaseCommand
         consoleOutput()->comment('Starting backup...');
 
         $disableNotifications = $this->option('disable-notifications');
+        $disableEvents = $this->option('disable-events');
 
         if ($this->option('timeout') && is_numeric($this->option('timeout'))) {
             set_time_limit((int) $this->option('timeout'));
@@ -51,14 +60,18 @@ class BackupCommand extends BaseCommand
                 $backupJob->disableNotifications();
             }
 
+            if ($disableEvents) {
+                $backupJob->disableEvents();
+            }
+
             $backupJob->run();
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
-            if (! $disableNotifications) {
-                event(new BackupHasFailed($exception));
+            if (! $disableEvents) {
+                event(new BackupHasFailed($exception, shouldBeNotified: !$disableNotifications));
             }
 
             return 1;
