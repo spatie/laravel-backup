@@ -10,7 +10,7 @@ use Spatie\Backup\Commands\ListCommand;
 use Spatie\Backup\Commands\MonitorCommand;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Helpers\ConsoleOutput;
-use Spatie\Backup\Listeners\EncryptBackupZip;
+use Spatie\Backup\Listeners\EncryptBackupArchive;
 use Spatie\Backup\Notifications\EventHandler;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 
@@ -28,8 +28,8 @@ class BackupServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'backup');
 
-        if (EncryptBackupZip::shouldEncrypt()) {
-            Event::listen(BackupZipWasCreated::class, EncryptBackupZip::class);
+        if (EncryptBackupArchive::shouldEncrypt()) {
+            Event::listen(BackupZipWasCreated::class, EncryptBackupArchive::class);
         }
     }
 

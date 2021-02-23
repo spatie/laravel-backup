@@ -5,7 +5,7 @@ namespace Spatie\Backup\Listeners;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use ZipArchive;
 
-class EncryptBackupZip
+class EncryptBackupArchive
 {
     public function handle(BackupZipWasCreated $event): void
     {
