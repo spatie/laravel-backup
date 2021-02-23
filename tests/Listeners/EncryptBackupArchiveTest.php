@@ -24,8 +24,6 @@ class EncryptBackupArchiveTest extends TestCase
 
         $path = $this->zip();
 
-        app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($path)]);
-
         $zip = new ZipArchive();
         $zip->open($path);
 
@@ -48,8 +46,6 @@ class EncryptBackupArchiveTest extends TestCase
 
         $path = $this->zip();
 
-        app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($path)]);
-
         $zip = new ZipArchive();
         $zip->open($path);
 
@@ -67,8 +63,6 @@ class EncryptBackupArchiveTest extends TestCase
     {
         $path = $this->zip();
 
-        app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($path)]);
-
         $zip = new ZipArchive();
         $zip->open($path);
 
@@ -85,6 +79,8 @@ class EncryptBackupArchiveTest extends TestCase
         $target = __DIR__.'/../temp/archive.zip';
 
         copy($source, $target);
+
+        app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($target)]);
 
         return $target;
     }
