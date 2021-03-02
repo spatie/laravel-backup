@@ -2,12 +2,15 @@
 
 namespace Spatie\Backup;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
 use Spatie\Backup\Commands\MonitorCommand;
+use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Helpers\ConsoleOutput;
+use Spatie\Backup\Listeners\EncryptBackupArchive;
 use Spatie\Backup\Notifications\EventHandler;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 
@@ -24,6 +27,10 @@ class BackupServiceProvider extends ServiceProvider
         ]);
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'backup');
+
+        if (EncryptBackupArchive::shouldEncrypt()) {
+            Event::listen(BackupZipWasCreated::class, EncryptBackupArchive::class);
+        }
     }
 
     public function register()
