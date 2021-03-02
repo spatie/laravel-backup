@@ -94,7 +94,7 @@ class EncryptBackupArchiveTest extends TestCase
 
     public function assertValidExtractedFiles(): void
     {
-        foreach(['file1.txt', 'file2.txt', 'file3.txt'] as $filename) {
+        foreach (['file1.txt', 'file2.txt', 'file3.txt'] as $filename) {
             $filepath = __DIR__.'/../temp/extraction/'.$filename;
             $this->assertTrue(file_exists($filepath));
             $this->assertSame('lorum ipsum', file_get_contents($filepath));
