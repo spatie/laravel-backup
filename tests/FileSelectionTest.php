@@ -27,6 +27,7 @@ class FileSelectionTest extends TestCase
 
         $testFiles = $this->getTestFiles([
             '.dotfile',
+            'archive.zip',
             '1Mb.file',
             'directory1',
             'directory1/directory1',
@@ -54,6 +55,7 @@ class FileSelectionTest extends TestCase
 
         $testFiles = $this->getTestFiles([
             '.dotfile',
+            'archive.zip',
             '1Mb.file',
             'directory2',
             'directory2/directory1',
@@ -75,6 +77,7 @@ class FileSelectionTest extends TestCase
 
         $testFiles = $this->getTestFiles([
             '.dotfile',
+            'archive.zip',
             '1Mb.file',
             'directory1',
             'directory1/file1.txt',
@@ -119,6 +122,7 @@ class FileSelectionTest extends TestCase
 
         $testFiles = $this->getTestFiles([
             '.dotfile',
+            'archive.zip',
             '1Mb.file',
             'directory1',
             'directory1/file1.txt',
