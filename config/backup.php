@@ -134,8 +134,11 @@ return [
         /*
          * The encryption algorithm to be used for archive encryption.
          * You can set it to `null` or `false` to disable encryption.
+         *
+         * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
+         * available on your system.
          */
-        'encryption' => \ZipArchive::EM_AES_256,
+        'encryption' => 'default',
     ],
 
     /*

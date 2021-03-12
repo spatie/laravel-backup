@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.3.1 - 2021-03-12
+
+- avoid exception when ZipArchive::EM_AES_256 is not available
+
 ## 7.3.0 - 2021-03-04
 
 - encrypt backups (#1246)

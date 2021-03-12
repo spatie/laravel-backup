@@ -58,6 +58,14 @@ class EncryptBackupArchive
 
     protected static function getAlgorithm(): ?int
     {
-        return config('backup.backup.encryption');
+        $encryption = config('backup.backup.encryption');
+
+        if ($encryption === 'default') {
+            $encryption = defined("\ZipArchive::EM_AES_256")
+                ? ZipArchive::EM_AES_256
+                : null;
+        }
+
+        return $encryption;
     }
 }
