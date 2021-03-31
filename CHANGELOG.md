@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.3.3 - 2021-03-31
+
+- update dependencies (spatie/db-dumper) (#1276)
+
 ## 7.3.2 - 2021-03-30
 
 - update deps (#1275)
