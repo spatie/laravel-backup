@@ -17,7 +17,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class BackupServiceProvider extends PackageServiceProvider
 {
-
     public function configurePackage(Package $package): void
     {
         $package
@@ -36,7 +35,6 @@ class BackupServiceProvider extends PackageServiceProvider
     {
         if (EncryptBackupArchive::shouldEncrypt()) {
             Event::listen(BackupZipWasCreated::class, EncryptBackupArchive::class);
-            $this->registerTranslations();
         }
     }
 
@@ -47,12 +45,5 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->app->singleton(ConsoleOutput::class);
 
         $this->app->bind(CleanupStrategy::class, config('backup.cleanup.strategy'));
-    }
-
-    protected function registerTranslations()
-    {
-        $currentLocale = app()->getLocale();
-
-        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
     }
 }
