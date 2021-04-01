@@ -17,10 +17,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class BackupServiceProvider extends PackageServiceProvider
 {
-    public function boot()
-    {
-        $this->registerTranslations();
-    }
 
     public function configurePackage(Package $package): void
     {
@@ -40,6 +36,7 @@ class BackupServiceProvider extends PackageServiceProvider
     {
         if (EncryptBackupArchive::shouldEncrypt()) {
             Event::listen(BackupZipWasCreated::class, EncryptBackupArchive::class);
+            $this->registerTranslations();
         }
     }
 
