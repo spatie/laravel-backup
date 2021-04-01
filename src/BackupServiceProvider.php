@@ -17,6 +17,11 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class BackupServiceProvider extends PackageServiceProvider
 {
+    public function boot()
+    {
+        $this->registerTranslations();
+    }
+
     public function configurePackage(Package $package): void
     {
         $package
@@ -45,5 +50,12 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->app->singleton(ConsoleOutput::class);
 
         $this->app->bind(CleanupStrategy::class, config('backup.cleanup.strategy'));
+    }
+
+    protected function registerTranslations()
+    {
+        $currentLocale = app()->getLocale();
+
+        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
     }
 }
