@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.3.3 - 2021-03-31
+
+- update dependencies (spatie/db-dumper) (#1276)
+
+## 7.3.2 - 2021-03-30
+
+- update deps (#1275)
+
 ## 7.3.1 - 2021-03-12
 
 - avoid exception when ZipArchive::EM_AES_256 is not available
