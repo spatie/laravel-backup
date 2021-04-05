@@ -134,7 +134,7 @@ class BackupJob
             ->create()
             ->empty();
 
-        Signal::handle(SIGINT, function(Command $command) {
+        Signal::handle(SIGINT, function (Command $command) {
             $command->info('Cleaning up temporary directory...');
 
             $this->temporaryDirectory->delete();
