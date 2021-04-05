@@ -5,6 +5,7 @@ namespace Spatie\Backup\Tasks\Backup;
 use Carbon\Carbon;
 use Exception;
 use Generator;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\BackupHasFailed;
@@ -16,6 +17,7 @@ use Spatie\DbDumper\Compressors\GzipCompressor;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
+use Spatie\SignalAwareCommand\Facades\Signal;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class BackupJob
@@ -132,6 +134,12 @@ class BackupJob
             ->create()
             ->empty();
 
+        Signal::handle(SIGINT, function(Command $command) {
+            $command->info('Cleaning up temporary directory...');
+
+            $this->temporaryDirectory->delete();
+        });
+
         try {
             if (! count($this->backupDestinations)) {
                 throw InvalidBackupJob::noDestinationsSpecified();
@@ -157,6 +165,8 @@ class BackupJob
         }
 
         $this->temporaryDirectory->delete();
+
+        Signal::clearHandlers(SIGINT);
     }
 
     protected function createBackupManifest(): Manifest
