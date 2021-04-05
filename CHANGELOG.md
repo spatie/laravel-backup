@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.3.4 - 2021-04-05
+
+- delete incomplete backup when cancelling the backup command
+
 ## 7.3.3 - 2021-03-31
 
 - update dependencies (spatie/db-dumper) (#1276)
