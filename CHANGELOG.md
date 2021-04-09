@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.4.0 - 2021-04-09
+
+- add support for Discord notifications
+
 ## 7.3.4 - 2021-04-05
 
 - delete incomplete backup when cancelling the backup command
