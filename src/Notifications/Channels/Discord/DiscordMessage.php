@@ -28,7 +28,7 @@ class DiscordMessage
 
     protected string $url = '';
 
-    public function from($username, $avatarUrl = null)
+    public function from(string $username, string $avatarUrl = null): self
     {
         if (! is_null($username)) {
             $this->username = $username;
@@ -41,7 +41,7 @@ class DiscordMessage
         return $this;
     }
 
-    public function url($url)
+    public function url(string $url): self
     {
         $this->url = $url;
 
