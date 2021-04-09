@@ -32,6 +32,7 @@
         "spatie/laravel-package-tools": "^1.6",
         "spatie/laravel-signal-aware-command": "^1.1",
         "spatie/temporary-directory": "^2.0",
+        "symfony/console": "^5.2.6",
         "symfony/finder": "^5.2"
     },
     "require-dev": {
@@ -39,7 +40,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "mockery/mockery": "^1.4.2",
         "orchestra/testbench": "^6.16",
-        "phpunit/phpunit": "^9.3 < 9.5"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
