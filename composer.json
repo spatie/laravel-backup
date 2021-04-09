@@ -36,6 +36,7 @@
         "symfony/finder": "^5.2"
     },
     "require-dev": {
+        "composer-runtime-api": "^2.0",
         "laravel/slack-notification-channel": "^2.3",
         "league/flysystem-aws-s3-v3": "^1.0.29",
         "mockery/mockery": "^1.4.3",
