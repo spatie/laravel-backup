@@ -2,14 +2,11 @@
 
 namespace Spatie\Backup\Notifications\Channels\Discord;
 
-use App\Domain\Error\Models\ErrorOccurrence;
-use App\Http\App\Controllers\Projects\ShowProjectController;
 use Carbon\Carbon;
 
 class DiscordMessage
 {
-
-	public const COLOR_SUCCESS = '0b6623';
+    public const COLOR_SUCCESS = '0b6623';
     public const COLOR_WARNING = 'fD6a02';
     public const COLOR_ERROR = 'e32929';
 
@@ -33,11 +30,11 @@ class DiscordMessage
 
     public function from($username, $avatarUrl = null)
     {
-        if(! is_null($username)){
+        if (! is_null($username)) {
             $this->username = $username;
         }
 
-        if(! is_null($avatarUrl)){
+        if (! is_null($avatarUrl)) {
             $this->avatarUrl = $avatarUrl;
         }
 

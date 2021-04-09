@@ -81,17 +81,16 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
             ->title(
                 trans('backup::notifications.unhealthy_backup_found_subject_title', [
                     'application_name' => $this->applicationName(),
-                    'problem' => $this->problemDescription()
+                    'problem' => $this->problemDescription(),
                 ])
             )->fields($this->backupDestinationProperties()->toArray());
 
-        if($this->failure()->wasUnexpected()){
+        if ($this->failure()->wasUnexpected()) {
             $discordMessage
                 ->fields(['Health Check' => $this->failure()->healthCheck()->name()])
                 ->fields([
-                    trans('backup::notifications.exception_message_title') => $this->failure()->exception()->getMessage()
+                    trans('backup::notifications.exception_message_title') => $this->failure()->exception()->getMessage(),
                 ]);
-
         }
 
         return $discordMessage;

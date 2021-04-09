@@ -47,8 +47,9 @@ class HealthyBackupWasFoundNotification extends BaseNotification
         return (new DiscordMessage())
             ->success()
             ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
-            ->title(trans('backup::notifications.healthy_backup_found_subject_title', [
-                'application_name' => $this->applicationName()
+            ->title(
+                trans('backup::notifications.healthy_backup_found_subject_title', [
+                'application_name' => $this->applicationName(),
                 ])
             )->fields($this->backupDestinationProperties()->toArray());
     }

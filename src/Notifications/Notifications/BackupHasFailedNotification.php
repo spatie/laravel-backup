@@ -62,7 +62,7 @@ class BackupHasFailedNotification extends BaseNotification
             ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
             ->title(trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
             ->fields([
-                trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage()
+                trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage(),
             ]);
     }
 }

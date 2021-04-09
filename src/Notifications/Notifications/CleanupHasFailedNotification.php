@@ -63,7 +63,7 @@ class CleanupHasFailedNotification extends BaseNotification
             ->title(
                 trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()])
             )->fields([
-                trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage()
+                trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage(),
             ]);
     }
 }
