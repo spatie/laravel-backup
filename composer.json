@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.0.3",
         "ext-pcntl": "*",
         "ext-zip": "^1.14.0",
         "illuminate/console": "^8.36",
@@ -37,7 +37,7 @@
     },
     "require-dev": {
         "laravel/slack-notification-channel": "^2.3",
-        "league/flysystem-aws-s3-v3": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0.29",
         "mockery/mockery": "^1.4.3",
         "orchestra/testbench": "^6.17",
         "phpunit/phpunit": "^9.5.4"
