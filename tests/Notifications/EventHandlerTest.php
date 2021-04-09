@@ -51,6 +51,7 @@ class EventHandlerTest extends TestCase
             [[]],
             [['mail']],
             [['mail', 'slack']],
+            [['mail', 'slack', 'discord']],
         ];
     }
 

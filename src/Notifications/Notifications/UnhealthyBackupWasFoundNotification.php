@@ -7,6 +7,7 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Notifications\BaseNotification;
+use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
 use Spatie\Backup\Tasks\Monitor\HealthCheckFailure;
 
 class UnhealthyBackupWasFoundNotification extends BaseNotification
@@ -70,6 +71,30 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
         }
 
         return $slackMessage;
+    }
+
+    public function toDiscord(): DiscordMessage
+    {
+        $discordMessage = (new DiscordMessage())
+            ->error()
+            ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
+            ->title(
+                trans('backup::notifications.unhealthy_backup_found_subject_title', [
+                    'application_name' => $this->applicationName(),
+                    'problem' => $this->problemDescription()
+                ])
+            )->fields($this->backupDestinationProperties()->toArray());
+
+        if($this->failure()->wasUnexpected()){
+            $discordMessage
+                ->fields(['Health Check' => $this->failure()->healthCheck()->name()])
+                ->fields([
+                    trans('backup::notifications.exception_message_title') => $this->failure()->exception()->getMessage()
+                ]);
+
+        }
+
+        return $discordMessage;
     }
 
     protected function problemDescription(): string

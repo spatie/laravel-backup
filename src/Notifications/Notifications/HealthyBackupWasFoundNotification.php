@@ -7,6 +7,7 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Notifications\BaseNotification;
+use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
 
 class HealthyBackupWasFoundNotification extends BaseNotification
 {
@@ -39,5 +40,16 @@ class HealthyBackupWasFoundNotification extends BaseNotification
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
+    }
+
+    public function toDiscord(): DiscordMessage
+    {
+        return (new DiscordMessage())
+            ->success()
+            ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
+            ->title(trans('backup::notifications.healthy_backup_found_subject_title', [
+                'application_name' => $this->applicationName()
+                ])
+            )->fields($this->backupDestinationProperties()->toArray());
     }
 }

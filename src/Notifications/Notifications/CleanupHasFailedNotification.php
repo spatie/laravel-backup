@@ -7,6 +7,7 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Notifications\BaseNotification;
+use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
 
 class CleanupHasFailedNotification extends BaseNotification
 {
@@ -52,5 +53,17 @@ class CleanupHasFailedNotification extends BaseNotification
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
+    }
+
+    public function toDiscord(): DiscordMessage
+    {
+        return (new DiscordMessage())
+            ->error()
+            ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
+            ->title(
+                trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()])
+            )->fields([
+                trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage()
+            ]);
     }
 }
