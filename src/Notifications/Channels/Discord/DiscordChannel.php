@@ -2,8 +2,6 @@
 
 namespace Spatie\Backup\Notifications\Channels\Discord;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
 
