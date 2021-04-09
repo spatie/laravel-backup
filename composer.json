@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^8.0.3",
+        "php": "^8.0",
         "ext-pcntl": "*",
         "ext-zip": "^1.14.0",
         "illuminate/console": "^8.36",
