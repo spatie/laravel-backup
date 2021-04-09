@@ -7,6 +7,7 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Notifications\BaseNotification;
+use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
 
 class CleanupWasSuccessfulNotification extends BaseNotification
 {
@@ -39,5 +40,14 @@ class CleanupWasSuccessfulNotification extends BaseNotification
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
+    }
+
+    public function toDiscord(): DiscordMessage
+    {
+        return (new DiscordMessage())
+            ->success()
+            ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
+            ->title(trans('backup::notifications.cleanup_successful_subject_title'))
+            ->fields($this->backupDestinationProperties()->toArray());
     }
 }

@@ -187,6 +187,14 @@ return [
             'icon' => null,
 
         ],
+
+        'discord' => [
+            'webhook_url' => '',
+
+            'username' => null,
+
+            'avatar_url' => null,
+        ],
     ],
 
     /*
