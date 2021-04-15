@@ -6,11 +6,8 @@ use Spatie\DbDumper\DbDumper;
 
 class DumpingDatabase
 {
-    /** @var \Spatie\DbDumper\DbDumper */
-    public $dbDumper;
-
-    public function __construct(DbDumper $dbDumper)
-    {
-        $this->dbDumper = $dbDumper;
+    public function __construct(
+        public DbDumper $dbDumper
+    ) {
     }
 }
