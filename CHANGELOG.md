@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.5.0 - 2021-04-15
+
+- add `DumpingDatabase` event (#1292)
+
 ## 7.4.0 - 2021-04-09
 
 - add support for Discord notifications
