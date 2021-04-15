@@ -6,7 +6,8 @@ use Spatie\DbDumper\DbDumper;
 
 class DumpingDatabase
 {
-    public DbDumper $dbDumper;
+    /** @var \Spatie\DbDumper\DbDumper */
+    public $dbDumper;
 
     public function __construct(DbDumper $dbDumper)
     {
