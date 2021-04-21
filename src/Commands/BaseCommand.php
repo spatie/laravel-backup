@@ -9,7 +9,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class BaseCommand extends SignalAwareCommand
 {
-    protected array $handlesSignals = [SIGINT];
+    protected array $handlesSignals = [];
+
+    public function __construct()
+    {
+        if (PHP_OS_FAMILY !== 'Windows') {
+            $this->handlesSignals[] = SIGINT;
+        }
+
+        parent::__construct();
+    }
 
     public function run(InputInterface $input, OutputInterface $output): int
     {
