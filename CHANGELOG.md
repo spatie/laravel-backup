@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.5.2 - 2021-04-21
+
+- avoid SIGINT on Windows (#1296)
+
 ## 7.5.1 - 2021-04-15
 
 - fix for #1291 (Send mail notifications to multiple addresses failed)
