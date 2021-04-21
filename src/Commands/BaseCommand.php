@@ -13,7 +13,7 @@ abstract class BaseCommand extends SignalAwareCommand
 
     public function __construct()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+        if (PHP_OS_FAMILY !== 'Windows') {
             $this->handlesSignals[] = SIGINT;
         }
 
