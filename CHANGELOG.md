@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.5.3 - 2021-05-23
+
+- added Bangla translations (#1314)
+
 ## 7.5.2 - 2021-04-21
 
 - avoid SIGINT on Windows (#1296)
