@@ -13,7 +13,7 @@ abstract class BaseCommand extends SignalAwareCommand
 
     public function __construct()
     {
-        if (PHP_OS_FAMILY !== 'Windows' && defined('SIGINT')) {
+        if (PHP_OS_FAMILY !== 'Windows' && $this->runningInConsole() && defined('SIGINT')) {
             $this->handlesSignals[] = SIGINT;
         }
 
@@ -25,5 +25,10 @@ abstract class BaseCommand extends SignalAwareCommand
         app(ConsoleOutput::class)->setCommand($this);
 
         return parent::run($input, $output);
+    }
+    
+    protected functiin runningInConsole(): bool 
+    {
+        return in_array(php_sapi_name(), ['cli', 'phpdbg']);
     }
 }
