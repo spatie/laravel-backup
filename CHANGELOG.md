@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.5.4 - 2021-05-28
+
+- fix Artisan::call() throws a SIGINT undefined error (#1309)
+
 ## 7.5.3 - 2021-05-23
 
 - added Bangla translations (#1314)
