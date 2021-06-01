@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'تم إنشاء أحدث النسخ الاحتياطية في :date وتعتبر قديمة جدا.',
     'unhealthy_backup_found_unknown' => 'عذرا، لا يمكن تحديد سبب دقيق.',
     'unhealthy_backup_found_full' => 'النسخ الاحتياطية تستخدم الكثير من التخزين. الاستخدام الحالي هو :disk_usage وهو أعلى من الحد المسموح به من :disk_limit.',
+
+    'no_backups_info' => 'لم يتم عمل نسخ احتياطية حتى الآن',
+    'application_name' => 'اسم التطبيق',
+    'backup_name' => 'اسم النسخ الاحتياطي',
+    'disk' => 'القرص',
+    'newest_backup_size' => 'أحدث حجم للنسخ الاحتياطي',
+    'number_of_backups' => 'عدد النسخ الاحتياطية',
+    'total_storage_used' => 'إجمالي مساحة التخزين المستخدمة',
+    'newest_backup_date' => 'أحدث تاريخ النسخ الاحتياطي',
+    'oldest_backup_date' => 'أقدم تاريخ نسخ احتياطي',
 ];

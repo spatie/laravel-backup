@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'Den seneste backup fra :date er for gammel.',
     'unhealthy_backup_found_unknown' => 'Beklager, en præcis årsag kunne ikke findes.',
     'unhealthy_backup_found_full' => 'Backups bruger for meget plads. Nuværende disk forbrug er :disk_usage, hvilket er mere end den tilladte grænse på :disk_limit.',
+
+    'no_backups_info' => 'Der blev ikke foretaget nogen sikkerhedskopier endnu',
+    'application_name' => 'Ansøgningens navn',
+    'backup_name' => 'Backup navn',
+    'disk' => 'Disk',
+    'newest_backup_size' => 'Nyeste backup-størrelse',
+    'number_of_backups' => 'Antal sikkerhedskopier',
+    'total_storage_used' => 'Samlet lagerplads brugt',
+    'newest_backup_date' => 'Nyeste backup-størrelse',
+    'oldest_backup_date' => 'Ældste backup-størrelse',
 ];

@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => '最近的备份创建于 :date ，太旧了。',
     'unhealthy_backup_found_unknown' => '对不起，确切原因无法确定。',
     'unhealthy_backup_found_full' => '备份占用了太多存储空间。当前占用了 :disk_usage ，高于允许的限制 :disk_limit。',
+
+    'no_backups_info' => '尚未进行任何备份',
+    'application_name' => '应用名称',
+    'backup_name' => '备份名称',
+    'disk' => '磁盘',
+    'newest_backup_size' => '最新备份大小',
+    'number_of_backups' => '备份数量',
+    'total_storage_used' => '使用的总存储量',
+    'newest_backup_date' => '最新备份大小',
+    'oldest_backup_date' => '最旧的备份大小',
 ];

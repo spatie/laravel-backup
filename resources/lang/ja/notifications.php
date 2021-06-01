@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => ':date に保存された直近のバックアップが古すぎます。',
     'unhealthy_backup_found_unknown' => '申し訳ございません。予期せぬエラーです。',
     'unhealthy_backup_found_full' => 'バックアップがディスク容量を圧迫しています。現在の使用量 :disk_usage　は、許可された限界値 :disk_limit を超えています。',
+
+    'no_backups_info' => 'バックアップはまだ作成されていません',
+    'application_name' => 'アプリケーション名',
+    'backup_name' => 'バックアップ名',
+    'disk' => 'ディスク',
+    'newest_backup_size' => '最新のバックアップサイズ',
+    'number_of_backups' => 'バックアップ数',
+    'total_storage_used' => '使用された合計ストレージ',
+    'newest_backup_date' => '最新のバックアップサイズ',
+    'oldest_backup_date' => '最も古いバックアップ サイズ',
 ];

@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'Ostatnia kopia zapasowa wykonania dnia :date jest zbyt stara.',
     'unhealthy_backup_found_unknown' => 'Niestety, nie można ustalić dokładnego błędu.',
     'unhealthy_backup_found_full' => 'Kopie zapasowe zajmują zbyt dużo miejsca. Obecne użycie dysku :disk_usage jest większe od ustalonego limitu :disk_limit.',
+
+    'no_backups_info' => 'Nie utworzono jeszcze kopii zapasowych',
+    'application_name' => 'Nazwa aplikacji',
+    'backup_name' => 'Nazwa kopii zapasowej',
+    'disk' => 'Dysk',
+    'newest_backup_size' => 'Najnowszy rozmiar kopii zapasowej',
+    'number_of_backups' => 'Liczba kopii zapasowych',
+    'total_storage_used' => 'Całkowite wykorzystane miejsce',
+    'newest_backup_date' => 'Najnowszy rozmiar kopii zapasowej',
+    'oldest_backup_date' => 'Najstarszy rozmiar kopii zapasowej',
 ];

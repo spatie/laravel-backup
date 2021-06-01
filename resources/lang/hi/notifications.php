@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'हालहीमें :date को लिया हुआ बैकअप बहुत पुराना है.',
     'unhealthy_backup_found_unknown' => 'माफ़ कीजिये, सही कारण निर्धारित नहीं कर सकते.',
     'unhealthy_backup_found_full' => 'सभी बैकअप बहुत ज्यादा जगह का उपयोग कर रहे है. फ़िलहाल सभी बैकअप :disk_usage जगह का उपयोग कर रहे है, जो की :disk_limit अनुमति सीमा से अधिक का है.',
+
+    'no_backups_info' => 'अभी तक कोई बैकअप नहीं बनाया गया था',
+    'application_name' => 'आवेदन का नाम',
+    'backup_name' => 'बैकअप नाम',
+    'disk' => 'डिस्क',
+    'newest_backup_size' => 'नवीनतम बैकअप आकार',
+    'number_of_backups' => 'बैकअप की संख्या',
+    'total_storage_used' => 'उपयोग किया गया कुल संग्रहण',
+    'newest_backup_date' => 'नवीनतम बैकअप आकार',
+    'oldest_backup_date' => 'सबसे पुराना बैकअप आकार',
 ];

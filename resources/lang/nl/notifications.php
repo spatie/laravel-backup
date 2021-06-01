@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'De laatste back-up gemaakt op :date is te oud.',
     'unhealthy_backup_found_unknown' => 'Sorry, een exacte reden kon niet worden bepaald.',
     'unhealthy_backup_found_full' => 'De back-ups gebruiken te veel opslagruimte. Momenteel wordt er :disk_usage gebruikt wat hoger is dan de toegestane limiet van :disk_limit.',
+
+    'no_backups_info' => 'Er zijn nog geen back-ups gemaakt',
+    'application_name' => 'Naam van de toepassing',
+    'backup_name' => 'Back-upnaam',
+    'disk' => 'Schijf',
+    'newest_backup_size' => 'Nieuwste back-upgrootte',
+    'number_of_backups' => 'Aantal back-ups',
+    'total_storage_used' => 'Totale gebruikte opslagruimte',
+    'newest_backup_date' => 'Nieuwste back-upgrootte',
+    'oldest_backup_date' => 'Oudste back-upgrootte',
 ];

@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'Cea mai recentă copie de rezervă făcută la :date este considerată prea veche.',
     'unhealthy_backup_found_unknown' => 'Ne pare rău, un motiv exact nu poate fi determinat.',
     'unhealthy_backup_found_full' => 'Copiile de rezervă folosesc prea mult spațiu de stocare. Utilizarea curentă este de :disk_usage care este mai mare decât limita permisă de :disk_limit.',
+
+    'no_backups_info' => 'Nu s-au făcut încă copii de rezervă',
+    'application_name' => 'Numele aplicatiei',
+    'backup_name' => 'Numele de rezervă',
+    'disk' => 'Disc',
+    'newest_backup_size' => 'Cea mai nouă dimensiune de rezervă',
+    'number_of_backups' => 'Număr de copii de rezervă',
+    'total_storage_used' => 'Spațiu total de stocare utilizat',
+    'newest_backup_date' => 'Cea mai nouă dimensiune de rezervă',
+    'oldest_backup_date' => 'Cea mai veche dimensiune de rezervă',
 ];

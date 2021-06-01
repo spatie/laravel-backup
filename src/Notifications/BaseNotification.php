@@ -44,15 +44,25 @@ abstract class BaseNotification extends Notification
         $newestBackup = $backupDestination->newestBackup();
         $oldestBackup = $backupDestination->oldestBackup();
 
+        $noBackupsText = trans('backup::notifications.no_backups_info');
+        $applicationName = trans('backup::notifications.application_name');
+        $backupName = trans('backup::notifications.backup_name');
+        $disk = trans('backup::notifications.disk');
+        $newestBackupSize = trans('backup::notifications.newest_backup_size');
+        $numberOfBackups = trans('backup::notifications.number_of_backups');
+        $totalStorageUsed = trans('backup::notifications.total_storage_used');
+        $newestBackupDate = trans('backup::notifications.newest_backup_date');
+        $oldestBackupDate = trans('backup::notifications.oldest_backup_date');
+
         return collect([
-            'Application name' => $this->applicationName(),
-            'Backup name' => $this->backupName(),
-            'Disk' => $backupDestination->diskName(),
-            'Newest backup size' => $newestBackup ? Format::humanReadableSize($newestBackup->sizeInBytes()) : 'No backups were made yet',
-            'Number of backups' => (string) $backupDestination->backups()->count(),
-            'Total storage used' => Format::humanReadableSize($backupDestination->backups()->size()),
-            'Newest backup date' => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
-            'Oldest backup date' => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : 'No backups were made yet',
+            $applicationName => $this->applicationName(),
+            $backupName => $this->backupName(),
+            $disk => $backupDestination->diskName(),
+            $newestBackupSize => $newestBackup ? Format::humanReadableSize($newestBackup->sizeInBytes()) : $noBackupsText,
+            $numberOfBackups => (string) $backupDestination->backups()->count(),
+            $totalStorageUsed => Format::humanReadableSize($backupDestination->backups()->size()),
+            $newestBackupDate => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : $noBackupsText,
+            $oldestBackupDate => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : $noBackupsText,
         ])->filter();
     }
 

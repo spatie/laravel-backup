@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'O último backup realizado em :date é demasiado antigo.',
     'unhealthy_backup_found_unknown' => 'Desculpe, impossível determinar a razão exata.',
     'unhealthy_backup_found_full' => 'Os backups estão a utilizar demasiado espaço de armazenamento. A utilização atual é de :disk_usage, o que é maior que o limite permitido de :disk_limit.',
+
+    'no_backups_info' => 'Nenhum backup foi feito ainda',
+    'application_name' => 'Nome da Aplicação',
+    'backup_name' => 'Nome de backup',
+    'disk' => 'Disco',
+    'newest_backup_size' => 'Tamanho de backup mais recente',
+    'number_of_backups' => 'Número de backups',
+    'total_storage_used' => 'Armazenamento total usado',
+    'newest_backup_date' => 'Tamanho de backup mais recente',
+    'oldest_backup_date' => 'Tamanho de backup mais antigo',
 ];
