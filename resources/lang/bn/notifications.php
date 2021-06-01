@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'সর্বশেষ ব্যাকআপ যেটি :date এই তারিখে করা হয়েছে, সেটি খুব পুরানো।',
     'unhealthy_backup_found_unknown' => 'দুঃখিত, সঠিক কারণ নির্ধারণ করা সম্ভব হয়নি।',
     'unhealthy_backup_found_full' => 'ব্যাকআপগুলি অতিরিক্ত স্টোরেজ ব্যবহার করছে। বর্তমান ব্যবহারের পরিমান :disk_usage যা অনুমোদিত সীমা :disk_limit এর বেশি।',
+
+    'no_backups_info' => 'কোনও ব্যাকআপ এখনও তৈরি হয়নি',
+    'application_name' => 'আবেদনের নাম',
+    'backup_name' => 'ব্যাকআপ নাম',
+    'disk' => 'ডিস্ক',
+    'newest_backup_size' => 'নতুন ব্যাকআপ আকার',
+    'number_of_backups' => 'ব্যাকআপের সংখ্যা',
+    'total_storage_used' => 'ব্যবহৃত মোট সঞ্চয়স্থান',
+    'newest_backup_date' => 'সর্বাধিক ব্যাকআপের তারিখ',
+    'oldest_backup_date' => 'প্রাচীনতম ব্যাকআপ তারিখ',
 ];

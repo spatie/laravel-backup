@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => ':date tarihinde yapılan en son yedekleme çok eski kabul ediliyor.',
     'unhealthy_backup_found_unknown' => 'Üzgünüm, kesin bir sebep belirlenemiyor.',
     'unhealthy_backup_found_full' => 'Yedeklemeler çok fazla depolama alanı kullanıyor. Şu anki kullanım: :disk_usage, izin verilen sınırdan yüksek: :disk_limit.',
+
+    'no_backups_info' => 'Henüz yedekleme yapılmadı',
+    'application_name' => 'Uygulama Adı',
+    'backup_name' => 'Yedek adı',
+    'disk' => 'Disk',
+    'newest_backup_size' => 'En yeni yedekleme boyutu',
+    'number_of_backups' => 'Yedekleme sayısı',
+    'total_storage_used' => 'Kullanılan toplam depolama alanı',
+    'newest_backup_date' => 'En yeni yedekleme boyutu',
+    'oldest_backup_date' => 'En eski yedekleme boyutu',
 ];

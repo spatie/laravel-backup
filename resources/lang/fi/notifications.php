@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'Viimeisin varmuuskopio, luotu :date, on liian vanha.',
     'unhealthy_backup_found_unknown' => 'Virhe, tarkempaa tietoa syystä ei valitettavasti ole saatavilla.',
     'unhealthy_backup_found_full' => 'Varmuuskopiot vievät liikaa levytilaa. Tällä hetkellä käytössä :disk_usage, mikä on suurempi kuin sallittu tilavuus (:disk_limit).',
+
+    'no_backups_info' => 'Varmuuskopioita ei vielä tehty',
+    'application_name' => 'Sovelluksen nimi',
+    'backup_name' => 'Varmuuskopion nimi',
+    'disk' => 'Levy',
+    'newest_backup_size' => 'Uusin varmuuskopion koko',
+    'number_of_backups' => 'Varmuuskopioiden määrä',
+    'total_storage_used' => 'Käytetty tallennustila yhteensä',
+    'newest_backup_date' => 'Uusin varmuuskopion koko',
+    'oldest_backup_date' => 'Vanhin varmuuskopion koko',
 ];

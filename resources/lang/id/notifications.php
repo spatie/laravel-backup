@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'Backup terakhir dibuat pada :date dimana dipertimbahkan sudah sangat lama.',
     'unhealthy_backup_found_unknown' => 'Maaf, sebuah alasan persisnya tidak dapat ditentukan.',
     'unhealthy_backup_found_full' => 'Backup menggunakan terlalu banyak kapasitas penyimpanan. Penggunaan terkini adalah :disk_usage dimana lebih besar dari batas yang diperbolehkan yaitu :disk_limit.',
+
+    'no_backups_info' => 'Belum ada backup yang dibuat',
+    'application_name' => 'Nama aplikasi',
+    'backup_name' => 'Nama cadangan',
+    'disk' => 'Disk',
+    'newest_backup_size' => 'Ukuran cadangan terbaru',
+    'number_of_backups' => 'Jumlah cadangan',
+    'total_storage_used' => 'Total penyimpanan yang digunakan',
+    'newest_backup_date' => 'Ukuran cadangan terbaru',
+    'oldest_backup_date' => 'Ukuran cadangan tertua',
 ];

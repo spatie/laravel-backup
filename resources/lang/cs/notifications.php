@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'Poslední záloha vytvořená dne :date je považována za příliš starou.',
     'unhealthy_backup_found_unknown' => 'Omlouváme se, nemůžeme určit přesný důvod.',
     'unhealthy_backup_found_full' => 'Zálohy zabírají příliš mnoho místa na disku. Aktuální využití disku je :disk_usage, což je vyšší než povolený limit :disk_limit.',
+
+    'no_backups_info' => 'Zatím nebyly vytvořeny žádné zálohy',
+    'application_name' => 'Název aplikace',
+    'backup_name' => 'Název zálohy',
+    'disk' => 'Disk',
+    'newest_backup_size' => 'Nejnovější velikost zálohy',
+    'number_of_backups' => 'Počet záloh',
+    'total_storage_used' => 'Celková využitá kapacita úložiště',
+    'newest_backup_date' => 'Nejnovější velikost zálohy',
+    'oldest_backup_date' => 'Nejstarší velikost zálohy',
 ];

@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'La dernière sauvegarde du :date est considérée trop vieille.',
     'unhealthy_backup_found_unknown' => 'Désolé, une raison exacte ne peut être déterminée.',
     'unhealthy_backup_found_full' => 'Les sauvegardes utilisent trop d\'espace disque. L\'utilisation actuelle est de :disk_usage alors que la limite autorisée est de :disk_limit.',
+
+    'no_backups_info' => 'Aucune sauvegarde n\'a encore été effectuée',
+    'application_name' => 'Nom de l\'application',
+    'backup_name' => 'Nom de la sauvegarde',
+    'disk' => 'Disque',
+    'newest_backup_size' => 'Taille de sauvegarde la plus récente',
+    'number_of_backups' => 'Nombre de sauvegardes',
+    'total_storage_used' => 'Stockage total utilisé',
+    'newest_backup_date' => 'Taille de sauvegarde la plus récente',
+    'oldest_backup_date' => 'Taille de sauvegarde la plus ancienne',
 ];

@@ -32,4 +32,14 @@ return [
     'unhealthy_backup_found_old' => 'آخرین نسخه پشتیبان برای تاریخ :date است. که به نظر خیلی قدیمی میاد. ',
     'unhealthy_backup_found_unknown' => 'متاسفانه دلیل دقیق مشخص نشده است.',
     'unhealthy_backup_found_full' => 'نسخه‌های پشتیبانی که تهیه کرده اید حجم زیادی اشغال کرده اند. میزان دیسک استفاده شده :disk_usage است که از میزان مجاز :disk_limit فراتر رفته است. ',
+
+    'no_backups_info' => 'هنوز نسخه پشتیبان تهیه نشده است',
+    'application_name' => 'نام نرم افزار',
+    'backup_name' => 'نام پشتیبان',
+    'disk' => 'دیسک',
+    'newest_backup_size' => 'جدیدترین اندازه پشتیبان',
+    'number_of_backups' => 'تعداد پشتیبان گیری',
+    'total_storage_used' => 'کل فضای ذخیره سازی استفاده شده',
+    'newest_backup_date' => 'جدیدترین اندازه پشتیبان',
+    'oldest_backup_date' => 'قدیمی ترین اندازه پشتیبان',
 ];
