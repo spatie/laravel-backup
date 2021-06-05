@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Spatie\Backup\Exceptions\InvalidBackupDestination;
+use Spatie\Backup\Exceptions\CannotWriteFile;
 
 class BackupDestination
 {
@@ -80,12 +81,16 @@ class BackupDestination
         $destination = $this->backupName.'/'.pathinfo($file, PATHINFO_BASENAME);
 
         $handle = fopen($file, 'r+');
-
-        $this->disk->getDriver()->writeStream(
-            $destination,
-            $handle,
-            $this->getDiskOptions()
-        );
+        
+        try {
+            $this->disk->getDriver()->writeStream(
+                $destination,
+                $handle,
+                $this->getDiskOptions()
+            );
+        } catch (MultipartUploadException $e) {
+            throw CannotWriteFile::S3MultipartUploadException($e->getMessage());
+        }
 
         if (is_resource($handle)) {
             fclose($handle);
