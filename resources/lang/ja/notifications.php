@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => '最新のバックアップサイズ',
     'number_of_backups' => 'バックアップ数',
     'total_storage_used' => '使用された合計ストレージ',
-    'newest_backup_date' => '最新のバックアップサイズ',
-    'oldest_backup_date' => '最も古いバックアップ サイズ',
+    'newest_backup_date' => '最新のバックアップ日時',
+    'oldest_backup_date' => '最も古いバックアップ日時',
 ];
