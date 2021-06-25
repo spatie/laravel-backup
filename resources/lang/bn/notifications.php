@@ -22,7 +22,7 @@ return [
 
     'healthy_backup_found_subject' => ':application_name এর ব্যাকআপগুলি :disk_name ডিস্কে স্বাস্থ্যকর অবস্থায় আছে।',
     'healthy_backup_found_subject_title' => ':application_name এর ব্যাকআপগুলি স্বাস্থ্যকর অবস্থায় আছে।',
-    'healthy_backup_found_body' => ':application_name এর ব্যাকআপগুলি  স্বাস্থ্যকর বিবেচনা করা হযচ্ছে। Good job!',
+    'healthy_backup_found_body' => ':application_name এর ব্যাকআপগুলি  স্বাস্থ্যকর বিবেচনা করা হচ্ছে। Good job!',
 
     'unhealthy_backup_found_subject' => 'গুরুত্বপূর্ণঃ :application_name এর ব্যাকআপগুলি অস্বাস্থ্যকর অবস্থায় আছে।',
     'unhealthy_backup_found_subject_title' => 'গুরুত্বপূর্ণঃ :application_name এর ব্যাকআপগুলি অস্বাস্থ্যকর অবস্থায় আছে। :problem',
@@ -33,13 +33,13 @@ return [
     'unhealthy_backup_found_unknown' => 'দুঃখিত, সঠিক কারণ নির্ধারণ করা সম্ভব হয়নি।',
     'unhealthy_backup_found_full' => 'ব্যাকআপগুলি অতিরিক্ত স্টোরেজ ব্যবহার করছে। বর্তমান ব্যবহারের পরিমান :disk_usage যা অনুমোদিত সীমা :disk_limit এর বেশি।',
 
-    'no_backups_info' => 'কোনও ব্যাকআপ এখনও তৈরি হয়নি',
+    'no_backups_info' => 'কোনো ব্যাকআপ এখনও তৈরি হয়নি',
     'application_name' => 'আবেদনের নাম',
-    'backup_name' => 'ব্যাকআপ নাম',
+    'backup_name' => 'ব্যাকআপের নাম',
     'disk' => 'ডিস্ক',
     'newest_backup_size' => 'নতুন ব্যাকআপ আকার',
     'number_of_backups' => 'ব্যাকআপের সংখ্যা',
     'total_storage_used' => 'ব্যবহৃত মোট সঞ্চয়স্থান',
-    'newest_backup_date' => 'সর্বাধিক ব্যাকআপের তারিখ',
-    'oldest_backup_date' => 'প্রাচীনতম ব্যাকআপ তারিখ',
+    'newest_backup_date' => 'নতুন ব্যাকআপের তারিখ',
+    'oldest_backup_date' => 'পুরানো ব্যাকআপের তারিখ',
 ];
