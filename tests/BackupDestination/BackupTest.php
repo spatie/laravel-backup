@@ -5,6 +5,7 @@ namespace Spatie\Backup\Tests\BackupDestination;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\BackupDestination\Backup;
+use Spatie\Backup\Exceptions\InvalidBackupFile;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Tests\TestCase;
 
@@ -28,6 +29,16 @@ class BackupTest extends TestCase
         $backup = $this->getBackupForFile($fileName);
 
         $this->assertSame("mysite.com/{$fileName}", $backup->path());
+    }
+
+    /** @test */
+    public function it_can_get_backup_as_stream_resource()
+    {
+        $fileName = 'test.zip';
+
+        $backup = $this->getBackupForFile($fileName);
+
+        $this->assertIsResource($backup->stream());
     }
 
     /** @test */

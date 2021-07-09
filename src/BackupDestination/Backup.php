@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use InvalidArgumentException;
 use Spatie\Backup\Tasks\Backup\BackupJob;
+use Spatie\Backup\Exceptions\InvalidBackupFile;
 
 class Backup
 {
@@ -70,7 +71,13 @@ class Backup
 
     public function stream()
     {
-        return $this->disk->readStream($this->path);
+      $result = $this->disk->readStream($this->path);
+
+      if ($result === false) {
+        throw InvalidBackupFile::readError($this);
+      }
+
+      return $result;
     }
 
     public function delete(): void
