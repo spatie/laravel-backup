@@ -7,7 +7,6 @@ use Exception;
 
 class InvalidBackupFile extends Exception
 {
-
     public static function writeError(string $backupName): self
     {
         return new static("There is have been error writing file for the backup named `{$backupName}`.");
