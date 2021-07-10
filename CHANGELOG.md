@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.16.1 - 2021-07-09
+
+- detect write failures (#1347)
+
 ## 6.16.0 - 2021-04-15
 
 - Add DumpingDatabase event v6 (#1293)
