@@ -71,13 +71,10 @@ class Backup
 
     public function stream()
     {
-        $result = $this->disk->readStream($this->path);
-
-        if ($result === false) {
-          throw InvalidBackupFile::readError($this);
-        }
-
-        return $result;
+        return throw_unless(
+            $this->disk->readStream($this->path),
+            InvalidBackupFile::readError($this)
+        );
     }
 
     public function delete(): void
