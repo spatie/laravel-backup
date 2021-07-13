@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => 'Tamaño de copia de seguridad más reciente',
     'number_of_backups' => 'Número de copias de seguridad',
     'total_storage_used' => 'Almacenamiento total utilizado',
-    'newest_backup_date' => 'Tamaño de copia de seguridad más reciente',
-    'oldest_backup_date' => 'Tamaño de copia de seguridad más antiguo',
+    'newest_backup_date' => 'Fecha de la copia de seguridad más reciente',
+    'oldest_backup_date' => 'Fecha de la copia de seguridad más antigua',
 ];
