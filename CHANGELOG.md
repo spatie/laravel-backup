@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.6.1 - 2021-07-13
+
+- fix Spanish Translations (#1350)
+
 ## 7.6.0 - 2021-06-01
 
 - translate notification properties
