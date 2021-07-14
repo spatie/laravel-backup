@@ -14,8 +14,8 @@ class InvalidBackupFile extends Exception
 
     public static function readError(Backup $backup): self
     {
-        $backupName = basename($backup->path());
+        $path = $backup->path();
 
-        return new static("There has been an error reading file for the backup named `{$backupName}`");
+        return new static("There has been an error reading the backup `{$path}`");
     }
 }
