@@ -92,7 +92,7 @@ class BackupDestination
             fclose($handle);
         }
 
-        if (!$hasWritten) {
+        if (! $hasWritten) {
           throw InvalidBackupFile::writeError($this->backupName());
         }
     }
