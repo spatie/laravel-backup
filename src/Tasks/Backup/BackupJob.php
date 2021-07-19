@@ -37,6 +37,8 @@ class BackupJob
 
     protected bool $sendNotifications = true;
 
+    protected bool $signals = true;
+
     public function __construct()
     {
         $this
@@ -73,6 +75,13 @@ class BackupJob
     public function disableNotifications(): self
     {
         $this->sendNotifications = false;
+
+        return $this;
+    }
+
+    public function disableSignals(): self
+    {
+        $this->signals = false;
 
         return $this;
     }
@@ -135,11 +144,13 @@ class BackupJob
             ->create()
             ->empty();
 
-        Signal::handle(SIGINT, function (Command $command) {
-            $command->info('Cleaning up temporary directory...');
+        if ($this->signals) {
+            Signal::handle(SIGINT, function (Command $command) {
+                $command->info('Cleaning up temporary directory...');
 
-            $this->temporaryDirectory->delete();
-        });
+                $this->temporaryDirectory->delete();
+            });
+        }
 
         try {
             if (! count($this->backupDestinations)) {
@@ -167,7 +178,9 @@ class BackupJob
 
         $this->temporaryDirectory->delete();
 
-        Signal::clearHandlers(SIGINT);
+        if ($this->signals) {
+            Signal::clearHandlers(SIGINT);
+        }
     }
 
     protected function createBackupManifest(): Manifest

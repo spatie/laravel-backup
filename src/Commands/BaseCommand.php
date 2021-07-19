@@ -6,6 +6,7 @@ use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\SignalAwareCommand\SignalAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 
 abstract class BaseCommand extends SignalAwareCommand
 {
@@ -13,7 +14,7 @@ abstract class BaseCommand extends SignalAwareCommand
 
     public function __construct()
     {
-        if (PHP_OS_FAMILY !== 'Windows' && $this->runningInConsole() && defined('SIGINT')) {
+        if ($this->runningInConsole() && SignalRegistry::isSupported()) {
             $this->handlesSignals[] = SIGINT;
         }
 
@@ -30,5 +31,10 @@ abstract class BaseCommand extends SignalAwareCommand
     protected function runningInConsole(): bool
     {
         return in_array(php_sapi_name(), ['cli', 'phpdbg']);
+    }
+
+    public function getSubscribedSignals(): array
+    {
+        return $this->handlesSignals;
     }
 }
