@@ -11,7 +11,7 @@ class IsReachable extends HealthCheck
     {
         $this->failUnless(
             $backupDestination->isReachable(),
-            trans('backup::notification.unhealthy_backup_found_not_reachable', [
+            trans('backup::notifications.unhealthy_backup_found_not_reachable', [
                 'error' => $backupDestination->connectionError,
             ])
         );
