@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.6.2 - 2021-07-19
+
+- fix retrieving translation string (#1353)
+
 ## 7.6.1 - 2021-07-13
 
 - fix Spanish Translations (#1350)
