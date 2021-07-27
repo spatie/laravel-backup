@@ -2,17 +2,17 @@
 
 namespace Spatie\Backup\Tests\BackupDestination;
 
-use Mockery as m;
 use Carbon\Carbon;
-use Mockery\MockInterface;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Backup\BackupDestination\Backup;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Spatie\Backup\Exceptions\InvalidBackupFile;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Mockery as m;
+use Mockery\MockInterface;
+use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Exceptions\InvalidBackupFile;
 use Spatie\Backup\Tests\TestCase;
 
 class BackupTest extends TestCase

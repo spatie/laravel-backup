@@ -2,8 +2,8 @@
 
 namespace Spatie\Backup\Exceptions;
 
-use Spatie\Backup\BackupDestination\Backup;
 use Exception;
+use Spatie\Backup\BackupDestination\Backup;
 
 class InvalidBackupFile extends Exception
 {
