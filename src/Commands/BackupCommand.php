@@ -51,7 +51,7 @@ class BackupCommand extends BaseCommand
                 $backupJob->disableNotifications();
             }
 
-            if (!$this->getSubscribedSignals()) {
+            if (! $this->getSubscribedSignals()) {
                 $backupJob->disableSignals();
             }
 
