@@ -227,7 +227,9 @@ class BackupJob
 
         consoleOutput()->info("Created zip containing {$zip->count()} files and directories. Size is {$zip->humanReadableSize()}");
 
-        $this->sendNotification(new BackupZipWasCreated($pathToZip));
+        $this->encryptBackup($pathToZip);
+
+        $this->sendNotification($pathToZip);
 
         return $pathToZip;
     }
@@ -292,6 +294,14 @@ class BackupJob
                     $this->sendNotification(new BackupHasFailed($exception, $backupDestination ?? null));
                 }
             });
+    }
+
+    protected function encryptBackup($pathToZip): void
+    {
+        rescue(
+            fn () => event(new BackupZipWasCreated($pathToZip)),
+            consoleOutput()->info('Encrypting backup successful...')
+        );
     }
 
     protected function sendNotification($notification): void
