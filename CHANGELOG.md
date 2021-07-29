@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.6.3 - 2021-07-29
+
+- adds: exception to throw when flysystem returns false (#1348)
+
 ## 7.6.2 - 2021-07-19
 
 - fix retrieving translation string (#1353)
