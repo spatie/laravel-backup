@@ -3,9 +3,16 @@
 namespace Spatie\Backup\Tests\BackupDestination;
 
 use Carbon\Carbon;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Mockery as m;
+use Mockery\MockInterface;
 use Spatie\Backup\BackupDestination\Backup;
+use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Exceptions\InvalidBackupFile;
 use Spatie\Backup\Tests\TestCase;
 
 class BackupTest extends TestCase
@@ -28,6 +35,47 @@ class BackupTest extends TestCase
         $backup = $this->getBackupForFile($fileName);
 
         $this->assertSame("mysite.com/{$fileName}", $backup->path());
+    }
+
+    /** @test */
+    public function it_can_get_backup_as_stream_resource()
+    {
+        $fileName = 'test.zip';
+
+        $backup = $this->getBackupForFile($fileName);
+
+        $this->assertIsResource($backup->stream());
+    }
+
+    /** @test */
+    public function when_its_unable_to_read_the_stream_throws_exception()
+    {
+        $path = 'mysite.com/test.zip';
+
+        $filesystem = m::mock(FilesystemAdapter::class);
+        $filesystem->shouldReceive('readStream')->once()->with($path)->andReturn(false);
+
+        $backup = new Backup($filesystem, $path);
+
+        $this->expectException(InvalidBackupFile::class);
+        $backup->stream();
+    }
+
+    /** @test */
+    public function when_its_unable_to_write_to_stream_throws_exception()
+    {
+        $mock = $this->partialMock(Local::class, function (MockInterface $mock) {
+            $mock->shouldReceive('writeStream')->once()->andReturn(false);
+        });
+        $adapter = new FilesystemAdapter(new Filesystem($mock));
+
+        $path = Storage::disk($diskName = 'local')->path(
+            $this->createFileOnDisk($diskName, $filePath = 'mysite.com/file.zip', now())
+        );
+        $backupDestination = new BackupDestination($adapter, $backupName = 'mysite', $diskName);
+
+        $this->expectException(InvalidBackupFile::class);
+        $backupDestination->write($path);
     }
 
     /** @test */
