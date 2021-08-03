@@ -229,8 +229,6 @@ class BackupJob
 
         $this->encryptBackup($pathToZip);
 
-        $this->sendNotification($pathToZip);
-
         return $pathToZip;
     }
 
