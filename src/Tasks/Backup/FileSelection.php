@@ -104,7 +104,10 @@ class FileSelection
     protected function shouldExclude(string $path): bool
     {
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (Str::startsWith(realpath($path), $excludedPath)) {
+            if (Str::startsWith(realpath($path), is_dir($excludedPath) ? rtrim($excludedPath, '/').'/' : $excludedPath)) {
+                if (pathinfo($excludedPath, PATHINFO_EXTENSION) && realpath($path) != $excludedPath && is_file($excludedPath)) {
+                    continue;
+                }
                 return true;
             }
         }

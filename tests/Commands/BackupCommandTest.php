@@ -78,6 +78,29 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_not_exclude_files_by_same_extension_start()
+    {
+        Storage::disk('local')->put('.env', 'dummy content');
+        Storage::disk('local')->put('.env.example', 'dummy content');
+        Storage::disk('local')->put('testing-file.txt', 'dummy content');
+        Storage::disk('local')->put('testing-file.txt.txt', 'dummy content');
+        Storage::disk('local')->put('.git/testing-file.txt', 'dummy content');
+        Storage::disk('local')->put('.gitignore', 'dummy content');
+
+        config()->set('backup.backup.source.files.include', [$this->getDiskRootPath('local')]);
+        config()->set('backup.backup.source.files.exclude', [Storage::disk('local')->path('.git'), Storage::disk('local')->path('.env'), Storage::disk('local')->path('testing-file.txt')]);
+
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
+
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, '.env.example');
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt.txt');
+        $this->assertFileExistsInZip('local', $this->expectedZipPath, '.gitignore');
+        $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, '.env');
+        $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
+        $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, '.git/testing-file.txt');
+    }
+
+    /** @test */
     public function it_excludes_the_backup_destination_from_the_backup()
     {
         config()->set('backup.backup.source.files.include', [$this->getDiskRootPath('local')]);
@@ -290,7 +313,7 @@ class BackupCommandTest extends TestCase
          */
         $this->app['db']->disconnect();
     }
-    
+
     /** @test */
     public function it_should_trigger_the_backup_failed_event()
     {
