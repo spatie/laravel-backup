@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
+use ZipArchive;
 
 class BackupCommandTest extends TestCase
 {
@@ -92,13 +93,41 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_can_backup_using_relative_path()
     {
-        config()->set('backup.backup.source.files.include', [$this->getDiskRootPath('local')]);
-        config()->set('backup.backup.source.files.relative_path', $this->getDiskRootPath('local'));
+        config()->set('backup.backup.source.files.include', [$this->getStubDirectory()]);
+        config()->set('backup.backup.source.files.exclude', [$this->getStubDirectory('.dot'), $this->getStubDirectory('file'), $this->getStubDirectory('file1.txt.txt')]);
+        config()->set('backup.backup.source.files.relative_path', $this->getStubDirectory());
 
-        Storage::disk('local')->put('testing-file.txt', 'dummy content');
+        $testFiles = [
+            '.dotfile',
+            'archive.zip',
+            '1Mb.file',
+            'directory1/',
+            'directory1/directory1/',
+            'directory1/directory1/file1.txt',
+            'directory1/directory1/file2.txt',
+            'directory1/file1.txt',
+            'directory1/file2.txt',
+            'directory2/',
+            'directory2/directory1/',
+            'directory2/directory1/file1.txt',
+            'file1.txt',
+            'file2.txt',
+            'file3.txt',
+        ];
 
         $this->artisan('backup:run --only-files')->assertExitCode(0);
-        $this->assertFileExistsInZip('local', $this->expectedZipPath, 'testing-file.txt');
+
+        $zipFiles = [];
+        $zip = new ZipArchive();
+        $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+        foreach (range(0, $zip->numFiles - 1) as $i) {
+            $zipFiles[] = $zip->statIndex($i)['name'];
+        }
+        $zip->close();
+        sort($testFiles);
+        sort($zipFiles);
+
+        $this->assertSame($testFiles, $zipFiles);
     }
 
     /** @test */
@@ -290,7 +319,7 @@ class BackupCommandTest extends TestCase
          */
         $this->app['db']->disconnect();
     }
-    
+
     /** @test */
     public function it_should_trigger_the_backup_failed_event()
     {
