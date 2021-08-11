@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.16.2 - 2021-08-11
+
+- fix bugs (#1366)
+
 ## 6.16.1 - 2021-07-09
 
 - detect write failures (#1347)
