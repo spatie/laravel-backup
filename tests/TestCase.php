@@ -149,9 +149,9 @@ abstract class TestCase extends Orchestra
         Carbon::setTestNow($date);
     }
 
-    public function getStubDirectory(): string
+    public function getStubDirectory(?string $file = null): string
     {
-        return __DIR__.'/stubs';
+        return __DIR__.'/stubs'.($file ? '/'.$file : '');
     }
 
     public function createSQLiteDatabase(string $fileName): string
