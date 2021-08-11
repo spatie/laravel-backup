@@ -214,7 +214,11 @@ class BackupJob
 
         consoleOutput()->info("Created zip containing {$zip->count()} files and directories. Size is {$zip->humanReadableSize()}");
 
-        $this->sendNotification(new BackupZipWasCreated($pathToZip));
+        if ($this->sendNotifications) {
+            $this->sendNotification(new BackupZipWasCreated($pathToZip));
+        } else {
+            app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($pathToZip)]);
+        }
 
         return $pathToZip;
     }

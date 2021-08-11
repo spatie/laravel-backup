@@ -131,8 +131,15 @@ class FileSelection
 
     protected function shouldExclude(string $path): bool
     {
+        $path = realpath($path);
+        if (is_dir($path)) {
+            $path .= '/';
+        }
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (Str::startsWith(realpath($path), $excludedPath)) {
+            if (Str::startsWith($path, $excludedPath.(is_dir($excludedPath) ? '/' : ''))) {
+                if ($path != $excludedPath && is_file($excludedPath)) {
+                    continue;
+                }
                 return true;
             }
         }
@@ -152,7 +159,7 @@ class FileSelection
                 return $path === '';
             })
             ->flatMap(function ($path) {
-                return glob($path);
+                return glob(str_replace('*', '{.[!.],}*', $path), GLOB_BRACE);
             })
             ->map(function ($path) {
                 return realpath($path);

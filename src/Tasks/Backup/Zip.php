@@ -19,12 +19,15 @@ class Zip
 
     public static function createForManifest(Manifest $manifest, string $pathToZip): self
     {
+        $relativePath = config('backup.backup.source.files.relative_path') ?
+            rtrim(config('backup.backup.source.files.relative_path'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : false;
+
         $zip = new static($pathToZip);
 
         $zip->open();
 
         foreach ($manifest->files() as $file) {
-            $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip));
+            $zip->add($file, self::determineNameOfFileInZip($file, $relativePath));
         }
 
         $zip->close();
@@ -32,20 +35,12 @@ class Zip
         return $zip;
     }
 
-    protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip)
+    protected static function determineNameOfFileInZip(string $pathToFile, string $relativePath)
     {
-        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME);
+        $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR;
 
-        $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME);
-
-        if (Str::startsWith($fileDirectory, $zipDirectory)) {
-            return str_replace($zipDirectory, '', $pathToFile);
-        }
-
-        if ($relativePath = config('backup.backup.source.files.relative_path')) {
-            if (Str::startsWith($fileDirectory . '/', $relativePath)) {
-                return str_replace($relativePath, '', $pathToFile);
-            }
+        if ($relativePath && $relativePath != DIRECTORY_SEPARATOR && Str::startsWith($fileDirectory, $relativePath)) {
+            return str_replace($relativePath, '', $pathToFile);
         }
 
         return $pathToFile;
@@ -107,7 +102,7 @@ class Zip
 
         foreach ($files as $file) {
             if (is_dir($file)) {
-                $this->zipFile->addEmptyDir($file);
+                $this->zipFile->addEmptyDir(ltrim($nameInZip ?: $file, DIRECTORY_SEPARATOR));
             }
 
             if (is_file($file)) {
