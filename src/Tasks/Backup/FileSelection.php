@@ -159,7 +159,7 @@ class FileSelection
                 return $path === '';
             })
             ->flatMap(function ($path) {
-                return glob(str_replace('*', '{.[!.],}*', $path), GLOB_BRACE);
+                return $this->getMatchingPaths($path);
             })
             ->map(function ($path) {
                 return realpath($path);
@@ -167,5 +167,28 @@ class FileSelection
             ->reject(function ($path) {
                 return $path === false;
             });
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return array
+     */
+    protected function getMatchingPaths(string $path): array
+    {
+        if ($this->canUseGlobBrace($path)) {
+            return glob(str_replace('*', '{.[!.],}*', $path), GLOB_BRACE);
+        }
+
+        return glob($path);
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return bool
+     */
+    protected function canUseGlobBrace(string $path): bool {
+        return strpos($path, '*') !== false && defined('GLOB_BRACE');
     }
 }
