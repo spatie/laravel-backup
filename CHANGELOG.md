@@ -91,6 +91,7 @@ All notable changes to `laravel-backup` will be documented in this file.
 - clean up of all internals
 - drop support for PHP 7
 - drop support for anything below Laravel 8
+- rename notification class names
 
 ## 6.14.2 - 2020-12-27
 
