@@ -24,7 +24,7 @@ class Zip
         $zip->open();
 
         foreach ($manifest->files() as $file) {
-            $zip->add($file, self::determineNameOfFileInZip($file, $relativePath));
+            $zip->add($file, self::determineNameOfFileInZip($file, $pathToZip, $relativePath));
         }
 
         $zip->close();
@@ -32,9 +32,15 @@ class Zip
         return $zip;
     }
 
-    protected static function determineNameOfFileInZip(string $pathToFile, string $relativePath)
+    protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip, string $relativePath)
     {
         $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR;
+
+        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR;
+
+        if (Str::startsWith($fileDirectory, $zipDirectory)) {
+            return str_replace($zipDirectory, '', $pathToFile);
+        }
 
         if ($relativePath && $relativePath != DIRECTORY_SEPARATOR && Str::startsWith($fileDirectory, $relativePath)) {
             return str_replace($relativePath, '', $pathToFile);
