@@ -84,7 +84,7 @@ class FileSelectionTest extends TestCase
         $fileSelection = (new FileSelection($this->sourceDirectory))
             ->excludeFilesFrom($this->getTestFiles([
                 "*/file1.txt",
-                "*/directory1"
+                "*/directory1",
             ]));
 
         $testFiles = $this->getTestFiles([

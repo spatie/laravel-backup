@@ -140,6 +140,7 @@ class FileSelection
                 if ($path != $excludedPath && is_file($excludedPath)) {
                     continue;
                 }
+
                 return true;
             }
         }
