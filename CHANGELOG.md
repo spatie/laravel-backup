@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.6.6 - 2021-08-19
+
+- improve config file
+
 ## 7.6.5 - 2021-08-19
 
 - avoid full path on db dumps (#1387)
