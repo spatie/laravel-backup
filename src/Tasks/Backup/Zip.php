@@ -87,10 +87,10 @@ class Zip
         $this->zipFile->close();
     }
 
-    public function add(string | iterable $files, string $nameInZip = null): self
+    public function add(string | iterable $files, string $nameInZip = ''): self
     {
         if (is_array($files)) {
-            $nameInZip = null;
+            $nameInZip = '';
         }
 
         if (is_string($files)) {
