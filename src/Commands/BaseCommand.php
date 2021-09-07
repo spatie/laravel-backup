@@ -27,7 +27,7 @@ abstract class BaseCommand extends SignalAwareCommand
 
         return parent::run($input, $output);
     }
-    
+
     protected function runningInConsole(): bool
     {
         return in_array(php_sapi_name(), ['cli', 'phpdbg']);
