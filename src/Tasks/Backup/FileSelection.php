@@ -133,10 +133,10 @@ class FileSelection
     {
         $path = realpath($path);
         if (is_dir($path)) {
-            $path .= '/';
+            $path .= DIRECTORY_SEPARATOR ;
         }
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (Str::startsWith($path, $excludedPath.(is_dir($excludedPath) ? '/' : ''))) {
+            if (Str::startsWith($path, $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''))) {
                 if ($path != $excludedPath && is_file($excludedPath)) {
                     continue;
                 }
