@@ -169,11 +169,6 @@ class FileSelection
             });
     }
 
-    /**
-     * @param string $path
-     *
-     * @return array
-     */
     protected function getMatchingPaths(string $path): array
     {
         if ($this->canUseGlobBrace($path)) {
@@ -183,11 +178,6 @@ class FileSelection
         return glob($path);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-     */
     protected function canUseGlobBrace(string $path): bool {
         return strpos($path, '*') !== false && defined('GLOB_BRACE');
     }
