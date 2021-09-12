@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 6.16.5 - 2021-09-12
+
+- fix undefined constant GLOB_BRACE on alpine (#1370)
+
 ## 6.16.4 - 2021-09-10
 
 - fix windows compat
