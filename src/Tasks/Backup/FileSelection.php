@@ -179,7 +179,8 @@ class FileSelection
         return glob($path);
     }
 
-    protected function canUseGlobBrace(string $path): bool {
+    protected function canUseGlobBrace(string $path): bool
+    {
         return strpos($path, '*') !== false && defined('GLOB_BRACE');
     }
 }
