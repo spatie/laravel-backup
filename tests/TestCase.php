@@ -116,6 +116,29 @@ abstract class TestCase extends Orchestra
         return false;
     }
 
+    protected function assertExactPathExistsInZip(string $diskName, string $zipPath, string $fullPath)
+    {
+        $this->assertTrue(
+            $this->exactPathExistsInZip($diskName, $zipPath, $fullPath),
+            "Failed to assert that {$zipPath} contains a path {$fullPath}"
+        );
+    }
+
+    protected function exactPathExistsInZip(string $diskName, string $zipPath, string $fullPath): bool
+    {
+        $zip = new ZipArchive();
+
+        if ($zip->open($this->getFullDiskPath($diskName, $zipPath)) === true) {
+            foreach (range(0, $zip->numFiles - 1) as $i) {
+                if ($zip->statIndex($i)['name'] == str_replace('/', DIRECTORY_SEPARATOR, $fullPath)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     protected function createFileOnDisk(string $diskName, string $filePath, DateTime $date): string
     {
         Storage::disk($diskName)->put($filePath, 'dummy content');
