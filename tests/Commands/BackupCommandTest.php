@@ -275,6 +275,18 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_avoid_full_path_on_database_backup()
+    {
+        config()->set('backup.backup.source.databases', ['db1']);
+
+        $this->setUpDatabase($this->app);
+
+        $this->artisan('backup:run --only-db')->assertExitCode(0);
+
+        $this->assertExactPathExistsInZip('local', $this->expectedZipPath, 'db-dumps/sqlite-db1-database.sql');
+    }
+
+    /** @test */
     public function it_appends_the_database_type_to_backup_file_name_to_prevent_overwrite()
     {
         config()->set('backup.backup.source.databases', ['db1', 'db2']);
