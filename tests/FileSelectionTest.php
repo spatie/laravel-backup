@@ -26,6 +26,8 @@ class FileSelectionTest extends TestCase
         $fileSelection = new FileSelection($this->sourceDirectory);
 
         $testFiles = $this->getTestFiles([
+            '.dot',
+            '.dot/file1.txt',
             '.dotfile',
             'archive.zip',
             '1Mb.file',
@@ -38,7 +40,9 @@ class FileSelectionTest extends TestCase
             'directory2',
             'directory2/directory1',
             'directory2/directory1/file1.txt',
+            'file',
             'file1.txt',
+            'file1.txt.txt',
             'file2.txt',
             'file3.txt',
         ]);
@@ -54,13 +58,17 @@ class FileSelectionTest extends TestCase
                         ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
 
         $testFiles = $this->getTestFiles([
+            '.dot',
+            '.dot/file1.txt',
             '.dotfile',
             'archive.zip',
             '1Mb.file',
             'directory2',
             'directory2/directory1',
             'directory2/directory1/file1.txt',
+            'file',
             'file1.txt',
+            'file1.txt.txt',
             'file2.txt',
             'file3.txt',
         ]);
@@ -73,17 +81,22 @@ class FileSelectionTest extends TestCase
     public function it_can_exclude_files_with_wildcards_from_a_given_subdirectory()
     {
         $fileSelection = (new FileSelection($this->sourceDirectory))
-            ->excludeFilesFrom("{$this->sourceDirectory}/*/directory1");
+            ->excludeFilesFrom($this->getTestFiles([
+                "*/file1.txt",
+                "*/directory1",
+            ]));
 
         $testFiles = $this->getTestFiles([
+            '.dot',
             '.dotfile',
             'archive.zip',
             '1Mb.file',
             'directory1',
-            'directory1/file1.txt',
             'directory1/file2.txt',
             'directory2',
-            'file1.txt',
+            'file',
+            'file1.txt', //it is kept because it is not in a directory /dir/file1.txt
+            'file1.txt.txt',
             'file2.txt',
             'file3.txt',
         ]);
@@ -121,13 +134,17 @@ class FileSelectionTest extends TestCase
             ]));
 
         $testFiles = $this->getTestFiles([
+            '.dot',
+            '.dot/file1.txt',
             '.dotfile',
             'archive.zip',
             '1Mb.file',
             'directory1',
             'directory1/file1.txt',
             'directory1/file2.txt',
+            'file',
             'file1.txt',
+            'file1.txt.txt',
             'file3.txt',
         ]);
         $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
