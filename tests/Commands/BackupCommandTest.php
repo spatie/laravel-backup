@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 use ZipArchive;
@@ -272,6 +273,24 @@ class BackupCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_avoid_full_path_on_database_backup()
+    {
+        config()->set('backup.backup.source.databases', ['db1']);
+
+        $this->setUpDatabase($this->app);
+
+        $this->artisan('backup:run --only-db')->assertExitCode(0);
+
+        $this->assertExactPathExistsInZip('local', $this->expectedZipPath, 'db-dumps/sqlite-db1-database.sql');
+
+        /*
+         * Close the database connection to unlock the sqlite file for deletion.
+         * This prevents the errors from other tests trying to delete and recreate the folder.
+         */
+        $this->app['db']->disconnect();
+    }
+
+    /** @test */
     public function it_appends_the_database_type_to_backup_file_name_to_prevent_overwrite()
     {
         config()->set('backup.backup.source.databases', ['db1', 'db2']);
@@ -355,5 +374,23 @@ class BackupCommandTest extends TestCase
          * This prevents the errors from other tests trying to delete and recreate the folder.
          */
         $this->app['db']->disconnect();
+    }
+
+    /** @test */
+    public function it_will_encrypt_backup_when_notifications_are_disabled()
+    {
+        config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
+        config()->set('backup.backup.source.databases', ['db1']);
+
+        $this->artisan('backup:run --disable-notifications --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
+        Storage::disk('local')->assertExists($this->expectedZipPath);
+
+        $zip = new ZipArchive();
+        $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+        $this->assertSame(1, $zip->numFiles);
+        $this->assertSame(ZipArchive::EM_AES_256, $zip->statIndex(0)['encryption_method']);
+        $zip->close();
+
+        Event::assertNotDispatched(BackupZipWasCreated::class);
     }
 }

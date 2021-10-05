@@ -103,8 +103,16 @@ class FileSelection
 
     protected function shouldExclude(string $path): bool
     {
+        $path = realpath($path);
+        if (is_dir($path)) {
+            $path .= DIRECTORY_SEPARATOR ;
+        }
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (Str::startsWith(realpath($path), $excludedPath)) {
+            if (Str::startsWith($path, $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''))) {
+                if ($path != $excludedPath && is_file($excludedPath)) {
+                    continue;
+                }
+
                 return true;
             }
         }
@@ -116,8 +124,22 @@ class FileSelection
     {
         return collect($paths)
             ->reject(fn ($path) => $path === '')
-            ->flatMap(fn ($path) => glob($path))
+            ->flatMap(fn ($path) => $this->getMatchingPaths($path))
             ->map(fn ($path) => realpath($path))
             ->reject(fn ($path) => $path === false);
+    }
+
+    protected function getMatchingPaths(string $path): array
+    {
+        if ($this->canUseGlobBrace($path)) {
+            return glob(str_replace('*', '{.[!.],}*', $path), GLOB_BRACE);
+        }
+
+        return glob($path);
+    }
+
+    protected function canUseGlobBrace(string $path): bool
+    {
+        return strpos($path, '*') !== false && defined('GLOB_BRACE');
     }
 }
