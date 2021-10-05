@@ -31,14 +31,14 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation and usage
 
-This package requires PHP 7.3 and Laravel 6.0 or higher.
+This package requires PHP 8.0 and Laravel 8.0 or higher.
 You'll find installation instructions and full documentation on https://spatie.be/docs/laravel-backup.
 
 ## Using an older version of PHP / Laravel?
 
-If you are on a PHP version below 7.3 or a Laravel version below 6.0 just use an older version of this package.
+If you are on a PHP version below 8.0 or a Laravel version below 8.0 just use an older version of this package.
 
-Read the extensive [documentation on version 3](https://spatie.be/docs/laravel-backup/v3), [on version 4](https://spatie.be/docs/laravel-backup/v4) and [on version 5](https://spatie.be/docs/laravel-backup/v5). We won't introduce new features to v5 and below anymore but we will still fix bugs.
+Read the extensive [documentation on version 3](https://spatie.be/docs/laravel-backup/v3), [on version 4](https://spatie.be/docs/laravel-backup/v4), [on version 5](https://spatie.be/docs/laravel-backup/v5) and [on version 6](https://spatie.be/docs/laravel-backup/v6). We won't introduce new features to v6 and below anymore but we will still fix bugs.
 
 ## Testing
 
