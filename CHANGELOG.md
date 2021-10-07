@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.7.1 - 2021-10-08
+
+- fix discord notification not getting defined username (#1411)
+
 ## 7.7.0 - 2021-10-04
 
 - bring v6 features to v7 (#1415)
