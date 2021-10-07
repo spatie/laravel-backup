@@ -113,7 +113,7 @@ class DiscordMessage
     public function toArray(): array
     {
         return [
-            'username' => 'Laravel Backup',
+            'username' => $this->username ?? 'Laravel Backup',
             'avatar_url' => '',
             'embeds' => [
                 [
