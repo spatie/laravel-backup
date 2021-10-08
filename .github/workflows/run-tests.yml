@@ -49,4 +49,4 @@ jobs:
                     echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Execute tests
-                run: vendor/bin/phpunit
+                run: vendor/bin/phpunit --filter it_sends_an_notification_containing_the_exception_message_for_handled_health_check_errors
