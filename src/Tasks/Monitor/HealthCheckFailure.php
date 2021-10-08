@@ -26,6 +26,7 @@ class HealthCheckFailure
     public function wasUnexpected(): bool
     {
         var_dump($this->exception);
+
         return ! $this->exception instanceof InvalidHealthCheck;
     }
 }
