@@ -3,6 +3,7 @@
 namespace Spatie\Backup\BackupDestination;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use InvalidArgumentException;
 use Spatie\Backup\Exceptions\InvalidBackupFile;
@@ -30,6 +31,11 @@ class Backup
     public function path(): string
     {
         return $this->path;
+    }
+
+    public function temporaryUrl(DateTimeInterface $expiration, array $options = []): string
+    {
+        return $this->disk->temporaryUrl($this->path, $expiration, $options);
     }
 
     public function exists(): bool
