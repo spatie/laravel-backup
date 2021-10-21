@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.7.2 - 2021-10-21
+
+- Fix discord notification message not using defined avatar url (#1423)
+
 ## 7.7.1 - 2021-10-08
 
 - fix discord notification not getting defined username (#1411)
