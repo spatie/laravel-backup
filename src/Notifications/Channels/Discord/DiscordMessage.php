@@ -114,7 +114,7 @@ class DiscordMessage
     {
         return [
             'username' => $this->username ?? 'Laravel Backup',
-            'avatar_url' => '',
+            'avatar_url' => $this->avatarUrl,
             'embeds' => [
                 [
                     'title' => $this->title,
