@@ -80,23 +80,14 @@ class DbDumperFactory
             return (static::$custom[$driver])();
         }
 
-        if ($driver === 'mysql' || $driver === 'mariadb') {
-            return new MySql();
-        }
-
-        if ($driver === 'pgsql') {
-            return new PostgreSql();
-        }
-
-        if ($driver === 'sqlite') {
-            return new Sqlite();
-        }
-
-        if ($driver === 'mongodb') {
-            return new MongoDb();
-        }
-
-        throw CannotCreateDbDumper::unsupportedDriver($driver);
+        return match ($driver) {
+            'mysql' => new MySql(),
+            'mariadb' => new MySql(),
+            'pgsql' => new PostgreSql(),
+            'sqlite' => new Sqlite(),
+            'mongodb' => new MongoDb(),
+            default => throw CannotCreateDbDumper::unsupportedDriver($driver),
+        };
     }
 
     protected static function processExtraDumpParameters(array $dumpConfiguration, DbDumper $dbDumper): DbDumper
