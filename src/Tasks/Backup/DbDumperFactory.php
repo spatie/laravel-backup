@@ -81,8 +81,7 @@ class DbDumperFactory
         }
 
         return match ($driver) {
-            'mysql' => new MySql(),
-            'mariadb' => new MySql(),
+            'mysql', 'mariadb' => new MySql(),
             'pgsql' => new PostgreSql(),
             'sqlite' => new Sqlite(),
             'mongodb' => new MongoDb(),
