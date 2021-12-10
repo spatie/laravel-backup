@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => 'Nieuwste back-upgrootte',
     'number_of_backups' => 'Aantal back-ups',
     'total_storage_used' => 'Totale gebruikte opslagruimte',
-    'newest_backup_date' => 'Nieuwste back-upgrootte',
-    'oldest_backup_date' => 'Oudste back-upgrootte',
+    'newest_backup_date' => 'Datum nieuwste back-up',
+    'oldest_backup_date' => 'Datum oudste back-up',
 ];
