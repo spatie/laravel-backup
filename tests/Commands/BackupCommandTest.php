@@ -82,7 +82,7 @@ class BackupCommandTest extends TestCase
     /** @test */
     public function it_excludes_the_backup_destination_from_the_backup()
     {
-        config()->set('backup.backup.source.files.include', [$this->getFullDiskPath('local','testing-file.txt')]);
+        config()->set('backup.backup.source.files.include', [$this->getFullDiskPath('local', 'testing-file.txt')]);
 
         Storage::disk('local')->put('mysite/testing-file.txt', 'dummy content');
 
