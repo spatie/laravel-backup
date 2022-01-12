@@ -20,12 +20,12 @@
     "require": {
         "php": "^8.0",
         "ext-zip": "^1.14.0",
-        "illuminate/console": "^8.36",
-        "illuminate/contracts": "^8.36",
-        "illuminate/events": "^8.36",
-        "illuminate/filesystem": "^8.36",
-        "illuminate/notifications": "^8.36",
-        "illuminate/support": "^8.36",
+        "illuminate/console": "^8.36|^9.0",
+        "illuminate/contracts": "^8.36|^9.0",
+        "illuminate/events": "^8.36|^9.0",
+        "illuminate/filesystem": "^8.36|^9.0",
+        "illuminate/notifications": "^8.36|^9.0",
+        "illuminate/support": "^8.36|^9.0",
         "league/flysystem": "^1.0.49|^2.0",
         "spatie/db-dumper": "^3.0",
         "spatie/laravel-package-tools": "^1.6.2",
@@ -39,7 +39,7 @@
         "laravel/slack-notification-channel": "^2.3",
         "league/flysystem-aws-s3-v3": "^1.0.29",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^6.17",
+        "orchestra/testbench": "^6.17|^7.0",
         "phpunit/phpunit": "^9.5.4"
     },
     "autoload": {
