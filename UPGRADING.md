@@ -1,3 +1,7 @@
+## From v7 to v8
+
+- There are no changes to the public API. You can upgrade without having to make any changes. The package now requires Laravel 9
+
 ## From v6 to v7
 
 - All notification class names got suffixed with 'Notification'. Make sure you update the classnames where you are using these notifications.
