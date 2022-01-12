@@ -62,23 +62,6 @@ class BackupTest extends TestCase
     }
 
     /** @test */
-    public function when_its_unable_to_write_to_stream_throws_exception()
-    {
-        $mock = $this->partialMock(Local::class, function (MockInterface $mock) {
-            $mock->shouldReceive('writeStream')->once()->andReturn(false);
-        });
-        $adapter = new FilesystemAdapter(new Filesystem($mock));
-
-        $path = Storage::disk($diskName = 'local')->path(
-            $this->createFileOnDisk($diskName, $filePath = 'mysite.com/file.zip', now())
-        );
-        $backupDestination = new BackupDestination($adapter, $backupName = 'mysite', $diskName);
-
-        $this->expectException(InvalidBackupFile::class);
-        $backupDestination->write($path);
-    }
-
-    /** @test */
     public function it_can_delete_itself()
     {
         $fileName = 'test.zip';

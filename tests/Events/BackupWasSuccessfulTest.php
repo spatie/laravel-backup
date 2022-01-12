@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
+use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Tests\TestCase;
 
@@ -13,7 +14,7 @@ class BackupWasSuccessfulTest extends TestCase
     {
         Event::fake();
 
-        $this->artisan('backup:run', ['--only-files' => true]);
+        $this->artisan(BackupCommand::class, ['--only-files' => true]);
 
         Event::assertDispatched(BackupWasSuccessful::class);
     }

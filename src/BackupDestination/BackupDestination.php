@@ -82,18 +82,14 @@ class BackupDestination
 
         $handle = fopen($file, 'r+');
 
-        $hasWritten = $this->disk->getDriver()->writeStream(
+        $this->disk->getDriver()->writeStream(
             $destination,
             $handle,
-            $this->getDiskOptions()
+            $this->getDiskOptions(),
         );
 
         if (is_resource($handle)) {
             fclose($handle);
-        }
-
-        if (! $hasWritten) {
-            throw InvalidBackupFile::writeError($this->backupName());
         }
     }
 
