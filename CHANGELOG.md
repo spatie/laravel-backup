@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.0 - 2022-01-12
+
+- add support for Laravel 9
+- drop support for older Laravel versions
+
 ## 7.7.3 - 2021-12-10
 
 ## What's Changed
