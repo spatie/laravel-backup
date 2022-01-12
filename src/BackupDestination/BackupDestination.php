@@ -46,7 +46,7 @@ class BackupDestination
             return 'unknown';
         }
 
-        $adapterClass = $this->disk->getDriver()->getAdapter()::class;
+        $adapterClass = $this->disk->getAdapter()::class;
 
         $filesystemType = last(explode('\\', $adapterClass));
 
