@@ -162,7 +162,7 @@ abstract class TestCase extends Orchestra
 
     protected function getDiskRootPath(string $diskName): string
     {
-        return Storage::disk($diskName)->getDriver()->getAdapter()->getPathPrefix();
+        return storage_path("framework/testing/disks/{$diskName}");
     }
 
     public function setNow(int $year, int $month, int $day, int $hour = 0, int $minutes = 0, int $seconds = 0): void
