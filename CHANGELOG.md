@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.1 - 2022-01-21
+
+- add Bulgarian translation
+
 ## 8.0.0 - 2022-01-12
 
 - add support for Laravel 9
