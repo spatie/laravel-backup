@@ -26,7 +26,7 @@
         "illuminate/filesystem": "^9.0",
         "illuminate/notifications": "^9.0",
         "illuminate/support": "^9.0",
-        "league/flysystem": "^2.0|^3.0",
+        "league/flysystem": "^3.0",
         "spatie/db-dumper": "^3.0",
         "spatie/laravel-package-tools": "^1.6.2",
         "spatie/laravel-signal-aware-command": "^1.2",
