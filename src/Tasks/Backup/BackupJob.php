@@ -283,6 +283,10 @@ class BackupJob
         $this->backupDestinations
             ->each(function (BackupDestination $backupDestination) use ($path) {
                 try {
+                    if (! $backupDestination->isReachable()) {
+                        throw new Exception("Could not connect to disk {$backupDestination->diskName()} because: {$backupDestination->connectionError()}");
+                    }
+
                     consoleOutput()->info("Copying zip to disk named {$backupDestination->diskName()}...");
 
                     $backupDestination->write($path);
