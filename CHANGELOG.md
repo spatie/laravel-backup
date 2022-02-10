@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.2 - 2022-02-10
+
+## What's Changed
+
+- Drop offered flysystem version that is uninstallable by @abenerd in https://github.com/spatie/laravel-backup/pull/1460
+- Make ext-pcntl optional by @erikn69 in https://github.com/spatie/laravel-backup/pull/1481
+
+## New Contributors
+
+- @abenerd made their first contribution in https://github.com/spatie/laravel-backup/pull/1460
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.1...8.0.2
+
 ## 8.0.1 - 2022-01-21
 
 - add Bulgarian translation
