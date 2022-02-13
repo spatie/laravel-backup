@@ -393,4 +393,22 @@ class BackupCommandTest extends TestCase
 
         Event::assertNotDispatched(BackupZipWasCreated::class);
     }
+
+    /** @test */
+    public function it_excludes_the_previous_local_backups_from_the_backup()
+    {
+        $this->date = Carbon::create('2016', 1, 1, 20, 1, 1);
+        Carbon::setTestNow($this->date);
+        $this->expectedZipPath = 'mysite/2016-01-01-20-01-01.zip';
+
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
+
+        $this->date = Carbon::create('2016', 1, 1, 21, 1, 1);
+        Carbon::setTestNow($this->date);
+        $this->expectedZipPath = 'mysite/2016-01-01-21-01-01.zip';
+
+        $this->artisan('backup:run --only-files')->assertExitCode(0);
+
+        $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, '2016-01-01-20-01-01.zip');
+    }
 }

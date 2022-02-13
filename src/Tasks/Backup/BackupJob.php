@@ -208,9 +208,9 @@ class BackupJob
     protected function directoriesUsedByBackupJob(): array
     {
         return $this->backupDestinations
-            ->filter(fn (BackupDestination $backupDestination) => $backupDestination->filesystemType() === 'local')
+            ->filter(fn (BackupDestination $backupDestination) => $backupDestination->filesystemType() === 'localfilesystemadapter')
             ->map(
-                fn (BackupDestination $backupDestination) => $backupDestination->disk()->getDriver()->getAdapter()->applyPathPrefix('') . $backupDestination->backupName()
+                fn (BackupDestination $backupDestination) => $backupDestination->disk()->path('') . $backupDestination->backupName()
             )
             ->each(fn (string $backupDestinationDirectory) => $this->fileSelection->excludeFilesFrom($backupDestinationDirectory))
             ->push($this->temporaryDirectory->path())
