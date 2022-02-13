@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.5 - 2022-02-13
+
+## What's Changed
+
+- Check if backup destination is reachable before trying to copy backup by @smknstd in https://github.com/spatie/laravel-backup/pull/1469
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.4...8.0.5
+
 ## 8.0.4 - 2022-02-13
 
 ## What's Changed
