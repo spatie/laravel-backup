@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.6 - 2022-02-18
+
+## What's Changed
+
+- Updates newest_backup_date and oldest_backup_date by @opengis in https://github.com/spatie/laravel-backup/pull/1487
+
+## New Contributors
+
+- @opengis made their first contribution in https://github.com/spatie/laravel-backup/pull/1487
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.5...8.0.6
+
 ## 8.0.5 - 2022-02-13
 
 ## What's Changed
