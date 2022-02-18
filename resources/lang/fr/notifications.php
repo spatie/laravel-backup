@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => 'Taille de sauvegarde la plus récente',
     'number_of_backups' => 'Nombre de sauvegardes',
     'total_storage_used' => 'Stockage total utilisé',
-    'newest_backup_date' => 'Taille de sauvegarde la plus récente',
-    'oldest_backup_date' => 'Taille de sauvegarde la plus ancienne',
+    'newest_backup_date' => 'Date de la sauvegarde la plus récente',
+    'oldest_backup_date' => 'Date de la sauvegarde la plus ancienne',
 ];
