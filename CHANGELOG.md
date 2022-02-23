@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.7 - 2022-02-23
+
+## What's Changed
+
+- Fixes Brazilian Translation by @Diogo-Freitas in https://github.com/spatie/laravel-backup/pull/1490
+
+## New Contributors
+
+- @Diogo-Freitas made their first contribution in https://github.com/spatie/laravel-backup/pull/1490
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.6...8.0.7
+
 ## 8.0.6 - 2022-02-18
 
 ## What's Changed
