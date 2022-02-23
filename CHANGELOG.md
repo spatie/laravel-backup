@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.8 - 2022-02-23
+
+## What's Changed
+
+- Fix mistakes in cs/notifications.php by @misakstvanu in https://github.com/spatie/laravel-backup/pull/1493
+
+## New Contributors
+
+- @misakstvanu made their first contribution in https://github.com/spatie/laravel-backup/pull/1493
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.7...8.0.8
+
 ## 8.0.7 - 2022-02-23
 
 ## What's Changed
