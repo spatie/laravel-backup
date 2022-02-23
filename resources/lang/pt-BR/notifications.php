@@ -37,9 +37,9 @@ return [
     'application_name' => 'Nome da Aplicação',
     'backup_name' => 'Nome de backup',
     'disk' => 'Disco',
-    'newest_backup_size' => 'Tamanho de backup mais recente',
+    'newest_backup_size' => 'Tamanho do backup mais recente',
     'number_of_backups' => 'Número de backups',
     'total_storage_used' => 'Armazenamento total usado',
-    'newest_backup_date' => 'Tamanho de backup mais recente',
-    'oldest_backup_date' => 'Tamanho de backup mais antigo',
+    'newest_backup_date' => 'Data do backup mais recente',
+    'oldest_backup_date' => 'Data do backup mais antigo',
 ];
