@@ -14,7 +14,7 @@ return [
     'backup_successful_body' => 'Dobrá zpráva, na disku jménem :disk_name byla úspěšně vytvořena nová záloha :application_name.',
 
     'cleanup_failed_subject' => 'Vyčištění záloh :application_name neuspělo.',
-    'cleanup_failed_body' => 'Při vyčištění záloh :application_name se vyskytla chyba',
+    'cleanup_failed_body' => 'Při čištění záloh :application_name se vyskytla chyba',
 
     'cleanup_successful_subject' => 'Vyčištění záloh :application_name úspěšné',
     'cleanup_successful_subject_title' => 'Vyčištění záloh bylo úspěšné!',
@@ -26,7 +26,7 @@ return [
 
     'unhealthy_backup_found_subject' => 'Důležité: Zálohy pro :application_name jsou nezdravé',
     'unhealthy_backup_found_subject_title' => 'Důležité: Zálohy pro :application_name jsou nezdravé. :problem',
-    'unhealthy_backup_found_body' => 'Zálohy pro :application_name na disku :disk_name Jsou nezdravé.',
+    'unhealthy_backup_found_body' => 'Zálohy pro :application_name na disku :disk_name jsou nezdravé.',
     'unhealthy_backup_found_not_reachable' => 'Nelze se dostat k cíli zálohy. :error',
     'unhealthy_backup_found_empty' => 'Tato aplikace nemá vůbec žádné zálohy.',
     'unhealthy_backup_found_old' => 'Poslední záloha vytvořená dne :date je považována za příliš starou.',
@@ -37,9 +37,9 @@ return [
     'application_name' => 'Název aplikace',
     'backup_name' => 'Název zálohy',
     'disk' => 'Disk',
-    'newest_backup_size' => 'Nejnovější velikost zálohy',
+    'newest_backup_size' => 'Velikost nejnovější zálohy',
     'number_of_backups' => 'Počet záloh',
     'total_storage_used' => 'Celková využitá kapacita úložiště',
-    'newest_backup_date' => 'Nejnovější velikost zálohy',
-    'oldest_backup_date' => 'Nejstarší velikost zálohy',
+    'newest_backup_date' => 'Datum nejnovější zálohy',
+    'oldest_backup_date' => 'Datum nejstarší zálohy',
 ];
