@@ -18,7 +18,7 @@ class MonitorCommand extends BaseCommand
     {
         $hasError = false;
 
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups', config('backup.monitorBackups')));
 
         foreach ($statuses as $backupDestinationStatus) {
             $diskName = $backupDestinationStatus->backupDestination()->diskName();

@@ -19,7 +19,7 @@ class ListCommand extends BaseCommand
 
     public function handle()
     {
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups', config('backup.monitorBackups')));
 
         $this->displayOverview($statuses)->displayFailures($statuses);
     }
