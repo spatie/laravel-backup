@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.9 - 2022-03-02
+
+## What's Changed
+
+- Allow any characters in backup destination name by @misakstvanu in https://github.com/spatie/laravel-backup/pull/1499
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.8...8.0.9
+
 ## 8.0.8 - 2022-02-23
 
 ## What's Changed
