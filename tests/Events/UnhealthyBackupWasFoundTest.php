@@ -2,13 +2,10 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Str;
-use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
-use Spatie\Backup\Tests\TestSupport\FakeFailingHealthCheck;
 
 it('will fire an event on failed health check', function () {
     Event::fake();
