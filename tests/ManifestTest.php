@@ -1,104 +1,77 @@
 <?php
 
-namespace Spatie\Backup\Tests;
-
 use Generator;
 use Spatie\Backup\Tasks\Backup\Manifest;
 
-class ManifestTest extends TestCase
+uses(TestCase::class);
+
+beforeEach(function () {
+    $this->initializeTempDirectory();
+
+    $this->pathToManifest = "{$this->getTempDirectory()}/manifest.txt";
+
+    $this->manifest = new Manifest($this->pathToManifest);
+});
+
+it('will create an empty file when it is instantiated', function () {
+    $this->assertFileExists($this->pathToManifest);
+
+    $this->assertEquals(0, filesize($this->pathToManifest));
+});
+
+it('provides a factory method', function () {
+    $this->assertInstanceOf(Manifest::class, Manifest::create($this->pathToManifest));
+});
+
+it('can determine its own path', function () {
+    $this->assertSame($this->manifest->path(), $this->pathToManifest);
+});
+
+it('can count the amount of files in it', function () {
+    $this->assertSame(0, $this->manifest->count());
+});
+
+it('implements the countable interface', function () {
+    $this->assertCount(0, $this->manifest);
+});
+
+test('a file can be added to it', function () {
+    $this->manifest->addFiles($this->getStubDirectory().'/file1');
+
+    $this->assertSame(1, $this->manifest->count());
+});
+
+test('an array of files can be added to it', function () {
+    $testFiles = getTestFiles();
+
+    $this->assertGreaterThan(0, count($testFiles));
+
+    $this->manifest->addFiles($testFiles);
+
+    $this->assertCount(count($testFiles), $this->manifest);
+});
+
+it('will not add an empty path', function () {
+    $this->manifest->addFiles('');
+
+    $this->assertCount(0, $this->manifest);
+});
+
+it('can return a generator to loop over all the files in the manifest', function () {
+    $testFiles = getTestFiles();
+
+    $this->manifest->addFiles($testFiles);
+
+    $this->assertInstanceOf(Generator::class, $this->manifest->files());
+
+    $i = 0;
+    foreach ($this->manifest->files() as $filePath) {
+        $this->assertSame($testFiles[$i++], $filePath);
+    }
+});
+
+// Helpers
+function getTestFiles(): array
 {
-    protected string $pathToManifest;
-
-    protected Manifest $manifest;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->initializeTempDirectory();
-
-        $this->pathToManifest = "{$this->getTempDirectory()}/manifest.txt";
-
-        $this->manifest = new Manifest($this->pathToManifest);
-    }
-
-    /** @test */
-    public function it_will_create_an_empty_file_when_it_is_instantiated()
-    {
-        $this->assertFileExists($this->pathToManifest);
-
-        $this->assertEquals(0, filesize($this->pathToManifest));
-    }
-
-    /** @test */
-    public function it_provides_a_factory_method()
-    {
-        $this->assertInstanceOf(Manifest::class, Manifest::create($this->pathToManifest));
-    }
-
-    /** @test */
-    public function it_can_determine_its_own_path()
-    {
-        $this->assertSame($this->manifest->path(), $this->pathToManifest);
-    }
-
-    /** @test */
-    public function it_can_count_the_amount_of_files_in_it()
-    {
-        $this->assertSame(0, $this->manifest->count());
-    }
-
-    /** @test */
-    public function it_implements_the_countable_interface()
-    {
-        $this->assertCount(0, $this->manifest);
-    }
-
-    /** @test */
-    public function a_file_can_be_added_to_it()
-    {
-        $this->manifest->addFiles($this->getStubDirectory().'/file1');
-
-        $this->assertSame(1, $this->manifest->count());
-    }
-
-    /** @test */
-    public function an_array_of_files_can_be_added_to_it()
-    {
-        $testFiles = $this->getTestFiles();
-
-        $this->assertGreaterThan(0, count($testFiles));
-
-        $this->manifest->addFiles($testFiles);
-
-        $this->assertCount(count($testFiles), $this->manifest);
-    }
-
-    /** @test */
-    public function it_will_not_add_an_empty_path()
-    {
-        $this->manifest->addFiles('');
-
-        $this->assertCount(0, $this->manifest);
-    }
-
-    /** @test */
-    public function it_can_return_a_generator_to_loop_over_all_the_files_in_the_manifest()
-    {
-        $testFiles = $this->getTestFiles();
-
-        $this->manifest->addFiles($testFiles);
-
-        $this->assertInstanceOf(Generator::class, $this->manifest->files());
-
-        $i = 0;
-        foreach ($this->manifest->files() as $filePath) {
-            $this->assertSame($testFiles[$i++], $filePath);
-        }
-    }
-
-    protected function getTestFiles(): array
-    {
-        return collect(range(1, 3))->map(fn (int $number) => $this->getStubDirectory()."/file{$number}.txt")->toArray();
-    }
+    return collect(range(1, 3))->map(fn (int $number) => test()->getStubDirectory()."/file{$number}.txt")->toArray();
 }

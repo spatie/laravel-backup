@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Backup\Tests\Events;
-
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Event;
@@ -15,112 +13,96 @@ use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotificatio
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
 use Spatie\Backup\Tests\TestCase;
 
-class UnhealthyBackupWasFoundTest extends TestCase
-{
-    protected Carbon $date;
+uses(TestCase::class);
 
-    /** @test */
-    public function it_will_fire_an_event_on_failed_health_check()
-    {
-        Event::fake();
+it('will fire an event on failed health check', function () {
+    Event::fake();
 
-        $this
-            ->fakeBackup()
-            ->makeHealthCheckFail()
-            ->artisan('backup:monitor')
-            ->assertExitCode(1);
+    fakeBackup()
+        ->makeHealthCheckFail()
+        ->artisan('backup:monitor')
+        ->assertExitCode(1);
 
-        Event::assertDispatched(UnhealthyBackupWasFound::class);
-    }
+    Event::assertDispatched(UnhealthyBackupWasFound::class);
+});
 
-    /** @test **/
-    public function it_sends_an_notification_containing_the_exception_message_for_handled_health_check_errors()
-    {
-        Notification::fake();
+it('sends an notification containing the exception message for handled health check errors', function () {
+    Notification::fake();
 
-        $this
-            ->fakeBackup()
-            ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
-            ->artisan('backup:monitor')->assertExitCode(1);
+    fakeBackup()
+        ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
+        ->artisan('backup:monitor')->assertExitCode(1);
 
-        Notification::assertSentTo(
-            new Notifiable(),
-            UnhealthyBackupWasFoundNotification::class,
-            function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
-                $slack = $notification->toSlack();
-                $this->assertStringContainsString($msg, $slack->content);
-                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
-                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
-                $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
-
-                $mail = $notification->toMail();
-                $this->assertNotNull(collect($mail->introLines)->first($this->searchString($msg)));
-                $this->assertNull(collect($mail->introLines)->first($this->searchString('Health check:')));
-                $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception message:')));
-                $this->assertNull(collect($mail->introLines)->first($this->searchString('Exception trace:')));
-
-                return true;
-            }
-        );
-    }
-
-    /** @test **/
-    public function it_sends_an_notification_containing_the_exception_for_unexpected_health_check_errors()
-    {
-        Notification::fake();
-
-        $this
-            ->fakeBackup()
-            ->makeHealthCheckFail()
-            ->artisan('backup:monitor')
-            ->assertExitCode(1);
-
-        Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
+    Notification::assertSentTo(
+        new Notifiable(),
+        UnhealthyBackupWasFoundNotification::class,
+        function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
-            $this->assertStringContainsString(trans('backup::notifications.unhealthy_backup_found_unknown'), $slack->content);
-            $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
-            $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
-            $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
+            $this->assertStringContainsString($msg, $slack->content);
+            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
+            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
+            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
 
             $mail = $notification->toMail();
-            $this->assertNotNull(collect($mail->introLines)->first($this->searchString(trans('backup::notifications.unhealthy_backup_found_unknown'))));
-            $this->assertNotNull(collect($mail->introLines)->first($this->searchString('Health check: ')));
-            $this->assertNotNull(collect($mail->introLines)->first($this->searchString('Exception trace: ')));
+            $this->assertNotNull(collect($mail->introLines)->first(searchString($msg)));
+            $this->assertNull(collect($mail->introLines)->first(searchString('Health check:')));
+            $this->assertNull(collect($mail->introLines)->first(searchString('Exception message:')));
+            $this->assertNull(collect($mail->introLines)->first(searchString('Exception trace:')));
 
             return true;
-        });
-    }
+        }
+    );
+});
 
-    protected function makeHealthCheckFail(Exception $customException = null)
-    {
-        FakeFailingHealthCheck::$reason = $customException;
+it('sends an notification containing the exception for unexpected health check errors', function () {
+    Notification::fake();
 
-        config()->set('backup.monitor_backups.0.health_checks', [FakeFailingHealthCheck::class]);
+    fakeBackup()
+        ->makeHealthCheckFail()
+        ->artisan('backup:monitor')
+        ->assertExitCode(1);
 
-        return $this;
-    }
+    Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
+        $slack = $notification->toSlack();
+        $this->assertStringContainsString(trans('backup::notifications.unhealthy_backup_found_unknown'), $slack->content);
+        $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
+        $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
+        $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
 
-    protected function searchString($string)
-    {
-        return function ($text) use ($string) {
-            return Str::contains($text, $string);
-        };
-    }
+        $mail = $notification->toMail();
+        $this->assertNotNull(collect($mail->introLines)->first(searchString(trans('backup::notifications.unhealthy_backup_found_unknown'))));
+        $this->assertNotNull(collect($mail->introLines)->first(searchString('Health check: ')));
+        $this->assertNotNull(collect($mail->introLines)->first(searchString('Exception trace: ')));
 
-    protected function fakeBackup()
-    {
-        $this->createFileOnDisk('local', 'mysite/test1.zip', now()->subSecond());
+        return true;
+    });
+});
 
-        return $this;
-    }
+// Helpers
+function makeHealthCheckFail(Exception $customException = null)
+{
+    FakeFailingHealthCheck::$reason = $customException;
+
+    config()->set('backup.monitor_backups.0.health_checks', [FakeFailingHealthCheck::class]);
+
+    return $this;
 }
 
-class FakeFailingHealthCheck extends HealthCheck
+function searchString($string)
 {
-    public static $reason;
+    return function ($text) use ($string) {
+        return Str::contains($text, $string);
+    };
+}
 
-    public function checkHealth(BackupDestination $backupDestination)
-    {
-        throw (static::$reason ?: new Exception('dummy exception message'));
-    }
+function fakeBackup()
+{
+    test()->createFileOnDisk('local', 'mysite/test1.zip', now()->subSecond());
+
+    return $this;
+}
+
+function checkHealth(BackupDestination $backupDestination)
+{
+    throw (static::$reason ?: new Exception('dummy exception message'));
 }
