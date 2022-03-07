@@ -1,22 +1,17 @@
 <?php
 
-namespace Spatie\Backup\Tests\Events;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tests\TestCase;
 
-class CleanupHasFailedTest extends TestCase
-{
-    /** @test */
-    public function it_will_fire_an_event_when_a_cleanup_has_failed()
-    {
-        Event::fake();
+uses(TestCase::class);
 
-        config()->set('backup.backup.destination.disks', ['non-existing-disk']);
+it('will fire an event when a cleanup has failed', function () {
+    Event::fake();
 
-        $this->artisan('backup:clean');
+    config()->set('backup.backup.destination.disks', ['non-existing-disk']);
 
-        Event::assertDispatched(CleanupHasFailed::class);
-    }
-}
+    $this->artisan('backup:clean');
+
+    Event::assertDispatched(CleanupHasFailed::class);
+});

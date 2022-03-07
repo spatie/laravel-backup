@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Backup\Tests\Notifications;
-
 use Exception;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
@@ -10,57 +8,47 @@ use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BackupHasFailedNotification;
 use Spatie\Backup\Tests\TestCase;
 
-class EventHandlerTest extends TestCase
+uses(TestCase::class);
+
+beforeEach(function () {
+    Notification::fake();
+});
+
+it('will send a notification by default when a backup has failed', function () {
+    fireBackupHasFailedEvent();
+
+    Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class);
+});
+
+/**
+ *
+ *
+ * @param array $expectedChannels
+ */
+it('will send a notification via the configured notification channels', function (array $expectedChannels) {
+    config()->set('backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
+
+    fireBackupHasFailedEvent();
+
+    Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function ($notification, $usedChannels) use ($expectedChannels) {
+        return $expectedChannels == $usedChannels;
+    });
+})->with('channelProvider');
+
+// Datasets
+dataset('channelProvider', [
+    [[]],
+    [['mail']],
+    [['mail', 'slack']],
+    [['mail', 'slack', 'discord']],
+]);
+
+// Helpers
+function fireBackupHasFailedEvent()
 {
-    public function setUp(): void
-    {
-        parent::setUp();
+    $exception = new Exception('Dummy exception');
 
-        Notification::fake();
-    }
+    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
-    /** @test */
-    public function it_will_send_a_notification_by_default_when_a_backup_has_failed()
-    {
-        $this->fireBackupHasFailedEvent();
-
-        Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class);
-    }
-
-    /**
-     * @test
-     *
-     * @dataProvider channelProvider
-     *
-     * @param array $expectedChannels
-     */
-    public function it_will_send_a_notification_via_the_configured_notification_channels(array $expectedChannels)
-    {
-        config()->set('backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
-
-        $this->fireBackupHasFailedEvent();
-
-        Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function ($notification, $usedChannels) use ($expectedChannels) {
-            return $expectedChannels == $usedChannels;
-        });
-    }
-
-    public function channelProvider()
-    {
-        return [
-            [[]],
-            [['mail']],
-            [['mail', 'slack']],
-            [['mail', 'slack', 'discord']],
-        ];
-    }
-
-    protected function fireBackupHasFailedEvent()
-    {
-        $exception = new Exception('Dummy exception');
-
-        $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
-
-        event(new BackupHasFailed($exception, $backupDestination));
-    }
+    event(new BackupHasFailed($exception, $backupDestination));
 }
