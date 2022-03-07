@@ -7,8 +7,6 @@ use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     config()->set('database.default', 'mysql');
 
@@ -176,7 +174,7 @@ it('can create instances of custom dumpers', function () {
     expect(DbDumperFactory::createFromConnection('mysql'))->toBeInstanceOf(MongoDb::class);
 });
 
-// Helpers
+
 function getDumpCommand(): string
 {
     $dumpFile = '';

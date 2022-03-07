@@ -117,7 +117,6 @@ it('need a float type size', function () {
     expect($backup->sizeInBytes())->toBeFloat();
 });
 
-// Helpers
 function getBackupForFile(string $name, int $ageInDays = 0): Backup
 {
     $disk = Storage::disk('local');

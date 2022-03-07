@@ -16,11 +16,6 @@ it('will send a notification by default when a backup has failed', function () {
     Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class);
 });
 
-/**
- *
- *
- * @param array $expectedChannels
- */
 it('will send a notification via the configured notification channels', function (array $expectedChannels) {
     config()->set('backup.notifications.notifications.'.BackupHasFailedNotification::class, $expectedChannels);
 
@@ -29,17 +24,13 @@ it('will send a notification via the configured notification channels', function
     Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function ($notification, $usedChannels) use ($expectedChannels) {
         return $expectedChannels == $usedChannels;
     });
-})->with('channelProvider');
-
-// Datasets
-dataset('channelProvider', [
+})->with([
     [[]],
     [['mail']],
     [['mail', 'slack']],
     [['mail', 'slack', 'discord']],
 ]);
 
-// Helpers
 function fireBackupHasFailedEvent()
 {
     $exception = new Exception('Dummy exception');

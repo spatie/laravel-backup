@@ -2,8 +2,6 @@
 
 use Spatie\Backup\Tasks\Backup\Manifest;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     $this->initializeTempDirectory();
 
@@ -41,7 +39,7 @@ test('a file can be added to it', function () {
 });
 
 test('an array of files can be added to it', function () {
-    $testFiles = getTestFiles();
+    $testFiles = getManifestTestFiles();
 
     expect(count($testFiles))->toBeGreaterThan(0);
 
@@ -57,7 +55,7 @@ it('will not add an empty path', function () {
 });
 
 it('can return a generator to loop over all the files in the manifest', function () {
-    $testFiles = getTestFiles();
+    $testFiles = getManifestTestFiles();
 
     $this->manifest->addFiles($testFiles);
 
@@ -69,8 +67,10 @@ it('can return a generator to loop over all the files in the manifest', function
     }
 });
 
-// Helpers
-function getTestFiles(): array
+
+function getManifestTestFiles(): array
 {
-    return collect(range(1, 3))->map(fn (int $number) => test()->getStubDirectory()."/file{$number}.txt")->toArray();
+    return collect(range(1, 3))
+        ->map(fn (int $number) => test()->getStubDirectory()."/file{$number}.txt")
+        ->toArray();
 }
