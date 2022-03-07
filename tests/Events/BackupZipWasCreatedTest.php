@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('will fire a backup zip was created event when the zip was created', function () {
     Event::fake();

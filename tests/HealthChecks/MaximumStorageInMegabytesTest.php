@@ -6,7 +6,6 @@ use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     Event::fake();

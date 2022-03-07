@@ -6,7 +6,6 @@ use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupCollection;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can count all the files', function () {
     createFileOnBackupDisk('file1.zip');

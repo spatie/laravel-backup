@@ -7,7 +7,6 @@ use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BackupHasFailedNotification;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     Notification::fake();

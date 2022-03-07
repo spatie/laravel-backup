@@ -5,7 +5,6 @@ use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     Event::fake();

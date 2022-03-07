@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     Event::fake();

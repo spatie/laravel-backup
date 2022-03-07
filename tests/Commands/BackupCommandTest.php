@@ -9,7 +9,6 @@ use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     Event::fake();

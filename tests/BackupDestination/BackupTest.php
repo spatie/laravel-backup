@@ -9,7 +9,6 @@ use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Exceptions\InvalidBackupFile;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can determine the disk of the backup', function () {
     $fileName = 'test.zip';
