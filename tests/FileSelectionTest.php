@@ -168,7 +168,7 @@ function assertSameArrayContent($expected, $actual, $message = '')
 
 function getTestFiles(array $relativePaths): array
 {
-    $testDirectory  = test()->getStubDirectory();
+    $testDirectory = test()->getStubDirectory();
 
     return array_map(fn ($path) => "{$testDirectory}/{$path}", $relativePaths);
 }

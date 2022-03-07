@@ -236,7 +236,7 @@ abstract class TestCase extends Orchestra
         return $this;
     }
 
-    function makeHealthCheckFail(Exception $customException = null): self
+    public function makeHealthCheckFail(Exception $customException = null): self
     {
         FakeFailingHealthCheck::$reason = $customException;
 
@@ -244,5 +244,4 @@ abstract class TestCase extends Orchestra
 
         return $this;
     }
-
 }
