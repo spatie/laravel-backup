@@ -1,6 +1,5 @@
 <?php
 
-use Generator;
 use Spatie\Backup\Tasks\Backup\Manifest;
 
 uses(TestCase::class);

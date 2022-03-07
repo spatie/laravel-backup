@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;

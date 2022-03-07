@@ -2,7 +2,6 @@
 
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Tests\TestCase;
-use ZipArchive;
 
 uses(TestCase::class);
 
