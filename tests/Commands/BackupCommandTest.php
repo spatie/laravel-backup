@@ -8,7 +8,6 @@ use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Tests\TestCase;
 use Spatie\DbDumper\Compressors\GzipCompressor;
-use ZipArchive;
 
 uses(TestCase::class);
 
