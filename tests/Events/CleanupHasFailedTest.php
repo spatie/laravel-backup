@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\CleanupHasFailed;
-use Spatie\Backup\Tests\TestCase;
-
 
 it('will fire an event when a cleanup has failed', function () {
     Event::fake();
