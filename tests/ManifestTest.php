@@ -13,47 +13,47 @@ beforeEach(function () {
 });
 
 it('will create an empty file when it is instantiated', function () {
-    $this->assertFileExists($this->pathToManifest);
+    expect($this->pathToManifest)->toBeFile();
 
-    $this->assertEquals(0, filesize($this->pathToManifest));
+    expect(filesize($this->pathToManifest))->toEqual(0);
 });
 
 it('provides a factory method', function () {
-    $this->assertInstanceOf(Manifest::class, Manifest::create($this->pathToManifest));
+    expect(Manifest::create($this->pathToManifest))->toBeInstanceOf(Manifest::class);
 });
 
 it('can determine its own path', function () {
-    $this->assertSame($this->manifest->path(), $this->pathToManifest);
+    expect($this->pathToManifest)->toBe($this->manifest->path());
 });
 
 it('can count the amount of files in it', function () {
-    $this->assertSame(0, $this->manifest->count());
+    expect($this->manifest->count())->toBe(0);
 });
 
 it('implements the countable interface', function () {
-    $this->assertCount(0, $this->manifest);
+    expect($this->manifest)->toHaveCount(0);
 });
 
 test('a file can be added to it', function () {
     $this->manifest->addFiles($this->getStubDirectory().'/file1');
 
-    $this->assertSame(1, $this->manifest->count());
+    expect($this->manifest->count())->toBe(1);
 });
 
 test('an array of files can be added to it', function () {
     $testFiles = getTestFiles();
 
-    $this->assertGreaterThan(0, count($testFiles));
+    expect(count($testFiles))->toBeGreaterThan(0);
 
     $this->manifest->addFiles($testFiles);
 
-    $this->assertCount(count($testFiles), $this->manifest);
+    expect($this->manifest)->toHaveCount(count($testFiles));
 });
 
 it('will not add an empty path', function () {
     $this->manifest->addFiles('');
 
-    $this->assertCount(0, $this->manifest);
+    expect($this->manifest)->toHaveCount(0);
 });
 
 it('can return a generator to loop over all the files in the manifest', function () {
@@ -61,11 +61,11 @@ it('can return a generator to loop over all the files in the manifest', function
 
     $this->manifest->addFiles($testFiles);
 
-    $this->assertInstanceOf(Generator::class, $this->manifest->files());
+    expect($this->manifest->files())->toBeInstanceOf(Generator::class);
 
     $i = 0;
     foreach ($this->manifest->files() as $filePath) {
-        $this->assertSame($testFiles[$i++], $filePath);
+        expect($filePath)->toBe($testFiles[$i++]);
     }
 });
 

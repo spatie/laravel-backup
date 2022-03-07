@@ -16,11 +16,11 @@ it('can create a zip file', function () {
     $this->zip->add(__FILE__);
     $this->zip->close();
 
-    $this->assertFileExists($this->pathToZip);
+    expect($this->pathToZip)->toBeFile();
 });
 
 it('can report its own size', function () {
-    $this->assertEquals(0, $this->zip->size());
+    expect($this->zip->size())->toEqual(0);
 
     $this->zip->add(__FILE__);
     $this->zip->close();

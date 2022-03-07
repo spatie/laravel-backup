@@ -37,16 +37,16 @@ it('sends an notification containing the exception message for handled health ch
         UnhealthyBackupWasFoundNotification::class,
         function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
-            $this->assertStringContainsString($msg, $slack->content);
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
-            $this->assertNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
+            expect($slack->content)->toContain($msg);
+            expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
+            expect(collect($slack->attachments)->firstWhere('title', 'Exception message'))->toBeNull();
+            expect(collect($slack->attachments)->firstWhere('title', 'Exception trace'))->toBeNull();
 
             $mail = $notification->toMail();
             $this->assertNotNull(collect($mail->introLines)->first(searchString($msg)));
-            $this->assertNull(collect($mail->introLines)->first(searchString('Health check:')));
-            $this->assertNull(collect($mail->introLines)->first(searchString('Exception message:')));
-            $this->assertNull(collect($mail->introLines)->first(searchString('Exception trace:')));
+            expect(collect($mail->introLines)->first(searchString('Health check:')))->toBeNull();
+            expect(collect($mail->introLines)->first(searchString('Exception message:')))->toBeNull();
+            expect(collect($mail->introLines)->first(searchString('Exception trace:')))->toBeNull();
 
             return true;
         }
@@ -63,7 +63,7 @@ it('sends an notification containing the exception for unexpected health check e
 
     Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
         $slack = $notification->toSlack();
-        $this->assertStringContainsString(trans('backup::notifications.unhealthy_backup_found_unknown'), $slack->content);
+        expect($slack->content)->toContain(trans('backup::notifications.unhealthy_backup_found_unknown'));
         $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
         $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
         $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));

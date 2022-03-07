@@ -16,7 +16,7 @@ it('can determine the disk of the backup', function () {
 
     $backup = getBackupForFile($fileName);
 
-    $this->assertSame(Storage::disk('local'), $backup->disk());
+    expect($backup->disk())->toBe(Storage::disk('local'));
 });
 
 it('can determine the path of the backup', function () {
@@ -24,7 +24,7 @@ it('can determine the path of the backup', function () {
 
     $backup = getBackupForFile($fileName);
 
-    $this->assertSame("mysite.com/{$fileName}", $backup->path());
+    expect($backup->path())->toBe("mysite.com/{$fileName}");
 });
 
 it('can get backup as stream resource', function () {
@@ -32,7 +32,7 @@ it('can get backup as stream resource', function () {
 
     $backup = getBackupForFile($fileName);
 
-    $this->assertIsResource($backup->stream());
+    expect($backup->stream())->toBeResource();
 });
 
 test('when its unable to read the stream throws exception', function () {
@@ -52,13 +52,13 @@ it('can delete itself', function () {
 
     $backup = getBackupForFile($fileName);
 
-    $this->assertTrue($backup->exists());
+    expect($backup->exists())->toBeTrue();
 
     Storage::disk('local')->assertExists('mysite.com/test.zip');
 
     $backup->delete();
 
-    $this->assertFalse($backup->exists());
+    expect($backup->exists())->toBeFalse();
 
     Storage::disk('local')->assertMissing('mysite.com/test.zip');
 });
@@ -68,9 +68,9 @@ it('can determine its size', function () {
 
     $fileSize = floatval(Storage::disk('local')->size('mysite.com/test.zip'));
 
-    $this->assertSame($fileSize, $backup->sizeInBytes());
+    expect($backup->sizeInBytes())->toBe($fileSize);
 
-    $this->assertGreaterThan(0, $backup->sizeInBytes());
+    expect($backup->sizeInBytes())->toBeGreaterThan(0);
 });
 
 it('can determine its size even after it has been deleted', function () {
@@ -78,7 +78,7 @@ it('can determine its size even after it has been deleted', function () {
 
     $backup->delete();
 
-    $this->assertSame(0.0, $backup->sizeInBytes());
+    expect($backup->sizeInBytes())->toBe(0.0);
 });
 
 it('push backup extra option to write stream if set', function () {
@@ -96,7 +96,7 @@ it('push backup extra option to write stream if set', function () {
 
     $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
-    $this->assertEquals(['StorageClass' => 'COLD'], $backupDestination->getDiskOptions());
+    expect($backupDestination->getDiskOptions())->toEqual(['StorageClass' => 'COLD']);
 });
 
 it('push empty default backup extra option to write stream if not set', function () {
@@ -111,13 +111,13 @@ it('push empty default backup extra option to write stream if not set', function
 
     $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
 
-    $this->assertSame([], $backupDestination->getDiskOptions());
+    expect($backupDestination->getDiskOptions())->toBe([]);
 });
 
 it('need a float type size', function () {
     $backup = getBackupForFile('test.zip', 0, 'this backup has content');
 
-    $this->assertIsFloat($backup->sizeInBytes());
+    expect($backup->sizeInBytes())->toBeFloat();
 });
 
 // Helpers
