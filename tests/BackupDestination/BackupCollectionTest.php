@@ -107,7 +107,6 @@ it('need a float type size', function () {
     expect($backupCollection->size())->toBeFloat();
 });
 
-// Helpers
 function getBackupCollectionForCurrentDiskContents(): BackupCollection
 {
     $disk = Storage::disk('local');

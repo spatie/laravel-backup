@@ -2,8 +2,6 @@
 
 use Spatie\Backup\Tasks\Backup\Zip;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     $this->initializeTempDirectory();
 

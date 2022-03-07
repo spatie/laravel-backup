@@ -8,11 +8,13 @@ use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
+use Spatie\Backup\Tests\TestSupport\FakeFailingHealthCheck;
 
 it('will fire an event on failed health check', function () {
     Event::fake();
 
-    fakeBackup()
+    $this
+        ->fakeBackup()
         ->makeHealthCheckFail()
         ->artisan('backup:monitor')
         ->assertExitCode(1);
@@ -23,7 +25,8 @@ it('will fire an event on failed health check', function () {
 it('sends an notification containing the exception message for handled health check errors', function () {
     Notification::fake();
 
-    fakeBackup()
+    $this
+        ->fakeBackup()
         ->makeHealthCheckFail(new InvalidHealthCheck($msg = 'This is the failure reason sent to the user'))
         ->artisan('backup:monitor')->assertExitCode(1);
 
@@ -38,10 +41,10 @@ it('sends an notification containing the exception message for handled health ch
             expect(collect($slack->attachments)->firstWhere('title', 'Exception trace'))->toBeNull();
 
             $mail = $notification->toMail();
-            $this->assertNotNull(collect($mail->introLines)->first(searchString($msg)));
-            expect(collect($mail->introLines)->first(searchString('Health check:')))->toBeNull();
-            expect(collect($mail->introLines)->first(searchString('Exception message:')))->toBeNull();
-            expect(collect($mail->introLines)->first(searchString('Exception trace:')))->toBeNull();
+            expect($mail->introLines)->hasItemContaining($msg);
+            expect($mail->introLines)->each->not()->toContain('Health check:');
+            expect($mail->introLines)->each->not()->toContain('Exception message:');
+            expect($mail->introLines)->each->not()->toContain('Exception trace:');
 
             return true;
         }
@@ -51,7 +54,8 @@ it('sends an notification containing the exception message for handled health ch
 it('sends an notification containing the exception for unexpected health check errors', function () {
     Notification::fake();
 
-    fakeBackup()
+    $this
+        ->fakeBackup()
         ->makeHealthCheckFail()
         ->artisan('backup:monitor')
         ->assertExitCode(1);
@@ -64,39 +68,12 @@ it('sends an notification containing the exception for unexpected health check e
         $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
 
         $mail = $notification->toMail();
-        $this->assertNotNull(collect($mail->introLines)->first(searchString(trans('backup::notifications.unhealthy_backup_found_unknown'))));
-        $this->assertNotNull(collect($mail->introLines)->first(searchString('Health check: ')));
-        $this->assertNotNull(collect($mail->introLines)->first(searchString('Exception trace: ')));
+
+        expect($mail->introLines)
+            ->hasItemContaining(trans('backup::notifications.unhealthy_backup_found_unknown'))
+            ->hasItemContaining('Health check:')
+            ->hasItemContaining('Exception trace:');
 
         return true;
     });
 });
-
-// Helpers
-function makeHealthCheckFail(Exception $customException = null)
-{
-    FakeFailingHealthCheck::$reason = $customException;
-
-    config()->set('backup.monitor_backups.0.health_checks', [FakeFailingHealthCheck::class]);
-
-    return $this;
-}
-
-function searchString($string)
-{
-    return function ($text) use ($string) {
-        return Str::contains($text, $string);
-    };
-}
-
-function fakeBackup()
-{
-    test()->createFileOnDisk('local', 'mysite/test1.zip', now()->subSecond());
-
-    return $this;
-}
-
-function checkHealth(BackupDestination $backupDestination)
-{
-    throw (static::$reason ?: new Exception('dummy exception message'));
-}

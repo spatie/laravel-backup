@@ -2,8 +2,6 @@
 
 use Spatie\Backup\Tasks\Backup\FileSelection;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     $this->sourceDirectory = $this->getStubDirectory();
 });
@@ -162,7 +160,7 @@ it('provides a factory method', function () {
     expect($fileSelection)->toBeInstanceOf(FileSelection::class);
 });
 
-// Helpers
+
 function assertSameArrayContent($expected, $actual, $message = '')
 {
     test()->assertCount(count($expected), array_intersect($expected, $actual), $message);
@@ -170,7 +168,9 @@ function assertSameArrayContent($expected, $actual, $message = '')
 
 function getTestFiles(array $relativePaths): array
 {
-    return array_map(fn ($path) => "{test()->sourceDirectory}/{$path}", $relativePaths);
+    $testDirectory  = test()->getStubDirectory();
+
+    return array_map(fn ($path) => "{$testDirectory}/{$path}", $relativePaths);
 }
 
 function assertSameArray(array $array1, array $array2)
