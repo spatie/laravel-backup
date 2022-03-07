@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
-use Spatie\Backup\Tests\TestCase;
-
 
 beforeEach(function () {
     Event::fake();

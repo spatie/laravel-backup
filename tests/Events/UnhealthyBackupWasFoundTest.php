@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
@@ -9,9 +8,6 @@ use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\InvalidHealthCheck;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
-use Spatie\Backup\Tasks\Monitor\HealthCheck;
-use Spatie\Backup\Tests\TestCase;
-
 
 it('will fire an event on failed health check', function () {
     Event::fake();

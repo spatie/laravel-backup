@@ -1,6 +1,5 @@
 <?php
 
-use Spatie\Backup\Tests\TestCase;
 
 
 it('can run the list command', function () {

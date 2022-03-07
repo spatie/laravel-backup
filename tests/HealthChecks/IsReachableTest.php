@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Event;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
-use Spatie\Backup\Tests\TestCase;
-
 
 beforeEach(function () {
     Event::fake();

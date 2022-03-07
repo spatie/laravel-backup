@@ -7,8 +7,6 @@ use Mockery as m;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Exceptions\InvalidBackupFile;
-use Spatie\Backup\Tests\TestCase;
-
 
 it('can determine the disk of the backup', function () {
     $fileName = 'test.zip';

@@ -4,8 +4,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupCollection;
-use Spatie\Backup\Tests\TestCase;
-
 
 it('can count all the files', function () {
     createFileOnBackupDisk('file1.zip');

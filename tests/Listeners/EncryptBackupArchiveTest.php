@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\Backup\Events\BackupZipWasCreated;
-use Spatie\Backup\Tests\TestCase;
-
 
 beforeEach(function () {
     config()->set('backup.backup.password', self::PASSWORD);
