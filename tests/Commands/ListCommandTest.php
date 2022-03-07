@@ -2,7 +2,6 @@
 
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can run the list command', function () {
     config()->set('backup.backup.destination.disks', [

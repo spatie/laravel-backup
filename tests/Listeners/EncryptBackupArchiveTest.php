@@ -3,7 +3,6 @@
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     config()->set('backup.backup.password', self::PASSWORD);

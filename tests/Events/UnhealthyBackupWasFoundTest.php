@@ -12,7 +12,6 @@ use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotificatio
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
 use Spatie\Backup\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('will fire an event on failed health check', function () {
     Event::fake();

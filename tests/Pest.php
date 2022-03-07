@@ -1,5 +1,7 @@
 <?php
 
+uses(\Spatie\Backup\Tests\TestCase::class)->in('BackupDestination', 'Commands', 'Events', 'HealthChecks', 'Listeners', 'Notifications');
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
