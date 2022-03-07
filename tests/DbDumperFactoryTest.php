@@ -43,9 +43,9 @@ beforeEach(function () {
 });
 
 it('can create instances of mysql and pgsql and mongodb', function () {
-    $this->assertInstanceOf(MySql::class, DbDumperFactory::createFromConnection('mysql'));
-    $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
-    $this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mongodb'));
+    expect(DbDumperFactory::createFromConnection('mysql'))->toBeInstanceOf(MySql::class);
+    expect(DbDumperFactory::createFromConnection('pgsql'))->toBeInstanceOf(PostgreSql::class);
+    expect(DbDumperFactory::createFromConnection('mongodb'))->toBeInstanceOf(MongoDb::class);
 });
 
 it('can create sqlite instance', function () {
@@ -54,7 +54,7 @@ it('can create sqlite instance', function () {
         'database' => 'database.sqlite',
     ]);
 
-    $this->assertInstanceOf(Sqlite::class, DbDumperFactory::createFromConnection('sqlite'));
+    expect(DbDumperFactory::createFromConnection('sqlite'))->toBeInstanceOf(Sqlite::class);
 });
 
 it('can create mongodb instance', function () {
@@ -70,7 +70,7 @@ it('can create mongodb instance', function () {
         ],
     ];
     config()->set('database.connections.mongodb', $dbConfig);
-    $this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mongodb'));
+    expect(DbDumperFactory::createFromConnection('mongodb'))->toBeInstanceOf(MongoDb::class);
 });
 
 it('can create instance from database url', function () {
@@ -87,7 +87,7 @@ it('can create instance from database url', function () {
         'sslmode' => 'prefer',
     ];
     config()->set('database.connections.pgsql', $dbConfig);
-    $this->assertInstanceOf(PostgreSql::class, DbDumperFactory::createFromConnection('pgsql'));
+    expect(DbDumperFactory::createFromConnection('pgsql'))->toBeInstanceOf(PostgreSql::class);
 });
 
 it('will use the read db when one is defined', function () {
@@ -110,8 +110,8 @@ it('will use the read db when one is defined', function () {
 
     $dumper = DbDumperFactory::createFromConnection('mysql');
 
-    $this->assertEquals('localhost-read', $dumper->getHost());
-    $this->assertEquals('myDb-read', $dumper->getDbName());
+    expect($dumper->getHost())->toEqual('localhost-read');
+    expect($dumper->getDbName())->toEqual('myDb-read');
 });
 
 it('will use the first read db when multiple are defined', function () {
@@ -134,8 +134,8 @@ it('will use the first read db when multiple are defined', function () {
 
     $dumper = DbDumperFactory::createFromConnection('mysql');
 
-    $this->assertEquals('localhost-read-1', $dumper->getHost());
-    $this->assertEquals('myDb-read', $dumper->getDbName());
+    expect($dumper->getHost())->toEqual('localhost-read-1');
+    expect($dumper->getDbName())->toEqual('myDb-read');
 });
 
 it('will throw an exception when creating an unknown type of dumper', function () {
@@ -149,7 +149,7 @@ it('can add named options to the dump command', function () {
 
     config()->set('database.connections.mysql.dump', $dumpConfig);
 
-    $this->assertStringContainsString('--single-transaction', getDumpCommand());
+    expect(getDumpCommand())->toContain('--single-transaction');
 });
 
 it('can add named options with an array value to the dump command', function () {
@@ -157,7 +157,7 @@ it('can add named options with an array value to the dump command', function () 
 
     config()->set('database.connections.mysql.dump', $dumpConfig);
 
-    $this->assertStringContainsString(implode(' ', $dumpConfig['include_tables']), getDumpCommand());
+    expect(getDumpCommand())->toContain(implode(' ', $dumpConfig['include_tables']));
 });
 
 it('can add arbritrary options to the dump command', function () {
@@ -165,7 +165,7 @@ it('can add arbritrary options to the dump command', function () {
 
     config()->set('database.connections.mysql.dump', $dumpConfig);
 
-    $this->assertStringContainsString($dumpConfig['add_extra_option'], getDumpCommand());
+    expect(getDumpCommand())->toContain($dumpConfig['add_extra_option']);
 });
 
 it('can create instances of custom dumpers', function () {
@@ -173,7 +173,7 @@ it('can create instances of custom dumpers', function () {
         return new MongoDb();
     });
 
-    $this->assertInstanceOf(MongoDb::class, DbDumperFactory::createFromConnection('mysql'));
+    expect(DbDumperFactory::createFromConnection('mysql'))->toBeInstanceOf(MongoDb::class);
 });
 
 // Helpers

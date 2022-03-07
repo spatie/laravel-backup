@@ -81,7 +81,7 @@ function zip(): string
 function assertEncryptionMethod(ZipArchive $zip, int $algorithm): void
 {
     foreach (range(0, $zip->numFiles - 1) as $i) {
-        test()->assertSame($algorithm, $zip->statIndex($i)['encryption_method']);
+        expect($zip->statIndex($i)['encryption_method'])->toBe($algorithm);
     }
 }
 
@@ -89,7 +89,7 @@ function assertValidExtractedFiles(): void
 {
     foreach (['file1.txt', 'file2.txt', 'file3.txt'] as $filename) {
         $filepath = __DIR__.'/../temp/extraction/'.$filename;
-        test()->assertTrue(file_exists($filepath));
-        test()->assertSame('lorum ipsum', file_get_contents($filepath));
+        expect(file_exists($filepath))->toBeTrue();
+        expect(file_get_contents($filepath))->toBe('lorum ipsum');
     }
 }

@@ -108,7 +108,7 @@ it('can backup using relative path', function () {
     sort($testFiles);
     sort($zipFiles);
 
-    $this->assertSame($testFiles, $zipFiles);
+    expect($zipFiles)->toBe($testFiles);
 });
 
 it('excludes the temporary directory from the backup', function () {
@@ -199,7 +199,7 @@ it('can backup twice a day at same time in 12h clock', function () {
 it('will fail when try to backup only the files and only the db', function () {
     $resultCode = Artisan::call('backup:run --only-files --only-db');
 
-    $this->assertEquals(1, $resultCode);
+    expect($resultCode)->toEqual(1);
 
     $this->seeInConsoleOutput('Cannot use `only-db` and `only-files` together.');
 
@@ -217,7 +217,7 @@ it('will fail when trying to backup a non existing database', function () {
 it('will fail when trying to backup to an non existing diskname', function () {
     $resultCode = Artisan::call('backup:run --only-to-disk=non-existing-disk');
 
-    $this->assertEquals(1, $resultCode);
+    expect($resultCode)->toEqual(1);
 
     $this->seeInConsoleOutput('There is no backup destination with a disk named');
 
@@ -335,8 +335,8 @@ it('will encrypt backup when notifications are disabled', function () {
 
     $zip = new ZipArchive();
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
-    $this->assertSame(1, $zip->numFiles);
-    $this->assertSame(ZipArchive::EM_AES_256, $zip->statIndex(0)['encryption_method']);
+    expect($zip->numFiles)->toBe(1);
+    expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_AES_256);
     $zip->close();
 
     Event::assertNotDispatched(BackupZipWasCreated::class);

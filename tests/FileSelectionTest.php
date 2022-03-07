@@ -133,14 +133,14 @@ it('can exclude files from multiple directories', function () {
 it('returns an empty array when not specifying any directories', function () {
     $fileSelection = new FileSelection();
 
-    $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
+    expect(iterator_to_array($fileSelection->selectedFiles()))->toBeEmpty();
 });
 
 it('returns an empty array if everything is excluded', function () {
     $fileSelection = (new FileSelection($this->sourceDirectory))
         ->excludeFilesFrom($this->sourceDirectory);
 
-    $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
+    expect(iterator_to_array($fileSelection->selectedFiles()))->toBeEmpty();
 });
 
 it('can select a single file', function () {
@@ -159,7 +159,7 @@ it('can select a single file', function () {
 it('provides a factory method', function () {
     $fileSelection = FileSelection::create();
 
-    $this->assertInstanceOf(FileSelection::class, $fileSelection);
+    expect($fileSelection)->toBeInstanceOf(FileSelection::class);
 });
 
 // Helpers
@@ -177,5 +177,5 @@ function assertSameArray(array $array1, array $array2)
 {
     sort($array1);
     sort($array2);
-    test()->assertSame($array1, $array2);
+    expect($array2)->toBe($array1);
 }

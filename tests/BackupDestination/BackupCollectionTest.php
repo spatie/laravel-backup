@@ -14,7 +14,7 @@ it('can count all the files', function () {
 
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertCount(2, $backupCollection);
+    expect($backupCollection)->toHaveCount(2);
 });
 
 it('will not take into account non zip files', function () {
@@ -23,13 +23,13 @@ it('will not take into account non zip files', function () {
 
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertCount(1, $backupCollection);
+    expect($backupCollection)->toHaveCount(1);
 });
 
 it('can handle empty disks', function () {
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertCount(0, $backupCollection);
+    expect($backupCollection)->toHaveCount(0);
 });
 
 it('can return all files in order of descending age', function () {
@@ -59,7 +59,7 @@ it('will hold backup objects', function () {
 
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertInstanceOf(Backup::class, $backupCollection->first());
+    expect($backupCollection->first())->toBeInstanceOf(Backup::class);
 });
 
 it('can determine the newest backup', function () {
@@ -69,7 +69,7 @@ it('can determine the newest backup', function () {
 
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertSame('mysite.com/file2.zip', $backupCollection->newest()->path());
+    expect($backupCollection->newest()->path())->toBe('mysite.com/file2.zip');
 });
 
 it('can determine the oldest backup', function () {
@@ -79,7 +79,7 @@ it('can determine the oldest backup', function () {
 
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertSame('mysite.com/file1.zip', $backupCollection->oldest()->path());
+    expect($backupCollection->oldest()->path())->toBe('mysite.com/file1.zip');
 });
 
 it('can determine the size of the backups', function () {
@@ -95,9 +95,9 @@ it('can determine the size of the backups', function () {
 
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertGreaterThan(0, $backupCollection->size());
+    expect($backupCollection->size())->toBeGreaterThan(0);
 
-    $this->assertSame(floatval($totalSize), $backupCollection->size());
+    expect($backupCollection->size())->toBe(floatval($totalSize));
 });
 
 it('need a float type size', function () {
@@ -107,7 +107,7 @@ it('need a float type size', function () {
 
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
-    $this->assertIsFloat($backupCollection->size());
+    expect($backupCollection->size())->toBeFloat();
 });
 
 // Helpers
