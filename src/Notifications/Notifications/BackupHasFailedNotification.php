@@ -26,9 +26,7 @@ class BackupHasFailedNotification extends BaseNotification
             ->line(trans('backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))
             ->line(trans('backup::notifications.exception_trace', ['trace' => $this->event->exception->getTraceAsString()]));
 
-        $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
-            $mailMessage->line("{$name}: $value");
-        });
+        $this->backupDestinationProperties()->each(fn($value, $name) => $mailMessage->line("{$name}: $value"));
 
         return $mailMessage;
     }

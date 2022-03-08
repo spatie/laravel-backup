@@ -61,6 +61,8 @@ class BackupCommand extends BaseCommand
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
+            report($exception);
+
             if (! $disableNotifications) {
                 event(new BackupHasFailed($exception));
             }
