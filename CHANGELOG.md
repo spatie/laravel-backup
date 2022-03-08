@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.0.10 - 2022-03-08
+
+## What's Changed
+
+- Warns the user about old-style config files for backup:list and backup:monitor commands by @bzarzuela in https://github.com/spatie/laravel-backup/pull/1495
+- PHPUnit to Pest Converter by @freekmurze in https://github.com/spatie/laravel-backup/pull/1503
+
+## New Contributors
+
+- @bzarzuela made their first contribution in https://github.com/spatie/laravel-backup/pull/1495
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.9...8.0.10
+
 ## 8.0.9 - 2022-03-02
 
 ## What's Changed
