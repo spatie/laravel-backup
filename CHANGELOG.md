@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.8.0 - 2022-03-08
+
+- Exceptions will be reported when creating a back-up fails
+- Notifications will now include the application's environment
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/7.7.3...7.8.0
+
 ## 8.1.1 - 2022-03-08
 
 - Exceptions will be reported when creating a back-up fails
