@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Backup\Tests\BackupDestination;
-
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
@@ -9,147 +7,123 @@ use Mockery as m;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Exceptions\InvalidBackupFile;
-use Spatie\Backup\Tests\TestCase;
 
-class BackupTest extends TestCase
+it('can determine the disk of the backup', function () {
+    $fileName = 'test.zip';
+
+    $backup = getBackupForFile($fileName);
+
+    expect($backup->disk())->toBe(Storage::disk('local'));
+});
+
+it('can determine the path of the backup', function () {
+    $fileName = 'test.zip';
+
+    $backup = getBackupForFile($fileName);
+
+    expect($backup->path())->toBe("mysite.com/{$fileName}");
+});
+
+it('can get backup as stream resource', function () {
+    $fileName = 'test.zip';
+
+    $backup = getBackupForFile($fileName);
+
+    expect($backup->stream())->toBeResource();
+});
+
+test('when its unable to read the stream throws exception', function () {
+    $path = 'mysite.com/test.zip';
+
+    $filesystem = m::mock(FilesystemAdapter::class);
+    $filesystem->shouldReceive('readStream')->once()->with($path)->andReturn(false);
+
+    $backup = new Backup($filesystem, $path);
+
+    $this->expectException(InvalidBackupFile::class);
+    $backup->stream();
+});
+
+it('can delete itself', function () {
+    $fileName = 'test.zip';
+
+    $backup = getBackupForFile($fileName);
+
+    expect($backup->exists())->toBeTrue();
+
+    Storage::disk('local')->assertExists('mysite.com/test.zip');
+
+    $backup->delete();
+
+    expect($backup->exists())->toBeFalse();
+
+    Storage::disk('local')->assertMissing('mysite.com/test.zip');
+});
+
+it('can determine its size', function () {
+    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+
+    $fileSize = floatval(Storage::disk('local')->size('mysite.com/test.zip'));
+
+    expect($backup->sizeInBytes())->toBe($fileSize);
+
+    expect($backup->sizeInBytes())->toBeGreaterThan(0);
+});
+
+it('can determine its size even after it has been deleted', function () {
+    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+
+    $backup->delete();
+
+    expect($backup->sizeInBytes())->toBe(0.0);
+});
+
+it('push backup extra option to write stream if set', function () {
+    config()->set('filesystems.disks.s3-test-backup', [
+        'driver' => 's3',
+
+        'backup_options' => [
+            'StorageClass' => 'COLD',
+        ],
+    ]);
+
+    config()->set('backup.backup.destination.disks', [
+        's3-test-backup',
+    ]);
+
+    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
+
+    expect($backupDestination->getDiskOptions())->toEqual(['StorageClass' => 'COLD']);
+});
+
+it('push empty default backup extra option to write stream if not set', function () {
+    config()->set('filesystems.disks.s3-test-backup', [
+        'driver' => 'local',
+
+    ]);
+
+    config()->set('backup.backup.destination.disks', [
+        'local',
+    ]);
+
+    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
+
+    expect($backupDestination->getDiskOptions())->toBe([]);
+});
+
+it('need a float type size', function () {
+    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+
+    expect($backup->sizeInBytes())->toBeFloat();
+});
+
+function getBackupForFile(string $name, int $ageInDays = 0): Backup
 {
-    /** @test */
-    public function it_can_determine_the_disk_of_the_backup()
-    {
-        $fileName = 'test.zip';
+    $disk = Storage::disk('local');
 
-        $backup = $this->getBackupForFile($fileName);
+    $path = 'mysite.com/'.$name;
 
-        $this->assertSame(Storage::disk('local'), $backup->disk());
-    }
+    test()->createFileOnDisk('local', $path, Carbon::now()->subDays($ageInDays));
 
-    /** @test */
-    public function it_can_determine_the_path_of_the_backup()
-    {
-        $fileName = 'test.zip';
-
-        $backup = $this->getBackupForFile($fileName);
-
-        $this->assertSame("mysite.com/{$fileName}", $backup->path());
-    }
-
-    /** @test */
-    public function it_can_get_backup_as_stream_resource()
-    {
-        $fileName = 'test.zip';
-
-        $backup = $this->getBackupForFile($fileName);
-
-        $this->assertIsResource($backup->stream());
-    }
-
-    /** @test */
-    public function when_its_unable_to_read_the_stream_throws_exception()
-    {
-        $path = 'mysite.com/test.zip';
-
-        $filesystem = m::mock(FilesystemAdapter::class);
-        $filesystem->shouldReceive('readStream')->once()->with($path)->andReturn(false);
-
-        $backup = new Backup($filesystem, $path);
-
-        $this->expectException(InvalidBackupFile::class);
-        $backup->stream();
-    }
-
-    /** @test */
-    public function it_can_delete_itself()
-    {
-        $fileName = 'test.zip';
-
-        $backup = $this->getBackupForFile($fileName);
-
-        $this->assertTrue($backup->exists());
-
-        Storage::disk('local')->assertExists('mysite.com/test.zip');
-
-        $backup->delete();
-
-        $this->assertFalse($backup->exists());
-
-        Storage::disk('local')->assertMissing('mysite.com/test.zip');
-    }
-
-    /** @test */
-    public function it_can_determine_its_size()
-    {
-        $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
-
-        $fileSize = floatval(Storage::disk('local')->size('mysite.com/test.zip'));
-
-        $this->assertSame($fileSize, $backup->sizeInBytes());
-
-        $this->assertGreaterThan(0, $backup->sizeInBytes());
-    }
-
-    /** @test */
-    public function it_can_determine_its_size_even_after_it_has_been_deleted()
-    {
-        $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
-
-        $backup->delete();
-
-        $this->assertSame(0.0, $backup->sizeInBytes());
-    }
-
-    /** @test */
-    public function it_push_backup_extra_option_to_write_stream_if_set()
-    {
-        config()->set('filesystems.disks.s3-test-backup', [
-            'driver' => 's3',
-
-            'backup_options' => [
-                'StorageClass' => 'COLD',
-            ],
-        ]);
-
-        config()->set('backup.backup.destination.disks', [
-            's3-test-backup',
-        ]);
-
-        $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
-
-        $this->assertEquals(['StorageClass' => 'COLD'], $backupDestination->getDiskOptions());
-    }
-
-    /** @test */
-    public function it_push_empty_default_backup_extra_option_to_write_stream_if_not_set()
-    {
-        config()->set('filesystems.disks.s3-test-backup', [
-            'driver' => 'local',
-
-        ]);
-
-        config()->set('backup.backup.destination.disks', [
-            'local',
-        ]);
-
-        $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
-
-        $this->assertSame([], $backupDestination->getDiskOptions());
-    }
-
-    /** @test */
-    public function it_need_a_float_type_size()
-    {
-        $backup = $this->getBackupForFile('test.zip', 0, 'this backup has content');
-
-        $this->assertIsFloat($backup->sizeInBytes());
-    }
-
-    protected function getBackupForFile(string $name, int $ageInDays = 0): Backup
-    {
-        $disk = Storage::disk('local');
-
-        $path = 'mysite.com/'.$name;
-
-        $this->createFileOnDisk('local', $path, Carbon::now()->subDays($ageInDays));
-
-        return new Backup($disk, $path);
-    }
+    return new Backup($disk, $path);
 }

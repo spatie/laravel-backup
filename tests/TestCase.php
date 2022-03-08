@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tests;
 
 use Carbon\Carbon;
 use DateTime;
+use Exception;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Backup\BackupServiceProvider;
+use Spatie\Backup\Tests\TestSupport\FakeFailingHealthCheck;
 use ZipArchive;
 
 abstract class TestCase extends Orchestra
@@ -137,7 +139,7 @@ abstract class TestCase extends Orchestra
         return false;
     }
 
-    protected function createFileOnDisk(string $diskName, string $filePath, DateTime $date): string
+    public function createFileOnDisk(string $diskName, string $filePath, DateTime $date): string
     {
         Storage::disk($diskName)->put($filePath, 'dummy content');
 
@@ -225,5 +227,21 @@ abstract class TestCase extends Orchestra
         $fileContents = '*'.PHP_EOL.'!.gitignore';
 
         File::put($fileName, $fileContents);
+    }
+
+    public function fakeBackup(): self
+    {
+        $this->createFileOnDisk('local', 'mysite/test1.zip', now()->subSecond());
+
+        return $this;
+    }
+
+    public function makeHealthCheckFail(Exception $customException = null): self
+    {
+        FakeFailingHealthCheck::$reason = $customException;
+
+        config()->set('backup.monitor_backups.0.health_checks', [FakeFailingHealthCheck::class]);
+
+        return $this;
     }
 }

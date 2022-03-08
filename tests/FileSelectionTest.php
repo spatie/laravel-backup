@@ -1,206 +1,181 @@
 <?php
 
-namespace Spatie\Backup\Tests;
-
 use Spatie\Backup\Tasks\Backup\FileSelection;
 
-class FileSelectionTest extends TestCase
-{
-    protected string $sourceDirectory;
+beforeEach(function () {
+    $this->sourceDirectory = $this->getStubDirectory();
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can select all the files in a directory and subdirectories', function () {
+    $fileSelection = new FileSelection($this->sourceDirectory);
 
-        $this->sourceDirectory = $this->getStubDirectory();
-    }
+    $testFiles = getTestFiles([
+        '.dot',
+        '.dot/file1.txt',
+        '.dotfile',
+        'archive.zip',
+        '1Mb.file',
+        'directory1',
+        'directory1/directory1',
+        'directory1/directory1/file1.txt',
+        'directory1/directory1/file2.txt',
+        'directory1/file1.txt',
+        'directory1/file2.txt',
+        'directory2',
+        'directory2/directory1',
+        'directory2/directory1/file1.txt',
+        'file',
+        'file1.txt',
+        'file1.txt.txt',
+        'file2.txt',
+        'file3.txt',
+    ]);
+    $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
-    protected function assertSameArrayContent($expected, $actual, $message = '')
-    {
-        $this->assertCount(count($expected), array_intersect($expected, $actual), $message);
-    }
+    assertSameArray($testFiles, $selectedFiles);
+});
 
-    /** @test */
-    public function it_can_select_all_the_files_in_a_directory_and_subdirectories()
-    {
-        $fileSelection = new FileSelection($this->sourceDirectory);
+it('can exclude files from a given subdirectory', function () {
+    $fileSelection = (new FileSelection($this->sourceDirectory))
+                    ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
 
-        $testFiles = $this->getTestFiles([
-            '.dot',
-            '.dot/file1.txt',
-            '.dotfile',
-            'archive.zip',
-            '1Mb.file',
-            'directory1',
-            'directory1/directory1',
-            'directory1/directory1/file1.txt',
+    $testFiles = getTestFiles([
+        '.dot',
+        '.dot/file1.txt',
+        '.dotfile',
+        'archive.zip',
+        '1Mb.file',
+        'directory2',
+        'directory2/directory1',
+        'directory2/directory1/file1.txt',
+        'file',
+        'file1.txt',
+        'file1.txt.txt',
+        'file2.txt',
+        'file3.txt',
+    ]);
+    $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+
+    assertSameArray($testFiles, $selectedFiles);
+});
+
+it('can exclude files with wildcards from a given subdirectory', function () {
+    $fileSelection = (new FileSelection($this->sourceDirectory))
+        ->excludeFilesFrom(getTestFiles([
+            "*/file1.txt",
+            "*/directory1",
+        ]));
+
+    $testFiles = getTestFiles([
+        '.dot',
+        '.dotfile',
+        'archive.zip',
+        '1Mb.file',
+        'directory1',
+        'directory1/file2.txt',
+        'directory2',
+        'file',
+        'file1.txt', //it is kept because it is not in a directory /dir/file1.txt
+        'file1.txt.txt',
+        'file2.txt',
+        'file3.txt',
+    ]);
+    $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+
+    assertSameArray($testFiles, $selectedFiles);
+});
+
+it('can select files from multiple directories', function () {
+    $fileSelection = (new FileSelection([
+        $this->sourceDirectory.'/directory1/directory1',
+        $this->sourceDirectory.'/directory2/directory1',
+    ]));
+
+    assertSameArrayContent(
+        getTestFiles([
             'directory1/directory1/file2.txt',
-            'directory1/file1.txt',
-            'directory1/file2.txt',
-            'directory2',
-            'directory2/directory1',
+            'directory1/directory1/file1.txt',
             'directory2/directory1/file1.txt',
-            'file',
-            'file1.txt',
-            'file1.txt.txt',
-            'file2.txt',
-            'file3.txt',
-        ]);
-        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+        ]),
+        iterator_to_array($fileSelection->selectedFiles())
+    );
+});
 
-        $this->assertSameArray($testFiles, $selectedFiles);
-    }
-
-    /** @test */
-    public function it_can_exclude_files_from_a_given_subdirectory()
-    {
-        $fileSelection = (new FileSelection($this->sourceDirectory))
-                        ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
-
-        $testFiles = $this->getTestFiles([
-            '.dot',
-            '.dot/file1.txt',
-            '.dotfile',
-            'archive.zip',
-            '1Mb.file',
+it('can exclude files from multiple directories', function () {
+    $fileSelection = (new FileSelection($this->sourceDirectory))
+        ->excludeFilesFrom(getTestFiles([
+            'directory1/directory1',
             'directory2',
-            'directory2/directory1',
-            'directory2/directory1/file1.txt',
-            'file',
-            'file1.txt',
-            'file1.txt.txt',
             'file2.txt',
-            'file3.txt',
-        ]);
-        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
-
-        $this->assertSameArray($testFiles, $selectedFiles);
-    }
-
-    /** @test */
-    public function it_can_exclude_files_with_wildcards_from_a_given_subdirectory()
-    {
-        $fileSelection = (new FileSelection($this->sourceDirectory))
-            ->excludeFilesFrom($this->getTestFiles([
-                "*/file1.txt",
-                "*/directory1",
-            ]));
-
-        $testFiles = $this->getTestFiles([
-            '.dot',
-            '.dotfile',
-            'archive.zip',
-            '1Mb.file',
-            'directory1',
-            'directory1/file2.txt',
-            'directory2',
-            'file',
-            'file1.txt', //it is kept because it is not in a directory /dir/file1.txt
-            'file1.txt.txt',
-            'file2.txt',
-            'file3.txt',
-        ]);
-        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
-
-        $this->assertSameArray($testFiles, $selectedFiles);
-    }
-
-    /** @test */
-    public function it_can_select_files_from_multiple_directories()
-    {
-        $fileSelection = (new FileSelection([
-            $this->sourceDirectory.'/directory1/directory1',
-            $this->sourceDirectory.'/directory2/directory1',
         ]));
 
-        $this->assertSameArrayContent(
-            $this->getTestFiles([
-                'directory1/directory1/file2.txt',
-                'directory1/directory1/file1.txt',
-                'directory2/directory1/file1.txt',
-            ]),
-            iterator_to_array($fileSelection->selectedFiles())
-        );
-    }
+    $testFiles = getTestFiles([
+        '.dot',
+        '.dot/file1.txt',
+        '.dotfile',
+        'archive.zip',
+        '1Mb.file',
+        'directory1',
+        'directory1/file1.txt',
+        'directory1/file2.txt',
+        'file',
+        'file1.txt',
+        'file1.txt.txt',
+        'file3.txt',
+    ]);
+    $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
 
-    /** @test */
-    public function it_can_exclude_files_from_multiple_directories()
-    {
-        $fileSelection = (new FileSelection($this->sourceDirectory))
-            ->excludeFilesFrom($this->getTestFiles([
-                'directory1/directory1',
-                'directory2',
-                'file2.txt',
-            ]));
+    assertSameArray($testFiles, $selectedFiles);
+});
 
-        $testFiles = $this->getTestFiles([
-            '.dot',
-            '.dot/file1.txt',
+it('returns an empty array when not specifying any directories', function () {
+    $fileSelection = new FileSelection();
+
+    expect(iterator_to_array($fileSelection->selectedFiles()))->toBeEmpty();
+});
+
+it('returns an empty array if everything is excluded', function () {
+    $fileSelection = (new FileSelection($this->sourceDirectory))
+        ->excludeFilesFrom($this->sourceDirectory);
+
+    expect(iterator_to_array($fileSelection->selectedFiles()))->toBeEmpty();
+});
+
+it('can select a single file', function () {
+    $fileSelection = (new FileSelection([
+        $this->sourceDirectory.'/.dotfile',
+    ]));
+
+    $this->assertSame(
+        getTestFiles([
             '.dotfile',
-            'archive.zip',
-            '1Mb.file',
-            'directory1',
-            'directory1/file1.txt',
-            'directory1/file2.txt',
-            'file',
-            'file1.txt',
-            'file1.txt.txt',
-            'file3.txt',
-        ]);
-        $selectedFiles = iterator_to_array($fileSelection->selectedFiles());
+        ]),
+        iterator_to_array($fileSelection->selectedFiles())
+    );
+});
 
-        $this->assertSameArray($testFiles, $selectedFiles);
-    }
+it('provides a factory method', function () {
+    $fileSelection = FileSelection::create();
 
-    /** @test */
-    public function it_returns_an_empty_array_when_not_specifying_any_directories()
-    {
-        $fileSelection = new FileSelection();
+    expect($fileSelection)->toBeInstanceOf(FileSelection::class);
+});
 
-        $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
-    }
 
-    /** @test */
-    public function it_returns_an_empty_array_if_everything_is_excluded()
-    {
-        $fileSelection = (new FileSelection($this->sourceDirectory))
-            ->excludeFilesFrom($this->sourceDirectory);
+function assertSameArrayContent($expected, $actual, $message = '')
+{
+    test()->assertCount(count($expected), array_intersect($expected, $actual), $message);
+}
 
-        $this->assertEmpty(iterator_to_array($fileSelection->selectedFiles()));
-    }
+function getTestFiles(array $relativePaths): array
+{
+    $testDirectory = test()->getStubDirectory();
 
-    /** @test */
-    public function it_can_select_a_single_file()
-    {
-        $fileSelection = (new FileSelection([
-            $this->sourceDirectory.'/.dotfile',
-        ]));
+    return array_map(fn ($path) => "{$testDirectory}/{$path}", $relativePaths);
+}
 
-        $this->assertSame(
-            $this->getTestFiles([
-                '.dotfile',
-            ]),
-            iterator_to_array($fileSelection->selectedFiles())
-        );
-    }
-
-    /** @test */
-    public function it_provides_a_factory_method()
-    {
-        $fileSelection = FileSelection::create();
-
-        $this->assertInstanceOf(FileSelection::class, $fileSelection);
-    }
-
-    protected function getTestFiles(array $relativePaths): array
-    {
-        return array_map(fn ($path) => "{$this->sourceDirectory}/{$path}", $relativePaths);
-    }
-
-    protected function assertSameArray(array $array1, array $array2)
-    {
-        sort($array1);
-        sort($array2);
-        $this->assertSame($array1, $array2);
-    }
+function assertSameArray(array $array1, array $array2)
+{
+    sort($array1);
+    sort($array2);
+    expect($array2)->toBe($array1);
 }

@@ -1,31 +1,19 @@
 <?php
 
-namespace Spatie\Backup\Tests\Commands;
+it('can run the list command', function () {
+    config()->set('backup.backup.destination.disks', [
+        'local',
+    ]);
 
-use Spatie\Backup\Tests\TestCase;
+    $this->artisan('backup:list')->assertExitCode(0);
+});
 
-class ListCommandTest extends TestCase
-{
-    /** @test */
-    public function it_can_run_the_list_command()
-    {
-        config()->set('backup.backup.destination.disks', [
-            'local',
-        ]);
+it('warns_the_user_about_the_old_style_config_keys', function () {
+    $this->artisan('backup:list')
+        ->assertSuccessful();
 
-        $this->artisan('backup:list')->assertExitCode(0);
-    }
+    config(['backup.monitorBackups' => config('backup.monitor_backups')]);
 
-    /** @test */
-    function it_warns_the_user_about_the_old_style_config_keys()
-    {
-        $this->artisan('backup:list')
-            ->assertSuccessful();
-
-        config(['backup.monitorBackups' => config('backup.monitor_backups')]);
-
-        $this->artisan('backup:list')
-            ->expectsOutput("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
-
-    }
-}
+    $this->artisan('backup:list')
+        ->expectsOutput("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
+});

@@ -1,43 +1,27 @@
 <?php
 
-namespace Spatie\Backup\Tests;
-
 use Spatie\Backup\Tasks\Backup\Zip;
 
-class ZipTest extends TestCase
-{
-    protected string $pathToZip;
+beforeEach(function () {
+    $this->initializeTempDirectory();
 
-    protected Zip $zip;
+    $this->pathToZip = "{$this->getTempDirectory()}/test.zip";
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    $this->zip = new Zip($this->pathToZip);
+});
 
-        $this->initializeTempDirectory();
+it('can create a zip file', function () {
+    $this->zip->add(__FILE__);
+    $this->zip->close();
 
-        $this->pathToZip = "{$this->getTempDirectory()}/test.zip";
+    expect($this->pathToZip)->toBeFile();
+});
 
-        $this->zip = new Zip($this->pathToZip);
-    }
+it('can report its own size', function () {
+    expect($this->zip->size())->toEqual(0);
 
-    /** @test */
-    public function it_can_create_a_zip_file()
-    {
-        $this->zip->add(__FILE__);
-        $this->zip->close();
+    $this->zip->add(__FILE__);
+    $this->zip->close();
 
-        $this->assertFileExists($this->pathToZip);
-    }
-
-    /** @test */
-    public function it_can_report_its_own_size()
-    {
-        $this->assertEquals(0, $this->zip->size());
-
-        $this->zip->add(__FILE__);
-        $this->zip->close();
-
-        $this->assertNotEquals(0, $this->zip->size());
-    }
-}
+    $this->assertNotEquals(0, $this->zip->size());
+});
