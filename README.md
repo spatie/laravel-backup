@@ -1,3 +1,6 @@
+
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
+
 <p align="center"><img src="/art/socialcard.png" alt="Social Card of Laravel Activity Log"></p>
 
 # A modern backup solution for Laravel apps
@@ -54,11 +57,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security-related issues, please email freek@spatie.be instead of using the issue tracker.
+If you discover any security-related issues, please email security@spatie.be instead of using the issue tracker.
 
 ## Postcardware
 

@@ -18,7 +18,10 @@ abstract class BaseNotification extends Notification
 
     public function applicationName(): string
     {
-        return config('app.name') ?? config('app.url') ?? 'Laravel application';
+        $name = config('app.name') ?? config('app.url') ?? 'Laravel';
+        $env = app()->environment();
+
+        return "{$name} ({$env})";
     }
 
     public function backupName(): string

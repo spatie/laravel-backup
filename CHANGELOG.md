@@ -2,6 +2,40 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 7.8.0 - 2022-03-08
+
+- Exceptions will be reported when creating a back-up fails
+- Notifications will now include the application's environment
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/7.7.3...7.8.0
+
+## 8.1.1 - 2022-03-08
+
+- Exceptions will be reported when creating a back-up fails
+- Notifications will now include the application's environment
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.0...8.1.1
+
+## 8.1.0 - 2022-03-08
+
+- Exceptions will be reported when creating a back-up fails
+- Notifications will now include the application's environment
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.10...8.1.0
+
+## 8.0.10 - 2022-03-08
+
+## What's Changed
+
+- Warns the user about old-style config files for backup:list and backup:monitor commands by @bzarzuela in https://github.com/spatie/laravel-backup/pull/1495
+- PHPUnit to Pest Converter by @freekmurze in https://github.com/spatie/laravel-backup/pull/1503
+
+## New Contributors
+
+- @bzarzuela made their first contribution in https://github.com/spatie/laravel-backup/pull/1495
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.0.9...8.0.10
+
 ## 8.0.9 - 2022-03-02
 
 ## What's Changed
