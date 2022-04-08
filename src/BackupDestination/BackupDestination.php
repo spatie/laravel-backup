@@ -137,7 +137,7 @@ class BackupDestination
         }
 
         try {
-            $this->disk->allFiles($this->backupName);
+            $this->disk->files($this->backupName);
 
             return true;
         } catch (Exception $exception) {
