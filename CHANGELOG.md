@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.2 - 2022-04-08
+
+## What's Changed
+
+- Update .gitattributes by @angeljqv in https://github.com/spatie/laravel-backup/pull/1514
+- Use non-recursive files() method to test if destination is reachable by @mike-healy in https://github.com/spatie/laravel-backup/pull/1518
+
+## New Contributors
+
+- @angeljqv made their first contribution in https://github.com/spatie/laravel-backup/pull/1514
+- @mike-healy made their first contribution in https://github.com/spatie/laravel-backup/pull/1518
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.1...8.1.2
+
 ## 7.8.0 - 2022-03-08
 
 - Exceptions will be reported when creating a back-up fails
