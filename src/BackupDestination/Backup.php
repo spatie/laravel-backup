@@ -20,6 +20,7 @@ class Backup
         protected Filesystem $disk,
         protected string $path,
     ) {
+        $this->exists = $this->disk->exists($this->path);
     }
 
     public function disk(): Filesystem
@@ -34,10 +35,6 @@ class Backup
 
     public function exists(): bool
     {
-        if ($this->exists === null) {
-            $this->exists = $this->disk->exists($this->path);
-        }
-
         return $this->exists;
     }
 

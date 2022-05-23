@@ -9,7 +9,7 @@ class EncryptBackupArchive
 {
     public function handle(BackupZipWasCreated $event): void
     {
-        if (! $this->shouldEncrypt()) {
+        if (! self::shouldEncrypt()) {
             return;
         }
 
