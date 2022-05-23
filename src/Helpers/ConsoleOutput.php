@@ -5,9 +5,7 @@ namespace Spatie\Backup\Helpers;
 use Illuminate\Console\Command;
 
 /**
- * @method info(string $message)
- * @method error(string $message)
- * @method comment(string $message)
+ * @mixin \Illuminate\Console\Concerns\InteractsWithIO
  */
 class ConsoleOutput
 {
