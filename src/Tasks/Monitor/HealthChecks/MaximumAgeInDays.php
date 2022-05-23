@@ -35,10 +35,6 @@ class MaximumAgeInDays extends HealthCheck
 
     protected function isTooOld(Backup $backup): bool
     {
-        if (is_null($this->days)) {
-            return false;
-        }
-
         if ($backup->date()->gt(now()->subDays($this->days))) {
             return false;
         }
