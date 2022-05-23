@@ -36,6 +36,7 @@ test('when its unable to read the stream throws exception', function () {
     $path = 'mysite.com/test.zip';
 
     $filesystem = m::mock(FilesystemAdapter::class);
+    $filesystem->shouldReceive('exists')->once()->with($path)->andReturn(true);
     $filesystem->shouldReceive('readStream')->once()->with($path)->andReturn(false);
 
     $backup = new Backup($filesystem, $path);
