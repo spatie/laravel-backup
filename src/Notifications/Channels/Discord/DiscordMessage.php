@@ -30,9 +30,7 @@ class DiscordMessage
 
     public function from(string $username, string $avatarUrl = null): self
     {
-        if (! is_null($username)) {
-            $this->username = $username;
-        }
+        $this->username = $username;
 
         if (! is_null($avatarUrl)) {
             $this->avatarUrl = $avatarUrl;

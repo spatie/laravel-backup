@@ -297,7 +297,7 @@ class BackupJob
                 } catch (Exception $exception) {
                     consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
-                    $this->sendNotification(new BackupHasFailed($exception, $backupDestination ?? null));
+                    $this->sendNotification(new BackupHasFailed($exception, $backupDestination));
 
                     throw $exception;
                 }
