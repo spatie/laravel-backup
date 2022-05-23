@@ -6,6 +6,11 @@ parameters:
 			path: src/BackupDestination/BackupCollection.php
 
 		-
+			message: "#^PHPDoc tag @mixin contains invalid type Illuminate\\\\Console\\\\Concerns\\\\InteractsWithIO\\.$#"
+			count: 1
+			path: src/Helpers/ConsoleOutput.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
 			count: 1
 			path: src/Listeners/EncryptBackupArchive.php
