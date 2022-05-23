@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 /**
  * @method info(string $message)
  * @method error(string $message)
+ * @method comment(string $message)
  */
 class ConsoleOutput
 {
