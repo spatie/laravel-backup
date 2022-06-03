@@ -26,7 +26,7 @@ class DefaultStrategy extends CleanupStrategy
         });
 
         $backupsPerPeriod['daily'] = $this->groupByDateFormat($backupsPerPeriod['daily'], 'Ymd');
-        $backupsPerPeriod['weekly'] = $this->groupByDateIsoFormat($backupsPerPeriod['weekly'], 'YW');
+        $backupsPerPeriod['weekly'] = $this->groupByDateIsoFormat($backupsPerPeriod['weekly'], 'GW');
         $backupsPerPeriod['monthly'] = $this->groupByDateFormat($backupsPerPeriod['monthly'], 'Ym');
         $backupsPerPeriod['yearly'] = $this->groupByDateFormat($backupsPerPeriod['yearly'], 'Y');
 
