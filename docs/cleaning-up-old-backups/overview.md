@@ -80,7 +80,7 @@ older than those covered by rule #2
 
 Of course the numbers used in the default configuration can be adjusted to suit your own needs.
 
-> It is worth noting that the date of a backup is determined by the last modified date of the file if you have added value in the `destination.file_prefix` config or have changed the file name from the default structure. This can potentially mean unexpected backup deletions occur in the following scenarios:
+> It is worth noting that the date of a backup is determined by the last modified date of the file if you have added value in the `destination.filename_prefix` config or have changed the file name from the default structure. This can potentially mean unexpected backup deletions occur in the following scenarios:
 > - You move your backups to a new storage provider
 > - You restore a previously deleted backup, if the storage provider has file versioning capability
 > 
