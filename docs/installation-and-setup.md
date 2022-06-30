@@ -156,8 +156,11 @@ return [
         /*
          * The encryption algorithm to be used for archive encryption.
          * You can set it to `null` or `false` to disable encryption.
+         *
+         * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
+         * available on your system.
          */
-        'encryption' => \ZipArchive::EM_AES_256,
+        'encryption' => 'default',
     ],
 
     /*
@@ -165,7 +168,7 @@ return [
      * For Slack you need to install laravel/slack-notification-channel.
      *
      * You can also use your own notification classes, just make sure the class is named after one of
-     * the `Spatie\Backup\Events` classes.
+     * the `Spatie\Backup\Notifications\Notifications` classes.
      */
     'notifications' => [
 
@@ -205,6 +208,14 @@ return [
 
             'icon' => null,
 
+        ],
+
+        'discord' => [
+            'webhook_url' => '',
+
+            'username' => null,
+
+            'avatar_url' => null,
         ],
     ],
 
@@ -281,6 +292,7 @@ return [
             'delete_oldest_backups_when_using_more_megabytes_than' => 5000,
         ],
     ],
+
 ];
 ```
 
