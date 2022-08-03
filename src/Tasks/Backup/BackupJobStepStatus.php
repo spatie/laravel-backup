@@ -27,7 +27,7 @@ class BackupJobStepStatus
 
     public function errorMessagesAsString(): string
     {
-        if (count($this->errorMessages < 1))
+        if (count($this->errorMessages) < 1)
         {
             return '';
         }
