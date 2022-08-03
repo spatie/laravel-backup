@@ -199,7 +199,7 @@ class BackupJob
 
         if (! $stepStatus->isSuccess())
         {
-            throw new Exception("Interrupted after manifest creation: " . $stepStatus->errorMessagesAsString());
+            throw new Exception("An error occured during the manifest creation: " . $stepStatus->errorMessagesAsString());
         }
 
         return $manifest;
@@ -244,7 +244,7 @@ class BackupJob
 
         if (! $stepStatus->isSuccess())
         {
-            throw new Exception("Interrupted after zip creation: " . $stepStatus->errorMessagesAsString());
+            throw new Exception("An error occured during the zip creation: " . $stepStatus->errorMessagesAsString());
         }
 
         return $pathToZip;
@@ -289,7 +289,7 @@ class BackupJob
 
                 if (! $stepStatus->isSuccess())
                 {
-                    throw new Exception("Interrupted before database dump: " . $stepStatus->errorMessagesAsString());
+                    throw new Exception("An error occured before the database dump: " . $stepStatus->errorMessagesAsString());
                 }
 
                 $dbDumper->dumpToFile($temporaryFilePath);
