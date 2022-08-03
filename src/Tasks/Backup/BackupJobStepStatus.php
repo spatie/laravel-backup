@@ -8,24 +8,24 @@ class BackupJobStepStatus
 
     protected array $errorMessages = [];
 
-    public interruptBackupBecauseOfError($errorMessage): void
+    public function interruptBackupBecauseOfError($errorMessage): void
     {
         $this->success = false;
 
         $this->errorMessages[] = $errorMessage;
     }
 
-    public isSuccess(): bool
+    public function isSuccess(): bool
     {
         return $this->success;
     }
 
-    public errorMessages(): array
+    public function errorMessages(): array
     {
         return $this->errorMessages;
     }
 
-    public errorMessagesAsString(): string
+    public function errorMessagesAsString(): string
     {
         if (count($this->errorMessages < 1))
         {
