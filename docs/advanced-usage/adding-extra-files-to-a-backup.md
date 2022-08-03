@@ -14,26 +14,36 @@ Right after the manifest is created and **before** the zip file is created the `
 namespace Spatie\Backup\Events;
 
 use Spatie\Backup\Tasks\Backup\Manifest;
+use Spatie\Backup\Tasks\Backup\BackupJobStepStatus;
 
 class BackupManifestWasCreated
 {
     /** @var \Spatie\Backup\Tasks\Backup\Manifest */
     public $manifest;
+    /** @var \Spatie\Backup\Tasks\Backup\BackupJobStepStatus */
+    public $backupJobStepStatus;
 
-    public function __construct(Manifest $manifest)
+    public function __construct(Manifest $manifest, BackupJobStepStatus $backupJobStepStatus)
     {
         $this->manifest = $manifest;
+        $this->backupJobStepStatus = $backupJobStepStatus;
     }
 }
 
 ```
 
 You can use that event to add extra files to the manifest as in the example below where the extra files are passed as an array to the addFiles() method.
+You can also cause the interruption of the backup with the interruptBackupBecauseOfError() method.
 
 ```php
 use Spatie\Backup\Events\BackupManifestWasCreated;
 
 Event::listen(BackupManifestWasCreated::class, function (BackupManifestWasCreated $event) {
    $event->manifest->addFiles([$path1, $path2, ...]);
+
+   if ($anErrorOccured)
+   {
+    $event->backupJobStepStatus->interruptBackupBecauseOfError('Error while adding files to the manifest ...');
+   }
 });
 ```

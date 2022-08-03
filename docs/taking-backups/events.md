@@ -32,7 +32,9 @@ It has two public properties:
 
 Internally the package will build up a manifest of files. This manifest contains the dumps of the databases and any files that are selected for backup. All the files in the manifest will be zipped.
 
-It has one public property `$manifest` which is an instance of `Spatie\Backup\Tasks\Backup\Manifest`
+It has two public properties:
+- `$manifest` which is an instance of `Spatie\Backup\Tasks\Backup\Manifest`
+- `$backupJobStepStatus` which is an instance of `Spatie\Backup\Tasks\Backup\BackupJobStepStatus`
 
 ## BackupZipWasCreated
 
@@ -40,7 +42,9 @@ It has one public property `$manifest` which is an instance of `Spatie\Backup\Ta
 
 This event will be fired right after the zipfile - containing the dumps of the databases and any files that were selected for backup - is created, and before that zip will get copied over to the backup destination(s). You can use this event to do last minute manipulations on the created zip file.
 
-It has one public property `$pathToZip` which contains a path to the created zipfile.
+It has two public properties:
+- `$pathToZip` which contains a path to the created zipfile
+- `$backupJobStepStatus` which is an instance of `Spatie\Backup\Tasks\Backup\BackupJobStepStatus`
 
 ## DumpingDatabase
 
@@ -48,4 +52,6 @@ It has one public property `$pathToZip` which contains a path to the created zip
 
 This event will be fired before dumping the databases. You can use this event to do last minute manipulations on database dumper.
 
-It has one public property `$dbDumper` which is an instance of a [dumper driver](https://github.com/spatie/db-dumper).
+It has two public properties:
+- `$dbDumper` which is an instance of a [dumper driver](https://github.com/spatie/db-dumper)
+- `$backupJobStepStatus` which is an instance of `Spatie\Backup\Tasks\Backup\BackupJobStepStatus`

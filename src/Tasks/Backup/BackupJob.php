@@ -193,7 +193,14 @@ class BackupJob
             ->addFiles($databaseDumps)
             ->addFiles($this->filesToBeBackedUp());
 
-        $this->sendNotification(new BackupManifestWasCreated($manifest));
+        $stepStatus = new BackupJobStepStatus();
+
+        $this->sendNotification(new BackupManifestWasCreated($manifest, $stepStatus));
+
+        if (! $stepStatus->isSuccess())
+        {
+            throw new Exception("Interrupted after manifest creation: " + $stepStatus->errorMessagesAsString());
+        }
 
         return $manifest;
     }
@@ -227,10 +234,17 @@ class BackupJob
 
         consoleOutput()->info("Created zip containing {$zip->count()} files and directories. Size is {$zip->humanReadableSize()}");
 
+        $stepStatus = new BackupJobStepStatus();
+
         if ($this->sendNotifications) {
-            $this->sendNotification(new BackupZipWasCreated($pathToZip));
+            $this->sendNotification(new BackupZipWasCreated($pathToZip, $stepStatus));
         } else {
-            app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($pathToZip)]);
+            app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($pathToZip, $stepStatus)]);
+        }
+
+        if (! $stepStatus->isSuccess())
+        {
+            throw new Exception("Interrupted after zip creation: " + $stepStatus->errorMessagesAsString());
         }
 
         return $pathToZip;
@@ -269,7 +283,14 @@ class BackupJob
 
                 $temporaryFilePath = $this->temporaryDirectory->path('db-dumps' . DIRECTORY_SEPARATOR . $fileName);
 
-                event(new DumpingDatabase($dbDumper));
+                $stepStatus = new BackupJobStepStatus();
+
+                event(new DumpingDatabase($dbDumper, $stepStatus));
+
+                if (! $stepStatus->isSuccess())
+                {
+                    throw new Exception("Interrupted before database dump: " + $stepStatus->errorMessagesAsString());
+                }
 
                 $dbDumper->dumpToFile($temporaryFilePath);
 
