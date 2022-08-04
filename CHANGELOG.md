@@ -2,6 +2,27 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.3 - 2022-08-04
+
+### What's Changed
+
+- chore: Included githubactions in the dependabot config by @naveensrinivasan in https://github.com/spatie/laravel-backup/pull/1529
+- Add phpstan by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1530
+- Bump actions/checkout from 1 to 3 by @dependabot in https://github.com/spatie/laravel-backup/pull/1532
+- Bump stefanzweifel/git-auto-commit-action from 2.3.0 to 4.14.1 by @dependabot in https://github.com/spatie/laravel-backup/pull/1531
+- docs(setup): update default config by @tricki in https://github.com/spatie/laravel-backup/pull/1540
+- Use empty string for Discord defaults by @bbashy in https://github.com/spatie/laravel-backup/pull/1544
+- Improve output messages for backup:monitor command by @intrepidws in https://github.com/spatie/laravel-backup/pull/1560
+
+### New Contributors
+
+- @naveensrinivasan made their first contribution in https://github.com/spatie/laravel-backup/pull/1529
+- @dependabot made their first contribution in https://github.com/spatie/laravel-backup/pull/1532
+- @tricki made their first contribution in https://github.com/spatie/laravel-backup/pull/1540
+- @bbashy made their first contribution in https://github.com/spatie/laravel-backup/pull/1544
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.2...8.1.3
+
 ## 8.1.2 - 2022-04-08
 
 ## What's Changed
