@@ -25,14 +25,15 @@ class MonitorCommand extends BaseCommand
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
 
         foreach ($statuses as $backupDestinationStatus) {
+            $backupName = $backupDestinationStatus->backupDestination()->backupName();
             $diskName = $backupDestinationStatus->backupDestination()->diskName();
 
             if ($backupDestinationStatus->isHealthy()) {
-                $this->info("The backups on {$diskName} are considered healthy.");
+                $this->info("The {$backupName} backup on the {$diskName} disk is considered healthy.");
                 event(new HealthyBackupWasFound($backupDestinationStatus));
             } else {
                 $hasError = true;
-                $this->error("The backups on {$diskName} are considered unhealthy!");
+                $this->error("The {$backupName} backup on the {$diskName} disk is considered unhealthy!");
                 event(new UnhealthyBackupWasFound($backupDestinationStatus));
             }
         }
