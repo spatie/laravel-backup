@@ -29,11 +29,11 @@ class MonitorCommand extends BaseCommand
             $diskName = $backupDestinationStatus->backupDestination()->diskName();
 
             if ($backupDestinationStatus->isHealthy()) {
-                $this->info("The {$backupName} backup on the {$diskName} disk is considered healthy.");
+                $this->info("The {$backupName} backups on the {$diskName} disk are considered healthy.");
                 event(new HealthyBackupWasFound($backupDestinationStatus));
             } else {
                 $hasError = true;
-                $this->error("The {$backupName} backup on the {$diskName} disk is considered unhealthy!");
+                $this->error("The {$backupName} backups on the {$diskName} disk are considered unhealthy!");
                 event(new UnhealthyBackupWasFound($backupDestinationStatus));
             }
         }
