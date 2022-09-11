@@ -30,7 +30,7 @@ namespace App\Notifications;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BaseNotification;
 use NotificationChannels\PusherPushNotifications\Message;
 
-class BackupHasFailed extends BaseNotification
+class BackupHasFailedNotification extends BaseNotification
 {
     public function toPushNotification($notifiable)
     {
@@ -43,9 +43,11 @@ class BackupHasFailed extends BaseNotification
 }
 ```
 
+note that the class name should be the same name as the base notification that you want to send otherwise an error will occur
+
 ### 3. Register your custom notification in the config file
 
-The last thing you need to do is register your custom notification in the config file.
+The last thing you need to do is replace your custom notification with the orignal one in the config file.
 
 ```php
 // config/backup.php
@@ -56,7 +58,7 @@ use \NotificationChannels\PusherPushNotifications\Channel as PusherChannel
     'notifications' => [
 
         'notifications' => [
-            \App\Notifications\BackupHasFailed::class => ['mail', 'slack', PusherChannel::class],
+            \App\Notifications\BackupHasFailedNotification::class => ['mail', 'slack', PusherChannel::class],
             ...
 ```
 
