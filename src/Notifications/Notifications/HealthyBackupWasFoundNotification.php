@@ -5,12 +5,15 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
+use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Notifications\BaseNotification;
 use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
 
 class HealthyBackupWasFoundNotification extends BaseNotification
 {
+    private string $content;
+
     public function __construct(
         public HealthyBackupWasFound $event,
     ) {
@@ -52,5 +55,17 @@ class HealthyBackupWasFoundNotification extends BaseNotification
                 'application_name' => $this->applicationName(),
                 ])
             )->fields($this->backupDestinationProperties()->toArray());
+    }
+
+    public function toTelegram(): TelegramMessage
+    {
+        $this->content = trans(
+                'backup::notifications.healthy_backup_found_subject',
+                ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]
+            )." ✅\n";
+
+        $this->backupDestinationProperties()->each(fn($value, $name) => $this->content .= "\n{$name}: $value");
+
+        return $this->telegramMessage($this->content);
     }
 }

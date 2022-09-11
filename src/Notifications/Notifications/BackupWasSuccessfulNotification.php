@@ -5,12 +5,15 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
+use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Notifications\BaseNotification;
 use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
 
-class BackupWasSuccessfulNotification extends BaseNotification
+class   BackupWasSuccessfulNotification extends BaseNotification
 {
+    private string $content;
+
     public function __construct(
         public BackupWasSuccessful $event,
     ) {
@@ -49,5 +52,14 @@ class BackupWasSuccessfulNotification extends BaseNotification
             ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
             ->title(trans('backup::notifications.backup_successful_subject_title'))
             ->fields($this->backupDestinationProperties()->toArray());
+    }
+
+    public function toTelegram(): TelegramMessage
+    {
+        $this->content = trans('backup::notifications.backup_successful_subject_title')." ✅\n";
+
+        $this->backupDestinationProperties()->each(fn($value, $name) => $this->content .= "\n{$name}: $value");
+
+        return $this->telegramMessage($this->content);
     }
 }

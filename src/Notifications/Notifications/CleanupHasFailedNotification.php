@@ -5,6 +5,7 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
+use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Notifications\BaseNotification;
 use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
@@ -65,5 +66,14 @@ class CleanupHasFailedNotification extends BaseNotification
             )->fields([
                 trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage(),
             ]);
+    }
+
+    public function toTelegram(): TelegramMessage
+    {
+        $content = trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()])." ⚠️\n\n";
+        $content .= trans('backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()])."\n\n\n";
+        $content .= trans('backup::notifications.exception_trace', ['trace' => $this->event->exception->getFile()]);
+
+        return $this->telegramMessage($content);
     }
 }

@@ -5,6 +5,7 @@ namespace Spatie\Backup\Notifications\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
+use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Notifications\BaseNotification;
 use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
@@ -12,6 +13,8 @@ use Spatie\Backup\Tasks\Monitor\HealthCheckFailure;
 
 class UnhealthyBackupWasFoundNotification extends BaseNotification
 {
+    private string $content;
+
     public function __construct(
         public UnhealthyBackupWasFound $event,
     ) {
@@ -94,6 +97,25 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
         }
 
         return $discordMessage;
+    }
+
+    public function toTelegram(): TelegramMessage
+    {
+        $this->content = trans(
+                'backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]
+            )." ⚠️\n\n";
+
+        $this->content .= $this->problemDescription()."\n";
+
+        $this->backupDestinationProperties()->each(fn($value, $name) => $this->content .= "\n{$name}: $value");
+
+        if ($this->failure()->wasUnexpected()) {
+            $this->content .= 'Health check: '.$this->failure()->healthCheck()->name();
+            $this->content .= trans('backup::notifications.exception_message', ['message' => $this->failure()->exception()->getMessage()]);
+            $this->content .= trans('backup::notifications.exception_trace', ['trace' => $this->failure()->exception()->getTraceAsString()]);
+        }
+
+        return $this->telegramMessage($this->content);
     }
 
     protected function problemDescription(): string
