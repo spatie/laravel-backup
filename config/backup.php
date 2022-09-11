@@ -201,6 +201,11 @@ return [
              */
             'avatar_url' => '',
         ],
+
+        'telegram' => [
+            'chat_id' => '',
+            'bot_token'=>''
+        ]
     ],
 
     /*

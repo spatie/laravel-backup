@@ -4,6 +4,7 @@ namespace Spatie\Backup\Notifications;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
+use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
 
@@ -80,5 +81,14 @@ abstract class BaseNotification extends Notification
         }
 
         return null;
+    }
+
+    protected function telegramMessage(string $content): TelegramMessage
+    {
+        return TelegramMessage::create()
+            ->to(config('backup.notifications.telegram.chat_id'))
+            ->token(config('backup.notifications.telegram.bot_token'))
+            ->content($content)
+            ->chunk();
     }
 }
