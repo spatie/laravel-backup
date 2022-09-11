@@ -37,6 +37,7 @@
     "require-dev": {
         "ext-pcntl": "*",
         "composer-runtime-api": "^2.0",
+        "laravel-notification-channels/telegram": "^2.1",
         "laravel/slack-notification-channel": "^2.4",
         "league/flysystem-aws-s3-v3": "^2.0|^3.0",
         "mockery/mockery": "^1.4",
