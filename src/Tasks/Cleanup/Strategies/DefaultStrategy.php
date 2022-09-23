@@ -94,7 +94,11 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups)
     {
-        if (! $oldest = $backups->oldest()) {
+        if (!$oldest = $backups->oldest()) {
+            return;
+        }
+
+        if (is_null($this->config->get('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than'))) {
             return;
         }
 
