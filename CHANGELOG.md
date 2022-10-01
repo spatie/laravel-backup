@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.4 - 2022-10-01
+
+### What's Changed
+
+- docs: replace v7 links with v8 by @tricki in https://github.com/spatie/laravel-backup/pull/1561
+- Update adding-extra-notification-channels.md by @llabbasmkhll in https://github.com/spatie/laravel-backup/pull/1571
+- Italian translations by @massiws in https://github.com/spatie/laravel-backup/pull/1580
+
+### New Contributors
+
+- @llabbasmkhll made their first contribution in https://github.com/spatie/laravel-backup/pull/1571
+- @massiws made their first contribution in https://github.com/spatie/laravel-backup/pull/1580
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.3...8.1.4
+
 ## 8.1.3 - 2022-08-04
 
 ### What's Changed
