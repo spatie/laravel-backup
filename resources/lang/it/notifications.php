@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => 'Dimensione backup più recente',
     'number_of_backups' => 'Numero di backup',
     'total_storage_used' => 'Spazio di archiviazione totale utilizzato',
-    'newest_backup_date' => 'Dimensione backup più recente',
-    'oldest_backup_date' => 'Dimensione backup più vecchia',
+    'newest_backup_date' => 'Data del backup più recente',
+    'oldest_backup_date' => 'Data del backup più vecchio',
 ];
