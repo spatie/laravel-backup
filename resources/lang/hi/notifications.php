@@ -1,17 +1,17 @@
 <?php
 
 return [
-    'exception_message' => 'गलती संदेश: :message',
-    'exception_trace' => 'गलती निशान: :trace',
-    'exception_message_title' => 'गलती संदेश',
-    'exception_trace_title' => 'गलती निशान',
+    'exception_message' => 'अपवाद संदेश: :message',
+    'exception_trace' => 'अपवाद निशान: :trace',
+    'exception_message_title' => 'अपवादी संदेश',
+    'exception_trace_title' => 'अपवाद निशान',
 
     'backup_failed_subject' => ':application_name का बैकअप असफल रहा',
     'backup_failed_body' => 'जरूरी सुचना: :application_name का बैकअप लेते समय असफल रहे',
 
     'backup_successful_subject' => ':application_name का बैकअप सफल रहा',
     'backup_successful_subject_title' => 'बैकअप सफल रहा!',
-    'backup_successful_body' => 'खुशखबरी, :application_name का बैकअप :disk_name पर संग्रहित करने मे सफल रहे.',
+    'backup_successful_body' => 'खुशखबर, :application_name का बैकअप :disk_name पर संग्रहित करने मे सफल रहे.',
 
     'cleanup_failed_subject' => ':application_name के बैकअप की सफाई असफल रही.',
     'cleanup_failed_body' => ':application_name के बैकअप की सफाई करते समय कुछ बाधा आयी है.',
