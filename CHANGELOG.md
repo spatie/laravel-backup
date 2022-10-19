@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.5 - 2022-10-19
+
+### What's Changed
+
+- Bump stefanzweifel/git-auto-commit-action from 4.14.1 to 4.15.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1579
+- PHP 8.2 Build by @erikn69 in https://github.com/spatie/laravel-backup/pull/1590
+- corrected some translations by @fadkeabhi in https://github.com/spatie/laravel-backup/pull/1594
+
+### New Contributors
+
+- @fadkeabhi made their first contribution in https://github.com/spatie/laravel-backup/pull/1594
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.4...8.1.5
+
 ## 8.1.4 - 2022-10-01
 
 ### What's Changed
