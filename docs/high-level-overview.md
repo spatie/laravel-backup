@@ -5,7 +5,7 @@ weight: 4
 
 ## Taking backups
 
-A backup is a .zip file containing all files in the directories you specify and a dump of your database (MySQL and PostgreSQL are supported). The .zip file can automatically be copied over to [any of the filesystems](https://laravel.com/docs/8.x/filesystem) you have configured.
+A backup is a .zip file containing all files in the directories you specify and a dump of your database (MySQL and PostgreSQL are supported). The .zip file can automatically be copied over to [any of the filesystems](https://laravel.com/docs/9.x/filesystem) you have configured.
 
 To perform a new backup you just have to run `php artisan backup:run`. In most cases you'll want to schedule this command.
 
