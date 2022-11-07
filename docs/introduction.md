@@ -3,7 +3,7 @@ title: Introduction
 weight: 1
 ---
 
-This Laravel package creates a backup of your application. The backup is a zipfile that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems](https://laravel.com/docs/8.x/filesystem)  you have configured. The package can also notify you via Mail, Slack or any notification provider when something goes wrong with your backups.
+This Laravel package creates a backup of your application. The backup is a zipfile that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems](https://laravel.com/docs/9.x/filesystem)  you have configured. The package can also notify you via Mail, Slack or any notification provider when something goes wrong with your backups.
 
 Feeling paranoid about backups? Don't be! You can backup your application to multiple filesystems at once.
 
