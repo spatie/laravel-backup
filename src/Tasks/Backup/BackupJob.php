@@ -58,9 +58,7 @@ class BackupJob
 
     public function onlyDbName(array $allowedDbNames): self
     {
-        $this->dbDumpers = $this->dbDumpers->filter(
-            fn (DbDumper $dbDumper, string $connectionName) => in_array($connectionName, $allowedDbNames)
-        );
+        $this->dbDumpers = collect([$allowedDbNames[0] => DbDumperFactory::createFromConnection($allowedDbNames[0])]);
 
         return $this;
     }
