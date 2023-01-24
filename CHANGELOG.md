@@ -2,6 +2,30 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.6 - 2023-01-24
+
+### What's Changed
+
+- Fix error an Installation Doc by @thomasdominic in https://github.com/spatie/laravel-backup/pull/1605
+- Update high-level-overview.md by @souravtah in https://github.com/spatie/laravel-backup/pull/1607
+- Update introduction.md by @souravtah in https://github.com/spatie/laravel-backup/pull/1606
+- Add Dependabot Automation by @patinthehat in https://github.com/spatie/laravel-backup/pull/1616
+- fix: zh-TW translation by @hms5232 in https://github.com/spatie/laravel-backup/pull/1584
+- Bump stefanzweifel/git-auto-commit-action from 4.15.0 to 4.15.4 by @dependabot in https://github.com/spatie/laravel-backup/pull/1617
+- Bump ramsey/composer-install from 1 to 2 by @dependabot in https://github.com/spatie/laravel-backup/pull/1618
+- Update Readme Banner by @patinthehat in https://github.com/spatie/laravel-backup/pull/1621
+- Bump stefanzweifel/git-auto-commit-action from 4.15.4 to 4.16.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1625
+- Fix tests badge by @erikn69 in https://github.com/spatie/laravel-backup/pull/1629
+- Laravel 10.x support by @erikn69 in https://github.com/spatie/laravel-backup/pull/1631
+
+### New Contributors
+
+- @thomasdominic made their first contribution in https://github.com/spatie/laravel-backup/pull/1605
+- @souravtah made their first contribution in https://github.com/spatie/laravel-backup/pull/1607
+- @hms5232 made their first contribution in https://github.com/spatie/laravel-backup/pull/1584
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.5...8.1.6
+
 ## 8.1.5 - 2022-10-19
 
 ### What's Changed
