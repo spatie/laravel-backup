@@ -28,9 +28,11 @@ class DiscordMessage
 
     protected string $url = '';
 
-    public function from(string $username, string $avatarUrl = null): self
+    public function from(string $username = null, string $avatarUrl = null): self
     {
-        $this->username = $username;
+        if (! empty(trim($username))) {
+            $this->username = $username;
+        }
 
         if (! is_null($avatarUrl)) {
             $this->avatarUrl = $avatarUrl;
@@ -111,7 +113,7 @@ class DiscordMessage
     public function toArray(): array
     {
         return [
-            'username' => $this->username ?? 'Laravel Backup',
+            'username' => $this->username,
             'avatar_url' => $this->avatarUrl,
             'embeds' => [
                 [
