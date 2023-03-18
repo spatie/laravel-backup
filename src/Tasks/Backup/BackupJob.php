@@ -307,10 +307,7 @@ class BackupJob
     protected function sendNotification($notification): void
     {
         if ($this->sendNotifications) {
-            rescue(
-                fn () => event($notification),
-                fn () => consoleOutput()->error('Sending notification failed')
-            );
+           event($notification);
         }
     }
 

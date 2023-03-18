@@ -27,7 +27,10 @@ class EventHandler
 
             $notification = $this->determineNotification($event);
 
-            $notifiable->notify($notification);
+            rescue(
+                fn () => $notifiable->notify($notification),
+                fn () => consoleOutput()->error("Sending notification failed")
+            );
         });
     }
 

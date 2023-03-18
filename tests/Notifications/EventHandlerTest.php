@@ -1,10 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Mockery\MockInterface;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BackupHasFailedNotification;
+use Spatie\Backup\Tests\TestSupport\DummyListener;
 
 beforeEach(function () {
     Notification::fake();
@@ -30,6 +33,18 @@ it('will send a notification via the configured notification channels', function
     [['mail', 'slack']],
     [['mail', 'slack', 'discord']],
 ]);
+
+it('will not block other listeners when sending notification failed', function () {
+    Event::listen(BackupHasFailed::class, DummyListener::class);
+    $this->mock(DummyListener::class, function (MockInterface $mock) {
+        $mock->shouldReceive('handle')->once();
+    });
+    $this->mock(config('backup.notifications.notifiable'), function (MockInterface $mock) {
+        $mock->shouldReceive('notify')->andThrow(new Exception('Failed to send notification'));
+    });
+
+    fireBackupHasFailedEvent();
+});
 
 function fireBackupHasFailedEvent()
 {
