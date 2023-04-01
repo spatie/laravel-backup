@@ -8,16 +8,16 @@ use Spatie\Backup\Exceptions\InvalidHealthCheck;
 
 abstract class HealthCheck
 {
-    abstract public function checkHealth(BackupDestination $backupDestination);
+    abstract public function checkHealth(BackupDestination $backupDestination): void;
 
-    public function name(): string
+    public function getName(): string
     {
         return Str::title(class_basename($this));
     }
 
     protected function fail(string $message): void
     {
-        throw InvalidHealthCheck::because($message);
+        throw new InvalidHealthCheck($message);
     }
 
     protected function failIf(bool $condition, string $message): void
@@ -29,7 +29,7 @@ abstract class HealthCheck
 
     protected function failUnless(bool $condition, string $message): void
     {
-        if (! $condition) {
+        if (!$condition) {
             $this->fail($message);
         }
     }
