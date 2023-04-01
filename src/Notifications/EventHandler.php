@@ -22,23 +22,27 @@ class EventHandler
 
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen($this->allBackupEventClasses(), function ($event) {
-            $notifiable = $this->determineNotifiable();
+        $events->listen($this->getAllBackupEventClasses(), function ($event) {
+            $notifiable = $this->getNotifiable();
 
-            $notification = $this->determineNotification($event);
+            $notification = $this->getNotification($event);
 
-            $notifiable->notify($notification);
+            try {
+                $notifiable->notify($notification);
+            } catch (\Exception $e) {
+                throw new NotificationCouldNotBeSent("Failed to send notification: {$e->getMessage()}");
+            }
         });
     }
 
-    protected function determineNotifiable()
+    protected function getNotifiable()
     {
         $notifiableClass = $this->config->get('backup.notifications.notifiable');
 
         return app($notifiableClass);
     }
 
-    protected function determineNotification($event): Notification
+    protected function getNotification($event): Notification
     {
         $lookingForNotificationClass = class_basename($event) . "Notification";
 
@@ -47,13 +51,13 @@ class EventHandler
             ->first(fn (string $notificationClass) => class_basename($notificationClass) === $lookingForNotificationClass);
 
         if (! $notificationClass) {
-            throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
+            throw new NotificationCouldNotBeSent("No notification class found for event: " . class_basename($event));
         }
 
         return new $notificationClass($event);
     }
 
-    protected function allBackupEventClasses(): array
+    protected function getAllBackupEventClasses(): array
     {
         return [
             BackupHasFailed::class,
