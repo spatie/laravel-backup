@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.8 - 2023-04-12
+
+### What's Changed
+
+- Add croatian translations. by @kskrlinnorth2 in https://github.com/spatie/laravel-backup/pull/1657
+
+### New Contributors
+
+- @kskrlinnorth2 made their first contribution in https://github.com/spatie/laravel-backup/pull/1657
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.7...8.1.8
+
 ## 8.1.7 - 2023-02-03
 
 ### What's Changed
