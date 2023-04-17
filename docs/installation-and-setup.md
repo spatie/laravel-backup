@@ -213,9 +213,15 @@ return [
         'discord' => [
             'webhook_url' => '',
 
-            'username' => null,
+            /*
+             * If this is an empty string, the name field on the webhook will be used.
+             */
+            'username' => '',
 
-            'avatar_url' => null,
+            /*
+             * If this is an empty string, the avatar on the webhook will be used.
+             */
+            'avatar_url' => '',
         ],
     ],
 
