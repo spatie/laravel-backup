@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.9 - 2023-04-25
+
+### What's Changed
+
+- Updated docs "Installation and setup" by @poldixd in https://github.com/spatie/laravel-backup/pull/1658
+- Show accurate list of supported drivers when throwing `CannotCreateDbDumper` exception by @dejagersh in https://github.com/spatie/laravel-backup/pull/1661
+
+### New Contributors
+
+- @poldixd made their first contribution in https://github.com/spatie/laravel-backup/pull/1658
+- @dejagersh made their first contribution in https://github.com/spatie/laravel-backup/pull/1661
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.8...8.1.9
+
 ## 8.1.8 - 2023-04-12
 
 ### What's Changed
