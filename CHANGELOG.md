@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.10 - 2023-05-02
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1663
+- Updates fa translations by @fsamapoor in https://github.com/spatie/laravel-backup/pull/1664
+
+### New Contributors
+
+- @fsamapoor made their first contribution in https://github.com/spatie/laravel-backup/pull/1664
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.9...8.1.10
+
 ## 8.1.9 - 2023-04-25
 
 ### What's Changed
