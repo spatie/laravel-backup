@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => 'جدیدترین اندازه پشتیبان',
     'number_of_backups' => 'تعداد پشتیبان گیری',
     'total_storage_used' => 'کل فضای ذخیره سازی استفاده شده',
-    'newest_backup_date' => 'جدیدترین اندازه پشتیبان',
-    'oldest_backup_date' => 'قدیمی ترین اندازه پشتیبان',
+    'newest_backup_date' => 'جدیدترین تاریخ پشتیبان',
+    'oldest_backup_date' => 'قدیمی ترین تاریخ پشتیبان',
 ];
