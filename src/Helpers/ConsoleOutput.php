@@ -5,6 +5,7 @@ namespace Spatie\Backup\Helpers;
 use Illuminate\Console\Command;
 
 /**
+ * @phpstan-ignore-next-line
  * @mixin \Illuminate\Console\Concerns\InteractsWithIO
  */
 class ConsoleOutput
