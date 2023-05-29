@@ -9,7 +9,7 @@ class DiscordChannel
 {
     public function send($notifiable, Notification $notification): void
     {
-        $discordMessage = $notification->toDiscord();
+        $discordMessage = $notification->toDiscord(); // @phpstan-ignore-line
 
         $discordWebhook = $notifiable->routeNotificationForDiscord();
 

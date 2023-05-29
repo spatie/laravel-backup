@@ -1,26 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Spatie\\\\Backup\\\\BackupDestination\\\\BackupCollection\\:\\:createFromFiles\\(\\) should return Spatie\\\\Backup\\\\BackupDestination\\\\BackupCollection but returns Illuminate\\\\Support\\\\Collection\\<int, Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\.$#"
-			count: 1
-			path: src/BackupDestination/BackupCollection.php
-
-		-
-			message: "#^PHPDoc tag @mixin contains invalid type Illuminate\\\\Console\\\\Concerns\\\\InteractsWithIO\\.$#"
-			count: 1
-			path: src/Helpers/ConsoleOutput.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
-			count: 1
-			path: src/Listeners/EncryptBackupArchive.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Notifications\\\\Notification\\:\\:toDiscord\\(\\)\\.$#"
-			count: 1
-			path: src/Notifications/Channels/Discord/DiscordChannel.php
-
-		-
 			message: "#^Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), Spatie\\\\Backup\\\\BackupDestination\\\\BackupCollection\\> does not accept Illuminate\\\\Support\\\\Collection\\.$#"
 			count: 4
 			path: src/Tasks/Cleanup/Strategies/DefaultStrategy.php
