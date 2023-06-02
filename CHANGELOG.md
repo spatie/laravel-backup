@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.1.11 - 2023-06-02
+
+### What's Changed
+
+- Fix typo in config by @siarheipashkevich in https://github.com/spatie/laravel-backup/pull/1673
+- Fix PhpStan test by @erikn69 in https://github.com/spatie/laravel-backup/pull/1674
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/spatie/laravel-backup/pull/1676
+- Add Hebrew translations. by @gasner in https://github.com/spatie/laravel-backup/pull/1677
+
+### New Contributors
+
+- @siarheipashkevich made their first contribution in https://github.com/spatie/laravel-backup/pull/1673
+- @gasner made their first contribution in https://github.com/spatie/laravel-backup/pull/1677
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.10...8.1.11
+
 ## 8.1.10 - 2023-05-02
 
 ### What's Changed
