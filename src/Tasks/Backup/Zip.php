@@ -39,11 +39,11 @@ class Zip
         $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR;
 
         if (Str::startsWith($fileDirectory, $zipDirectory)) {
-            return str_replace($zipDirectory, '', $pathToFile);
+            return substr($pathToFile, strlen($zipDirectory));
         }
 
         if ($relativePath && $relativePath != DIRECTORY_SEPARATOR && Str::startsWith($fileDirectory, $relativePath)) {
-            return str_replace($relativePath, '', $pathToFile);
+            return substr($pathToFile, strlen($pathToFile));
         }
 
         return $pathToFile;
