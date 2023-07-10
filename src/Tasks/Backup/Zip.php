@@ -43,7 +43,7 @@ class Zip
         }
 
         if ($relativePath && $relativePath != DIRECTORY_SEPARATOR && Str::startsWith($fileDirectory, $relativePath)) {
-            return substr($pathToFile, strlen($pathToFile));
+            return substr($pathToFile, strlen($relativePath));
         }
 
         return $pathToFile;
