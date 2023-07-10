@@ -1,5 +1,5 @@
 {
-    "name": "spatie/laravel-backup",
+    "name": "metafox/laravel-backup",
     "description": "A Laravel package to backup your application",
     "keywords": [
         "spatie",
