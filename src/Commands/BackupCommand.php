@@ -9,13 +9,17 @@ use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 
 class BackupCommand extends BaseCommand
 {
-    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=}';
+    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=} {--tries=}';
 
     protected $description = 'Run the backup.';
 
+    protected int $tries = 1;
+
+    protected int $currentTry = 1;
+
     public function handle()
     {
-        consoleOutput()->comment('Starting backup...');
+        consoleOutput()->comment($this->currentTry > 1 ? sprintf('Attempt n°%d...', $this->currentTry) : 'Starting backup...');
 
         $disableNotifications = $this->option('disable-notifications');
 
@@ -47,6 +51,12 @@ class BackupCommand extends BaseCommand
                 $backupJob->setFilename($this->option('filename'));
             }
 
+            if ($this->option('tries')) {
+                $this->tries = (int)$this->option('tries');
+            } elseif (!empty(config('backup.backup.tries'))) {
+                $this->tries = (int)config('backup.backup.tries');
+            }
+
             if ($disableNotifications) {
                 $backupJob->disableNotifications();
             }
@@ -59,6 +69,15 @@ class BackupCommand extends BaseCommand
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {
+            if ($this->tries > 1 && $this->currentTry < $this->tries) {
+                if (!empty(config('backup.backup.retry_delay'))) {
+                    sleep((int)config('backup.backup.retry_delay'));
+                }
+
+                $this->currentTry += 1;
+                return $this->handle();
+            }
+
             consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
 
             report($exception);
