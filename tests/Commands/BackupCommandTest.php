@@ -354,3 +354,27 @@ it('excludes the previous local backups from the backup', function () {
 
     $this->assertFileDoesntExistsInZip('local', $this->expectedZipPath, '2016-01-01-20-01-01.zip');
 });
+
+it('should try again after encountering an exception when using the tries argument', function () {
+    // Use an invalid dbname to trigger failure
+    $exitCode = Artisan::call('backup:run --only-db --db-name=wrongName --tries=3');
+    $output = Artisan::output();
+
+    expect($exitCode)->toEqual(1);
+
+    $this->assertStringContainsString('Attempt n°2...', $output);
+    $this->assertStringContainsString('Attempt n°3...', $output);
+});
+
+it('should try again after encountering an exception when using the tries configuration option', function () {
+    config()->set('backup.backup.tries', 3);
+
+    // Use an invalid dbname to trigger failure
+    $exitCode = Artisan::call('backup:run --only-db --db-name=wrongName');
+    $output = Artisan::output();
+
+    expect($exitCode)->toEqual(1);
+
+    $this->assertStringContainsString('Attempt n°2...', $output);
+    $this->assertStringContainsString('Attempt n°3...', $output);
+});

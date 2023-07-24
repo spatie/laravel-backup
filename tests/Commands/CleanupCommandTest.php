@@ -151,3 +151,30 @@ it('should display correct used storage amount after cleanup', function () {
 
     $this->seeInConsoleOutput('after cleanup: 4 MB.');
 });
+
+it('should try again after encountering an exception when using the tries argument', function () {
+    // Use an invalid destination disk to trigger an exception
+    config()->set('backup.backup.destination.disks', ['wrong']);
+
+    $exitCode = Artisan::call('backup:clean --tries=3');
+    $output = Artisan::output();
+
+    expect($exitCode)->toEqual(1);
+
+    $this->assertStringContainsString('Attempt n°2...', $output);
+    $this->assertStringContainsString('Attempt n°3...', $output);
+});
+
+it('should try again after encountering an exception when using the tries configuration option', function () {
+    config()->set('backup.cleanup.tries', 3);
+    // Use an invalid destination disk to trigger an exception
+    config()->set('backup.backup.destination.disks', ['wrong']);
+
+    $exitCode = Artisan::call('backup:clean');
+    $output = Artisan::output();
+
+    expect($exitCode)->toEqual(1);
+
+    $this->assertStringContainsString('Attempt n°2...', $output);
+    $this->assertStringContainsString('Attempt n°3...', $output);
+});
