@@ -202,4 +202,4 @@ it('should wait before trying again when retry_delay is configured (with Sleep h
         Sleep::for(3)->seconds(),
         Sleep::for(3)->seconds(),
     ]);
-})->skip(!isSleepHelperAvailable(), 'requires the Sleep helper (Laravel >= 10)');
+});

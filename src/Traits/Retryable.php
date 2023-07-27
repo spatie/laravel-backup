@@ -26,12 +26,7 @@ trait Retryable
 
     protected function sleepFor(int $seconds = 0)
     {
-        if (isSleepHelperAvailable()) {
-            Sleep::for($seconds)->seconds();
-            return;
-        }
-
-        sleep($seconds);
+        Sleep::for($seconds)->seconds();
     }
 
     protected function setTries(string $type)
