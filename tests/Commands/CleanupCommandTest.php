@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Sleep;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 
@@ -178,3 +179,27 @@ it('should try again after encountering an exception when using the tries config
     $this->assertStringContainsString('Attempt n°2...', $output);
     $this->assertStringContainsString('Attempt n°3...', $output);
 });
+
+it('should wait before trying again when retry_delay is configured (with Sleep helper)', function () {
+    Sleep::fake();
+
+    // Use an invalid destination disk to trigger an exception
+    config()->set('backup.backup.destination.disks', ['wrong']);
+
+    config()->set('backup.cleanup.tries', 3);
+    config()->set('backup.cleanup.retry_delay', 3);
+
+    $exitCode = Artisan::call('backup:clean');
+    $output = Artisan::output();
+
+    expect($exitCode)->toEqual(1);
+
+    $this->assertStringContainsString('Attempt n°2...', $output);
+    $this->assertStringContainsString('Attempt n°3...', $output);
+
+    Sleep::assertSleptTimes(2);
+    Sleep::assertSequence([
+        Sleep::for(3)->seconds(),
+        Sleep::for(3)->seconds(),
+    ]);
+})->skip(!isSleepHelperAvailable(), 'requires the Sleep helper (Laravel >= 10)');
