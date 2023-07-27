@@ -3,19 +3,18 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
+use Spatie\Backup\Traits\Retryable;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 
 class BackupCommand extends BaseCommand
 {
+    use Retryable;
+
     protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=} {--tries=}';
 
     protected $description = 'Run the backup.';
-
-    protected int $tries = 1;
-
-    protected int $currentTry = 1;
 
     public function handle()
     {
@@ -51,11 +50,7 @@ class BackupCommand extends BaseCommand
                 $backupJob->setFilename($this->option('filename'));
             }
 
-            if ($this->option('tries')) {
-                $this->tries = (int)$this->option('tries');
-            } elseif (!empty(config('backup.backup.tries'))) {
-                $this->tries = (int)config('backup.backup.tries');
-            }
+            $this->setTries('backup');
 
             if ($disableNotifications) {
                 $backupJob->disableNotifications();
@@ -69,9 +64,9 @@ class BackupCommand extends BaseCommand
 
             consoleOutput()->comment('Backup completed!');
         } catch (Exception $exception) {
-            if ($this->tries > 1 && $this->currentTry < $this->tries) {
-                if (!empty(config('backup.backup.retry_delay'))) {
-                    sleep((int)config('backup.backup.retry_delay'));
+            if ($this->shouldRetry()) {
+                if ($this->hasRetryDelay('backup')) {
+                    $this->sleepFor($this->getRetryDelay('backup'));
                 }
 
                 $this->currentTry += 1;
