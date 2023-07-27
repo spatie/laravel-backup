@@ -1,8 +1,10 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Sleep;
 use Illuminate\Support\Facades\Event;
+use Carbon\CarbonInterval as Duration;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -378,3 +380,25 @@ it('should try again after encountering an exception when using the tries config
     $this->assertStringContainsString('Attempt n°2...', $output);
     $this->assertStringContainsString('Attempt n°3...', $output);
 });
+
+it('should wait before trying again when retry_delay is configured (with Sleep helper)', function () {
+    Sleep::fake();
+
+    config()->set('backup.backup.tries', 3);
+    config()->set('backup.backup.retry_delay', 3);
+
+    // Use an invalid dbname to trigger failure
+    $exitCode = Artisan::call('backup:run --only-db --db-name=wrongName');
+    $output = Artisan::output();
+
+    expect($exitCode)->toEqual(1);
+
+    $this->assertStringContainsString('Attempt n°2...', $output);
+    $this->assertStringContainsString('Attempt n°3...', $output);
+
+    Sleep::assertSleptTimes(2);
+    Sleep::assertSequence([
+        Sleep::for(3)->seconds(),
+        Sleep::for(3)->seconds(),
+    ]);
+})->skip(!isSleepHelperAvailable(), 'requires the Sleep helper (Laravel >= 10)');
