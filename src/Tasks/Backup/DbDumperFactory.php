@@ -45,7 +45,8 @@ class DbDumperFactory
             ->setPassword($dbConfig['password'] ?? '');
 
         if ($dbDumper instanceof MySql) {
-            $dbDumper->setDefaultCharacterSet($dbConfig['charset'] ?? '')
+            $dbDumper
+                ->setDefaultCharacterSet($dbConfig['charset'] ?? '')
                 ->setGtidPurged($dbConfig['dump']['mysql_gtid_purged'] ?? 'AUTO');
         }
 
