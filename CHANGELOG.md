@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.3.0 - 2023-08-09
+
+### What's Changed
+
+- Add a retry feature to the `backup` and `clean` commands by @prestamodule in https://github.com/spatie/laravel-backup/pull/1684
+
+### New Contributors
+
+- @prestamodule made their first contribution in https://github.com/spatie/laravel-backup/pull/1684
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.2.0...8.3.0
+
 ## 8.2.0 - 2023-08-09
 
 ### What's Changed
