@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.2.0 - 2023-08-09
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1681
+- Added configurable gtid purge method by @rcerljenko in https://github.com/spatie/laravel-backup/pull/1689
+
+### New Contributors
+
+- @rcerljenko made their first contribution in https://github.com/spatie/laravel-backup/pull/1689
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.1.11...8.2.0
+
 ## 8.1.11 - 2023-06-02
 
 ### What's Changed
