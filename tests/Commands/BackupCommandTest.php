@@ -1,11 +1,10 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Support\Sleep;
-use Illuminate\Support\Facades\Event;
-use Carbon\CarbonInterval as Duration;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Sleep;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\DbDumper\Compressors\GzipCompressor;

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Sleep;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Sleep;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 
 beforeEach(function () {

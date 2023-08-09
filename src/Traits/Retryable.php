@@ -21,7 +21,7 @@ trait Retryable
 
     protected function hasRetryDelay(string $type)
     {
-        return !empty($this->getRetryDelay($type));
+        return ! empty($this->getRetryDelay($type));
     }
 
     protected function sleepFor(int $seconds = 0)
@@ -33,6 +33,7 @@ trait Retryable
     {
         if ($this->option('tries')) {
             $this->tries = (int)$this->option('tries');
+
             return;
         }
 

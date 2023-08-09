@@ -3,11 +3,11 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
-use Spatie\Backup\Traits\Retryable;
+use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
-use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Traits\Retryable;
 
 class CleanupCommand extends BaseCommand
 {
@@ -53,6 +53,7 @@ class CleanupCommand extends BaseCommand
                 }
 
                 $this->currentTry += 1;
+
                 return $this->handle();
             }
 

@@ -3,10 +3,10 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
-use Spatie\Backup\Traits\Retryable;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
+use Spatie\Backup\Traits\Retryable;
 
 class BackupCommand extends BaseCommand
 {
@@ -70,6 +70,7 @@ class BackupCommand extends BaseCommand
                 }
 
                 $this->currentTry += 1;
+
                 return $this->handle();
             }
 
