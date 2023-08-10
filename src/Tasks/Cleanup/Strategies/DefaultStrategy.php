@@ -20,6 +20,7 @@ class DefaultStrategy extends CleanupStrategy
 
         $dateRanges = $this->calculateDateRanges();
 
+        /** @var Collection<(string|BackupCollection)> */
         $backupsPerPeriod = $dateRanges->map(function (Period $period) use ($backups) {
             return $backups
                 ->filter(fn (Backup $backup) => $backup->date()->between($period->startDate(), $period->endDate()));
