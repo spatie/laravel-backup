@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.3.1 - 2023-08-10
+
+### What's Changed
+
+- bump php version on phpstan.yml by @erikn69 in https://github.com/spatie/laravel-backup/pull/1693
+- Fix: relative_path too short, example: /app by @erikn69 in https://github.com/spatie/laravel-backup/pull/1694
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.3.0...8.3.1
+
 ## 8.3.0 - 2023-08-09
 
 ### What's Changed
