@@ -1,6 +1,2 @@
 parameters:
 	ignoreErrors:
-		-
-			message: "#^Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), Spatie\\\\Backup\\\\BackupDestination\\\\BackupCollection\\> does not accept Illuminate\\\\Support\\\\Collection\\.$#"
-			count: 4
-			path: src/Tasks/Cleanup/Strategies/DefaultStrategy.php
