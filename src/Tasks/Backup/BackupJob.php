@@ -253,6 +253,10 @@ class BackupJob
                 $fileName .= '.'.$dbDumper->getCompressorExtension();
             }
 
+            if (config('backup.backup.hex_blob')) {
+                $dbDumper->addExtraOption('--hex-blob');
+            }
+
             $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
             event(new DumpingDatabase($dbDumper));
