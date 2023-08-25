@@ -12,7 +12,7 @@ class BackupHasFailed
         public Exception $exception,
         public ?BackupDestination $backupDestination = null,
     ) {
-        if($this->exception instanceof BackupFailed) {
+        if ($this->exception instanceof BackupFailed) {
             $this->backupDestination = $this->exception->backupDestination;
         }
     }
