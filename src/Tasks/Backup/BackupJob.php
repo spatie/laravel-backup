@@ -12,6 +12,7 @@ use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Events\DumpingDatabase;
+use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 use Spatie\DbDumper\Databases\MongoDb;
@@ -173,7 +174,7 @@ class BackupJob
 
             $this->temporaryDirectory->delete();
 
-            throw $exception;
+            throw BackupFailed::from($exception);
         }
 
         $this->temporaryDirectory->delete();
@@ -300,7 +301,7 @@ class BackupJob
                 } catch (Exception $exception) {
                     consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
-                    throw $exception;
+                    throw BackupFailed::from($exception)->destination($backupDestination);
                 }
             });
     }
