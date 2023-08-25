@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BackupHasFailedNotification;
 
@@ -33,8 +33,6 @@ it('will send a notification via the configured notification channels', function
 ]);
 
 it('it will send backup failed notification once', function () {
-    Notification::fake();
-
     config()->set('backup.backup.source.files.include', []);
     config()->set('backup.backup.source.databases', []);
 
@@ -44,8 +42,6 @@ it('it will send backup failed notification once', function () {
 });
 
 it('it will send backup failed notification once with retries', function () {
-    Notification::fake();
-
     config()->set('backup.backup.destination.disks', ['non-existing-disk']);
     config()->set('backup.backup.source.files.include', []);
     config()->set('backup.backup.source.databases', []);
