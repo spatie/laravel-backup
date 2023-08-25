@@ -28,7 +28,7 @@ class CleanupCommand extends BaseCommand
         $this->strategy = $strategy;
     }
 
-    public function handle()
+    public function handle(): int
     {
         consoleOutput()->comment($this->currentTry > 1 ? sprintf('Attempt n°%d...', $this->currentTry) : 'Starting cleanup...');
 
@@ -46,6 +46,8 @@ class CleanupCommand extends BaseCommand
             $cleanupJob->run();
 
             consoleOutput()->comment('Cleanup completed!');
+
+            return static::SUCCESS;
         } catch (Exception $exception) {
             if ($this->shouldRetry()) {
                 if ($this->hasRetryDelay('cleanup')) {
@@ -61,7 +63,7 @@ class CleanupCommand extends BaseCommand
                 event(new CleanupHasFailed($exception));
             }
 
-            return 1;
+            return static::FAILURE;
         }
     }
 }
