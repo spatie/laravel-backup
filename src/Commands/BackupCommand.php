@@ -16,7 +16,7 @@ class BackupCommand extends BaseCommand
 
     protected $description = 'Run the backup.';
 
-    public function handle()
+    public function handle(): int
     {
         consoleOutput()->comment($this->currentTry > 1 ? sprintf('Attempt n°%d...', $this->currentTry) : 'Starting backup...');
 
@@ -63,6 +63,8 @@ class BackupCommand extends BaseCommand
             $backupJob->run();
 
             consoleOutput()->comment('Backup completed!');
+
+            return static::SUCCESS;
         } catch (Exception $exception) {
             if ($this->shouldRetry()) {
                 if ($this->hasRetryDelay('backup')) {
@@ -82,7 +84,7 @@ class BackupCommand extends BaseCommand
                 event(new BackupHasFailed($exception));
             }
 
-            return 1;
+            return static::FAILURE;
         }
     }
 

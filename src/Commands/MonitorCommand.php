@@ -14,7 +14,7 @@ class MonitorCommand extends BaseCommand
     /** @var string */
     protected $description = 'Monitor the health of all backups.';
 
-    public function handle()
+    public function handle(): int
     {
         if (config()->has('backup.monitorBackups')) {
             $this->warn("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
@@ -39,7 +39,9 @@ class MonitorCommand extends BaseCommand
         }
 
         if ($hasError) {
-            return 1;
+            return static::FAILURE;
         }
+
+        return static::SUCCESS;
     }
 }
