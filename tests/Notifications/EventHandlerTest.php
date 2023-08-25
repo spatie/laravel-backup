@@ -31,6 +31,17 @@ it('will send a notification via the configured notification channels', function
     [['mail', 'slack', 'discord']],
 ]);
 
+it('it will send backup failed notification once', function () {
+    Notification::fake();
+
+    config()->set('backup.backup.source.files.include', []);
+    config()->set('backup.backup.source.databases', []);
+
+    $this->artisan('backup:run');
+
+    Notification::assertSentTimes(BackupHasFailedNotification::class, 1);
+});
+
 function fireBackupHasFailedEvent()
 {
     $exception = new Exception('Dummy exception');
