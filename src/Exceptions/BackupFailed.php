@@ -5,6 +5,9 @@ namespace Spatie\Backup\Exceptions;
 use Exception;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
+/**
+ * @method Exception getPrevious()
+ */
 class BackupFailed extends Exception
 {
     public ?BackupDestination $backupDestination = null;
