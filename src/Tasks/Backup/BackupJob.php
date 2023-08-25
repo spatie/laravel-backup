@@ -8,7 +8,6 @@ use Generator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -134,6 +133,9 @@ class BackupJob
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     public function run(): void
     {
         $temporaryDirectoryPath = config('backup.backup.temporary_directory') ?? storage_path('app/backup-temp');
@@ -168,8 +170,6 @@ class BackupJob
             $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
             consoleOutput()->error("Backup failed because {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
-
-            $this->sendNotification(new BackupHasFailed($exception));
 
             $this->temporaryDirectory->delete();
 
@@ -278,6 +278,9 @@ class BackupJob
             ->toArray();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function copyToBackupDestinations(string $path): void
     {
         $this->backupDestinations
@@ -296,8 +299,6 @@ class BackupJob
                     $this->sendNotification(new BackupWasSuccessful($backupDestination));
                 } catch (Exception $exception) {
                     consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
-
-                    $this->sendNotification(new BackupHasFailed($exception, $backupDestination));
 
                     throw $exception;
                 }
