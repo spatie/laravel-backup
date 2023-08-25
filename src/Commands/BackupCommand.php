@@ -76,8 +76,6 @@ class BackupCommand extends BaseCommand
                 return $this->handle();
             }
 
-            consoleOutput()->error("Backup failed because: {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
-
             report($exception);
 
             if (! $disableNotifications) {
