@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
@@ -38,6 +39,18 @@ it('it will send backup failed notification once', function () {
     config()->set('backup.backup.source.databases', []);
 
     $this->artisan('backup:run');
+
+    Notification::assertSentTimes(BackupHasFailedNotification::class, 1);
+});
+
+it('it will send backup failed notification once with retries', function () {
+    Notification::fake();
+
+    config()->set('backup.backup.destination.disks', ['non-existing-disk']);
+    config()->set('backup.backup.source.files.include', []);
+    config()->set('backup.backup.source.databases', []);
+
+    $this->artisan('backup:run', ['--only-files' => true, '--tries' => 5]);
 
     Notification::assertSentTimes(BackupHasFailedNotification::class, 1);
 });
