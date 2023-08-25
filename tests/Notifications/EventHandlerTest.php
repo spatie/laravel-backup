@@ -51,6 +51,16 @@ it('it will send backup failed notification once with retries', function () {
     Notification::assertSentTimes(BackupHasFailedNotification::class, 1);
 });
 
+test('notification contains the original exception instead of BackupFailed', function(){
+    $exception = BackupFailed::from(new InvalidArgumentException('Something Went Wrong...'));
+
+    event(new BackupHasFailed($exception->getPrevious()));
+
+    Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function ($notification) {
+        return $notification->event->exception instanceof InvalidArgumentException;
+    });
+});
+
 function fireBackupHasFailedEvent()
 {
     $exception = new Exception('Dummy exception');
