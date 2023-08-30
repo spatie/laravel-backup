@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BackupHasFailedNotification;
 

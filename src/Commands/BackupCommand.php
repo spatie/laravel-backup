@@ -82,7 +82,8 @@ class BackupCommand extends BaseCommand
             report($exception);
 
             if (! $disableNotifications) {
-                event($exception instanceof BackupFailed
+                event(
+                    $exception instanceof BackupFailed
                     ? new BackupHasFailed($exception->getPrevious(), $exception->backupDestination)
                     : new BackupHasFailed($exception)
                 );
