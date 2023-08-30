@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.3.2 - 2023-08-30
+
+### What's Changed
+
+- Fix for PhpStan by @erikn69 in https://github.com/spatie/laravel-backup/pull/1695
+- Update Laravel & Backup Server docs URL to latest version by @rico-vz in https://github.com/spatie/laravel-backup/pull/1697
+- Return `Command` constants instead of integers in commands by @joshbonnick in https://github.com/spatie/laravel-backup/pull/1706
+- Send one notification on backup failure by @joshbonnick in https://github.com/spatie/laravel-backup/pull/1707
+
+### New Contributors
+
+- @rico-vz made their first contribution in https://github.com/spatie/laravel-backup/pull/1697
+- @joshbonnick made their first contribution in https://github.com/spatie/laravel-backup/pull/1706
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.3.1...8.3.2
+
 ## 8.3.1 - 2023-08-10
 
 ### What's Changed
