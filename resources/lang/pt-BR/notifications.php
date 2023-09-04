@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'exception_message' => 'Exception message: :message',
-    'exception_trace' => 'Exception trace: :trace',
-    'exception_message_title' => 'Exception message',
-    'exception_trace_title' => 'Exception trace',
+    'exception_message' => 'Mensagem de exceção: :message',
+    'exception_trace' => 'Rastreamento de exceção: :trace',
+    'exception_message_title' => 'Mensagem de exceção',
+    'exception_trace_title' => 'Rastreamento de exceção',
 
     'backup_failed_subject' => 'Falha no backup da aplicação :application_name',
     'backup_failed_body' => 'Importante: Ocorreu um erro ao fazer o backup da aplicação :application_name',
