@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.3.3 - 2023-09-04
+
+### What's Changed
+
+- Added missing PT and PT/BR translations by @helderneves91 in https://github.com/spatie/laravel-backup/pull/1709
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.3.2...8.3.3
+
 ## 8.3.2 - 2023-08-30
 
 ### What's Changed
