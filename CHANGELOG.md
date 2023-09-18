@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.3.4 - 2023-09-18
+
+### What's Changed
+
+- Move registering events to "booted" rather than "registered" by @modstore in https://github.com/spatie/laravel-backup/pull/1712
+
+### New Contributors
+
+- @modstore made their first contribution in https://github.com/spatie/laravel-backup/pull/1712
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.3.3...8.3.4
+
 ## 8.3.3 - 2023-09-04
 
 ### What's Changed
