@@ -256,7 +256,12 @@ class BackupJob
                     $dbName = $key . '-database';
                 }
 
-                $fileName = "{$dbType}-{$dbName}.{$this->getExtension($dbDumper)}";
+                $timeStamp = '';
+                if ($timeStampFormat = config('backup.backup.database_dump_file_timestamp_format')) {
+                    $timeStamp = '-' . Carbon::now()->format($timeStampFormat);
+                }
+
+                $fileName = "{$dbType}-{$dbName}{$timeStamp}.{$this->getExtension($dbDumper)}";
 
                 if (config('backup.backup.gzip_database_dump')) {
                     $dbDumper->useCompressor(new GzipCompressor());
