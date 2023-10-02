@@ -98,6 +98,11 @@ return [
         'database_dump_compressor' => null,
 
         /*
+         * If specified, the database dumped file name will contain a timestamp (e.g.: 'Y-m-d-H-i-s').
+         */
+        'database_dump_file_timestamp_format' => null,
+
+        /*
          * The file extension used for the database dump files.
          *
          * If not specified, the file extension will be .archive for MongoDB and .sql for all other databases
