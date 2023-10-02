@@ -357,6 +357,45 @@ it('will encrypt backup when notifications are disabled', function () {
     Event::assertNotDispatched(BackupZipWasCreated::class);
 });
 
+it('can use different compression methods for backup file', function () {
+    config()->set('backup.backup.source.databases', ['db1']);
+
+    // by default (with no destination.compression_method specified), the ZipArchive::CM_DEFLATE is used
+    $this->artisan('backup:run --only-db')->assertExitCode(0);
+
+    $zip = new ZipArchive();
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+    expect($zip->numFiles)->toBe(1);
+    expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_DEFLATE);
+    $zip->close();
+
+
+    // check no compression with ZipArchive::CM_STORE method
+    config()->set('backup.backup.destination.compression_method', ZipArchive::CM_STORE);
+    config()->set('backup.backup.destination.compression_level', 0);
+
+    $this->artisan('backup:run --only-db')->assertExitCode(0);
+
+    $zip = new ZipArchive();
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+    expect($zip->numFiles)->toBe(1);
+    expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_STORE);
+    $zip->close();
+
+
+    // check ZipArchive::CM_DEFLATE method with custom compression level
+    config()->set('backup.backup.destination.compression_method', ZipArchive::CM_DEFLATE);
+    config()->set('backup.backup.destination.compression_level', 2);
+
+    $this->artisan('backup:run --only-db')->assertExitCode(0);
+
+    $zip = new ZipArchive();
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+    expect($zip->numFiles)->toBe(1);
+    expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_DEFLATE);
+    $zip->close();
+});
+
 it('excludes the previous local backups from the backup', function () {
     $this->date = Carbon::create('2016', 1, 1, 20, 1, 1);
     Carbon::setTestNow($this->date);
