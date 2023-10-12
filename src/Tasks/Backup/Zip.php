@@ -110,7 +110,7 @@ class Zip
 
                 if (is_int($compressionMethod)) {
                     $this->zipFile->setCompressionName(
-                        ltrim($nameInZip, DIRECTORY_SEPARATOR),
+                        ltrim($nameInZip ?: $file, DIRECTORY_SEPARATOR),
                         $compressionMethod,
                         $compressionLevel
                     );
