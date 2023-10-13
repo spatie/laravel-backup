@@ -106,7 +106,7 @@ class Zip
             }
 
             if (is_file($file)) {
-                $this->zipFile->addFile($file, ltrim($nameInZip, DIRECTORY_SEPARATOR)).PHP_EOL;
+                $this->zipFile->addFile($file, ltrim($nameInZip, DIRECTORY_SEPARATOR));
 
                 if (is_int($compressionMethod)) {
                     $this->zipFile->setCompressionName(
