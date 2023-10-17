@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.4.0 - 2023-10-17
+
+### What's Changed
+
+- Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/spatie/laravel-backup/pull/1716
+- Possibility of adding timestamp to database dump filename by @boryn in https://github.com/spatie/laravel-backup/pull/1717
+- Possibility of choosing zip compression method by @boryn in https://github.com/spatie/laravel-backup/pull/1718
+
+### New Contributors
+
+- @boryn made their first contribution in https://github.com/spatie/laravel-backup/pull/1717
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.3.4...8.4.0
+
 ## 8.3.4 - 2023-09-18
 
 ### What's Changed
