@@ -80,7 +80,7 @@ return [
              * For a complete list of available customization options, see https://github.com/spatie/db-dumper
              */
             'databases' => [
-                'mysql',
+                env('DB_CONNECTION', 'mysql'),
             ],
         ],
 
@@ -146,7 +146,7 @@ return [
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-                'local',
+                env('FILESYSTEM_DISK', 'local'),
             ],
         ],
 
