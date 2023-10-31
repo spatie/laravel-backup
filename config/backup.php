@@ -286,7 +286,7 @@ return [
         'default_strategy' => [
 
             /*
-             * The number of days to keep backups, ensuring recent copies are available.
+             * The number of days for which backups must be kept.
              */
             'keep_all_backups_for_days' => 7,
 
