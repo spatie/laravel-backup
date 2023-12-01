@@ -21,6 +21,9 @@ This is the portion of the configuration that will determine when and how notifi
      */
     'notifications' => [
 
+        /*
+         * An empty array will disable the correspondent notification.
+         */
         'notifications' => [
             \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => ['mail'],
