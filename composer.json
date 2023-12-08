@@ -37,10 +37,10 @@
     "require-dev": {
         "ext-pcntl": "*",
         "composer-runtime-api": "^2.0",
+        "larastan/larastan": "^2.7.0",
         "laravel/slack-notification-channel": "^2.5",
         "league/flysystem-aws-s3-v3": "^2.0|^3.0",
         "mockery/mockery": "^1.4",
-        "nunomaduro/larastan": "^2.1",
         "orchestra/testbench": "^8.0",
         "pestphp/pest": "^1.20",
         "phpstan/extension-installer": "^1.1",
