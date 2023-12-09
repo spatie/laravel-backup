@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => 'En yeni yedekleme boyutu',
     'number_of_backups' => 'Yedekleme sayısı',
     'total_storage_used' => 'Kullanılan toplam depolama alanı',
-    'newest_backup_date' => 'En yeni yedekleme boyutu',
-    'oldest_backup_date' => 'En eski yedekleme boyutu',
+    'newest_backup_date' => 'En yeni yedekleme tarihi',
+    'oldest_backup_date' => 'En eski yedekleme tarihi',
 ];
