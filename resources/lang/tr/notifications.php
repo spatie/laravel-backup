@@ -18,9 +18,9 @@ return [
 
     'cleanup_successful_subject' => ':application_name yedeklemeleri temizlenmesi başarılı.',
     'cleanup_successful_subject_title' => 'Yedeklerin temizlenmesi başarılı!',
-    'cleanup_successful_body' => ':application_name yedeklemeleri temizlenmesi ,:disk_name diskinden silindi',
+    'cleanup_successful_body' => ':application_name yedeklemeleri temizlenmesi, :disk_name diskinden silindi',
 
-    'healthy_backup_found_subject' => ':application_name yedeklenmesi ,:disk_name adlı diskte sağlıklı',
+    'healthy_backup_found_subject' => ':application_name yedeklenmesi, :disk_name adlı diskte sağlıklı',
     'healthy_backup_found_subject_title' => ':application_name yedeklenmesi sağlıklı',
     'healthy_backup_found_body' => ':application_name için yapılan yedeklemeler sağlıklı sayılır. Aferin!',
 
