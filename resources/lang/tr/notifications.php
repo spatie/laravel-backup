@@ -11,7 +11,7 @@ return [
 
     'backup_successful_subject' => 'Başarılı :application_name yeni yedeklemesi',
     'backup_successful_subject_title' => 'Başarılı bir yeni yedekleme!',
-    'backup_successful_body' => 'Harika bir haber, :application_name âit yeni bir yedekleme :disk_name adlı diskte başarıyla oluşturuldu.',
+    'backup_successful_body' => 'Harika bir haber, :application_name ait yeni bir yedekleme :disk_name adlı diskte başarıyla oluşturuldu.',
 
     'cleanup_failed_subject' => ':application_name yedeklemeleri temizlenmesi başarısız.',
     'cleanup_failed_body' => ':application_name yedeklerini temizlerken bir hata oluştu ',
