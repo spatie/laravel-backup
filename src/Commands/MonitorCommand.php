@@ -6,7 +6,7 @@ use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
-class MonitorCommand extends BaseCommand
+class MonitorCommand extends BaseCommand implements Isolatable
 {
     /** @var string */
     protected $signature = 'backup:monitor';

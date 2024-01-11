@@ -3,13 +3,14 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
+use Illuminate\Contracts\Console\Isolatable;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Spatie\Backup\Traits\Retryable;
 
-class BackupCommand extends BaseCommand
+class BackupCommand extends BaseCommand implements Isolatable
 {
     use Retryable;
 
