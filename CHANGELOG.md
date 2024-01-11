@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.5.0 - 2024-01-11
+
+### What's Changed
+
+* Fix translations for keys newest_backup_date and oldest_backup_date on tr language by @sdkakcy in https://github.com/spatie/laravel-backup/pull/1743
+* nunomaduro/larastan abandoned by @parth391 in https://github.com/spatie/laravel-backup/pull/1742
+* Made it possible to run the backup, cleanup and monitor commands in isolated mode by @pieterclaerhout in https://github.com/spatie/laravel-backup/pull/1751
+
+### New Contributors
+
+* @sdkakcy made their first contribution in https://github.com/spatie/laravel-backup/pull/1743
+* @pieterclaerhout made their first contribution in https://github.com/spatie/laravel-backup/pull/1751
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.4.1...8.5.0
+
 ## 8.4.1 - 2023-11-20
 
 ### What's Changed
