@@ -9,7 +9,7 @@ use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 use Spatie\Backup\Traits\Retryable;
 
-class CleanupCommand extends BaseCommand
+class CleanupCommand extends BaseCommand implements Isolatable
 {
     use Retryable;
 
