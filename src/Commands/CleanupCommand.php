@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Commands;
 
 use Exception;
+use Illuminate\Contracts\Console\Isolatable;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
