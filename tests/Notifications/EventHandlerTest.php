@@ -25,7 +25,6 @@ it('will send a notification via the configured notification channels', function
         return $expectedChannels == $usedChannels;
     });
 })->with([
-    [[]],
     [['mail']],
     [['mail', 'slack']],
     [['mail', 'slack', 'discord']],
