@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Commands;
 
+use Illuminate\Contracts\Console\Isolatable;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
