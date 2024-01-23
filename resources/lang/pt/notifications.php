@@ -40,6 +40,6 @@ return [
     'newest_backup_size' => 'Tamanho de backup mais recente',
     'number_of_backups' => 'Número de backups',
     'total_storage_used' => 'Armazenamento total usado',
-    'newest_backup_date' => 'Tamanho de backup mais recente',
-    'oldest_backup_date' => 'Tamanho de backup mais antigo',
+    'newest_backup_date' => 'Data de backup mais recente',
+    'oldest_backup_date' => 'Data de backup mais antiga',
 ];
