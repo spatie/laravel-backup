@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.5.1 - 2024-01-23
+
+### What's Changed
+
+* Fix duplicate Portuguese translations for backup dates by @ricardo-lobo in https://github.com/spatie/laravel-backup/pull/1752
+
+### New Contributors
+
+* @ricardo-lobo made their first contribution in https://github.com/spatie/laravel-backup/pull/1752
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.5.0...8.5.1
+
 ## 8.5.0 - 2024-01-11
 
 ### What's Changed
