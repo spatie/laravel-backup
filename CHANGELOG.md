@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.6.0 - 2024-02-06
+
+### What's Changed
+
+* Add Support for Laravel 11 by @stefanzweifel in https://github.com/spatie/laravel-backup/pull/1757
+
+### New Contributors
+
+* @stefanzweifel made their first contribution in https://github.com/spatie/laravel-backup/pull/1757
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.5.1...8.6.0
+
 ## 8.5.1 - 2024-01-23
 
 ### What's Changed
