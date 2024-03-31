@@ -38,7 +38,7 @@ You'll find installation instructions and full documentation on https://spatie.b
 
 If you are on a PHP version below 8.0 or a Laravel version below 8.0 just use an older version of this package.
 
-Read the extensive [documentation on version 3](https://spatie.be/docs/laravel-backup/v3), [on version 4](https://spatie.be/docs/laravel-backup/v4), [on version 5](https://spatie.be/docs/laravel-backup/v5) and [on version 6](https://spatie.be/docs/laravel-backup/v6). We won't introduce new features to v6 and below anymore but we will still fix bugs.
+Read the extensive [documentation on version 3](https://spatie.be/docs/laravel-backup/v3), [on version 4](https://spatie.be/docs/laravel-backup/v4), [on version 5](https://spatie.be/docs/laravel-backup/v5) and [on version 6](https://spatie.be/docs/laravel-backup/v6). We will not be introducing any new features to v6 and below. We will however continue to update for bugs as neccesary.
 
 ## Testing
 
