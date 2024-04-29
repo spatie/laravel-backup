@@ -474,3 +474,20 @@ it('should wait before trying again when retry_delay is configured (with Sleep h
         Sleep::for(3)->seconds(),
     ]);
 });
+
+it('uses connection name in place of database name for dump filename', function () {
+    config()->set('backup.backup.source.databases', ['db1']);
+    config()->set('backup.backup.database_dump_file_use_connection_name', true);
+
+    $this->setUpDatabase(app());
+
+    $this->artisan('backup:run --only-db')->assertExitCode(0);
+
+    $this->assertExactPathExistsInZip('local', $this->expectedZipPath, 'db-dumps/sqlite-db1.sql');
+
+    /*
+     * Close the database connection to unlock the sqlite file for deletion.
+     * This prevents the errors from other tests trying to delete and recreate the folder.
+     */
+    app()['db']->disconnect();
+});
