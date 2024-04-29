@@ -103,6 +103,11 @@ return [
         'database_dump_file_timestamp_format' => null,
 
         /*
+         * If specified, the database dumped file name will contain the connection name in place of the database name.
+         */
+        'database_dump_file_use_connection_name' => null,
+
+        /*
          * The file extension used for the database dump files.
          *
          * If not specified, the file extension will be .archive for MongoDB and .sql for all other databases
