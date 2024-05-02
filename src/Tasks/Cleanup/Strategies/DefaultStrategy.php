@@ -102,7 +102,7 @@ class DefaultStrategy extends CleanupStrategy
         $maximumSize = $this->config->get('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than')
             * 1024 * 1024;
 
-        if (($backups->size() + $this->newestBackup->sizeInBytes()) <= $maximumSize) {
+        if (!$maximumSize || ($backups->size() + $this->newestBackup->sizeInBytes()) <= $maximumSize) {
             return;
         }
         $oldest->delete();
