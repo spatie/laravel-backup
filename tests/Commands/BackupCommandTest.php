@@ -477,7 +477,7 @@ it('should wait before trying again when retry_delay is configured (with Sleep h
 
 it('uses connection name in place of database name for dump filename', function () {
     config()->set('backup.backup.source.databases', ['db1']);
-    config()->set('backup.backup.database_dump_file_use_connection_name', true);
+    config()->set('backup.backup.database_dump_filename_base', 'connection');
 
     $this->setUpDatabase(app());
 

@@ -103,9 +103,12 @@ return [
         'database_dump_file_timestamp_format' => null,
 
         /*
-         * If specified, the database dumped file name will contain the connection name in place of the database name.
+         * The base of the dump filename, either 'database' or 'connection'
+         *
+         * If 'database' (default), the dumped filename will contain the database name.
+         * If 'connection', the dumped filename will contain the connection name.
          */
-        'database_dump_file_use_connection_name' => null,
+        'database_dump_filename_base' => 'database',
 
         /*
          * The file extension used for the database dump files.

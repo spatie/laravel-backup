@@ -251,7 +251,8 @@ class BackupJob
 
                 $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
 
-                if (config('backup.backup.database_dump_file_use_connection_name')) {
+
+                if (config('backup.backup.database_dump_filename_base') === 'connection') {
                     $dbName = $key;
                 } else if ($dbDumper instanceof Sqlite) {
                     $dbName = $key . '-database';
