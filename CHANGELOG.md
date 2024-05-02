@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.8.0 - 2024-05-02
+
+### What's Changed
+
+* Add config option database_dump_file_use_connection_name by @jbraband in https://github.com/spatie/laravel-backup/pull/1785
+
+### New Contributors
+
+* @jbraband made their first contribution in https://github.com/spatie/laravel-backup/pull/1785
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.7.0...8.8.0
+
 ## 8.7.0 - 2024-05-02
 
 ### What's Changed
