@@ -95,19 +95,33 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups)
     {
-        if (! $oldest = $backups->oldest()) {
+        if (! $this->shouldRemoveOldestBackup($backups)) {
             return;
         }
 
-        $maximumSize = $this->config->get('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than');
-
-        if ($maximumSize === null || ($backups->size() + $this->newestBackup->sizeInBytes()) <= $maximumSize * 1024 * 1024) {
-            return;
-        }
-        $oldest->delete();
+        $backups->oldest()->delete();
 
         $backups = $backups->filter(fn (Backup $backup) => $backup->exists());
 
         $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
+    }
+
+    protected function shouldRemoveOldestBackup(BackupCollection $backups): bool
+    {
+        if (! $backups->oldest()) {
+            return false;
+        }
+
+        $maximumSize = $this->config->get('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than');
+
+        if ($maximumSize === null) {
+            return false;
+        }
+
+        if (($backups->size() + $this->newestBackup->sizeInBytes()) <= $maximumSize * 1024 * 1024) {
+            return false;
+        }
+
+        return true;
     }
 }
