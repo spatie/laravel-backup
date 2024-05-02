@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.7.0 - 2024-05-02
+
+### What's Changed
+
+* Bump ramsey/composer-install from 2 to 3 by @dependabot in https://github.com/spatie/laravel-backup/pull/1768
+* Update README.md by @levizoesch in https://github.com/spatie/laravel-backup/pull/1777
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.0.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1778
+* Docblocks to comments by @edwinvdpol in https://github.com/spatie/laravel-backup/pull/1779
+* Bump dependabot/fetch-metadata from 2.0.0 to 2.1.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1786
+* Bump stefanzweifel/git-auto-commit-action from 5.0.0 to 5.0.1 by @dependabot in https://github.com/spatie/laravel-backup/pull/1787
+* Added null option for unlimited backup storage size by @rcerljenko in https://github.com/spatie/laravel-backup/pull/1788
+
+### New Contributors
+
+* @levizoesch made their first contribution in https://github.com/spatie/laravel-backup/pull/1777
+* @edwinvdpol made their first contribution in https://github.com/spatie/laravel-backup/pull/1779
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.6.0...8.7.0
+
 ## 8.6.0 - 2024-02-06
 
 ### What's Changed
