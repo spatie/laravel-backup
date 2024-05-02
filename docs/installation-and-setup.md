@@ -120,6 +120,19 @@ return [
         'database_dump_compressor' => null,
 
         /*
+         * If specified, the database dumped file name will contain a timestamp (e.g.: 'Y-m-d-H-i-s').
+         */
+        'database_dump_file_timestamp_format' => null,
+
+        /*
+         * The base of the dump filename, either 'database' or 'connection'
+         *
+         * If 'database' (default), the dumped filename will contain the database name.
+         * If 'connection', the dumped filename will contain the connection name.
+         */
+        'database_dump_filename_base' => 'database',
+
+        /*
          * The file extension used for the database dump files.
          *
          * If not specified, the file extension will be .archive for MongoDB and .sql for all other databases
@@ -369,6 +382,36 @@ Here's an example for MySQL:
 		]
 	],
 ```
+
+### Timestamp form of database dumps
+
+By default, database dump filenames do not contain a timestamp. If you would like to add a timestamp, you can set the timestamp format to be used in the config.
+
+For example, to save a database dump with a timestamp in the format of Y-m-d-H-i-s:
+```php
+//config/backup.php
+'backup' => [
+    ...,
+    'database_dump_file_timestamp_format' => 'Y-m-d-H-i-s',
+  ],
+```
+
+> This relates to the names of the database dump files **within** the overall backup `zip` file that is generated.
+
+### Base name of database dumps
+
+By default, database dump filenames use the database name. If you would like to name dump files with the connection name, you can set that in the config.
+
+For example, to save a database dump using the connection name in the filename:
+```php
+//config/backup.php
+'backup' => [
+    ...,
+    'database_dump_filename_base' => 'connection',
+  ],
+```
+
+> This relates to the names of the database dump files **within** the overall backup `zip` file that is generated.
 
 ### File extensions of database dumps
 
