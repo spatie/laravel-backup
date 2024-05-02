@@ -254,7 +254,7 @@ class BackupJob
 
                 if (config('backup.backup.database_dump_filename_base') === 'connection') {
                     $dbName = $key;
-                } else if ($dbDumper instanceof Sqlite) {
+                } elseif ($dbDumper instanceof Sqlite) {
                     $dbName = $key . '-database';
                 } else {
                     $dbName = $dbDumper->getDbName();
