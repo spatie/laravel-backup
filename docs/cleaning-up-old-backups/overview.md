@@ -62,7 +62,7 @@ This portion of the configuration determines which backups should be deleted.
             /*
              * After cleaning up the backups remove the oldest backup until
              * this amount of megabytes has been reached.
-             * Set 0 for unlimited size.
+             * Set null for unlimited size.
              */
             'delete_oldest_backups_when_using_more_megabytes_than' => 5000,
         ],

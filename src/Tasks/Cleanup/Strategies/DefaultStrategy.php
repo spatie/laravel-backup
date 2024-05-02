@@ -99,10 +99,9 @@ class DefaultStrategy extends CleanupStrategy
             return;
         }
 
-        $maximumSize = $this->config->get('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than')
-            * 1024 * 1024;
+        $maximumSize = $this->config->get('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than');
 
-        if (!$maximumSize || ($backups->size() + $this->newestBackup->sizeInBytes()) <= $maximumSize) {
+        if ($maximumSize === null || ($backups->size() + $this->newestBackup->sizeInBytes()) <= $maximumSize * 1024 * 1024) {
             return;
         }
         $oldest->delete();
