@@ -60,7 +60,10 @@ class CleanupJob
     protected function sendNotification($notification): void
     {
         if ($this->sendNotifications) {
-            event($notification);
+            rescue(
+                fn () => event($notification),
+                fn () => consoleOutput()->error('Sending notification failed')
+            );
         }
     }
 }
