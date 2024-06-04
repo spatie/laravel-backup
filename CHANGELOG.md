@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.8.1 - 2024-06-04
+
+### What's Changed
+
+* Normalize and style config file by @siarheipashkevich in https://github.com/spatie/laravel-backup/pull/1791
+* Fix broken link in installation-and-setup.md by @ISNewton in https://github.com/spatie/laravel-backup/pull/1794
+* Handle Notification failure in CleanupJob.php as BackupJob.php by @NasrinAfrozKakoli in https://github.com/spatie/laravel-backup/pull/1796
+
+### New Contributors
+
+* @ISNewton made their first contribution in https://github.com/spatie/laravel-backup/pull/1794
+* @NasrinAfrozKakoli made their first contribution in https://github.com/spatie/laravel-backup/pull/1796
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.8.0...8.8.1
+
 ## 8.8.0 - 2024-05-02
 
 ### What's Changed
