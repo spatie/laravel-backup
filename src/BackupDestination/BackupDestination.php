@@ -114,6 +114,7 @@ class BackupDestination
         return $this->connectionError;
     }
 
+    /** @return array<string, string> */
     public function getDiskOptions(): array
     {
         return config("filesystems.disks.{$this->diskName()}.backup_options") ?? [];

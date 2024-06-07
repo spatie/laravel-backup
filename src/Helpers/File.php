@@ -7,6 +7,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class File
 {
+    /** @var array<string> */
     protected static array $allowedMimeTypes = [
         'application/zip',
         'application/x-zip',

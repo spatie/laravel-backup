@@ -27,8 +27,10 @@ class BackupJob
 
     protected FileSelection $fileSelection;
 
+    /** @var Collection<string, DbDumper> */
     protected Collection $dbDumpers;
 
+    /** @var Collection<int, BackupDestination> */
     protected Collection $backupDestinations;
 
     protected string $filename;
@@ -56,6 +58,7 @@ class BackupJob
         return $this;
     }
 
+    /** @param array<string> $allowedDbNames */
     public function onlyDbName(array $allowedDbNames): self
     {
         $this->dbDumpers = $this->dbDumpers->filter(
@@ -100,6 +103,10 @@ class BackupJob
         return $this;
     }
 
+    /**
+     * @param Collection<string, DbDumper> $dbDumpers
+     * @return $this
+     */
     public function setDbDumpers(Collection $dbDumpers): self
     {
         $this->dbDumpers = $dbDumpers;
@@ -127,6 +134,7 @@ class BackupJob
         return $this;
     }
 
+    /** @param Collection<int, BackupDestination> $backupDestinations */
     public function setBackupDestinations(Collection $backupDestinations): self
     {
         $this->backupDestinations = $backupDestinations;
@@ -134,9 +142,7 @@ class BackupJob
         return $this;
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function run(): void
     {
         $temporaryDirectoryPath = config('backup.backup.temporary_directory') ?? storage_path('app/backup-temp');
@@ -206,6 +212,7 @@ class BackupJob
         return $this->fileSelection->selectedFiles();
     }
 
+    /** @return array<string> */
     protected function directoriesUsedByBackupJob(): array
     {
         return $this->backupDestinations
@@ -240,6 +247,8 @@ class BackupJob
     /**
      * Dumps the databases to the given directory.
      * Returns an array with paths to the dump files.
+     *
+     * @return array<string, string>
      */
     protected function dumpDatabases(): array
     {
@@ -312,7 +321,7 @@ class BackupJob
             });
     }
 
-    protected function sendNotification($notification): void
+    protected function sendNotification(object|string $notification): void
     {
         if ($this->sendNotifications) {
             rescue(

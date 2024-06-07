@@ -20,6 +20,7 @@ class DiscordMessage
 
     protected string $description = '';
 
+    /** @var array<string> */
     protected array $fields = [];
 
     protected ?string $timestamp = null;
@@ -48,7 +49,7 @@ class DiscordMessage
         return $this;
     }
 
-    public function title($title): self
+    public function title(string $title): self
     {
         $this->title = $title;
 
@@ -97,6 +98,7 @@ class DiscordMessage
         return $this;
     }
 
+    /** @param array<string, string> $fields */
     public function fields(array $fields, bool $inline = true): self
     {
         foreach ($fields as $label => $value) {

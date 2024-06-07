@@ -9,6 +9,7 @@ use Spatie\Backup\Helpers\Format;
 
 abstract class BaseNotification extends Notification
 {
+    /** @return array<string, string> */
     public function via(): array
     {
         $notificationChannels = config('backup.notifications.notifications.'.static::class);
@@ -34,6 +35,7 @@ abstract class BaseNotification extends Notification
         return $this->backupDestination()->diskName();
     }
 
+    /** @return Collection<string, string>  */
     protected function backupDestinationProperties(): Collection
     {
         $backupDestination = $this->backupDestination();

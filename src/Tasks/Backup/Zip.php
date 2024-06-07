@@ -30,7 +30,7 @@ class Zip
         return $zip;
     }
 
-    protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip, string $relativePath)
+    protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip, string $relativePath): string
     {
         $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR;
 

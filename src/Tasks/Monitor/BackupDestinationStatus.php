@@ -11,6 +11,7 @@ class BackupDestinationStatus
 {
     protected ?HealthCheckFailure $healthCheckFailure = null;
 
+    /** @param array<int, HealthCheck> $healthChecks */
     public function __construct(
         protected BackupDestination $backupDestination,
         protected array $healthChecks = []
@@ -33,6 +34,7 @@ class BackupDestinationStatus
         return true;
     }
 
+    /** @return Collection<int, HealthCheck> */
     public function getHealthChecks(): Collection
     {
         return collect($this->healthChecks)->prepend(new IsReachable());

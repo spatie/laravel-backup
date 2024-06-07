@@ -52,7 +52,7 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->registerDiscordChannel();
     }
 
-    protected function registerDiscordChannel()
+    protected function registerDiscordChannel(): void
     {
         Notification::resolved(function (ChannelManager $service) {
             $service->extend('discord', function ($app) {

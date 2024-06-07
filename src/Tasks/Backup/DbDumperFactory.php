@@ -15,6 +15,7 @@ use Spatie\DbDumper\DbDumper;
 
 class DbDumperFactory
 {
+    /** @var array<DbDumper> */
     protected static array $custom = [];
 
     public static function createFromConnection(string $dbConnectionName): DbDumper
@@ -74,9 +75,9 @@ class DbDumperFactory
         static::$custom[$driver] = $callback;
     }
 
-    protected static function forDriver($dbDriver): DbDumper
+    protected static function forDriver(string $dbDriver): DbDumper
     {
-        $driver = strtolower((string) $dbDriver);
+        $driver = strtolower($dbDriver);
 
         if (isset(static::$custom[$driver])) {
             return (static::$custom[$driver])();
@@ -91,6 +92,7 @@ class DbDumperFactory
         };
     }
 
+    /** @param array<string, string|array<string>> $dumpConfiguration */
     protected static function processExtraDumpParameters(array $dumpConfiguration, DbDumper $dbDumper): DbDumper
     {
         collect($dumpConfiguration)->each(function ($configValue, $configName) use ($dbDumper) {
@@ -107,7 +109,7 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-    protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, $methodValue): DbDumper
+    protected static function callMethodOnDumper(DbDumper $dbDumper, string $methodName, mixed $methodValue): DbDumper
     {
         if (! $methodValue) {
             $dbDumper->$methodName();

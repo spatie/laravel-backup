@@ -13,6 +13,7 @@ class CleanupJob
 {
     protected bool $sendNotifications = true;
 
+    /** @param Collection<int, BackupDestination> $backupDestinations */
     public function __construct(
         protected Collection $backupDestinations,
         protected CleanupStrategy $strategy,
@@ -49,7 +50,7 @@ class CleanupJob
         });
     }
 
-    protected function sendNotification($notification): void
+    protected function sendNotification(string|object $notification): void
     {
         if ($this->sendNotifications) {
             rescue(

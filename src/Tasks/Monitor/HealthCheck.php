@@ -8,7 +8,7 @@ use Spatie\Backup\Exceptions\InvalidHealthCheck;
 
 abstract class HealthCheck
 {
-    abstract public function checkHealth(BackupDestination $backupDestination);
+    abstract public function checkHealth(BackupDestination $backupDestination): void;
 
     public function name(): string
     {

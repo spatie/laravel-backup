@@ -66,6 +66,7 @@ class Backup
         return $this->size;
     }
 
+    /** @return resource */
     public function stream()
     {
         return throw_unless(

@@ -10,7 +10,7 @@ class FakeFailingHealthCheck extends HealthCheck
 {
     public static $reason;
 
-    public function checkHealth(BackupDestination $backupDestination)
+    public function checkHealth(BackupDestination $backupDestination): void
     {
         throw (static::$reason ?: new Exception('dummy exception message'));
     }

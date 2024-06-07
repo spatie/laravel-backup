@@ -23,6 +23,9 @@ class Manifest implements Countable
         return $this->manifestPath;
     }
 
+    /**
+     * @param Generator|string|array<string> $filePaths
+     */
     public function addFiles(array|string|Generator $filePaths): self
     {
         if (is_string($filePaths)) {

@@ -95,7 +95,7 @@ class BackupCommand extends BaseCommand implements Isolatable
         }
     }
 
-    protected function guardAgainstInvalidOptions()
+    protected function guardAgainstInvalidOptions(): void
     {
         if (! $this->option('only-db')) {
             return;

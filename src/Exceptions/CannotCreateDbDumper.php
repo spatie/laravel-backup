@@ -6,11 +6,13 @@ use Exception;
 
 class CannotCreateDbDumper extends Exception
 {
-    public static function unsupportedDriver(string $driver): self
+    public static function unsupportedDriver(string $driver): static
     {
-        $supportedDrivers = collect(config('database.connections'))->keys();
+        /** @var array<int, string> $supportedDrivers */
+        $supportedDrivers = config('database.connections');
 
-        $formattedSupportedDrivers = $supportedDrivers
+        $formattedSupportedDrivers = collect($supportedDrivers)
+            ->keys()
             ->map(fn (string $supportedDriver) => "`{$supportedDriver}`")
             ->join(glue: ', ', finalGlue: ' or ');
 
