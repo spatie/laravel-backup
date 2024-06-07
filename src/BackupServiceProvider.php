@@ -52,7 +52,7 @@ class BackupServiceProvider extends PackageServiceProvider
 
         $this->registerDiscordChannel();
 
-        $this->app->singleton(Config::class, function () {
+        $this->app->scoped(Config::class, function () {
             return Config::fromArray(config('backup'));
         });
     }

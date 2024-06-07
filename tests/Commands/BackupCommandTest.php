@@ -397,6 +397,8 @@ it('can use different compression methods for backup file', function () {
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_STORE);
     config()->set('backup.backup.destination.compression_level', 0);
 
+    \Spatie\Backup\Config\Config::rebind();
+
     $this->artisan('backup:run --only-db')->assertExitCode(0);
 
     $zip = new ZipArchive();
@@ -410,6 +412,8 @@ it('can use different compression methods for backup file', function () {
     // check ZipArchive::CM_DEFLATE method with custom compression level
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_DEFLATE);
     config()->set('backup.backup.destination.compression_level', 2);
+
+    \Spatie\Backup\Config\Config::rebind();
 
     $this->artisan('backup:run --only-db')->assertExitCode(0);
 

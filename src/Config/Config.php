@@ -13,6 +13,14 @@ class Config extends Data
     ) {
     }
 
+    /** @internal used for testing */
+    public static function rebind(): void
+    {
+        app()->scoped(Config::class, function () {
+            return self::fromArray(config('backup'));
+        });
+    }
+
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self
     {
