@@ -25,8 +25,8 @@ class SourceFilesConfig extends Data
         return new self(
             include: $data['include'],
             exclude: $data['exclude'],
-            followLinks: $data['follow_links'],
-            ignoreUnreadableDirectories: $data['ignore_unreadable_directories'],
+            followLinks: $data['follow_links'] ?? false,
+            ignoreUnreadableDirectories: $data['ignore_unreadable_directories'] ?? false,
             relativePath: $data['relative_path'],
         );
     }

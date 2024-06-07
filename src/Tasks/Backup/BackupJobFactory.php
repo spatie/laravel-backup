@@ -5,26 +5,26 @@ namespace Spatie\Backup\Tasks\Backup;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Config\BackupConfig;
+use Spatie\Backup\Config\SourceFilesConfig;
 use Spatie\DbDumper\DbDumper;
 
 class BackupJobFactory
 {
-    /** @param array<string, array<string, mixed>> $config */
-    public static function createFromArray(array $config): BackupJob
+    public static function createFromConfig(BackupConfig $config): BackupJob
     {
-        return (new BackupJob())
-            ->setFileSelection(static::createFileSelection($config['backup']['source']['files']))
-            ->setDbDumpers(static::createDbDumpers($config['backup']['source']['databases']))
-            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config['backup']));
+        return (new BackupJob($config))
+            ->setFileSelection(static::createFileSelection($config->source->files))
+            ->setDbDumpers(static::createDbDumpers($config->source->databases))
+            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config));
     }
 
-    /** @param array<string, mixed> $sourceFiles */
-    protected static function createFileSelection(array $sourceFiles): FileSelection
+    protected static function createFileSelection(SourceFilesConfig $sourceFiles): FileSelection
     {
-        return FileSelection::create($sourceFiles['include'])
-            ->excludeFilesFrom($sourceFiles['exclude'])
-            ->shouldFollowLinks(isset($sourceFiles['follow_links']) && $sourceFiles['follow_links'])
-            ->shouldIgnoreUnreadableDirs(Arr::get($sourceFiles, 'ignore_unreadable_directories', false));
+        return FileSelection::create($sourceFiles->include)
+            ->excludeFilesFrom($sourceFiles->exclude)
+            ->shouldFollowLinks($sourceFiles->followLinks)
+            ->shouldIgnoreUnreadableDirs($sourceFiles->ignoreUnreadableDirectories);
     }
 
     /**

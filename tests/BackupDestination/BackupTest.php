@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Mockery as m;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Config\BackupConfig;
 use Spatie\Backup\Exceptions\InvalidBackupFile;
 
 it('can determine the disk of the backup', function () {
@@ -92,7 +93,9 @@ it('push backup extra option to write stream if set', function () {
         's3-test-backup',
     ]);
 
-    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
+    $config = BackupConfig::fromArray(config('backup.backup'));
+
+    $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 
     expect($backupDestination->getDiskOptions())->toEqual(['StorageClass' => 'COLD']);
 });
@@ -107,7 +110,9 @@ it('push empty default backup extra option to write stream if not set', function
         'local',
     ]);
 
-    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
+    $config = BackupConfig::fromArray(config('backup.backup'));
+
+    $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 
     expect($backupDestination->getDiskOptions())->toBe([]);
 });

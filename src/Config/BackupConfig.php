@@ -33,7 +33,7 @@ class BackupConfig extends Data
             source: SourceConfig::fromArray($data['source']),
             databaseDumpCompressor: $data['database_dump_compressor'],
             databaseDumpFileTimestampFormat: $data['database_dump_file_timestamp_format'],
-            databaseDumpFilenameBase: $data['database_dump_file_directory'],
+            databaseDumpFilenameBase: $data['database_dump_filename_base'],
             databaseDumpFileExtension: $data['database_dump_file_extension'],
             destination: DestinationConfig::fromArray($data['destination']),
             temporaryDirectory: $data['temporary_directory'],

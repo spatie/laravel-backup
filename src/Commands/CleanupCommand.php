@@ -5,6 +5,7 @@ namespace Spatie\Backup\Commands;
 use Exception;
 use Illuminate\Contracts\Console\Isolatable;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Config\BackupConfig;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Tasks\Cleanup\CleanupJob;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
@@ -20,8 +21,10 @@ class CleanupCommand extends BaseCommand implements Isolatable
     /** @var string */
     protected $description = 'Remove all backups older than specified number of days in config.';
 
-    public function __construct(protected CleanupStrategy $strategy)
-    {
+    public function __construct(
+        protected CleanupStrategy $strategy,
+        protected BackupConfig $config,
+    ) {
         parent::__construct();
     }
 
@@ -36,7 +39,7 @@ class CleanupCommand extends BaseCommand implements Isolatable
         try {
             $config = config('backup');
 
-            $backupDestinations = BackupDestinationFactory::createFromArray($config['backup']);
+            $backupDestinations = BackupDestinationFactory::createFromArray($this->config);
 
             $cleanupJob = new CleanupJob($backupDestinations, $this->strategy, $disableNotifications);
 

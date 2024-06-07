@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Config\BackupConfig;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
@@ -49,11 +50,13 @@ it('it will send backup failed notification once with retries', function () {
     Notification::assertSentTimes(BackupHasFailedNotification::class, 1);
 });
 
-function fireBackupHasFailedEvent()
+function fireBackupHasFailedEvent(): void
 {
     $exception = new Exception('Dummy exception');
 
-    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
+    $config = BackupConfig::fromArray(config('backup.backup'));
+
+    $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 
     event(new BackupHasFailed($exception, $backupDestination));
 }
