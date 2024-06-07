@@ -45,7 +45,8 @@
         "pestphp/pest": "^1.20|^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.1"
+        "phpstan/phpstan-phpunit": "^1.1",
+        "rector/rector": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -61,9 +62,10 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/pest",
+        "test": "vendor/bin/pest --compact",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "analyse": "vendor/bin/phpstan analyse"
+        "analyse": "vendor/bin/phpstan analyse",
+        "rector": "./vendor/bin/rector --dry-run"
     },
     "suggest": {
         "laravel/slack-notification-channel": "Required for sending notifications via Slack"
