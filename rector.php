@@ -13,6 +13,7 @@ use Rector\CodingStyle\Rector\Plus\UseIncrementAssignRector;
 use Rector\CodingStyle\Rector\PostInc\PostIncDecToPreIncDecRector;
 use Rector\Config\RectorConfig;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
+use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
 
 return RectorConfig::configure()
@@ -31,4 +32,5 @@ return RectorConfig::configure()
         UseIncrementAssignRector::class,
         PostIncDecToPreIncDecRector::class,
         NullableCompareToNullRector::class,
+        AddArrowFunctionReturnTypeRector::class,
     ]);
