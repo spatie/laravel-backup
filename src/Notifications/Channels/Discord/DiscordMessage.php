@@ -7,7 +7,9 @@ use Carbon\Carbon;
 class DiscordMessage
 {
     public const COLOR_SUCCESS = '0b6623';
+
     public const COLOR_WARNING = 'fD6a02';
+
     public const COLOR_ERROR = 'e32929';
 
     protected string $username = 'Laravel Backup';
@@ -18,6 +20,7 @@ class DiscordMessage
 
     protected string $description = '';
 
+    /** @var array<string> */
     protected array $fields = [];
 
     protected ?string $timestamp = null;
@@ -28,7 +31,7 @@ class DiscordMessage
 
     protected string $url = '';
 
-    public function from(string $username, string $avatarUrl = null): self
+    public function from(string $username, ?string $avatarUrl = null): self
     {
         $this->username = $username;
 
@@ -46,7 +49,7 @@ class DiscordMessage
         return $this;
     }
 
-    public function title($title): self
+    public function title(string $title): self
     {
         $this->title = $title;
 
@@ -95,6 +98,7 @@ class DiscordMessage
         return $this;
     }
 
+    /** @param array<string, string> $fields */
     public function fields(array $fields, bool $inline = true): self
     {
         foreach ($fields as $label => $value) {
@@ -120,7 +124,7 @@ class DiscordMessage
                     'type' => 'rich',
                     'description' => $this->description,
                     'fields' => $this->fields,
-                    'color' => hexdec($this->color),
+                    'color' => hexdec((string) $this->color),
                     'footer' => [
                         'text' => $this->footer ?? '',
                     ],

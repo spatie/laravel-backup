@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification as BackupHasFailedNotification;
+use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
 
 beforeEach(function () {
     Notification::fake();

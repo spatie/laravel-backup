@@ -8,7 +8,8 @@ class Notifiable
 {
     use NotifiableTrait;
 
-    public function routeNotificationForMail(): string | array
+    /** @return string|array{int, string} */
+    public function routeNotificationForMail(): string|array
     {
         return config('backup.notifications.mail.to');
     }

@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'exception_message' => 'Message de l\'exception : :message',
-    'exception_trace' => 'Trace de l\'exception : :trace',
-    'exception_message_title' => 'Message de l\'exception',
-    'exception_trace_title' => 'Trace de l\'exception',
+    'exception_message' => "Message de l'exception : :message",
+    'exception_trace' => "Trace de l'exception : :trace",
+    'exception_message_title' => "Message de l'exception",
+    'exception_trace_title' => "Trace de l'exception",
 
     'backup_failed_subject' => 'Échec de la sauvegarde de :application_name',
     'backup_failed_body' => 'Important : Une erreur est survenue lors de la sauvegarde de :application_name',
@@ -27,14 +27,14 @@ return [
     'unhealthy_backup_found_subject' => 'Important : Les sauvegardes pour :application_name sont corrompues',
     'unhealthy_backup_found_subject_title' => 'Important : Les sauvegardes pour :application_name sont corrompues. :problem',
     'unhealthy_backup_found_body' => 'Les sauvegardes pour :application_name sur le disque :disk_name sont corrompues.',
-    'unhealthy_backup_found_not_reachable' => 'La destination de la sauvegarde n\'est pas accessible. :error',
-    'unhealthy_backup_found_empty' => 'Il n\'y a aucune sauvegarde pour cette application.',
+    'unhealthy_backup_found_not_reachable' => "La destination de la sauvegarde n'est pas accessible. :error",
+    'unhealthy_backup_found_empty' => "Il n'y a aucune sauvegarde pour cette application.",
     'unhealthy_backup_found_old' => 'La dernière sauvegarde du :date est considérée trop vieille.',
     'unhealthy_backup_found_unknown' => 'Désolé, une raison exacte ne peut être déterminée.',
     'unhealthy_backup_found_full' => 'Les sauvegardes utilisent trop d\'espace disque. L\'utilisation actuelle est de :disk_usage alors que la limite autorisée est de :disk_limit.',
 
     'no_backups_info' => 'Aucune sauvegarde n\'a encore été effectuée',
-    'application_name' => 'Nom de l\'application',
+    'application_name' => "Nom de l'application",
     'backup_name' => 'Nom de la sauvegarde',
     'disk' => 'Disque',
     'newest_backup_size' => 'Taille de la sauvegarde la plus récente',

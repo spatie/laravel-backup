@@ -11,21 +11,14 @@ use Spatie\Backup\Helpers\Format;
 
 class CleanupJob
 {
-    protected Collection $backupDestinations;
-
-    protected CleanupStrategy $strategy;
-
     protected bool $sendNotifications = true;
 
+    /** @param Collection<int, BackupDestination> $backupDestinations */
     public function __construct(
-        Collection $backupDestinations,
-        CleanupStrategy $strategy,
+        protected Collection $backupDestinations,
+        protected CleanupStrategy $strategy,
         bool $disableNotifications = false,
     ) {
-        $this->backupDestinations = $backupDestinations;
-
-        $this->strategy = $strategy;
-
         $this->sendNotifications = ! $disableNotifications;
     }
 
@@ -57,7 +50,7 @@ class CleanupJob
         });
     }
 
-    protected function sendNotification($notification): void
+    protected function sendNotification(string|object $notification): void
     {
         if ($this->sendNotifications) {
             rescue(

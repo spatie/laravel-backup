@@ -27,7 +27,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
             ->line($this->problemDescription());
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
-            $mailMessage->line("{$name}: $value");
+            $mailMessage->line("{$name}: {$value}");
         });
 
         if ($this->failure()->wasUnexpected()) {

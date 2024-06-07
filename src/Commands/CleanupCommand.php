@@ -20,13 +20,9 @@ class CleanupCommand extends BaseCommand implements Isolatable
     /** @var string */
     protected $description = 'Remove all backups older than specified number of days in config.';
 
-    protected CleanupStrategy $strategy;
-
-    public function __construct(CleanupStrategy $strategy)
+    public function __construct(protected CleanupStrategy $strategy)
     {
         parent::__construct();
-
-        $this->strategy = $strategy;
     }
 
     public function handle(): int

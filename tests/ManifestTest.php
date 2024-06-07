@@ -67,7 +67,6 @@ it('can return a generator to loop over all the files in the manifest', function
     }
 });
 
-
 function getManifestTestFiles(): array
 {
     return collect(range(1, 3))

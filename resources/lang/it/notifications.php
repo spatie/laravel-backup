@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'exception_message' => 'Messaggio dell\'eccezione: :message',
-    'exception_trace' => 'Traccia dell\'eccezione: :trace',
-    'exception_message_title' => 'Messaggio dell\'eccezione',
-    'exception_trace_title' => 'Traccia dell\'eccezione',
+    'exception_message' => "Messaggio dell'eccezione: :message",
+    'exception_trace' => "Traccia dell'eccezione: :trace",
+    'exception_message_title' => "Messaggio dell'eccezione",
+    'exception_trace_title' => "Traccia dell'eccezione",
 
     'backup_failed_subject' => 'Fallito il backup di :application_name',
     'backup_failed_body' => 'Importante: Si è verificato un errore durante il backup di :application_name',
@@ -34,7 +34,7 @@ return [
     'unhealthy_backup_found_full' => 'I backup utilizzano troppa memoria. L\'utilizzo corrente è :disk_usage che è superiore al limite consentito di :disk_limit.',
 
     'no_backups_info' => 'Non sono stati ancora effettuati backup',
-    'application_name' => 'Nome dell\'applicazione',
+    'application_name' => "Nome dell'applicazione",
     'backup_name' => 'Nome di backup',
     'disk' => 'Disco',
     'newest_backup_size' => 'Dimensione backup più recente',

@@ -20,7 +20,7 @@ class ListCommand extends BaseCommand
     public function handle(): int
     {
         if (config()->has('backup.monitorBackups')) {
-            $this->warn("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
+            $this->warn('Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.');
         }
 
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
@@ -30,7 +30,10 @@ class ListCommand extends BaseCommand
         return static::SUCCESS;
     }
 
-    protected function displayOverview(Collection $backupDestinationStatuses)
+    /**
+     * @param  Collection<int, BackupDestinationStatus>  $backupDestinationStatuses
+     */
+    protected function displayOverview(Collection $backupDestinationStatuses): static
     {
         $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Newest backup', 'Used storage'];
 
@@ -46,6 +49,7 @@ class ListCommand extends BaseCommand
         return $this;
     }
 
+    /** @return array{0: string, 1: string, 2: string, disk: string, amount: int, newest: string, usedStorage: string} */
     public function convertToRow(BackupDestinationStatus $backupDestinationStatus): array
     {
         $destination = $backupDestinationStatus->backupDestination();
@@ -73,7 +77,8 @@ class ListCommand extends BaseCommand
         return $row;
     }
 
-    protected function displayFailures(Collection $backupDestinationStatuses)
+    /** @param Collection<int, BackupDestinationStatus> $backupDestinationStatuses */
+    protected function displayFailures(Collection $backupDestinationStatuses): static
     {
         $failed = $backupDestinationStatuses
             ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
@@ -98,7 +103,7 @@ class ListCommand extends BaseCommand
         return $this;
     }
 
-    protected function getFormattedBackupDate(Backup $backup = null)
+    protected function getFormattedBackupDate(?Backup $backup = null): string
     {
         return is_null($backup)
             ? 'No backups present'

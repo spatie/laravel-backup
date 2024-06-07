@@ -10,7 +10,7 @@ trait Retryable
 
     protected int $currentTry = 1;
 
-    protected function shouldRetry()
+    protected function shouldRetry(): bool
     {
         if ($this->tries <= 1) {
             return false;
@@ -19,29 +19,29 @@ trait Retryable
         return $this->currentTry < $this->tries;
     }
 
-    protected function hasRetryDelay(string $type)
+    protected function hasRetryDelay(string $type): bool
     {
         return ! empty($this->getRetryDelay($type));
     }
 
-    protected function sleepFor(int $seconds = 0)
+    protected function sleepFor(int $seconds = 0): void
     {
         Sleep::for($seconds)->seconds();
     }
 
-    protected function setTries(string $type)
+    protected function setTries(string $type): void
     {
         if ($this->option('tries')) {
-            $this->tries = (int)$this->option('tries');
+            $this->tries = (int) $this->option('tries');
 
             return;
         }
 
-        $this->tries = (int)config('backup.' . $type . '.tries', 1);
+        $this->tries = (int) config('backup.'.$type.'.tries', 1);
     }
 
-    protected function getRetryDelay(string $type)
+    protected function getRetryDelay(string $type): int
     {
-        return (int)config('backup.' . $type . '.retry_delay', 0);
+        return (int) config('backup.'.$type.'.retry_delay', 0);
     }
 }

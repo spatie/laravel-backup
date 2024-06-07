@@ -36,6 +36,7 @@ class BackupCommand extends BaseCommand implements Isolatable
             if ($this->option('only-db')) {
                 $backupJob->dontBackupFilesystem();
             }
+
             if ($this->option('db-name')) {
                 $backupJob->onlyDbName($this->option('db-name'));
             }
@@ -94,7 +95,7 @@ class BackupCommand extends BaseCommand implements Isolatable
         }
     }
 
-    protected function guardAgainstInvalidOptions()
+    protected function guardAgainstInvalidOptions(): void
     {
         if (! $this->option('only-db')) {
             return;

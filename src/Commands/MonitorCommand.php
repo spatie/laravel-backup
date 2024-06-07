@@ -18,7 +18,7 @@ class MonitorCommand extends BaseCommand implements Isolatable
     public function handle(): int
     {
         if (config()->has('backup.monitorBackups')) {
-            $this->warn("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
+            $this->warn('Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.');
         }
 
         $hasError = false;

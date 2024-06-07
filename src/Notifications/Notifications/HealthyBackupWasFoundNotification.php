@@ -24,7 +24,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
             ->line(trans('backup::notifications.healthy_backup_found_body', ['application_name' => $this->applicationName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
-            $mailMessage->line("{$name}: $value");
+            $mailMessage->line("{$name}: {$value}");
         });
 
         return $mailMessage;
@@ -49,7 +49,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
             ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
             ->title(
                 trans('backup::notifications.healthy_backup_found_subject_title', [
-                'application_name' => $this->applicationName(),
+                    'application_name' => $this->applicationName(),
                 ])
             )->fields($this->backupDestinationProperties()->toArray());
     }

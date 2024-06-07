@@ -6,10 +6,12 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Spatie\Backup\Helpers\File;
 
+/** @extends Collection<int,Backup> */
 class BackupCollection extends Collection
 {
     protected ?float $sizeCache = null;
 
+    /** @param array<string> $files */
     public static function createFromFiles(?FileSystem $disk, array $files): self
     {
         return (new static($files))
