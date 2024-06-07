@@ -1,29 +1,28 @@
 name: Check & fix styling
 
-on: [push]
+on:
+    push:
+        paths:
+            - '**.php'
+
+permissions:
+    contents: write
 
 jobs:
-    style:
+    php-code-styling:
         runs-on: ubuntu-latest
+        timeout-minutes: 5
 
         steps:
-            -   name: Checkout code
-                uses: actions/checkout@v4
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
 
-            -   name: Fix style
-                uses: docker://oskarstark/php-cs-fixer-ga
-                with:
-                    args: --config=.php_cs.dist.php --allow-risky=yes
+            - name: Fix PHP code style issues
+              uses: aglipanci/laravel-pint-action@2.4
 
-            -   name: Extract branch name
-                shell: bash
-                run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-                id: extract_branch
-
-            -   name: Commit changes
-                uses: stefanzweifel/git-auto-commit-action@v5.0.1
-                with:
-                    commit_message: Fix styling
-                    branch: ${{ steps.extract_branch.outputs.branch }}
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Commit changes
+              uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  commit_message: Fix styling
