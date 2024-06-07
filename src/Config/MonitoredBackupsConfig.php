@@ -2,7 +2,9 @@
 
 namespace Spatie\Backup\Config;
 
-class MonitoredBackupsConfig
+use Spatie\Backup\Support\Data;
+
+class MonitoredBackupsConfig extends Data
 {
     /**
      * @param array<MonitoredBackupConfig> $monitorBackups

@@ -2,13 +2,14 @@
 
 namespace Spatie\Backup\Config;
 
+use Spatie\Backup\Support\Data;
 use Spatie\Backup\Tasks\Monitor\HealthCheck;
 
-class MonitoredBackupConfig
+class MonitoredBackupConfig extends Data
 {
     /**
      * @param array<string> $disks
-     * @param array<class-string<HealthCheck, integer> $healthChecks
+     * @param array<class-string<HealthCheck>, integer> $healthChecks
      */
     protected function __construct(
         public string $name,

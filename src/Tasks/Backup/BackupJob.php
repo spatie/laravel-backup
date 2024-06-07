@@ -8,7 +8,7 @@ use Generator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
-use Spatie\Backup\Config\BackupConfig;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -42,7 +42,7 @@ class BackupJob
 
     protected bool $signals = true;
 
-    public function __construct(protected BackupConfig $config)
+    public function __construct(protected Config $config)
     {
         $this
             ->dontBackupFilesystem()
@@ -279,8 +279,7 @@ class BackupJob
                     $fileName .= '.'.$dbDumper->getCompressorExtension();
                 }
 
-                ray($this->config->databaseDumpCompressor);
-                if ($compressor = $this->config->databaseDumpCompressor) {
+                if ($compressor = $this->config->backup->databaseDumpCompressor) {
                     $dbDumper->useCompressor(new $compressor());
                     $fileName .= '.'.$dbDumper->getCompressorExtension();
                 }

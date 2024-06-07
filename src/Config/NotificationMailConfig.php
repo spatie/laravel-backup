@@ -3,8 +3,9 @@
 namespace Spatie\Backup\Config;
 
 use Spatie\Backup\Exceptions\InvalidConfig;
+use Spatie\Backup\Support\Data;
 
-class NotificationMailConfig
+class NotificationMailConfig extends Data
 {
     /**
      * @param array{address: string, name: string} $from

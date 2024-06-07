@@ -2,9 +2,10 @@
 
 namespace Spatie\Backup\Config;
 
+use Spatie\Backup\Support\Data;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 
-class CleanupConfig
+class CleanupConfig extends Data
 {
     /**
      * @param class-string<CleanupStrategy> $strategy
@@ -23,9 +24,9 @@ class CleanupConfig
     {
         return new self(
             strategy: $data['strategy'],
-            defaultStrategy: StrategyConfig::fromArray($data['defaultStrategy']),
+            defaultStrategy: StrategyConfig::fromArray($data['default_strategy']),
             tries: $data['tries'],
-            retryDelay: $data['retryDelay'],
+            retryDelay: $data['retry_delay'],
         );
     }
 }

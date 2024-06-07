@@ -4,7 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Exception;
 use Illuminate\Contracts\Console\Isolatable;
-use Spatie\Backup\Config\BackupConfig;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
@@ -19,7 +19,7 @@ class BackupCommand extends BaseCommand implements Isolatable
 
     protected $description = 'Run the backup.';
 
-    public function __construct(protected BackupConfig $config)
+    public function __construct(protected Config $config)
     {
         parent::__construct();
     }

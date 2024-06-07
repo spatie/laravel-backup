@@ -4,6 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\Backup;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Helpers\RightAlignedTableStyle;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
@@ -17,13 +18,14 @@ class ListCommand extends BaseCommand
     /** @var string */
     protected $description = 'Display a list of all backups.';
 
+    public function __construct(protected Config $config)
+    {
+        parent::__construct();
+    }
+
     public function handle(): int
     {
-        if (config()->has('backup.monitorBackups')) {
-            $this->warn('Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.');
-        }
-
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig($this->config->monitoredBackups);
 
         $this->displayOverview($statuses)->displayFailures($statuses);
 

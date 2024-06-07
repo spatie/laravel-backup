@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
-use Spatie\Backup\Config\BackupConfig;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
@@ -54,7 +54,7 @@ function fireBackupHasFailedEvent(): void
 {
     $exception = new Exception('Dummy exception');
 
-    $config = BackupConfig::fromArray(config('backup.backup'));
+    $config = Config::fromArray(config('backup'));
 
     $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 

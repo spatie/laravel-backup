@@ -55,7 +55,7 @@ abstract class TestCase extends Orchestra
         Storage::fake('secondLocal');
     }
 
-    protected function setUpDatabase(Application $app)
+    protected function setUpDatabase(Application $app): void
     {
         touch($this->getTempDirectory().'/database.sqlite');
 
@@ -114,7 +114,7 @@ abstract class TestCase extends Orchestra
         return false;
     }
 
-    protected function assertExactPathExistsInZip(string $diskName, string $zipPath, string $fullPath)
+    protected function assertExactPathExistsInZip(string $diskName, string $zipPath, string $fullPath): void
     {
         $this->assertTrue(
             $this->exactPathExistsInZip($diskName, $zipPath, $fullPath),

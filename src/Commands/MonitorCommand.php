@@ -3,7 +3,7 @@
 namespace Spatie\Backup\Commands;
 
 use Illuminate\Contracts\Console\Isolatable;
-use Spatie\Backup\Config\BackupConfig;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
@@ -16,20 +16,16 @@ class MonitorCommand extends BaseCommand implements Isolatable
     /** @var string */
     protected $description = 'Monitor the health of all backups.';
 
-    public function __construct(protected BackupConfig $config)
+    public function __construct(protected Config $config)
     {
         parent::__construct();
     }
 
     public function handle(): int
     {
-        if (config()->has('backup.monitorBackups')) {
-            $this->warn('Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.');
-        }
-
         $hasError = false;
 
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig($this->config->monitoredBackups);
 
         foreach ($statuses as $backupDestinationStatus) {
             $backupName = $backupDestinationStatus->backupDestination()->backupName();

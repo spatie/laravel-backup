@@ -30,6 +30,8 @@ class BackupConfig extends Data
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self
     {
+        $monitoredBackups = $data['monitored_backups'] ?? $data['monitorBackups'] ?? null;
+
         return new self(
             name: $data['name'],
             source: SourceConfig::fromArray($data['source']),
@@ -44,7 +46,7 @@ class BackupConfig extends Data
             tries: $data['tries'],
             retryDelay: $data['retry_delay'],
             notifications: isset($data['notifications']) ? NotificationsConfig::fromArray($data['notifications']) : null,
-            monitoredBackups: isset($data['monitored_backups']) ? MonitoredBackupsConfig::fromArray($data['monitored_backups']) : null,
+            monitoredBackups: $monitoredBackups ? MonitoredBackupsConfig::fromArray($monitoredBackups) : null,
         );
     }
 }

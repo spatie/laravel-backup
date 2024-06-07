@@ -5,24 +5,24 @@ namespace Spatie\Backup\Tasks\Monitor;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Config\MonitoredBackupsConfig;
 
 class BackupDestinationStatusFactory
 {
 
     /**
-     * @param array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>} $monitorConfiguration
      * @return Collection<int, BackupDestinationStatus>
      */
-    public static function createForMonitorConfig(array $monitorConfiguration): Collection
+    public static function createForMonitorConfig(MonitoredBackupsConfig $monitorConfiguration): Collection
     {
-        return collect($monitorConfiguration)
+        return collect($monitorConfiguration->monitorBackups)
             ->flatMap(fn (array $monitorProperties) => self::createForSingleMonitor($monitorProperties))
             ->sortBy(fn (BackupDestinationStatus $backupDestinationStatus) => $backupDestinationStatus->backupDestination()->backupName().'-'.
                 $backupDestinationStatus->backupDestination()->diskName());
     }
 
     /**
-     * @param array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>} $monitorConfig
+     * @param array{name: string, disks: array<string>, healthChecks: array<class-string|int, array<string, mixed>>} $monitorConfig
      * @return Collection<int, BackupDestinationStatus>
      */
     public static function createForSingleMonitor(array $monitorConfig): Collection
@@ -36,21 +36,12 @@ class BackupDestinationStatusFactory
     }
 
     /**
-     * @param array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>} $monitorConfig
+     * @param array{name: string, disks: array<string>, healthChecks: array<class-string|int, array<string, mixed>>} $monitorConfig
      * @return array<HealthCheck>
      */
     protected static function buildHealthChecks(array $monitorConfig): array
     {
-        ray(collect($monitorConfig['health_checks'])
-            ->map(function ($options, $class) {
-                if (is_int($class)) {
-                    $class = $options;
-                    $options = [];
-                }
-
-                return static::buildHealthCheck($class, $options);
-            })->toArray());
-        return collect($monitorConfig['health_checks'])
+        return collect($monitorConfig['healthChecks'])
             ->map(function ($options, $class) {
                 if (is_int($class)) {
                     $class = $options;

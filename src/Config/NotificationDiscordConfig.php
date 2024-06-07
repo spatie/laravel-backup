@@ -2,7 +2,9 @@
 
 namespace Spatie\Backup\Config;
 
-class NotificationDiscordConfig
+use Spatie\Backup\Support\Data;
+
+class NotificationDiscordConfig extends Data
 {
     protected function __construct(
         public string $webhookUrl,
