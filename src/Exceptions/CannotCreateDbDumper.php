@@ -11,7 +11,7 @@ class CannotCreateDbDumper extends Exception
         $supportedDrivers = collect(config('database.connections'))->keys();
 
         $formattedSupportedDrivers = $supportedDrivers
-            ->map(fn (string $supportedDriver) => "`$supportedDriver`")
+            ->map(fn (string $supportedDriver) => "`{$supportedDriver}`")
             ->join(glue: ', ', finalGlue: ' or ');
 
         return new static("Cannot create a dumper for db driver `{$driver}`. Use {$formattedSupportedDrivers}.");

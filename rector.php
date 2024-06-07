@@ -16,9 +16,9 @@ use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
 
 return RectorConfig::configure()
-    ->withPaths(['config', 'resources', 'src', 'tests'])
+    ->withPaths(['config', 'resources', 'src'])
     ->withPhpSets(php81: true)
-    ->withPreparedSets(deadCode: true,codingStyle: true)
+    ->withPreparedSets(deadCode: true, codingStyle: true, typeDeclarations: true)
     ->withSkip([
         ReturnNeverTypeRector::class,
         OptionalParametersAfterRequiredRector::class,

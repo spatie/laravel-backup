@@ -72,7 +72,7 @@ abstract class TestCase extends Orchestra
         $this->assertStringContainsString(
             $expectedText,
             $consoleOutput,
-            "Did not see `{$expectedText}` in console output: `$consoleOutput`"
+            "Did not see `{$expectedText}` in console output: `{$consoleOutput}`"
         );
     }
 
@@ -83,7 +83,7 @@ abstract class TestCase extends Orchestra
         $this->assertNotContains(
             $unexpectedText,
             $consoleOutput,
-            "Did not expect to see `{$unexpectedText}` in console output: `$consoleOutput`"
+            "Did not expect to see `{$unexpectedText}` in console output: `{$consoleOutput}`"
         );
     }
 

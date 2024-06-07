@@ -30,7 +30,7 @@ abstract class BaseCommand extends SignalAwareCommand
 
     protected function runningInConsole(): bool
     {
-        return in_array(php_sapi_name(), ['cli', 'phpdbg']);
+        return in_array(PHP_SAPI, ['cli', 'phpdbg']);
     }
 
     public function getSubscribedSignals(): array

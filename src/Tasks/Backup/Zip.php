@@ -112,6 +112,7 @@ class Zip
                     );
                 }
             }
+
             $this->fileCount++;
         }
 

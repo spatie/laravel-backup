@@ -102,6 +102,7 @@ it('can backup using relative path', function () {
     foreach (range(0, $zip->numFiles - 1) as $i) {
         $zipFiles[] = $zip->statIndex($i)['name'];
     }
+
     $zip->close();
     sort($testFiles);
     sort($zipFiles);
@@ -121,6 +122,7 @@ it('can backup using short relative path', function () {
     if ($zip->numFiles) {
         $zipFile = $zip->statIndex(0)['name'];
     }
+
     $zip->close();
 
     expect($zipFile)->toStartWith(ltrim((string) $this->getStubDirectory(), DIRECTORY_SEPARATOR));
@@ -132,6 +134,7 @@ it('excludes the temporary directory from the backup', function () {
     if (! file_exists($tempDirectoryPath)) {
         mkdir($tempDirectoryPath, 0777, true);
     }
+
     touch($tempDirectoryPath.DIRECTORY_SEPARATOR.'testing-file-temp.txt');
 
     $this->artisan('backup:run --only-files')->assertExitCode(0);
@@ -367,8 +370,10 @@ it('will encrypt backup when notifications are disabled', function () {
 
     $zip = new ZipArchive();
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_AES_256);
+
     $zip->close();
 
     Event::assertNotDispatched(BackupZipWasCreated::class);
@@ -382,8 +387,10 @@ it('can use different compression methods for backup file', function () {
 
     $zip = new ZipArchive();
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_DEFLATE);
+
     $zip->close();
 
     // check no compression with ZipArchive::CM_STORE method
@@ -394,8 +401,10 @@ it('can use different compression methods for backup file', function () {
 
     $zip = new ZipArchive();
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_STORE);
+
     $zip->close();
 
     // check ZipArchive::CM_DEFLATE method with custom compression level
@@ -406,8 +415,10 @@ it('can use different compression methods for backup file', function () {
 
     $zip = new ZipArchive();
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_DEFLATE);
+
     $zip->close();
 });
 

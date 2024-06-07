@@ -24,7 +24,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
             ->line(trans('backup::notifications.healthy_backup_found_body', ['application_name' => $this->applicationName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
-            $mailMessage->line("{$name}: $value");
+            $mailMessage->line("{$name}: {$value}");
         });
 
         return $mailMessage;

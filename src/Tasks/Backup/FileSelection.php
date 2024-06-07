@@ -72,7 +72,7 @@ class FileSelection
             yield $includedFile;
         }
 
-        if (! count($this->includedDirectories())) {
+        if ($this->includedDirectories() === []) {
             return [];
         }
 
@@ -107,6 +107,7 @@ class FileSelection
         if (is_dir($path)) {
             $path .= DIRECTORY_SEPARATOR;
         }
+
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
             if (Str::startsWith($path, $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''))) {
                 if ($path != $excludedPath && is_file($excludedPath)) {

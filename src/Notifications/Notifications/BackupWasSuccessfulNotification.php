@@ -24,7 +24,7 @@ class BackupWasSuccessfulNotification extends BaseNotification
             ->line(trans('backup::notifications.backup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
-            $mailMessage->line("{$name}: $value");
+            $mailMessage->line("{$name}: {$value}");
         });
 
         return $mailMessage;
