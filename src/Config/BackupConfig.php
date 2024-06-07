@@ -22,6 +22,8 @@ class BackupConfig extends Data
         public string $encryption,
         public int $tries,
         public int $retryDelay,
+        public ?NotificationsConfig $notifications,
+        public ?MonitoredBackupsConfig $monitoredBackups,
     ) {
     }
 
@@ -41,6 +43,8 @@ class BackupConfig extends Data
             encryption: $data['encryption'],
             tries: $data['tries'],
             retryDelay: $data['retry_delay'],
+            notifications: isset($data['notifications']) ? NotificationsConfig::fromArray($data['notifications']) : null,
+            monitoredBackups: isset($data['monitored_backups']) ? MonitoredBackupsConfig::fromArray($data['monitored_backups']) : null,
         );
     }
 }

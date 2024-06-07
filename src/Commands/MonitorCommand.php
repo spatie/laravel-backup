@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Commands;
 
 use Illuminate\Contracts\Console\Isolatable;
+use Spatie\Backup\Config\BackupConfig;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
@@ -14,6 +15,11 @@ class MonitorCommand extends BaseCommand implements Isolatable
 
     /** @var string */
     protected $description = 'Monitor the health of all backups.';
+
+    public function __construct(protected BackupConfig $config)
+    {
+        parent::__construct();
+    }
 
     public function handle(): int
     {
