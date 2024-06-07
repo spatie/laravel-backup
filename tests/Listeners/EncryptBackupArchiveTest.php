@@ -23,7 +23,7 @@ it('keeps archive unencrypted without password', function () {
 });
 
 /**
- * @param int $algorithm
+ * @param  int  $algorithm
  */
 it('encrypts archive with password', function (int $algorithm) {
     config()->set('backup.backup.encryption', $algorithm);

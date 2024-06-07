@@ -37,7 +37,7 @@ it('can select all the files in a directory and subdirectories', function () {
 
 it('can exclude files from a given subdirectory', function () {
     $fileSelection = (new FileSelection($this->sourceDirectory))
-                    ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
+        ->excludeFilesFrom("{$this->sourceDirectory}/directory1");
 
     $testFiles = getTestFiles([
         '.dot',
@@ -62,8 +62,8 @@ it('can exclude files from a given subdirectory', function () {
 it('can exclude files with wildcards from a given subdirectory', function () {
     $fileSelection = (new FileSelection($this->sourceDirectory))
         ->excludeFilesFrom(getTestFiles([
-            "*/file1.txt",
-            "*/directory1",
+            '*/file1.txt',
+            '*/directory1',
         ]));
 
     $testFiles = getTestFiles([
@@ -159,7 +159,6 @@ it('provides a factory method', function () {
 
     expect($fileSelection)->toBeInstanceOf(FileSelection::class);
 });
-
 
 function assertSameArrayContent($expected, $actual, $message = '')
 {

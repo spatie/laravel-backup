@@ -12,7 +12,7 @@ class BackupDestinationStatusFactory
     {
         return collect($monitorConfiguration)
             ->flatMap(fn (array $monitorProperties) => self::createForSingleMonitor($monitorProperties))
-            ->sortBy(fn (BackupDestinationStatus $backupDestinationStatus) => $backupDestinationStatus->backupDestination()->backupName() . '-' .
+            ->sortBy(fn (BackupDestinationStatus $backupDestinationStatus) => $backupDestinationStatus->backupDestination()->backupName().'-'.
                 $backupDestinationStatus->backupDestination()->diskName());
     }
 
@@ -39,7 +39,7 @@ class BackupDestinationStatusFactory
             })->toArray();
     }
 
-    protected static function buildHealthCheck(string $class, string | array $options): HealthCheck
+    protected static function buildHealthCheck(string $class, string|array $options): HealthCheck
     {
         if (! is_array($options)) {
             return new $class($options);

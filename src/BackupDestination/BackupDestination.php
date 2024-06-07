@@ -14,7 +14,7 @@ class BackupDestination
 
     protected ?BackupCollection $backupCollectionCache = null;
 
-    public function __construct(protected ?Filesystem $disk = null, protected string $backupName, protected string $diskName)
+    public function __construct(protected ?Filesystem $disk, protected string $backupName, protected string $diskName)
     {
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-use function PHPUnit\Framework\assertTrue;
-
 use Spatie\Backup\Tests\TestCase;
+
+use function PHPUnit\Framework\assertTrue;
 
 uses(TestCase::class)->in(__DIR__);
 

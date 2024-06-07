@@ -19,9 +19,7 @@ use ZipArchive;
 abstract class TestCase extends Orchestra
 {
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return array
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getPackageProviders($app): array
     {
@@ -31,7 +29,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -236,7 +234,7 @@ abstract class TestCase extends Orchestra
         return $this;
     }
 
-    public function makeHealthCheckFail(Exception $customException = null): self
+    public function makeHealthCheckFail(?Exception $customException = null): self
     {
         FakeFailingHealthCheck::$reason = $customException;
 

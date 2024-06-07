@@ -20,7 +20,7 @@ class ListCommand extends BaseCommand
     public function handle(): int
     {
         if (config()->has('backup.monitorBackups')) {
-            $this->warn("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
+            $this->warn('Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.');
         }
 
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
@@ -98,7 +98,7 @@ class ListCommand extends BaseCommand
         return $this;
     }
 
-    protected function getFormattedBackupDate(Backup $backup = null)
+    protected function getFormattedBackupDate(?Backup $backup = null)
     {
         return is_null($backup)
             ? 'No backups present'

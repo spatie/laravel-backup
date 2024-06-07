@@ -386,7 +386,6 @@ it('can use different compression methods for backup file', function () {
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_DEFLATE);
     $zip->close();
 
-
     // check no compression with ZipArchive::CM_STORE method
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_STORE);
     config()->set('backup.backup.destination.compression_level', 0);
@@ -398,7 +397,6 @@ it('can use different compression methods for backup file', function () {
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_STORE);
     $zip->close();
-
 
     // check ZipArchive::CM_DEFLATE method with custom compression level
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_DEFLATE);

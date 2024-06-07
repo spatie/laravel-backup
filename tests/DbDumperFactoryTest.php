@@ -174,7 +174,6 @@ it('can create instances of custom dumpers', function () {
     expect(DbDumperFactory::createFromConnection('mysql'))->toBeInstanceOf(MongoDb::class);
 });
 
-
 function getDumpCommand(): string
 {
     $dumpFile = '';

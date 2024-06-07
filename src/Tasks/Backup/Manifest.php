@@ -23,7 +23,7 @@ class Manifest implements Countable
         return $this->manifestPath;
     }
 
-    public function addFiles(array | string | Generator $filePaths): self
+    public function addFiles(array|string|Generator $filePaths): self
     {
         if (is_string($filePaths)) {
             $filePaths = [$filePaths];
@@ -38,7 +38,7 @@ class Manifest implements Countable
         return $this;
     }
 
-    public function files(): Generator | array
+    public function files(): Generator|array
     {
         $file = new SplFileObject($this->path());
 

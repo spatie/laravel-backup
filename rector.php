@@ -10,10 +10,10 @@ use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/config',
-        __DIR__ . '/resources',
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/config',
+        __DIR__.'/resources',
+        __DIR__.'/src',
+        __DIR__.'/tests',
     ])
     ->withPhpSets(php81: true)
     ->withRules([

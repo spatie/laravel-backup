@@ -8,7 +8,7 @@ class CannotCreateDbDumper extends Exception
 {
     public static function unsupportedDriver(string $driver): self
     {
-        $supportedDrivers = collect(config("database.connections"))->keys();
+        $supportedDrivers = collect(config('database.connections'))->keys();
 
         $formattedSupportedDrivers = $supportedDrivers
             ->map(fn (string $supportedDriver) => "`$supportedDriver`")
