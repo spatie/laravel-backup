@@ -8,7 +8,7 @@ use Spatie\Backup\Support\Data;
 class NotificationMailConfig extends Data
 {
     /**
-     * @param array{address: string, name: string} $from
+     * @param  array{address: string, name: string}  $from
      */
     protected function __construct(
         public string $to,
@@ -17,7 +17,8 @@ class NotificationMailConfig extends Data
     }
 
     /**
-     * @param array<mixed> $data
+     * @param  array<mixed>  $data
+     *
      * @throws InvalidConfig
      */
     public static function fromArray(array $data): self

@@ -8,8 +8,8 @@ use Spatie\Backup\Tasks\Monitor\HealthCheck;
 class MonitoredBackupConfig extends Data
 {
     /**
-     * @param array<string> $disks
-     * @param array<class-string<HealthCheck>, integer> $healthChecks
+     * @param  array<string>  $disks
+     * @param  array<class-string<HealthCheck>, int>  $healthChecks
      */
     protected function __construct(
         public string $name,

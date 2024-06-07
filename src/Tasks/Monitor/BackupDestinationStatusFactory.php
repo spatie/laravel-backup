@@ -2,14 +2,12 @@
 
 namespace Spatie\Backup\Tasks\Monitor;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Config\MonitoredBackupsConfig;
 
 class BackupDestinationStatusFactory
 {
-
     /**
      * @return Collection<int, BackupDestinationStatus>
      */
@@ -22,7 +20,7 @@ class BackupDestinationStatusFactory
     }
 
     /**
-     * @param array{name: string, disks: array<string>, healthChecks: array<class-string|int, array<string, mixed>>} $monitorConfig
+     * @param  array{name: string, disks: array<string>, healthChecks: array<class-string|int, array<string, mixed>>}  $monitorConfig
      * @return Collection<int, BackupDestinationStatus>
      */
     public static function createForSingleMonitor(array $monitorConfig): Collection
@@ -36,7 +34,7 @@ class BackupDestinationStatusFactory
     }
 
     /**
-     * @param array{name: string, disks: array<string>, healthChecks: array<class-string|int, array<string, mixed>>} $monitorConfig
+     * @param  array{name: string, disks: array<string>, healthChecks: array<class-string|int, array<string, mixed>>}  $monitorConfig
      * @return array<HealthCheck>
      */
     protected static function buildHealthChecks(array $monitorConfig): array

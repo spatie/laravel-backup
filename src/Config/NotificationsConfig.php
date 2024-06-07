@@ -9,14 +9,14 @@ use Spatie\Backup\Support\Data;
 class NotificationsConfig extends Data
 {
     /**
-     * @param array<class-string<BaseNotification>, array<string>> $notifications
-     * @param class-string<Notifiable> $notifiable
+     * @param  array<class-string<BaseNotification>, array<string>>  $notifications
+     * @param  class-string<Notifiable>  $notifiable
      */
     protected function __construct(
-        public array                     $notifications,
-        public string                    $notifiable,
+        public array $notifications,
+        public string $notifiable,
         public NotificationMailConfig $mail,
-        public NotificationSlackConfig   $slack,
+        public NotificationSlackConfig $slack,
         public NotificationDiscordConfig $discord,
     ) {
     }

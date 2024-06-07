@@ -7,7 +7,7 @@ use Spatie\Backup\Support\Data;
 class SourceConfig extends Data
 {
     /**
-     * @param array<string> $databases
+     * @param  array<string>  $databases
      */
     protected function __construct(
         public SourceFilesConfig $files,

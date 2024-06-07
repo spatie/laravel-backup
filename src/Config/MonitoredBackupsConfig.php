@@ -7,9 +7,9 @@ use Spatie\Backup\Support\Data;
 class MonitoredBackupsConfig extends Data
 {
     /**
-     * @param array<MonitoredBackupConfig> $monitorBackups
+     * @param  array<MonitoredBackupConfig>  $monitorBackups
      */
-    protected function __construct (
+    protected function __construct(
         public array $monitorBackups,
     ) {
     }

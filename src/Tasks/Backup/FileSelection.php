@@ -130,7 +130,7 @@ class FileSelection
     }
 
     /**
-     * @param string|array<string> $paths
+     * @param  string|array<string>  $paths
      */
     protected function sanitize(string|array $paths): Collection
     {

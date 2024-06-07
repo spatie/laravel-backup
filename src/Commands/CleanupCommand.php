@@ -23,7 +23,7 @@ class CleanupCommand extends BaseCommand implements Isolatable
 
     public function __construct(
         protected CleanupStrategy $strategy,
-        protected Config          $config,
+        protected Config $config,
     ) {
         parent::__construct();
     }

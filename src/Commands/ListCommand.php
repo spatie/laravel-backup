@@ -33,7 +33,7 @@ class ListCommand extends BaseCommand
     }
 
     /**
-     * @param Collection<int, BackupDestinationStatus> $backupDestinationStatuses
+     * @param  Collection<int, BackupDestinationStatus>  $backupDestinationStatuses
      */
     protected function displayOverview(Collection $backupDestinationStatuses): static
     {
@@ -51,7 +51,7 @@ class ListCommand extends BaseCommand
         return $this;
     }
 
-    /** @return array{0: string, 1: string, 2: string, disk: string, amount: integer, newest: string, usedStorage: string} */
+    /** @return array{0: string, 1: string, 2: string, disk: string, amount: int, newest: string, usedStorage: string} */
     public function convertToRow(BackupDestinationStatus $backupDestinationStatus): array
     {
         $destination = $backupDestinationStatus->backupDestination();

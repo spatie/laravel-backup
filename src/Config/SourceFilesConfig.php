@@ -7,8 +7,8 @@ use Spatie\Backup\Support\Data;
 class SourceFilesConfig extends Data
 {
     /**
-     * @param array<string> $include
-     * @param array<string> $exclude
+     * @param  array<string>  $include
+     * @param  array<string>  $exclude
      */
     protected function __construct(
         public array $include,

@@ -7,9 +7,9 @@ use Spatie\Backup\Support\Data;
 class Config extends Data
 {
     protected function __construct(
-        public BackupConfig                 $backup,
+        public BackupConfig $backup,
         public MonitoredBackupsConfig $monitoredBackups,
-        public CleanupConfig          $cleanup,
+        public CleanupConfig $cleanup,
     ) {
     }
 

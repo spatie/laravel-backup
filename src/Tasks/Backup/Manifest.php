@@ -24,7 +24,7 @@ class Manifest implements Countable
     }
 
     /**
-     * @param Generator|string|array<string> $filePaths
+     * @param  Generator|string|array<string>  $filePaths
      */
     public function addFiles(array|string|Generator $filePaths): self
     {

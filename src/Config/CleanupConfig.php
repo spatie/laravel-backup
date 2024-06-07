@@ -8,8 +8,8 @@ use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 class CleanupConfig extends Data
 {
     /**
-     * @param class-string<CleanupStrategy> $strategy
-     * @param positive-int $tries
+     * @param  class-string<CleanupStrategy>  $strategy
+     * @param  positive-int  $tries
      */
     protected function __construct(
         public string $strategy,

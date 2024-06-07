@@ -7,7 +7,7 @@ use Spatie\Backup\Support\Data;
 class BackupConfig extends Data
 {
     /**
-     * @param positive-int $tries
+     * @param  positive-int  $tries
      */
     protected function __construct(
         public string $name,

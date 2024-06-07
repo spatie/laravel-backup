@@ -7,8 +7,8 @@ use Spatie\Backup\Support\Data;
 class DestinationConfig extends Data
 {
     /**
-     * @param int<0,9> $compressionLevel
-     * @param array<string> $disks
+     * @param  int<0,9>  $compressionLevel
+     * @param  array<string>  $disks
      */
     protected function __construct(
         public int $compressionMethod,

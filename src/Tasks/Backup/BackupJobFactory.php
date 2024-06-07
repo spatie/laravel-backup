@@ -2,7 +2,6 @@
 
 namespace Spatie\Backup\Tasks\Backup;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Config\Config;
@@ -28,7 +27,7 @@ class BackupJobFactory
     }
 
     /**
-     * @param array<int, string> $dbConnectionNames
+     * @param  array<int, string>  $dbConnectionNames
      * @return Collection<string, DbDumper>
      */
     protected static function createDbDumpers(array $dbConnectionNames): Collection
