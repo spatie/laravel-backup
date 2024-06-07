@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Tasks\Backup;
 
 use Illuminate\Support\Str;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Helpers\Format;
 use ZipArchive;
 
@@ -12,10 +13,23 @@ class Zip
 
     protected int $fileCount = 0;
 
+    protected Config $config;
+
+    public function __construct(protected string $pathToZip)
+    {
+        $this->zipFile = new ZipArchive();
+        $this->config = app(Config::class);
+
+        $this->open();
+    }
+
     public static function createForManifest(Manifest $manifest, string $pathToZip): self
     {
-        $relativePath = config('backup.backup.source.files.relative_path') ?
-            rtrim((string) config('backup.backup.source.files.relative_path'), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : false;
+        $config = app(Config::class);
+
+        $relativePath = $config->backup->source->files->relativePath
+            ? rtrim($config->backup->source->files->relativePath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR
+            : false;
 
         $zip = new static($pathToZip);
 
@@ -45,13 +59,6 @@ class Zip
         }
 
         return $pathToFile;
-    }
-
-    public function __construct(protected string $pathToZip)
-    {
-        $this->zipFile = new ZipArchive();
-
-        $this->open();
     }
 
     public function path(): string
@@ -93,8 +100,8 @@ class Zip
             $files = [$files];
         }
 
-        $compressionMethod = config('backup.backup.destination.compression_method', null);
-        $compressionLevel = config('backup.backup.destination.compression_level', 9);
+        $compressionMethod = $this->config->backup->destination->compressionMethod;
+        $compressionLevel = $this->config->backup->destination->compressionLevel;
 
         foreach ($files as $file) {
             if (is_dir($file)) {

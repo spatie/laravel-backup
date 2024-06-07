@@ -37,11 +37,19 @@ trait Retryable
             return;
         }
 
-        $this->tries = (int) config('backup.'.$type.'.tries', 1);
+        $this->tries = match ($type) {
+            'backup' => $this->config->backup->tries,
+            'cleanup' => $this->config->cleanup->tries,
+            default => 1,
+        };
     }
 
     protected function getRetryDelay(string $type): int
     {
-        return (int) config('backup.'.$type.'.retry_delay', 0);
+        return match ($type) {
+            'backup' => $this->config->backup->retryDelay,
+            'cleanup' => $this->config->cleanup->retryDelay,
+            default => 0,
+        };
     }
 }
