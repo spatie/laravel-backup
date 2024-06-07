@@ -28,7 +28,7 @@ class BackupJobFactory
     }
 
     /**
-     * @param array<int, string> $dbConnectionNames
+     * @param  array<int, string>  $dbConnectionNames
      * @return Collection<string, DbDumper>
      */
     protected static function createDbDumpers(array $dbConnectionNames): Collection

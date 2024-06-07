@@ -104,7 +104,7 @@ class BackupJob
     }
 
     /**
-     * @param Collection<string, DbDumper> $dbDumpers
+     * @param  Collection<string, DbDumper>  $dbDumpers
      * @return $this
      */
     public function setDbDumpers(Collection $dbDumpers): self

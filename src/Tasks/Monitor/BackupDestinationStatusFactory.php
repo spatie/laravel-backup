@@ -2,15 +2,13 @@
 
 namespace Spatie\Backup\Tasks\Monitor;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 
 class BackupDestinationStatusFactory
 {
-
     /**
-     * @param array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>} $monitorConfiguration
+     * @param  array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>}  $monitorConfiguration
      * @return Collection<int, BackupDestinationStatus>
      */
     public static function createForMonitorConfig(array $monitorConfiguration): Collection
@@ -22,7 +20,7 @@ class BackupDestinationStatusFactory
     }
 
     /**
-     * @param array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>} $monitorConfig
+     * @param  array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>}  $monitorConfig
      * @return Collection<int, BackupDestinationStatus>
      */
     public static function createForSingleMonitor(array $monitorConfig): Collection
@@ -36,7 +34,7 @@ class BackupDestinationStatusFactory
     }
 
     /**
-     * @param array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>} $monitorConfig
+     * @param  array{name: string, disks: array<string>, health_checks: array<class-string|int, array<string, mixed>>}  $monitorConfig
      * @return array<HealthCheck>
      */
     protected static function buildHealthChecks(array $monitorConfig): array
@@ -50,6 +48,7 @@ class BackupDestinationStatusFactory
 
                 return static::buildHealthCheck($class, $options);
             })->toArray());
+
         return collect($monitorConfig['health_checks'])
             ->map(function ($options, $class) {
                 if (is_int($class)) {

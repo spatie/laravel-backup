@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 class BackupDestinationFactory
 {
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      * @return Collection<int, BackupDestination>
      */
     public static function createFromArray(array $config): Collection
