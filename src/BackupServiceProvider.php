@@ -9,6 +9,7 @@ use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
 use Spatie\Backup\Commands\MonitorCommand;
+use Spatie\Backup\Config\BackupConfig;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Listeners\EncryptBackupArchive;
@@ -50,6 +51,10 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->app->bind(CleanupStrategy::class, config('backup.cleanup.strategy'));
 
         $this->registerDiscordChannel();
+
+        $this->app->singleton(BackupConfig::class, function () {
+            return BackupConfig::fromArray(config('backup.backup'));
+        });
     }
 
     protected function registerDiscordChannel(): void

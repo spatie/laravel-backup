@@ -9,16 +9,25 @@ class SourceFilesConfig extends Data
     /**
      * @param array<string> $include
      * @param array<string> $exclude
-     * @param bool $followLinks
-     * @param bool $ignoreUnreadableDirectories
-     * @param string|null $relativePath
      */
-    public function __construct(
+    protected function __construct(
         public array $include,
         public array $exclude,
         public bool $followLinks,
         public bool $ignoreUnreadableDirectories,
         public ?string $relativePath,
     ) {
+    }
+
+    /** @param array<mixed> $data */
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            include: $data['include'],
+            exclude: $data['exclude'],
+            followLinks: $data['follow_links'],
+            ignoreUnreadableDirectories: $data['ignore_unreadable_directories'],
+            relativePath: $data['relative_path'],
+        );
     }
 }

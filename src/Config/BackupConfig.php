@@ -9,7 +9,7 @@ class BackupConfig extends Data
     /**
      * @param positive-int $tries
      */
-    public function __construct(
+    protected function __construct(
         public string $name,
         public SourceConfig $source,
         public ?string $databaseDumpCompressor,
@@ -23,5 +23,24 @@ class BackupConfig extends Data
         public int $tries,
         public int $retryDelay,
     ) {
+    }
+
+    /** @param array<mixed> $data */
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            name: $data['name'],
+            source: SourceConfig::fromArray($data['source']),
+            databaseDumpCompressor: $data['database_dump_compressor'],
+            databaseDumpFileTimestampFormat: $data['database_dump_file_timestamp_format'],
+            databaseDumpFilenameBase: $data['database_dump_file_directory'],
+            databaseDumpFileExtension: $data['database_dump_file_extension'],
+            destination: DestinationConfig::fromArray($data['destination']),
+            temporaryDirectory: $data['temporary_directory'],
+            password: $data['password'],
+            encryption: $data['encryption'],
+            tries: $data['tries'],
+            retryDelay: $data['retry_delay'],
+        );
     }
 }
