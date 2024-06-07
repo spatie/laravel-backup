@@ -140,6 +140,6 @@ class FileSelection
 
     protected function canUseGlobBrace(string $path): bool
     {
-        return strpos($path, '*') !== false && defined('GLOB_BRACE');
+        return str_contains($path, '*') && defined('GLOB_BRACE');
     }
 }

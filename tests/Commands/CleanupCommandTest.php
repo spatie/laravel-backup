@@ -35,7 +35,7 @@ it('can remove old backups from the backup directory', function () {
 
             return [
                 $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_first.zip", $date),
-                $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_second.zip", $date->addHour(2)),
+                $this->createFileOnDisk('local', "mysite/test_{$date->format('Ymd')}_second.zip", $date->addHours(2)),
             ];
         })->partition(function (string $backupPath) {
             return in_array($backupPath, [

@@ -206,7 +206,7 @@ abstract class TestCase extends Orchestra
         return __DIR__.'/temp'.($file ? '/'.$file : '');
     }
 
-    public function initializeTempDirectory()
+    public function initializeTempDirectory(): void
     {
         $this->initializeDirectory($this->getTempDirectory());
     }

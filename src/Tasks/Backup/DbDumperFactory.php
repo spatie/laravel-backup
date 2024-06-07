@@ -69,14 +69,14 @@ class DbDumperFactory
         return $dbDumper;
     }
 
-    public static function extend(string $driver, callable $callback)
+    public static function extend(string $driver, callable $callback): void
     {
         static::$custom[$driver] = $callback;
     }
 
     protected static function forDriver($dbDriver): DbDumper
     {
-        $driver = strtolower($dbDriver);
+        $driver = strtolower((string) $dbDriver);
 
         if (isset(static::$custom[$driver])) {
             return (static::$custom[$driver])();

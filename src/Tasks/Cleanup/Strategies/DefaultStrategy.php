@@ -13,7 +13,7 @@ class DefaultStrategy extends CleanupStrategy
 {
     protected ?Backup $newestBackup = null;
 
-    public function deleteOldBackups(BackupCollection $backups)
+    public function deleteOldBackups(BackupCollection $backups): void
     {
         // Don't ever delete the newest backup.
         $this->newestBackup = $backups->shift();

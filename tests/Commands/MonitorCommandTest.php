@@ -7,7 +7,7 @@ use Spatie\Backup\Tests\TestCase;
 class MonitorCommandTest extends TestCase
 {
     /** @test */
-    public function it_warns_the_user_about_the_old_style_config_keys()
+    public function it_warns_the_user_about_the_old_style_config_keys(): void
     {
         $this->artisan('backup:monitor')
             ->assertSuccessful();

@@ -120,7 +120,7 @@ class DiscordMessage
                     'type' => 'rich',
                     'description' => $this->description,
                     'fields' => $this->fields,
-                    'color' => hexdec($this->color),
+                    'color' => hexdec((string) $this->color),
                     'footer' => [
                         'text' => $this->footer ?? '',
                     ],

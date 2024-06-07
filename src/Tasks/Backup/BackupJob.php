@@ -249,7 +249,7 @@ class BackupJob
             ->map(function (DbDumper $dbDumper, $key) {
                 consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
-                $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
+                $dbType = mb_strtolower(basename(str_replace('\\', '/', $dbDumper::class)));
 
 
                 if (config('backup.backup.database_dump_filename_base') === 'connection') {

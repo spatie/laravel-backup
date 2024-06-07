@@ -123,7 +123,7 @@ it('can backup using short relative path', function () {
     }
     $zip->close();
 
-    expect($zipFile)->toStartWith(ltrim($this->getStubDirectory(), DIRECTORY_SEPARATOR));
+    expect($zipFile)->toStartWith(ltrim((string) $this->getStubDirectory(), DIRECTORY_SEPARATOR));
 });
 
 it('excludes the temporary directory from the backup', function () {

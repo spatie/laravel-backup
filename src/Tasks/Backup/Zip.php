@@ -12,12 +12,10 @@ class Zip
 
     protected int $fileCount = 0;
 
-    protected string $pathToZip;
-
     public static function createForManifest(Manifest $manifest, string $pathToZip): self
     {
         $relativePath = config('backup.backup.source.files.relative_path') ?
-            rtrim(config('backup.backup.source.files.relative_path'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : false;
+            rtrim((string) config('backup.backup.source.files.relative_path'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : false;
 
         $zip = new static($pathToZip);
 
@@ -49,11 +47,9 @@ class Zip
         return $pathToFile;
     }
 
-    public function __construct(string $pathToZip)
+    public function __construct(protected string $pathToZip)
     {
         $this->zipFile = new ZipArchive();
-
-        $this->pathToZip = $pathToZip;
 
         $this->open();
     }
@@ -106,7 +102,7 @@ class Zip
             }
 
             if (is_file($file)) {
-                $this->zipFile->addFile($file, ltrim($nameInZip, DIRECTORY_SEPARATOR));
+                $this->zipFile->addFile($file, ltrim((string) $nameInZip, DIRECTORY_SEPARATOR));
 
                 if (is_int($compressionMethod)) {
                     $this->zipFile->setCompressionName(

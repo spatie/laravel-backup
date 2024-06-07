@@ -62,7 +62,7 @@ it('can delete itself', function () {
 });
 
 it('can determine its size', function () {
-    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+    $backup = getBackupForFile('test.zip', 0);
 
     $fileSize = floatval(Storage::disk('local')->size('mysite.com/test.zip'));
 
@@ -72,7 +72,7 @@ it('can determine its size', function () {
 });
 
 it('can determine its size even after it has been deleted', function () {
-    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+    $backup = getBackupForFile('test.zip', 0);
 
     $backup->delete();
 
@@ -113,7 +113,7 @@ it('push empty default backup extra option to write stream if not set', function
 });
 
 it('need a float type size', function () {
-    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+    $backup = getBackupForFile('test.zip', 0);
 
     expect($backup->sizeInBytes())->toBeFloat();
 });

@@ -34,7 +34,7 @@ class BackupServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function packageBooted()
+    public function packageBooted(): void
     {
         $this->app['events']->subscribe(EventHandler::class);
 
@@ -43,7 +43,7 @@ class BackupServiceProvider extends PackageServiceProvider
         }
     }
 
-    public function packageRegistered()
+    public function packageRegistered(): void
     {
         $this->app->singleton(ConsoleOutput::class);
 
