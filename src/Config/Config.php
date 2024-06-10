@@ -8,6 +8,7 @@ class Config extends Data
 {
     protected function __construct(
         public BackupConfig $backup,
+        public NotificationsConfig $notifications,
         public MonitoredBackupsConfig $monitoredBackups,
         public CleanupConfig $cleanup,
     ) {
@@ -26,6 +27,7 @@ class Config extends Data
     {
         return new self(
             backup: BackupConfig::fromArray($data['backup']),
+            notifications: NotificationsConfig::fromArray($data['notifications']),
             monitoredBackups: MonitoredBackupsConfig::fromArray($data['monitor_backups']),
             cleanup: CleanupConfig::fromArray($data['cleanup']),
         );

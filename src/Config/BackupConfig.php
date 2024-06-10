@@ -17,12 +17,11 @@ class BackupConfig extends Data
         public string $databaseDumpFilenameBase,
         public string $databaseDumpFileExtension,
         public DestinationConfig $destination,
-        public string $temporaryDirectory,
+        public ?string $temporaryDirectory,
         public ?string $password,
         public string $encryption,
         public int $tries,
         public int $retryDelay,
-        public ?NotificationsConfig $notifications,
         public ?MonitoredBackupsConfig $monitoredBackups,
     ) {
     }
@@ -40,12 +39,11 @@ class BackupConfig extends Data
             databaseDumpFilenameBase: $data['database_dump_filename_base'],
             databaseDumpFileExtension: $data['database_dump_file_extension'],
             destination: DestinationConfig::fromArray($data['destination']),
-            temporaryDirectory: $data['temporary_directory'],
+            temporaryDirectory: $data['temporary_directory'] ?? null,
             password: $data['password'],
             encryption: $data['encryption'],
             tries: $data['tries'],
             retryDelay: $data['retry_delay'],
-            notifications: isset($data['notifications']) ? NotificationsConfig::fromArray($data['notifications']) : null,
             monitoredBackups: $monitoredBackups ? MonitoredBackupsConfig::fromArray($monitoredBackups) : null,
         );
     }

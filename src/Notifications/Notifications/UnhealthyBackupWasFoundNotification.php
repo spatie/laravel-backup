@@ -19,9 +19,12 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 
     public function toMail(): MailMessage
     {
+        $address = $this->config()->notifications->mail->from['address'] ?? config('mail.from.address');
+        $name = $this->config()->notifications->mail->from['name'] ?? config('mail.from.name');
+
         $mailMessage = (new MailMessage())
             ->error()
-            ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
+            ->from($address, $name)
             ->subject(trans('backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
             ->line(trans('backup::notifications.unhealthy_backup_found_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line($this->problemDescription());
@@ -44,8 +47,8 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
     {
         $slackMessage = (new SlackMessage())
             ->error()
-            ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
-            ->to(config('backup.notifications.slack.channel'))
+            ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
+            ->to($this->config()->notifications->slack->channel)
             ->content(trans('backup::notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
@@ -77,7 +80,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
     {
         $discordMessage = (new DiscordMessage())
             ->error()
-            ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
+            ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(
                 trans('backup::notifications.unhealthy_backup_found_subject_title', [
                     'application_name' => $this->applicationName(),

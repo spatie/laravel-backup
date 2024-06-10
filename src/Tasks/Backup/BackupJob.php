@@ -146,7 +146,7 @@ class BackupJob
     /** @throws Exception */
     public function run(): void
     {
-        $temporaryDirectoryPath = config('backup.backup.temporary_directory') ?? storage_path('app/backup-temp');
+        $temporaryDirectoryPath = $this->config->backup->temporaryDirectory ?? storage_path('app/backup-temp');
 
         $this->temporaryDirectory = (new TemporaryDirectory($temporaryDirectoryPath))
             ->name('temp')
@@ -230,7 +230,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files and directories...");
 
-        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.destination.filename_prefix').$this->filename);
+        $pathToZip = $this->temporaryDirectory->path($this->config->backup->destination->filenamePrefix.$this->filename);
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
@@ -259,7 +259,7 @@ class BackupJob
 
                 $dbType = mb_strtolower(basename(str_replace('\\', '/', $dbDumper::class)));
 
-                if (config('backup.backup.database_dump_filename_base') === 'connection') {
+                if ($this->config->backup->databaseDumpFilenameBase === 'connection') {
                     $dbName = $key;
                 } elseif ($dbDumper instanceof Sqlite) {
                     $dbName = $key.'-database';
@@ -268,12 +268,14 @@ class BackupJob
                 }
 
                 $timeStamp = '';
-                if ($timeStampFormat = config('backup.backup.database_dump_file_timestamp_format')) {
+
+                if ($timeStampFormat = $this->config->backup->databaseDumpFileTimestampFormat) {
                     $timeStamp = '-'.Carbon::now()->format($timeStampFormat);
                 }
 
                 $fileName = "{$dbType}-{$dbName}{$timeStamp}.{$this->getExtension($dbDumper)}";
 
+                // @todo is this still relevant or undocumented?
                 if (config('backup.backup.gzip_database_dump')) {
                     $dbDumper->useCompressor(new GzipCompressor());
                     $fileName .= '.'.$dbDumper->getCompressorExtension();
@@ -334,7 +336,7 @@ class BackupJob
 
     protected function getExtension(DbDumper $dbDumper): string
     {
-        if ($extension = config('backup.backup.database_dump_file_extension')) {
+        if ($extension = $this->config->backup->databaseDumpFileExtension) {
             return $extension;
         }
 

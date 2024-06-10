@@ -27,9 +27,9 @@ class NotificationsConfig extends Data
         return new self(
             notifications: $data['notifications'],
             notifiable: $data['notifiable'],
-            mail: $data['mail'],
-            slack: $data['slack'],
-            discord: $data['discord'],
+            mail: NotificationMailConfig::fromArray($data['mail']),
+            slack: NotificationSlackConfig::fromArray($data['slack']),
+            discord: NotificationDiscordConfig::fromArray($data['discord']),
         );
     }
 }

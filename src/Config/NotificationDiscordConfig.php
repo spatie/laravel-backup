@@ -8,7 +8,7 @@ class NotificationDiscordConfig extends Data
 {
     protected function __construct(
         public string $webhookUrl,
-        public string $channel,
+        public string $username,
         public string $avatar_url,
     ) {
     }
@@ -18,7 +18,7 @@ class NotificationDiscordConfig extends Data
     {
         return new self(
             webhookUrl: $data['webhook_url'],
-            channel: $data['channel'],
+            username: $data['username'],
             avatar_url: $data['avatar_url'],
         );
     }
