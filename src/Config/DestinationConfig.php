@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Config;
 
+use Spatie\Backup\Exceptions\InvalidConfig;
 use Spatie\Backup\Support\Data;
 
 class DestinationConfig extends Data
@@ -16,6 +17,9 @@ class DestinationConfig extends Data
         public string $filenamePrefix,
         public array $disks,
     ) {
+        if ($compressionLevel > 9 || $compressionLevel < 0) {
+            throw InvalidConfig::integerMustBeBetween('compression_level', 0, 9);
+        }
     }
 
     /** @param array<mixed> $data */

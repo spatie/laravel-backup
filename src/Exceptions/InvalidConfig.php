@@ -20,4 +20,14 @@ class InvalidConfig extends Exception
     {
         return new static("`{$name}` must be a positive number.");
     }
+
+    public static function integerMustBeBetween(string $name, int $low, int $high): static
+    {
+        return new static("`{$name}` must be between {$low} and {$high}.");
+    }
+
+    public static function invalidStrategy(string $class): static
+    {
+        return new static("`{$class}` must be a valid strategy class name.");
+    }
 }

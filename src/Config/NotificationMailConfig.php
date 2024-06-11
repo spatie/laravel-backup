@@ -21,14 +21,7 @@ class NotificationMailConfig extends Data
     public static function fromArray(array $data): self
     {
         if (! filter_var($data['to'], FILTER_VALIDATE_EMAIL)) {
-
             throw InvalidConfig::invalidEmail($data['to']);
-        }
-
-        $address = $data['from']['address'] ?? config('mail.from.address');
-
-        if ($address && ! filter_var($address, FILTER_VALIDATE_EMAIL)) {
-            throw InvalidConfig::invalidEmail($address);
         }
 
         return new self(

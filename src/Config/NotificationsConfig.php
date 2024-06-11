@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Config;
 
+use Spatie\Backup\Exceptions\InvalidConfig;
 use Spatie\Backup\Notifications\BaseNotification;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Support\Data;
@@ -19,6 +20,9 @@ class NotificationsConfig extends Data
         public NotificationSlackConfig $slack,
         public NotificationDiscordConfig $discord,
     ) {
+        if (! class_exists($this->notifiable)) {
+            throw InvalidConfig::invalidStrategy($this->notifiable);
+        }
     }
 
     /** @param array<mixed> $data */
