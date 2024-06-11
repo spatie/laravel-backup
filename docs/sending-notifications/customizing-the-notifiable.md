@@ -20,7 +20,7 @@ class BackupNotifiable extends Notifiable
 {
     public function routeNotificationForAnotherNotificationChannel()
     {
-        return config('backup.notifications.another_notification_channel.property');
+        return $this->config()->notifications->another_notification_channel->property;
     }
 }
 
