@@ -19,7 +19,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
     public function toMail(): MailMessage
     {
         $mailMessage = (new MailMessage())
-            ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
+            ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
             ->subject(trans('backup::notifications.healthy_backup_found_subject', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line(trans('backup::notifications.healthy_backup_found_body', ['application_name' => $this->applicationName()]));
 
@@ -34,8 +34,8 @@ class HealthyBackupWasFoundNotification extends BaseNotification
     {
         return (new SlackMessage())
             ->success()
-            ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
-            ->to(config('backup.notifications.slack.channel'))
+            ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
+            ->to($this->config()->notifications->slack->channel)
             ->content(trans('backup::notifications.healthy_backup_found_subject_title', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
@@ -46,7 +46,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
     {
         return (new DiscordMessage())
             ->success()
-            ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
+            ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(
                 trans('backup::notifications.healthy_backup_found_subject_title', [
                     'application_name' => $this->applicationName(),

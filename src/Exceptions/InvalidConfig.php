@@ -10,4 +10,9 @@ class InvalidConfig extends Exception
     {
         return new static("{$email} is not a valid email address.");
     }
+
+    public static function missingSender(): static
+    {
+        return new static("No sender email address specified.");
+    }
 }
