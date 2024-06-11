@@ -15,6 +15,7 @@ use Rector\Config\RectorConfig;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
+use Rector\TypeDeclaration\Rector\Closure\AddClosureVoidReturnTypeWhereNoReturnRector;
 
 return RectorConfig::configure()
     ->withPaths(['config', 'resources', 'src'])
@@ -33,4 +34,5 @@ return RectorConfig::configure()
         PostIncDecToPreIncDecRector::class,
         NullableCompareToNullRector::class,
         AddArrowFunctionReturnTypeRector::class,
+        AddClosureVoidReturnTypeWhereNoReturnRector::class,
     ]);

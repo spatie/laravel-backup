@@ -3,16 +3,16 @@
 namespace Spatie\Backup\BackupDestination;
 
 use Illuminate\Support\Collection;
+use Spatie\Backup\Config\Config;
 
 class BackupDestinationFactory
 {
     /**
-     * @param  array<string, mixed>  $config
      * @return Collection<int, BackupDestination>
      */
-    public static function createFromArray(array $config): Collection
+    public static function createFromArray(Config $config): Collection
     {
-        return collect($config['destination']['disks'])
-            ->map(fn ($filesystemName) => BackupDestination::create($filesystemName, $config['name']));
+        return collect($config->backup->destination->disks)
+            ->map(fn (string $filesystemName) => BackupDestination::create($filesystemName, $config->backup->name));
     }
 }

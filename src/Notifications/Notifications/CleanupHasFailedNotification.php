@@ -20,7 +20,7 @@ class CleanupHasFailedNotification extends BaseNotification
     {
         $mailMessage = (new MailMessage())
             ->error()
-            ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
+            ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
             ->subject(trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()]))
             ->line(trans('backup::notifications.cleanup_failed_body', ['application_name' => $this->applicationName()]))
             ->line(trans('backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))
@@ -37,8 +37,8 @@ class CleanupHasFailedNotification extends BaseNotification
     {
         return (new SlackMessage())
             ->error()
-            ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
-            ->to(config('backup.notifications.slack.channel'))
+            ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
+            ->to($this->config()->notifications->slack->channel)
             ->content(trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
@@ -59,7 +59,7 @@ class CleanupHasFailedNotification extends BaseNotification
     {
         return (new DiscordMessage())
             ->error()
-            ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
+            ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(
                 trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()])
             )->fields([

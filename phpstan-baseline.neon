@@ -11,16 +11,6 @@ parameters:
 			path: src/BackupDestination/BackupCollection.php
 
 		-
-			message: "#^Unable to resolve the template type TKey in call to function collect$#"
-			count: 1
-			path: src/BackupDestination/BackupDestinationFactory.php
-
-		-
-			message: "#^Unable to resolve the template type TValue in call to function collect$#"
-			count: 1
-			path: src/BackupDestination/BackupDestinationFactory.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,int\\>\\:\\:map\\(\\) expects callable\\(int, int\\)\\: string, Closure\\(string\\)\\: non\\-falsy\\-string given\\.$#"
 			count: 1
 			path: src/Exceptions/CannotCreateDbDumper.php
@@ -54,3 +44,8 @@ parameters:
 			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\:\\:each\\(\\) expects callable\\(Spatie\\\\Backup\\\\BackupDestination\\\\Backup, int\\)\\: mixed, Closure\\(Spatie\\\\Backup\\\\BackupDestination\\\\BackupCollection\\)\\: void given\\.$#"
 			count: 1
 			path: src/Tasks/Cleanup/Strategies/DefaultStrategy.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Spatie\\\\Backup\\\\Config\\\\MonitoredBackupConfig\\>\\:\\:flatMap\\(\\) expects callable\\(Spatie\\\\Backup\\\\Config\\\\MonitoredBackupConfig, int\\|string\\)\\: \\(array\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\>\\|Illuminate\\\\Support\\\\Collection\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\>\\), Closure\\(array\\)\\: Illuminate\\\\Support\\\\Collection\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\> given\\.$#"
+			count: 1
+			path: src/Tasks/Monitor/BackupDestinationStatusFactory.php
