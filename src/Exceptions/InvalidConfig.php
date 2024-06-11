@@ -13,6 +13,6 @@ class InvalidConfig extends Exception
 
     public static function missingSender(): static
     {
-        return new static("No sender email address specified.");
+        return new static('No sender email address specified.');
     }
 }
