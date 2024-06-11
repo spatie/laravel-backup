@@ -39,7 +39,7 @@ class ListCommand extends BaseCommand
     {
         $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Newest backup', 'Used storage'];
 
-        $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus) {
+        $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus): array {
             return $this->convertToRow($backupDestinationStatus);
         });
 
@@ -83,10 +83,10 @@ class ListCommand extends BaseCommand
     protected function displayFailures(Collection $backupDestinationStatuses): static
     {
         $failed = $backupDestinationStatuses
-            ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
+            ->filter(function (BackupDestinationStatus $backupDestinationStatus): bool {
                 return $backupDestinationStatus->getHealthCheckFailure() !== null;
             })
-            ->map(function (BackupDestinationStatus $backupDestinationStatus) {
+            ->map(function (BackupDestinationStatus $backupDestinationStatus): array {
                 return [
                     $backupDestinationStatus->backupDestination()->backupName(),
                     $backupDestinationStatus->backupDestination()->diskName(),

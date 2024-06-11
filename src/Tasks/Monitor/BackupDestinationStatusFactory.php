@@ -26,7 +26,7 @@ class BackupDestinationStatusFactory
     public static function createForSingleMonitor(array $monitorConfig): Collection
     {
         return collect($monitorConfig['disks'])
-            ->map(function ($diskName) use ($monitorConfig) {
+            ->map(function ($diskName) use ($monitorConfig): \Spatie\Backup\Tasks\Monitor\BackupDestinationStatus {
                 $backupDestination = BackupDestination::create($diskName, $monitorConfig['name']);
 
                 return new BackupDestinationStatus($backupDestination, static::buildHealthChecks($monitorConfig));
@@ -40,7 +40,7 @@ class BackupDestinationStatusFactory
     protected static function buildHealthChecks(array $monitorConfig): array
     {
         return collect($monitorConfig['healthChecks'])
-            ->map(function ($options, $class) {
+            ->map(function ($options, $class): \Spatie\Backup\Tasks\Monitor\HealthCheck {
                 if (is_int($class)) {
                     $class = $options;
                     $options = [];

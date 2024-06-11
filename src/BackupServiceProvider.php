@@ -52,7 +52,7 @@ class BackupServiceProvider extends PackageServiceProvider
 
         $this->registerDiscordChannel();
 
-        $this->app->scoped(Config::class, function () {
+        $this->app->scoped(Config::class, function (): \Spatie\Backup\Config\Config {
             return Config::fromArray(config('backup'));
         });
     }
@@ -60,7 +60,7 @@ class BackupServiceProvider extends PackageServiceProvider
     protected function registerDiscordChannel(): void
     {
         Notification::resolved(function (ChannelManager $service) {
-            $service->extend('discord', function ($app) {
+            $service->extend('discord', function ($app): \Spatie\Backup\Notifications\Channels\Discord\DiscordChannel {
                 return new DiscordChannel();
             });
         });

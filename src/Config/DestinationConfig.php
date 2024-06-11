@@ -17,7 +17,11 @@ class DestinationConfig extends Data
         public string $filenamePrefix,
         public array $disks,
     ) {
-        if ($compressionLevel > 9 || $compressionLevel < 0) {
+        if ($compressionLevel > 9) {
+            throw InvalidConfig::integerMustBeBetween('compression_level', 0, 9);
+        }
+
+        if ($compressionLevel < 0) {
             throw InvalidConfig::integerMustBeBetween('compression_level', 0, 9);
         }
     }

@@ -16,7 +16,7 @@ class BackupCollection extends Collection
     {
         return (new static($files))
             ->filter(fn (string $path) => (new File())->isZipFile($disk, $path))
-            ->map(fn (string $path) => new Backup($disk, $path))
+            ->map(fn (string $path): \Spatie\Backup\BackupDestination\Backup => new Backup($disk, $path))
             ->sortByDesc(fn (Backup $backup) => $backup->date()->timestamp)
             ->values();
     }

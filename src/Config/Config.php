@@ -17,7 +17,7 @@ class Config extends Data
     /** @internal used for testing */
     public static function rebind(): void
     {
-        app()->scoped(Config::class, function () {
+        app()->scoped(Config::class, function (): \Spatie\Backup\Config\Config {
             return self::fromArray(config('backup'));
         });
     }

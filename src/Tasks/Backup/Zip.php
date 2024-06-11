@@ -111,13 +111,11 @@ class Zip
             if (is_file($file)) {
                 $this->zipFile->addFile($file, ltrim((string) $nameInZip, DIRECTORY_SEPARATOR));
 
-                if (is_int($compressionMethod)) {
-                    $this->zipFile->setCompressionName(
-                        ltrim($nameInZip ?: $file, DIRECTORY_SEPARATOR),
-                        $compressionMethod,
-                        $compressionLevel
-                    );
-                }
+                $this->zipFile->setCompressionName(
+                    ltrim($nameInZip ?: $file, DIRECTORY_SEPARATOR),
+                    $compressionMethod,
+                    $compressionLevel
+                );
             }
 
             $this->fileCount++;

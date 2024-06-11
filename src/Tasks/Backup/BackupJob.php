@@ -254,7 +254,7 @@ class BackupJob
     protected function dumpDatabases(): array
     {
         return $this->dbDumpers
-            ->map(function (DbDumper $dbDumper, $key) {
+            ->map(function (DbDumper $dbDumper, string $key): string {
                 consoleOutput()->info("Dumping database {$dbDumper->getDbName()}...");
 
                 $dbType = mb_strtolower(basename(str_replace('\\', '/', $dbDumper::class)));
