@@ -2,13 +2,11 @@
 
 namespace Spatie\Backup\Config;
 
+use Spatie\Backup\Exceptions\InvalidConfig;
 use Spatie\Backup\Support\Data;
 
 class BackupConfig extends Data
 {
-    /**
-     * @param  positive-int  $tries
-     */
     protected function __construct(
         public string $name,
         public SourceConfig $source,
@@ -24,6 +22,9 @@ class BackupConfig extends Data
         public int $retryDelay,
         public ?MonitoredBackupsConfig $monitoredBackups,
     ) {
+        if ($this->tries < 1) {
+            throw InvalidConfig::integerMustBePositive('tries');
+        }
     }
 
     /** @param array<mixed> $data */

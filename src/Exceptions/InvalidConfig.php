@@ -15,4 +15,9 @@ class InvalidConfig extends Exception
     {
         return new static('No sender email address specified.');
     }
+
+    public static function integerMustBePositive(string $name): static
+    {
+        return new static("`{$name}` must be a positive number.");
+    }
 }
