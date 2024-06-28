@@ -15,8 +15,7 @@ class MonitoredBackupConfig extends Data
         public string $name,
         public array $disks,
         public array $healthChecks,
-    ) {
-    }
+    ) {}
 
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self

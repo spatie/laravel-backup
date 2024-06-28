@@ -10,8 +10,7 @@ class NotificationMailConfig extends Data
     protected function __construct(
         public string $to,
         public NotificationMailSenderConfig $from,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array<mixed>  $data

@@ -13,8 +13,7 @@ class CleanupWasSuccessfulNotification extends BaseNotification
 {
     public function __construct(
         public CleanupWasSuccessful $event,
-    ) {
-    }
+    ) {}
 
     public function toMail(): MailMessage
     {

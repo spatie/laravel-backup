@@ -8,6 +8,5 @@ class BackupManifestWasCreated
 {
     public function __construct(
         public Manifest $manifest,
-    ) {
-    }
+    ) {}
 }

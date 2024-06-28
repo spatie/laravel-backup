@@ -11,8 +11,7 @@ class Config extends Data
         public NotificationsConfig $notifications,
         public MonitoredBackupsConfig $monitoredBackups,
         public CleanupConfig $cleanup,
-    ) {
-    }
+    ) {}
 
     /** @internal used for testing */
     public static function rebind(): void

@@ -16,8 +16,7 @@ class SourceFilesConfig extends Data
         public bool $followLinks,
         public bool $ignoreUnreadableDirectories,
         public ?string $relativePath,
-    ) {
-    }
+    ) {}
 
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self

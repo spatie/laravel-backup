@@ -12,8 +12,7 @@ class SourceConfig extends Data
     protected function __construct(
         public SourceFilesConfig $files,
         public array $databases,
-    ) {
-    }
+    ) {}
 
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self

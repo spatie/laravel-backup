@@ -13,8 +13,7 @@ class StrategyConfig extends Data
         public int $keepMonthlyBackupsForMonths,
         public int $keepYearlyBackupsForYears,
         public int $deleteOldestBackupsWhenUsingMoreMegabytesThan,
-    ) {
-    }
+    ) {}
 
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self
