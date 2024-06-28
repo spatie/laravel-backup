@@ -10,6 +10,5 @@ class CleanupHasFailed
     public function __construct(
         public Exception $exception,
         public ?BackupDestination $backupDestination = null,
-    ) {
-    }
+    ) {}
 }

@@ -10,8 +10,7 @@ class NotificationDiscordConfig extends Data
         public string $webhookUrl,
         public string $username,
         public string $avatar_url,
-    ) {
-    }
+    ) {}
 
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self

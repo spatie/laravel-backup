@@ -11,8 +11,7 @@ class NotificationSlackConfig extends Data
         public ?string $channel,
         public ?string $username,
         public ?string $icon,
-    ) {
-    }
+    ) {}
 
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self

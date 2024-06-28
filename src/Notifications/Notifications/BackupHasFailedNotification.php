@@ -13,8 +13,7 @@ class BackupHasFailedNotification extends BaseNotification
 {
     public function __construct(
         public BackupHasFailed $event,
-    ) {
-    }
+    ) {}
 
     public function toMail(): MailMessage
     {

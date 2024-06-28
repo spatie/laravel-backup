@@ -15,8 +15,7 @@ class BackupDestinationStatus
     public function __construct(
         protected BackupDestination $backupDestination,
         protected array $healthChecks = []
-    ) {
-    }
+    ) {}
 
     public function backupDestination(): BackupDestination
     {

@@ -11,8 +11,7 @@ class MonitoredBackupsConfig extends Data
      */
     protected function __construct(
         public array $monitorBackups,
-    ) {
-    }
+    ) {}
 
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self

@@ -10,8 +10,7 @@ class HealthCheckFailure
     public function __construct(
         protected HealthCheck $healthCheck,
         protected Exception $exception
-    ) {
-    }
+    ) {}
 
     public function healthCheck(): HealthCheck
     {

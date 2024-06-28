@@ -10,8 +10,7 @@ class NotificationMailSenderConfig extends Data
     protected function __construct(
         public string $address,
         public ?string $name,
-    ) {
-    }
+    ) {}
 
     /** @param  array<mixed>  $data */
     public static function fromArray(array $data): self
