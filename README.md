@@ -31,7 +31,7 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation and usage
 
-This package requires PHP 8.0 and Laravel 8.0 or higher.
+This package requires PHP 8.2 and Laravel 10.0 or higher.
 You'll find installation instructions and full documentation on https://spatie.be/docs/laravel-backup.
 
 ## Using an older version of PHP / Laravel?
