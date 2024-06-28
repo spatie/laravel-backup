@@ -65,7 +65,7 @@
         "test": "vendor/bin/pest --compact",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "analyse": "vendor/bin/phpstan analyse",
-        "rector": "./vendor/bin/rector --dry-run",
+        "rector": "vendor/bin/rector --dry-run",
         "baseline": "./vendor/bin/phpstan analyse --generate-baseline --memory-limit=2G"
     },
     "suggest": {
