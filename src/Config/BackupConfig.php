@@ -35,8 +35,8 @@ class BackupConfig extends Data
         return new self(
             name: $data['name'],
             source: SourceConfig::fromArray($data['source']),
-            databaseDumpCompressor: $data['database_dump_compressor'],
-            databaseDumpFileTimestampFormat: $data['database_dump_file_timestamp_format'],
+            databaseDumpCompressor: $data['database_dump_compressor'] ?? null,
+            databaseDumpFileTimestampFormat: $data['database_dump_file_timestamp_format'] ?? null,
             databaseDumpFilenameBase: $data['database_dump_filename_base'],
             databaseDumpFileExtension: $data['database_dump_file_extension'],
             destination: DestinationConfig::fromArray($data['destination']),
