@@ -1,6 +1,7 @@
 ## From v8 to v9
 
-- (All keys in the config file are still snake_cased. Rename any camelCased keys to their snake_cased counterparts)
+- Ensure your config/backup.php file is in sync with the latest settings. You can copy paste the missing defaults from this [config file](https://github.com/spatie/laravel-backup/blob/main/config/backup.php).
+- All keys in the config file are still snake_cased. Rename any camelCased keys to their snake_cased counterparts
 
 ## From v7 to v8
 
