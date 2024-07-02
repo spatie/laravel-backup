@@ -12,7 +12,7 @@ class StrategyConfig extends Data
         public int $keepWeeklyBackupsForWeeks,
         public int $keepMonthlyBackupsForMonths,
         public int $keepYearlyBackupsForYears,
-        public int $deleteOldestBackupsWhenUsingMoreMegabytesThan,
+        public ?int $deleteOldestBackupsWhenUsingMoreMegabytesThan,
     ) {}
 
     /** @param array<mixed> $data */
