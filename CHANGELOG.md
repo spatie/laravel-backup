@@ -2,6 +2,27 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.0.0 - 2024-07-02
+
+### What's Changed
+
+* Dropped support for 8.1
+* Add types to the codebase by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1799
+* Migrate config to DTOs by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1800
+* Feature/use config object by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1805
+* * Update documentation internal links by @dualklip in https://github.com/spatie/laravel-backup/pull/1801
+  
+* Update installation-and-setup.md by @Geoffry304 in https://github.com/spatie/laravel-backup/pull/1807
+* V9 release by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1806
+* Chore/ci updates by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1798
+
+### New Contributors
+
+* @dualklip made their first contribution in https://github.com/spatie/laravel-backup/pull/1801
+* @Geoffry304 made their first contribution in https://github.com/spatie/laravel-backup/pull/1807
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.8.1...9.0.0
+
 ## 8.8.1 - 2024-06-04
 
 ### What's Changed
