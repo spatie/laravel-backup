@@ -4,6 +4,7 @@ namespace Spatie\Backup\Commands;
 
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\Backup;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Helpers\RightAlignedTableStyle;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
@@ -17,24 +18,28 @@ class ListCommand extends BaseCommand
     /** @var string */
     protected $description = 'Display a list of all backups.';
 
+    public function __construct(protected Config $config)
+    {
+        parent::__construct();
+    }
+
     public function handle(): int
     {
-        if (config()->has('backup.monitorBackups')) {
-            $this->warn("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
-        }
-
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig($this->config->monitoredBackups);
 
         $this->displayOverview($statuses)->displayFailures($statuses);
 
         return static::SUCCESS;
     }
 
-    protected function displayOverview(Collection $backupDestinationStatuses)
+    /**
+     * @param  Collection<int, BackupDestinationStatus>  $backupDestinationStatuses
+     */
+    protected function displayOverview(Collection $backupDestinationStatuses): static
     {
         $headers = ['Name', 'Disk', 'Reachable', 'Healthy', '# of backups', 'Newest backup', 'Used storage'];
 
-        $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus) {
+        $rows = $backupDestinationStatuses->map(function (BackupDestinationStatus $backupDestinationStatus): array {
             return $this->convertToRow($backupDestinationStatus);
         });
 
@@ -46,6 +51,7 @@ class ListCommand extends BaseCommand
         return $this;
     }
 
+    /** @return array{0: string, 1: string, 2: string, disk: string, amount: int, newest: string, usedStorage: string} */
     public function convertToRow(BackupDestinationStatus $backupDestinationStatus): array
     {
         $destination = $backupDestinationStatus->backupDestination();
@@ -73,13 +79,14 @@ class ListCommand extends BaseCommand
         return $row;
     }
 
-    protected function displayFailures(Collection $backupDestinationStatuses)
+    /** @param Collection<int, BackupDestinationStatus> $backupDestinationStatuses */
+    protected function displayFailures(Collection $backupDestinationStatuses): static
     {
         $failed = $backupDestinationStatuses
-            ->filter(function (BackupDestinationStatus $backupDestinationStatus) {
+            ->filter(function (BackupDestinationStatus $backupDestinationStatus): bool {
                 return $backupDestinationStatus->getHealthCheckFailure() !== null;
             })
-            ->map(function (BackupDestinationStatus $backupDestinationStatus) {
+            ->map(function (BackupDestinationStatus $backupDestinationStatus): array {
                 return [
                     $backupDestinationStatus->backupDestination()->backupName(),
                     $backupDestinationStatus->backupDestination()->diskName(),
@@ -98,7 +105,7 @@ class ListCommand extends BaseCommand
         return $this;
     }
 
-    protected function getFormattedBackupDate(Backup $backup = null)
+    protected function getFormattedBackupDate(?Backup $backup = null): string
     {
         return is_null($backup)
             ? 'No backups present'

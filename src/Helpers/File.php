@@ -7,6 +7,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class File
 {
+    /** @var array<string> */
     protected static array $allowedMimeTypes = [
         'application/zip',
         'application/x-zip',
@@ -32,7 +33,7 @@ class File
         return in_array($this->mimeType($disk, $path), self::$allowedMimeTypes);
     }
 
-    protected function mimeType(?Filesystem $disk, string $path): bool | string
+    protected function mimeType(?Filesystem $disk, string $path): bool|string
     {
         try {
             if ($disk && method_exists($disk, 'mimeType')) {

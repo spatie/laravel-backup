@@ -3,28 +3,35 @@
 namespace Spatie\Backup\Notifications;
 
 use Illuminate\Notifications\Notifiable as NotifiableTrait;
+use Spatie\Backup\Config\Config;
 
 class Notifiable
 {
     use NotifiableTrait;
 
-    public function routeNotificationForMail(): string | array
+    /** @return string|array{int, string} */
+    public function routeNotificationForMail(): string|array
     {
-        return config('backup.notifications.mail.to');
+        return $this->config()->notifications->mail->to;
     }
 
     public function routeNotificationForSlack(): string
     {
-        return config('backup.notifications.slack.webhook_url');
+        return $this->config()->notifications->slack->webhookUrl;
     }
 
     public function routeNotificationForDiscord(): string
     {
-        return config('backup.notifications.discord.webhook_url');
+        return $this->config()->notifications->discord->webhookUrl;
     }
 
     public function getKey(): int
     {
         return 1;
+    }
+
+    protected function config(): Config
+    {
+        return app(Config::class);
     }
 }

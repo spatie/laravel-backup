@@ -19,9 +19,7 @@ use ZipArchive;
 abstract class TestCase extends Orchestra
 {
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return array
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getPackageProviders($app): array
     {
@@ -31,7 +29,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -57,7 +55,7 @@ abstract class TestCase extends Orchestra
         Storage::fake('secondLocal');
     }
 
-    protected function setUpDatabase(Application $app)
+    protected function setUpDatabase(Application $app): void
     {
         touch($this->getTempDirectory().'/database.sqlite');
 
@@ -74,7 +72,7 @@ abstract class TestCase extends Orchestra
         $this->assertStringContainsString(
             $expectedText,
             $consoleOutput,
-            "Did not see `{$expectedText}` in console output: `$consoleOutput`"
+            "Did not see `{$expectedText}` in console output: `{$consoleOutput}`"
         );
     }
 
@@ -85,7 +83,7 @@ abstract class TestCase extends Orchestra
         $this->assertNotContains(
             $unexpectedText,
             $consoleOutput,
-            "Did not expect to see `{$unexpectedText}` in console output: `$consoleOutput`"
+            "Did not expect to see `{$unexpectedText}` in console output: `{$consoleOutput}`"
         );
     }
 
@@ -116,7 +114,7 @@ abstract class TestCase extends Orchestra
         return false;
     }
 
-    protected function assertExactPathExistsInZip(string $diskName, string $zipPath, string $fullPath)
+    protected function assertExactPathExistsInZip(string $diskName, string $zipPath, string $fullPath): void
     {
         $this->assertTrue(
             $this->exactPathExistsInZip($diskName, $zipPath, $fullPath),
@@ -206,7 +204,7 @@ abstract class TestCase extends Orchestra
         return __DIR__.'/temp'.($file ? '/'.$file : '');
     }
 
-    public function initializeTempDirectory()
+    public function initializeTempDirectory(): void
     {
         $this->initializeDirectory($this->getTempDirectory());
     }
@@ -236,7 +234,7 @@ abstract class TestCase extends Orchestra
         return $this;
     }
 
-    public function makeHealthCheckFail(Exception $customException = null): self
+    public function makeHealthCheckFail(?Exception $customException = null): self
     {
         FakeFailingHealthCheck::$reason = $customException;
 

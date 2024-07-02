@@ -10,24 +10,11 @@ use Spatie\Backup\Exceptions\InvalidBackupDestination;
 
 class BackupDestination
 {
-    protected ?Filesystem $disk;
-
-    protected string $diskName;
-
-    protected string $backupName;
-
     public ?Exception $connectionError = null;
 
     protected ?BackupCollection $backupCollectionCache = null;
 
-    public function __construct(Filesystem $disk = null, string $backupName, string $diskName)
-    {
-        $this->disk = $disk;
-
-        $this->diskName = $diskName;
-
-        $this->backupName = $backupName;
-    }
+    public function __construct(protected ?Filesystem $disk, protected string $backupName, protected string $diskName) {}
 
     public function disk(): Filesystem
     {
@@ -49,7 +36,7 @@ class BackupDestination
 
         $filesystemType = last(explode('\\', $adapterClass));
 
-        return strtolower($filesystemType);
+        return strtolower((string) $filesystemType);
     }
 
     public static function create(string $diskName, string $backupName): self
@@ -125,6 +112,7 @@ class BackupDestination
         return $this->connectionError;
     }
 
+    /** @return array<string, string> */
     public function getDiskOptions(): array
     {
         return config("filesystems.disks.{$this->diskName()}.backup_options") ?? [];

@@ -17,8 +17,7 @@ class EventHandler
 {
     public function __construct(
         protected Repository $config
-    ) {
-    }
+    ) {}
 
     public function subscribe(Dispatcher $events): void
     {
@@ -31,18 +30,21 @@ class EventHandler
         });
     }
 
-    protected function determineNotifiable()
+    protected function determineNotifiable(): Notifiable
     {
         $notifiableClass = $this->config->get('backup.notifications.notifiable');
 
         return app($notifiableClass);
     }
 
-    protected function determineNotification($event): Notification
+    protected function determineNotification(object $event): Notification
     {
-        $lookingForNotificationClass = class_basename($event) . "Notification";
+        $lookingForNotificationClass = class_basename($event).'Notification';
 
-        $notificationClass = collect($this->config->get('backup.notifications.notifications'))
+        /** @var array<class-string, array<int, string>> $notificationClasses */
+        $notificationClasses = $this->config->get('backup.notifications.notifications');
+
+        $notificationClass = collect($notificationClasses)
             ->keys()
             ->first(fn (string $notificationClass) => class_basename($notificationClass) === $lookingForNotificationClass);
 
@@ -53,6 +55,7 @@ class EventHandler
         return new $notificationClass($event);
     }
 
+    /** @return array<int, class-string> */
     protected function allBackupEventClasses(): array
     {
         return [

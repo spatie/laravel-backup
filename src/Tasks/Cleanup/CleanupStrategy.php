@@ -12,10 +12,9 @@ abstract class CleanupStrategy
 
     public function __construct(
         protected Repository $config,
-    ) {
-    }
+    ) {}
 
-    abstract public function deleteOldBackups(BackupCollection $backups);
+    abstract public function deleteOldBackups(BackupCollection $backups): void;
 
     public function setBackupDestination(BackupDestination $backupDestination): self
     {

@@ -5,15 +5,22 @@ namespace Spatie\Backup\Notifications;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Helpers\Format;
 
 abstract class BaseNotification extends Notification
 {
+    /** @return array<string, string> */
     public function via(): array
     {
-        $notificationChannels = config('backup.notifications.notifications.'.static::class);
+        $notificationChannels = $this->config()->notifications->notifications[static::class];
 
         return array_filter($notificationChannels);
+    }
+
+    public function config(): Config
+    {
+        return app(Config::class);
     }
 
     public function applicationName(): string
@@ -34,6 +41,7 @@ abstract class BaseNotification extends Notification
         return $this->backupDestination()->diskName();
     }
 
+    /** @return Collection<string, string>  */
     protected function backupDestinationProperties(): Collection
     {
         $backupDestination = $this->backupDestination();

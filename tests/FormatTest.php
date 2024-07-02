@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-
 use Spatie\Backup\Helpers\Format;
 
 it('can determine a human readable filesize', function () {
@@ -18,7 +17,7 @@ it('can determine the age in days', function () {
     Carbon::setTestNow(Carbon::create(2016, 1, 1)->startOfDay());
 
     expect(Format::ageInDays(Carbon::now()->subSeconds(5)))->toEqual('0.00 (5 seconds ago)');
-    expect(Format::ageInDays(Carbon::now()->subHour(1)))->toEqual('0.04 (1 hour ago)');
-    expect(Format::ageInDays(Carbon::now()->subHour(1)->subDay(1)))->toEqual('1.04 (1 day ago)');
-    expect(Format::ageInDays(Carbon::now()->subHour(1)->subMonths(1)))->toEqual('30.04 (4 weeks ago)');
+    expect(Format::ageInDays(Carbon::now()->subHour()))->toEqual('0.04 (1 hour ago)');
+    expect(Format::ageInDays(Carbon::now()->subHour()->subDay()))->toEqual('1.04 (1 day ago)');
+    expect(Format::ageInDays(Carbon::now()->subHour()->subMonths(1)))->toEqual('30.04 (4 weeks ago)');
 });

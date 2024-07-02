@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Mockery as m;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Exceptions\InvalidBackupFile;
 
 it('can determine the disk of the backup', function () {
@@ -62,7 +63,7 @@ it('can delete itself', function () {
 });
 
 it('can determine its size', function () {
-    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+    $backup = getBackupForFile('test.zip', 0);
 
     $fileSize = floatval(Storage::disk('local')->size('mysite.com/test.zip'));
 
@@ -72,7 +73,7 @@ it('can determine its size', function () {
 });
 
 it('can determine its size even after it has been deleted', function () {
-    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+    $backup = getBackupForFile('test.zip', 0);
 
     $backup->delete();
 
@@ -92,7 +93,9 @@ it('push backup extra option to write stream if set', function () {
         's3-test-backup',
     ]);
 
-    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
+    $config = Config::fromArray(config('backup'));
+
+    $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 
     expect($backupDestination->getDiskOptions())->toEqual(['StorageClass' => 'COLD']);
 });
@@ -107,13 +110,15 @@ it('push empty default backup extra option to write stream if not set', function
         'local',
     ]);
 
-    $backupDestination = BackupDestinationFactory::createFromArray(config('backup.backup'))->first();
+    $config = Config::fromArray(config('backup'));
+
+    $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 
     expect($backupDestination->getDiskOptions())->toBe([]);
 });
 
 it('need a float type size', function () {
-    $backup = getBackupForFile('test.zip', 0, 'this backup has content');
+    $backup = getBackupForFile('test.zip', 0);
 
     expect($backup->sizeInBytes())->toBeFloat();
 });

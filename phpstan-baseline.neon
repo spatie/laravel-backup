@@ -1,2 +1,51 @@
 parameters:
 	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\:\\:filter\\(\\) expects \\(callable\\(Spatie\\\\Backup\\\\BackupDestination\\\\Backup, int\\)\\: bool\\)\\|null, Closure\\(string\\)\\: bool given\\.$#"
+			count: 1
+			path: src/BackupDestination/BackupCollection.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\:\\:map\\(\\) expects callable\\(Spatie\\\\Backup\\\\BackupDestination\\\\Backup, int\\)\\: Spatie\\\\Backup\\\\BackupDestination\\\\Backup, Closure\\(string\\)\\: Spatie\\\\Backup\\\\BackupDestination\\\\Backup given\\.$#"
+			count: 1
+			path: src/BackupDestination/BackupCollection.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,int\\>\\:\\:map\\(\\) expects callable\\(int, int\\)\\: string, Closure\\(string\\)\\: non\\-falsy\\-string given\\.$#"
+			count: 1
+			path: src/Exceptions/CannotCreateDbDumper.php
+
+		-
+			message: "#^Method Spatie\\\\Backup\\\\Notifications\\\\Channels\\\\Discord\\\\DiscordMessage\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Notifications/Channels/Discord/DiscordMessage.php
+
+		-
+			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\FileSelection\\:\\:sanitize\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Tasks/Backup/FileSelection.php
+
+		-
+			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\Manifest\\:\\:files\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tasks/Backup/Manifest.php
+
+		-
+			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\Manifest\\:\\:files\\(\\) return type has no value type specified in iterable type array\\|Generator\\.$#"
+			count: 1
+			path: src/Tasks/Backup/Manifest.php
+
+		-
+			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\Zip\\:\\:add\\(\\) has parameter \\$files with no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: src/Tasks/Backup/Zip.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\:\\:each\\(\\) expects callable\\(Spatie\\\\Backup\\\\BackupDestination\\\\Backup, int\\)\\: mixed, Closure\\(Spatie\\\\Backup\\\\BackupDestination\\\\BackupCollection\\)\\: void given\\.$#"
+			count: 1
+			path: src/Tasks/Cleanup/Strategies/DefaultStrategy.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Spatie\\\\Backup\\\\Config\\\\MonitoredBackupConfig\\>\\:\\:flatMap\\(\\) expects callable\\(Spatie\\\\Backup\\\\Config\\\\MonitoredBackupConfig, int\\|string\\)\\: \\(array\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\>\\|Illuminate\\\\Support\\\\Collection\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\>\\), Closure\\(array\\)\\: Illuminate\\\\Support\\\\Collection\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\> given\\.$#"
+			count: 1
+			path: src/Tasks/Monitor/BackupDestinationStatusFactory.php

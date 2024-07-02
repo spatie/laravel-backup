@@ -10,6 +10,7 @@ use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 
 abstract class BaseCommand extends SignalAwareCommand
 {
+    /** @var array<int> */
     protected array $handlesSignals = [];
 
     public function __construct()
@@ -30,9 +31,10 @@ abstract class BaseCommand extends SignalAwareCommand
 
     protected function runningInConsole(): bool
     {
-        return in_array(php_sapi_name(), ['cli', 'phpdbg']);
+        return in_array(PHP_SAPI, ['cli', 'phpdbg']);
     }
 
+    /** @return array<int> */
     public function getSubscribedSignals(): array
     {
         return $this->handlesSignals;
