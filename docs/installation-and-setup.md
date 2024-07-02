@@ -337,6 +337,16 @@ protected function schedule(Schedule $schedule)
 }
 ```
 
+Or for Laravel 11 or higher you just add them to the console routes file.
+```php
+// routes/console.php
+
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('backup:clean')->daily()->at('01:00');
+Schedule::command('backup:run')->daily()->at('01:30');
+```
+
 Of course, the times used in the code above are just examples. Adjust them to suit your own preferences. It is generally a good idea to avoid the timeslot between 02:00 and 03:00 at night in areas where daylight saving time changes occur, as this causes sometimes a double backup or (worse) no backup at all.
 
 If a backup cannot be taken successfully, the `backup:run` command returns an exit code of 1 which signals a general error, so you can use laravel's task hooks to specify code to be executed if the scheduled backup succeeds or fails:
