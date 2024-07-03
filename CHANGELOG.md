@@ -2,19 +2,34 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.0.1 - 2024-07-03
+
+### What's Changed
+
+* allow null value for config option `delete_oldest_backups_when_using_more_megabytes_than` in https://github.com/spatie/laravel-backup/commit/ef8b0fab439b6209ad221a2139a68cd7b67d83eb
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.0.0...9.0.1
+
 ## 9.0.0 - 2024-07-02
 
 ### What's Changed
 
 * Dropped support for 8.1
+  
 * Add types to the codebase by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1799
+  
 * Migrate config to DTOs by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1800
+  
 * Feature/use config object by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1805
+  
 * * Update documentation internal links by @dualklip in https://github.com/spatie/laravel-backup/pull/1801
   
 * Update installation-and-setup.md by @Geoffry304 in https://github.com/spatie/laravel-backup/pull/1807
+  
 * V9 release by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1806
+  
 * Chore/ci updates by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1798
+  
 
 ### New Contributors
 
