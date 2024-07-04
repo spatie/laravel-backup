@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.0.2 - 2024-07-04
+
+### What's Changed
+
+* [9.x] Add support for both single email string and array of email strings by @vrusua in https://github.com/spatie/laravel-backup/pull/1810
+
+### New Contributors
+
+* @vrusua made their first contribution in https://github.com/spatie/laravel-backup/pull/1810
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.0.1...9.0.2
+
 ## 9.0.1 - 2024-07-03
 
 ### What's Changed
