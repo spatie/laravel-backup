@@ -8,7 +8,7 @@ use Spatie\Backup\Support\Data;
 class NotificationMailConfig extends Data
 {
     protected function __construct(
-        public string $to,
+        public string|array $to,
         public NotificationMailSenderConfig $from,
     ) {}
 
@@ -19,8 +19,12 @@ class NotificationMailConfig extends Data
      */
     public static function fromArray(array $data): self
     {
-        if (! filter_var($data['to'], FILTER_VALIDATE_EMAIL)) {
-            throw InvalidConfig::invalidEmail($data['to']);
+        $to = is_array($data['to']) ? $data['to'] : [$data['to']];
+
+        foreach ($to as $email) {
+            if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw InvalidConfig::invalidEmail($email);
+            }
         }
 
         return new self(

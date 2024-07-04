@@ -6,6 +6,8 @@ use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
+use Spatie\Backup\Exceptions\InvalidConfig;
+use Spatie\Backup\Config\NotificationMailConfig;
 
 beforeEach(function () {
     Notification::fake();
@@ -48,6 +50,58 @@ it('it will send backup failed notification once with retries', function () {
     $this->artisan('backup:run', ['--only-files' => true, '--tries' => 5]);
 
     Notification::assertSentTimes(BackupHasFailedNotification::class, 1);
+});
+
+it('will accept a single email address', function () {
+    $data = [
+        'to' => 'single@example.com',
+        'from' => [
+            'address' => 'from@example.com',
+            'name' => 'Backup',
+        ],
+    ];
+
+    $config = NotificationMailConfig::fromArray($data);
+
+    expect($config->to)->toBe(['single@example.com']);
+});
+
+it('will accept multiple email addresses', function () {
+    $data = [
+        'to' => ['first@example.com', 'second@example.com'],
+        'from' => [
+            'address' => 'from@example.com',
+            'name' => 'Backup',
+        ],
+    ];
+
+    $config = NotificationMailConfig::fromArray($data);
+
+    expect($config->to)->toBe(['first@example.com', 'second@example.com']);
+});
+
+it('will throw an exception for invalid email', function () {
+    $data = [
+        'to' => 'invalid-email',
+        'from' => [
+            'address' => 'from@example.com',
+            'name' => 'Backup',
+        ],
+    ];
+
+    expect(fn() => NotificationMailConfig::fromArray($data))->toThrow(InvalidConfig::class);
+});
+
+it('will throw an exception for invalid email in array', function () {
+    $data = [
+        'to' => ['valid@example.com', 'invalid-email'],
+        'from' => [
+            'address' => 'from@example.com',
+            'name' => 'Backup',
+        ],
+    ];
+
+    expect(fn() => NotificationMailConfig::fromArray($data))->toThrow(InvalidConfig::class);
 });
 
 function fireBackupHasFailedEvent(): void
