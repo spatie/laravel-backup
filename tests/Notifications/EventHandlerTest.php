@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Config\Config;
+use Spatie\Backup\Config\NotificationMailConfig;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Exceptions\InvalidConfig;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
-use Spatie\Backup\Exceptions\InvalidConfig;
-use Spatie\Backup\Config\NotificationMailConfig;
 
 beforeEach(function () {
     Notification::fake();
@@ -89,7 +89,7 @@ it('will throw an exception for invalid email', function () {
         ],
     ];
 
-    expect(fn() => NotificationMailConfig::fromArray($data))->toThrow(InvalidConfig::class);
+    expect(fn () => NotificationMailConfig::fromArray($data))->toThrow(InvalidConfig::class);
 });
 
 it('will throw an exception for invalid email in array', function () {
@@ -101,7 +101,7 @@ it('will throw an exception for invalid email in array', function () {
         ],
     ];
 
-    expect(fn() => NotificationMailConfig::fromArray($data))->toThrow(InvalidConfig::class);
+    expect(fn () => NotificationMailConfig::fromArray($data))->toThrow(InvalidConfig::class);
 });
 
 function fireBackupHasFailedEvent(): void
