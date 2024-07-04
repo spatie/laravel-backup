@@ -7,6 +7,7 @@ use Spatie\Backup\Support\Data;
 
 class NotificationMailConfig extends Data
 {
+    /** @param string|array<string> $to */
     protected function __construct(
         public string|array $to,
         public NotificationMailSenderConfig $from,

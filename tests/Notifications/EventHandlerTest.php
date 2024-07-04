@@ -63,7 +63,7 @@ it('will accept a single email address', function () {
 
     $config = NotificationMailConfig::fromArray($data);
 
-    expect($config->to)->toBe(['single@example.com']);
+    expect($config->to)->toBe('single@example.com');
 });
 
 it('will accept multiple email addresses', function () {
