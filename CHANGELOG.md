@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.0.3 - 2024-07-09
+
+### What's Changed
+
+* Made ext-pcntl optional, as it was in v8. by @den1n in https://github.com/spatie/laravel-backup/pull/1814
+
+### New Contributors
+
+* @den1n made their first contribution in https://github.com/spatie/laravel-backup/pull/1814
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.0.2...9.0.3
+
 ## 9.0.2 - 2024-07-04
 
 ### What's Changed
