@@ -36,7 +36,7 @@ class DiscordMessage
         if (! is_null($username)) {
             $this->username = $username;
         }
-        
+
         if (! is_null($avatarUrl)) {
             $this->avatarUrl = $avatarUrl;
         }
@@ -117,7 +117,7 @@ class DiscordMessage
     public function toArray(): array
     {
         return [
-            'username' => $this->username ?? 'Laravel Backup',
+            'username' => $this->username,
             'avatar_url' => $this->avatarUrl,
             'embeds' => [
                 [
