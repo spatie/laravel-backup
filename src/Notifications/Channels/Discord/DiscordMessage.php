@@ -31,10 +31,12 @@ class DiscordMessage
 
     protected string $url = '';
 
-    public function from(string $username, ?string $avatarUrl = null): self
+    public function from(?string $username = null, ?string $avatarUrl = null): self
     {
-        $this->username = $username;
-
+        if (! is_null($username)) {
+            $this->username = $username;
+        }
+        
         if (! is_null($avatarUrl)) {
             $this->avatarUrl = $avatarUrl;
         }
