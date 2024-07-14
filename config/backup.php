@@ -235,7 +235,11 @@ return [
         'discord' => [
             'webhook_url' => '',
 
-            'username' => null,
+            /*
+             * If this is an empty string, the name field will be 'Laravel Backup'.
+             * If this is set to null, the name field on the webhook will be used.
+             */
+            'username' => '',
 
             'avatar_url' => null,
         ],
