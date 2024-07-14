@@ -10,7 +10,7 @@ class DiscordMessage
     public const COLOR_WARNING = 'fD6a02';
     public const COLOR_ERROR = 'e32929';
 
-    protected string $username = 'Laravel Backup';
+    protected ?string $username = null;
 
     protected ?string $avatarUrl = null;
 
@@ -31,7 +31,7 @@ class DiscordMessage
     public function from(?string $username = null, ?string $avatarUrl = null): self
     {
         if (! is_null($username)) {
-            $this->username = $username;
+            $this->username = empty($username) ? 'Laravel Backup' : $username;
         }
 
         if (! is_null($avatarUrl)) {

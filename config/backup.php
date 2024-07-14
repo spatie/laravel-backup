@@ -236,14 +236,12 @@ return [
             'webhook_url' => '',
 
             /*
-             * If this is an empty string, the name field on the webhook will be used.
+             * If this is an empty string, the name field will be 'Laravel Backup'.
+             * If this is set to null, the name field on the webhook will be used.
              */
             'username' => '',
 
-            /*
-             * If this is an empty string, the avatar on the webhook will be used.
-             */
-            'avatar_url' => '',
+            'avatar_url' => null,
         ],
     ],
 
