@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.0.4 - 2024-07-15
+
+### What's Changed
+
+* [9.x] Fix empty string in `backup.notifications.discord.username` to fail sending a notification by @RVxLab in https://github.com/spatie/laravel-backup/pull/1821
+
+### New Contributors
+
+* @RVxLab made their first contribution in https://github.com/spatie/laravel-backup/pull/1821
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.0.3...9.0.4
+
 ## 9.0.3 - 2024-07-09
 
 ### What's Changed
