@@ -132,7 +132,7 @@ class DiscordMessage
             ],
         ];
 
-        if (!empty($this->username)) {
+        if (! empty($this->username)) {
             $data['username'] = $this->username;
         }
 
