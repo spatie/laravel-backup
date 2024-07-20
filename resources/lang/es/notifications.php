@@ -31,7 +31,7 @@ return [
     'unhealthy_backup_found_empty' => 'No existe ninguna copia de seguridad de esta aplicación.',
     'unhealthy_backup_found_old' => 'La última copia de seguriad hecha en :date es demasiado antigua.',
     'unhealthy_backup_found_unknown' => 'Lo siento, no es posible determinar la razón exacta.',
-    'unhealthy_backup_found_full' => 'Las copias de seguridad  están ocupando demasiado espacio. El espacio utilizado actualmente es :disk_usage el cual es mayor que el límite permitido de :disk_limit.',
+    'unhealthy_backup_found_full' => 'Las copias de seguridad están ocupando demasiado espacio. El espacio utilizado actualmente es :disk_usage el cual es mayor que el límite permitido de :disk_limit.',
 
     'no_backups_info' => 'Aún no se hicieron copias de seguridad',
     'application_name' => 'Nombre de la aplicación',
