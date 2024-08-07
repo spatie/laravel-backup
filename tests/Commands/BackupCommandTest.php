@@ -97,7 +97,7 @@ it('can backup using relative path', function () {
     $this->artisan('backup:run --only-files')->assertExitCode(0);
 
     $zipFiles = [];
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
     foreach (range(0, $zip->numFiles - 1) as $i) {
         $zipFiles[] = $zip->statIndex($i)['name'];
@@ -116,7 +116,7 @@ it('can backup using short relative path', function () {
     $this->artisan('backup:run --only-files')->assertExitCode(0);
 
     $zipFile = '';
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
     if ($zip->numFiles) {
         $zipFile = $zip->statIndex(0)['name'];
@@ -365,7 +365,7 @@ it('will encrypt backup when notifications are disabled', function () {
     $this->artisan('backup:run --disable-notifications --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
     Storage::disk('local')->assertExists($this->expectedZipPath);
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_AES_256);
@@ -380,12 +380,11 @@ it('can use different compression methods for backup file', function () {
     // by default (with no destination.compression_method specified), the ZipArchive::CM_DEFLATE is used
     $this->artisan('backup:run --only-db')->assertExitCode(0);
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_DEFLATE);
     $zip->close();
-
 
     // check no compression with ZipArchive::CM_STORE method
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_STORE);
@@ -393,12 +392,11 @@ it('can use different compression methods for backup file', function () {
 
     $this->artisan('backup:run --only-db')->assertExitCode(0);
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_STORE);
     $zip->close();
-
 
     // check ZipArchive::CM_DEFLATE method with custom compression level
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_DEFLATE);
@@ -406,7 +404,7 @@ it('can use different compression methods for backup file', function () {
 
     $this->artisan('backup:run --only-db')->assertExitCode(0);
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open(Storage::disk('local')->path($this->expectedZipPath));
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['comp_method'])->toBe(ZipArchive::CM_DEFLATE);

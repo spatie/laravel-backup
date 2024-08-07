@@ -15,6 +15,6 @@ class MonitorCommandTest extends TestCase
         config(['backup.monitorBackups' => config('backup.monitor_backups')]);
 
         $this->artisan('backup:monitor')
-            ->expectsOutput("Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.");
+            ->expectsOutput('Warning! Your config file still uses the old monitorBackups key. Update it to monitor_backups.');
     }
 }

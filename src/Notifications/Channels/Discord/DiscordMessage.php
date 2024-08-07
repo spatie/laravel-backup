@@ -7,7 +7,9 @@ use Carbon\Carbon;
 class DiscordMessage
 {
     public const COLOR_SUCCESS = '0b6623';
+
     public const COLOR_WARNING = 'fD6a02';
+
     public const COLOR_ERROR = 'e32929';
 
     protected string $username = 'Laravel Backup';
@@ -28,7 +30,7 @@ class DiscordMessage
 
     protected string $url = '';
 
-    public function from(string $username, string $avatarUrl = null): self
+    public function from(string $username, ?string $avatarUrl = null): self
     {
         $this->username = $username;
 
@@ -128,7 +130,7 @@ class DiscordMessage
             ],
         ];
 
-        if (!empty($this->username)) {
+        if (! empty($this->username)) {
             $data['username'] = $this->username;
         }
 

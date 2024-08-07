@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-
 use Spatie\Backup\Helpers\Format;
 
 it('can determine a human readable filesize', function () {

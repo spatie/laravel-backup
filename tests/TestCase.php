@@ -19,9 +19,7 @@ use ZipArchive;
 abstract class TestCase extends Orchestra
 {
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return array
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getPackageProviders($app): array
     {
@@ -31,7 +29,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -107,7 +105,7 @@ abstract class TestCase extends Orchestra
 
     protected function fileExistsInZip(string $diskName, string $zipPath, string $fileName): bool
     {
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if ($zip->open($this->getFullDiskPath($diskName, $zipPath)) === true) {
             return $zip->locateName($fileName, ZipArchive::FL_NODIR) !== false;
@@ -126,7 +124,7 @@ abstract class TestCase extends Orchestra
 
     protected function exactPathExistsInZip(string $diskName, string $zipPath, string $fullPath): bool
     {
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if ($zip->open($this->getFullDiskPath($diskName, $zipPath)) === true) {
             foreach (range(0, $zip->numFiles - 1) as $i) {
@@ -236,7 +234,7 @@ abstract class TestCase extends Orchestra
         return $this;
     }
 
-    public function makeHealthCheckFail(Exception $customException = null): self
+    public function makeHealthCheckFail(?Exception $customException = null): self
     {
         FakeFailingHealthCheck::$reason = $customException;
 

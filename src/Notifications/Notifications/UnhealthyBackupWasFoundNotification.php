@@ -14,12 +14,11 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 {
     public function __construct(
         public UnhealthyBackupWasFound $event,
-    ) {
-    }
+    ) {}
 
     public function toMail(): MailMessage
     {
-        $mailMessage = (new MailMessage())
+        $mailMessage = (new MailMessage)
             ->error()
             ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
             ->subject(trans('backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
@@ -42,7 +41,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 
     public function toSlack(): SlackMessage
     {
-        $slackMessage = (new SlackMessage())
+        $slackMessage = (new SlackMessage)
             ->error()
             ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
@@ -75,7 +74,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 
     public function toDiscord(): DiscordMessage
     {
-        $discordMessage = (new DiscordMessage())
+        $discordMessage = (new DiscordMessage)
             ->error()
             ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
             ->title(

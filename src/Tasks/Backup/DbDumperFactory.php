@@ -19,7 +19,7 @@ class DbDumperFactory
 
     public static function createFromConnection(string $dbConnectionName): DbDumper
     {
-        $parser = new ConfigurationUrlParser();
+        $parser = new ConfigurationUrlParser;
 
         if (config("database.connections.{$dbConnectionName}") === null) {
             throw CannotCreateDbDumper::unsupportedDriver($dbConnectionName);
@@ -83,10 +83,10 @@ class DbDumperFactory
         }
 
         return match ($driver) {
-            'mysql', 'mariadb' => new MySql(),
-            'pgsql' => new PostgreSql(),
-            'sqlite' => new Sqlite(),
-            'mongodb' => new MongoDb(),
+            'mysql', 'mariadb' => new MySql,
+            'pgsql' => new PostgreSql,
+            'sqlite' => new Sqlite,
+            'mongodb' => new MongoDb,
             default => throw CannotCreateDbDumper::unsupportedDriver($driver),
         };
     }

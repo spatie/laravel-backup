@@ -13,7 +13,7 @@ class EncryptBackupArchive
             return;
         }
 
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         $zip->open($event->pathToZip);
 

@@ -17,19 +17,19 @@ class FileSelection
 
     protected bool $shouldIgnoreUnreadableDirs = false;
 
-    public static function create(array | string $includeFilesAndDirectories = []): self
+    public static function create(array|string $includeFilesAndDirectories = []): self
     {
         return new static($includeFilesAndDirectories);
     }
 
-    public function __construct(array | string $includeFilesAndDirectories = [])
+    public function __construct(array|string $includeFilesAndDirectories = [])
     {
         $this->includeFilesAndDirectories = collect($includeFilesAndDirectories);
 
         $this->excludeFilesAndDirectories = collect();
     }
 
-    public function excludeFilesFrom(array | string $excludeFilesAndDirectories): self
+    public function excludeFilesFrom(array|string $excludeFilesAndDirectories): self
     {
         $this->excludeFilesAndDirectories = $this->excludeFilesAndDirectories->merge($this->sanitize($excludeFilesAndDirectories));
 
@@ -50,13 +50,13 @@ class FileSelection
         return $this;
     }
 
-    public function selectedFiles(): Generator | array
+    public function selectedFiles(): Generator|array
     {
         if ($this->includeFilesAndDirectories->isEmpty()) {
             return [];
         }
 
-        $finder = (new Finder())
+        $finder = (new Finder)
             ->ignoreDotFiles(false)
             ->ignoreVCS(false);
 
@@ -105,7 +105,7 @@ class FileSelection
     {
         $path = realpath($path);
         if (is_dir($path)) {
-            $path .= DIRECTORY_SEPARATOR ;
+            $path .= DIRECTORY_SEPARATOR;
         }
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
             if (Str::startsWith($path, $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''))) {
@@ -120,7 +120,7 @@ class FileSelection
         return false;
     }
 
-    protected function sanitize(string | array $paths): Collection
+    protected function sanitize(string|array $paths): Collection
     {
         return collect($paths)
             ->reject(fn ($path) => $path === '')

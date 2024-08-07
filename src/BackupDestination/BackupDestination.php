@@ -20,7 +20,7 @@ class BackupDestination
 
     protected ?BackupCollection $backupCollectionCache = null;
 
-    public function __construct(Filesystem $disk = null, string $backupName, string $diskName)
+    public function __construct(?Filesystem $disk, string $backupName, string $diskName)
     {
         $this->disk = $disk;
 

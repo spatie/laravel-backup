@@ -13,7 +13,7 @@ beforeEach(function () {
 it('will send a notification by default when a backup has failed', function () {
     fireBackupHasFailedEvent();
 
-    Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class);
+    Notification::assertSentTo(new Notifiable, BackupHasFailedNotification::class);
 });
 
 it('will send a notification via the configured notification channels', function (array $expectedChannels) {
@@ -21,7 +21,7 @@ it('will send a notification via the configured notification channels', function
 
     fireBackupHasFailedEvent();
 
-    Notification::assertSentTo(new Notifiable(), BackupHasFailedNotification::class, function ($notification, $usedChannels) use ($expectedChannels) {
+    Notification::assertSentTo(new Notifiable, BackupHasFailedNotification::class, function ($notification, $usedChannels) use ($expectedChannels) {
         return $expectedChannels == $usedChannels;
     });
 })->with([

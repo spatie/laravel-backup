@@ -46,7 +46,7 @@ class BackupJob
             ->dontBackupDatabases()
             ->setDefaultFilename();
 
-        $this->backupDestinations = new Collection();
+        $this->backupDestinations = new Collection;
     }
 
     public function dontBackupFilesystem(): self
@@ -67,7 +67,7 @@ class BackupJob
 
     public function dontBackupDatabases(): self
     {
-        $this->dbDumpers = new Collection();
+        $this->dbDumpers = new Collection;
 
         return $this;
     }
@@ -170,7 +170,7 @@ class BackupJob
 
             $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
-            consoleOutput()->error("Backup failed because: {$exception->getMessage()}." . PHP_EOL . $exception->getTraceAsString());
+            consoleOutput()->error("Backup failed because: {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
             $this->temporaryDirectory->delete();
 
@@ -211,7 +211,7 @@ class BackupJob
         return $this->backupDestinations
             ->filter(fn (BackupDestination $backupDestination) => $backupDestination->filesystemType() === 'localfilesystemadapter')
             ->map(
-                fn (BackupDestination $backupDestination) => $backupDestination->disk()->path('') . $backupDestination->backupName()
+                fn (BackupDestination $backupDestination) => $backupDestination->disk()->path('').$backupDestination->backupName()
             )
             ->each(fn (string $backupDestinationDirectory) => $this->fileSelection->excludeFilesFrom($backupDestinationDirectory))
             ->push($this->temporaryDirectory->path())
@@ -222,7 +222,7 @@ class BackupJob
     {
         consoleOutput()->info("Zipping {$manifest->count()} files and directories...");
 
-        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.destination.filename_prefix') . $this->filename);
+        $pathToZip = $this->temporaryDirectory->path(config('backup.backup.destination.filename_prefix').$this->filename);
 
         $zip = Zip::createForManifest($manifest, $pathToZip);
 
@@ -240,8 +240,6 @@ class BackupJob
     /**
      * Dumps the databases to the given directory.
      * Returns an array with paths to the dump files.
-     *
-     * @return array
      */
     protected function dumpDatabases(): array
     {
@@ -251,33 +249,32 @@ class BackupJob
 
                 $dbType = mb_strtolower(basename(str_replace('\\', '/', get_class($dbDumper))));
 
-
                 if (config('backup.backup.database_dump_filename_base') === 'connection') {
                     $dbName = $key;
                 } elseif ($dbDumper instanceof Sqlite) {
-                    $dbName = $key . '-database';
+                    $dbName = $key.'-database';
                 } else {
                     $dbName = $dbDumper->getDbName();
                 }
 
                 $timeStamp = '';
                 if ($timeStampFormat = config('backup.backup.database_dump_file_timestamp_format')) {
-                    $timeStamp = '-' . Carbon::now()->format($timeStampFormat);
+                    $timeStamp = '-'.Carbon::now()->format($timeStampFormat);
                 }
 
                 $fileName = "{$dbType}-{$dbName}{$timeStamp}.{$this->getExtension($dbDumper)}";
 
                 if (config('backup.backup.gzip_database_dump')) {
-                    $dbDumper->useCompressor(new GzipCompressor());
-                    $fileName .= '.' . $dbDumper->getCompressorExtension();
+                    $dbDumper->useCompressor(new GzipCompressor);
+                    $fileName .= '.'.$dbDumper->getCompressorExtension();
                 }
 
                 if ($compressor = config('backup.backup.database_dump_compressor')) {
-                    $dbDumper->useCompressor(new $compressor());
-                    $fileName .= '.' . $dbDumper->getCompressorExtension();
+                    $dbDumper->useCompressor(new $compressor);
+                    $fileName .= '.'.$dbDumper->getCompressorExtension();
                 }
 
-                $temporaryFilePath = $this->temporaryDirectory->path('db-dumps' . DIRECTORY_SEPARATOR . $fileName);
+                $temporaryFilePath = $this->temporaryDirectory->path('db-dumps'.DIRECTORY_SEPARATOR.$fileName);
 
                 event(new DumpingDatabase($dbDumper));
 

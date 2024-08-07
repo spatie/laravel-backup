@@ -168,12 +168,11 @@ it('can add arbritrary options to the dump command', function () {
 
 it('can create instances of custom dumpers', function () {
     DbDumperFactory::extend('mysql', function () {
-        return new MongoDb();
+        return new MongoDb;
     });
 
     expect(DbDumperFactory::createFromConnection('mysql'))->toBeInstanceOf(MongoDb::class);
 });
-
 
 function getDumpCommand(): string
 {

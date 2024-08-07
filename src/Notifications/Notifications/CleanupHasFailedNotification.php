@@ -13,12 +13,11 @@ class CleanupHasFailedNotification extends BaseNotification
 {
     public function __construct(
         public CleanupHasFailed $event,
-    ) {
-    }
+    ) {}
 
     public function toMail(): MailMessage
     {
-        $mailMessage = (new MailMessage())
+        $mailMessage = (new MailMessage)
             ->error()
             ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
             ->subject(trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()]))
@@ -35,7 +34,7 @@ class CleanupHasFailedNotification extends BaseNotification
 
     public function toSlack(): SlackMessage
     {
-        return (new SlackMessage())
+        return (new SlackMessage)
             ->error()
             ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
@@ -57,7 +56,7 @@ class CleanupHasFailedNotification extends BaseNotification
 
     public function toDiscord(): DiscordMessage
     {
-        return (new DiscordMessage())
+        return (new DiscordMessage)
             ->error()
             ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
             ->title(

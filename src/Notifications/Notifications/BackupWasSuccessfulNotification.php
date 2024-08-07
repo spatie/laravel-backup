@@ -13,12 +13,11 @@ class BackupWasSuccessfulNotification extends BaseNotification
 {
     public function __construct(
         public BackupWasSuccessful $event,
-    ) {
-    }
+    ) {}
 
     public function toMail(): MailMessage
     {
-        $mailMessage = (new MailMessage())
+        $mailMessage = (new MailMessage)
             ->from(config('backup.notifications.mail.from.address', config('mail.from.address')), config('backup.notifications.mail.from.name', config('mail.from.name')))
             ->subject(trans('backup::notifications.backup_successful_subject', ['application_name' => $this->applicationName()]))
             ->line(trans('backup::notifications.backup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
@@ -32,7 +31,7 @@ class BackupWasSuccessfulNotification extends BaseNotification
 
     public function toSlack(): SlackMessage
     {
-        return (new SlackMessage())
+        return (new SlackMessage)
             ->success()
             ->from(config('backup.notifications.slack.username'), config('backup.notifications.slack.icon'))
             ->to(config('backup.notifications.slack.channel'))
@@ -44,7 +43,7 @@ class BackupWasSuccessfulNotification extends BaseNotification
 
     public function toDiscord(): DiscordMessage
     {
-        return (new DiscordMessage())
+        return (new DiscordMessage)
             ->success()
             ->from(config('backup.notifications.discord.username'), config('backup.notifications.discord.avatar_url'))
             ->title(trans('backup::notifications.backup_successful_subject_title'))

@@ -17,7 +17,7 @@ class Zip
     public static function createForManifest(Manifest $manifest, string $pathToZip): self
     {
         $relativePath = config('backup.backup.source.files.relative_path') ?
-            rtrim(config('backup.backup.source.files.relative_path'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : false;
+            rtrim(config('backup.backup.source.files.relative_path'), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : false;
 
         $zip = new static($pathToZip);
 
@@ -34,9 +34,9 @@ class Zip
 
     protected static function determineNameOfFileInZip(string $pathToFile, string $pathToZip, string $relativePath)
     {
-        $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR;
+        $fileDirectory = pathinfo($pathToFile, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR;
 
-        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR;
+        $zipDirectory = pathinfo($pathToZip, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR;
 
         if (Str::startsWith($fileDirectory, $zipDirectory)) {
             return substr($pathToFile, strlen($zipDirectory));
@@ -51,7 +51,7 @@ class Zip
 
     public function __construct(string $pathToZip)
     {
-        $this->zipFile = new ZipArchive();
+        $this->zipFile = new ZipArchive;
 
         $this->pathToZip = $pathToZip;
 
@@ -87,7 +87,7 @@ class Zip
         $this->zipFile->close();
     }
 
-    public function add(string | iterable $files, string $nameInZip = null): self
+    public function add(string|iterable $files, ?string $nameInZip = null): self
     {
         if (is_array($files)) {
             $nameInZip = null;

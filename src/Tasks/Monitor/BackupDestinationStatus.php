@@ -14,15 +14,14 @@ class BackupDestinationStatus
     public function __construct(
         protected BackupDestination $backupDestination,
         protected array $healthChecks = []
-    ) {
-    }
+    ) {}
 
     public function backupDestination(): BackupDestination
     {
         return $this->backupDestination;
     }
 
-    public function check(HealthCheck $check): bool | HealthCheckFailure
+    public function check(HealthCheck $check): bool|HealthCheckFailure
     {
         try {
             $check->checkHealth($this->backupDestination());
@@ -35,7 +34,7 @@ class BackupDestinationStatus
 
     public function getHealthChecks(): Collection
     {
-        return collect($this->healthChecks)->prepend(new IsReachable());
+        return collect($this->healthChecks)->prepend(new IsReachable);
     }
 
     public function getHealthCheckFailure(): ?HealthCheckFailure

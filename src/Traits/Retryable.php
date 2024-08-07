@@ -32,16 +32,16 @@ trait Retryable
     protected function setTries(string $type)
     {
         if ($this->option('tries')) {
-            $this->tries = (int)$this->option('tries');
+            $this->tries = (int) $this->option('tries');
 
             return;
         }
 
-        $this->tries = (int)config('backup.' . $type . '.tries', 1);
+        $this->tries = (int) config('backup.'.$type.'.tries', 1);
     }
 
     protected function getRetryDelay(string $type)
     {
-        return (int)config('backup.' . $type . '.retry_delay', 0);
+        return (int) config('backup.'.$type.'.retry_delay', 0);
     }
 }
