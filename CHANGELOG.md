@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 8.8.2 - 2024-08-07
+
+### What's Changed
+
+* Chore/ci updates by @Nielsvanpach in https://github.com/spatie/laravel-backup/pull/1798
+* Update documentation internal links by @dualklip in https://github.com/spatie/laravel-backup/pull/1801
+* Update installation-and-setup.md by @Geoffry304 in https://github.com/spatie/laravel-backup/pull/1807
+* [8.x] Only add the username property if it's not empty by @RVxLab in https://github.com/spatie/laravel-backup/pull/1829
+
+### New Contributors
+
+* @dualklip made their first contribution in https://github.com/spatie/laravel-backup/pull/1801
+* @Geoffry304 made their first contribution in https://github.com/spatie/laravel-backup/pull/1807
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/8.8.1...8.8.2
+
 ## 9.0.4 - 2024-07-15
 
 ### What's Changed
