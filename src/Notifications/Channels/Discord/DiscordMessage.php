@@ -3,6 +3,7 @@
 namespace Spatie\Backup\Notifications\Channels\Discord;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class DiscordMessage
 {
@@ -103,8 +104,8 @@ class DiscordMessage
     {
         foreach ($fields as $label => $value) {
             $this->fields[] = [
-                'name' => $label,
-                'value' => $value,
+                'name' => Str::limit( $label, 250 ),
+                'value' => Str::limi( $value, 1000 ),
                 'inline' => $inline,
             ];
         }
@@ -118,14 +119,14 @@ class DiscordMessage
             'avatar_url' => $this->avatarUrl,
             'embeds' => [
                 [
-                    'title' => $this->title,
+                    'title' => Str::limit( $this->title, 250 ),
                     'url' => $this->url,
                     'type' => 'rich',
-                    'description' => $this->description,
-                    'fields' => $this->fields,
+                    'description' => Str::limit( $this->description, 4000 ),
+                    'fields' => array_slice( $this->fields, 0, 25 ),
                     'color' => hexdec((string) $this->color),
                     'footer' => [
-                        'text' => $this->footer ?? '',
+                        'text' => $this->footer ? Str::limit( $this->footer, 2000 ): '',
                     ],
                     'timestamp' => $this->timestamp ?? now(),
                 ],
