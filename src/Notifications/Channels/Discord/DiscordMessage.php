@@ -104,8 +104,8 @@ class DiscordMessage
     {
         foreach ($fields as $label => $value) {
             $this->fields[] = [
-                'name' => Str::limit( $label, 250 ),
-                'value' => Str::limi( $value, 1000 ),
+                'name' => Str::limit($label, 250),
+                'value' => Str::limi($value, 1000),
                 'inline' => $inline,
             ];
         }
@@ -119,14 +119,14 @@ class DiscordMessage
             'avatar_url' => $this->avatarUrl,
             'embeds' => [
                 [
-                    'title' => Str::limit( $this->title, 250 ),
+                    'title' => Str::limit($this->title, 250),
                     'url' => $this->url,
                     'type' => 'rich',
-                    'description' => Str::limit( $this->description, 4000 ),
-                    'fields' => array_slice( $this->fields, 0, 25 ),
+                    'description' => Str::limit($this->description, 4000),
+                    'fields' => array_slice($this->fields, 0, 25),
                     'color' => hexdec((string) $this->color),
                     'footer' => [
-                        'text' => $this->footer ? Str::limit( $this->footer, 2000 ): '',
+                        'text' => $this->footer ? Str::limit($this->footer, 2000) : '',
                     ],
                     'timestamp' => $this->timestamp ?? now(),
                 ],
