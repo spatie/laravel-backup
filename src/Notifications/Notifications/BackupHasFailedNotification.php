@@ -20,12 +20,12 @@ class BackupHasFailedNotification extends BaseNotification
         $mailMessage = (new MailMessage())
             ->error()
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
-            ->subject(trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('backup::notifications.backup_failed_body', ['application_name' => $this->applicationName()]))
-            ->line(trans('backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))
-            ->line(trans('backup::notifications.exception_trace', ['trace' => $this->event->exception->getTraceAsString()]));
+            ->subject($this->trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
+            ->line($this->trans('backup::notifications.backup_failed_body', ['application_name' => $this->applicationName()]))
+            ->line($this->trans('backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))
+            ->line($this->trans('backup::notifications.exception_trace', ['trace' => $this->event->exception->getTraceAsString()]));
 
-        $this->backupDestinationProperties()->each(fn ($value, $name) => $mailMessage->line("{$name}: {$value}"));
+        $this->backupDestinationProperties()->each(fn($value, $name) => $mailMessage->line("{$name}: {$value}"));
 
         return $mailMessage;
     }
@@ -36,15 +36,15 @@ class BackupHasFailedNotification extends BaseNotification
             ->error()
             ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
             ->to($this->config()->notifications->slack->channel)
-            ->content(trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
+            ->content($this->trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
-                    ->title(trans('backup::notifications.exception_message_title'))
+                    ->title($this->trans('backup::notifications.exception_message_title'))
                     ->content($this->event->exception->getMessage());
             })
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment
-                    ->title(trans('backup::notifications.exception_trace_title'))
+                    ->title($this->trans('backup::notifications.exception_trace_title'))
                     ->content($this->event->exception->getTraceAsString());
             })
             ->attachment(function (SlackAttachment $attachment) {
@@ -57,9 +57,9 @@ class BackupHasFailedNotification extends BaseNotification
         return (new DiscordMessage())
             ->error()
             ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
-            ->title(trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
+            ->title($this->trans('backup::notifications.backup_failed_subject', ['application_name' => $this->applicationName()]))
             ->fields([
-                trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage(),
+                $this->trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage(),
             ]);
     }
 }

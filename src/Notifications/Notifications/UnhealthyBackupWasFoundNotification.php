@@ -21,8 +21,8 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
         $mailMessage = (new MailMessage())
             ->error()
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
-            ->subject(trans('backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('backup::notifications.unhealthy_backup_found_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
+            ->subject($this->trans('backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
+            ->line($this->trans('backup::notifications.unhealthy_backup_found_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line($this->problemDescription());
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
@@ -31,9 +31,9 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 
         if ($this->failure()->wasUnexpected()) {
             $mailMessage
-                ->line('Health check: '.$this->failure()->healthCheck()->name())
-                ->line(trans('backup::notifications.exception_message', ['message' => $this->failure()->exception()->getMessage()]))
-                ->line(trans('backup::notifications.exception_trace', ['trace' => $this->failure()->exception()->getTraceAsString()]));
+                ->line('Health check: ' . $this->failure()->healthCheck()->name())
+                ->line($this->trans('backup::notifications.exception_message', ['message' => $this->failure()->exception()->getMessage()]))
+                ->line($this->trans('backup::notifications.exception_trace', ['trace' => $this->failure()->exception()->getTraceAsString()]));
         }
 
         return $mailMessage;
@@ -45,7 +45,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
             ->error()
             ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
             ->to($this->config()->notifications->slack->channel)
-            ->content(trans('backup::notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
+            ->content($this->trans('backup::notifications.unhealthy_backup_found_subject_title', ['application_name' => $this->applicationName(), 'problem' => $this->problemDescription()]))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
@@ -59,12 +59,12 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
                 })
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
-                        ->title(trans('backup::notifications.exception_message_title'))
+                        ->title($this->trans('backup::notifications.exception_message_title'))
                         ->content($this->failure()->exception()->getMessage());
                 })
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment
-                        ->title(trans('backup::notifications.exception_trace_title'))
+                        ->title($this->trans('backup::notifications.exception_trace_title'))
                         ->content($this->failure()->exception()->getTraceAsString());
                 });
         }
@@ -78,7 +78,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
             ->error()
             ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(
-                trans('backup::notifications.unhealthy_backup_found_subject_title', [
+                $this->trans('backup::notifications.unhealthy_backup_found_subject_title', [
                     'application_name' => $this->applicationName(),
                     'problem' => $this->problemDescription(),
                 ])
@@ -88,7 +88,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
             $discordMessage
                 ->fields(['Health Check' => $this->failure()->healthCheck()->name()])
                 ->fields([
-                    trans('backup::notifications.exception_message_title') => $this->failure()->exception()->getMessage(),
+                    $this->trans('backup::notifications.exception_message_title') => $this->failure()->exception()->getMessage(),
                 ]);
         }
 
@@ -98,7 +98,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
     protected function problemDescription(): string
     {
         if ($this->failure()->wasUnexpected()) {
-            return trans('backup::notifications.unhealthy_backup_found_unknown');
+            return $this->trans('backup::notifications.unhealthy_backup_found_unknown');
         }
 
         return $this->failure()->exception()->getMessage();

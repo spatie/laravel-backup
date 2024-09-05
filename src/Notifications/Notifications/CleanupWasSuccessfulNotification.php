@@ -19,8 +19,8 @@ class CleanupWasSuccessfulNotification extends BaseNotification
     {
         $mailMessage = (new MailMessage())
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
-            ->subject(trans('backup::notifications.cleanup_successful_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('backup::notifications.cleanup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
+            ->subject($this->trans('backup::notifications.cleanup_successful_subject', ['application_name' => $this->applicationName()]))
+            ->line($this->trans('backup::notifications.cleanup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: {$value}");
@@ -35,7 +35,7 @@ class CleanupWasSuccessfulNotification extends BaseNotification
             ->success()
             ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
             ->to($this->config()->notifications->slack->channel)
-            ->content(trans('backup::notifications.cleanup_successful_subject_title'))
+            ->content($this->trans('backup::notifications.cleanup_successful_subject_title'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields($this->backupDestinationProperties()->toArray());
             });
@@ -46,7 +46,7 @@ class CleanupWasSuccessfulNotification extends BaseNotification
         return (new DiscordMessage())
             ->success()
             ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
-            ->title(trans('backup::notifications.cleanup_successful_subject_title'))
+            ->title($this->trans('backup::notifications.cleanup_successful_subject_title'))
             ->fields($this->backupDestinationProperties()->toArray());
     }
 }

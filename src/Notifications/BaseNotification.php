@@ -55,15 +55,15 @@ abstract class BaseNotification extends Notification
         $newestBackup = $backupDestination->newestBackup();
         $oldestBackup = $backupDestination->oldestBackup();
 
-        $noBackupsText = trans('backup::notifications.no_backups_info');
-        $applicationName = trans('backup::notifications.application_name');
-        $backupName = trans('backup::notifications.backup_name');
-        $disk = trans('backup::notifications.disk');
-        $newestBackupSize = trans('backup::notifications.newest_backup_size');
-        $numberOfBackups = trans('backup::notifications.number_of_backups');
-        $totalStorageUsed = trans('backup::notifications.total_storage_used');
-        $newestBackupDate = trans('backup::notifications.newest_backup_date');
-        $oldestBackupDate = trans('backup::notifications.oldest_backup_date');
+        $noBackupsText = $this->trans('backup::notifications.no_backups_info');
+        $applicationName = $this->trans('backup::notifications.application_name');
+        $backupName = $this->trans('backup::notifications.backup_name');
+        $disk = $this->trans('backup::notifications.disk');
+        $newestBackupSize = $this->trans('backup::notifications.newest_backup_size');
+        $numberOfBackups = $this->trans('backup::notifications.number_of_backups');
+        $totalStorageUsed = $this->trans('backup::notifications.total_storage_used');
+        $newestBackupDate = $this->trans('backup::notifications.newest_backup_date');
+        $oldestBackupDate = $this->trans('backup::notifications.oldest_backup_date');
 
         return collect([
             $applicationName => $this->applicationName(),
@@ -88,5 +88,10 @@ abstract class BaseNotification extends Notification
         }
 
         return null;
+    }
+
+    public function trans($key, $replace = [])
+    {
+        return trans($key, $replace, config('backup.locale'));
     }
 }
