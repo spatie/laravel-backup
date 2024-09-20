@@ -250,3 +250,5 @@ Here's an example for MySQL:
 		]  
 	],
 ```
+
+TIP: If you're running your app through Laravel Herd on macOS and are trying to run backup commands inside your app via `Artisan::call()`, you may need to explicitly specify the `dump.dump_binary_path` in your `database.php` config file.
