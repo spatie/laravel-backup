@@ -47,6 +47,7 @@ class DbDumperFactory
 
         if ($dbDumper instanceof MySql) {
             $dbDumper
+                ->setSkipSsl($dbConfig['dump']['skip_ssl'] ?? false)
                 ->setDefaultCharacterSet($dbConfig['charset'] ?? '')
                 ->setGtidPurged($dbConfig['dump']['mysql_gtid_purged'] ?? 'AUTO');
         }
@@ -124,7 +125,7 @@ class DbDumperFactory
 
     protected static function determineValidMethodName(DbDumper $dbDumper, string $methodName): string
     {
-        return collect([$methodName, 'set'.ucfirst($methodName)])
-            ->first(fn (string $methodName) => method_exists($dbDumper, $methodName), '');
+        return collect([$methodName, 'set' . ucfirst($methodName)])
+            ->first(fn(string $methodName) => method_exists($dbDumper, $methodName), '');
     }
 }
