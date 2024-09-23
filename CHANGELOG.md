@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.1.1 - 2024-09-23
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.1.0...9.1.1
+
 ## 9.1.0 - 2024-09-23
 
 ### What's Changed
