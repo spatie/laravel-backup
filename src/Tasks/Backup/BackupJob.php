@@ -49,7 +49,7 @@ class BackupJob
             ->dontBackupDatabases()
             ->setDefaultFilename();
 
-        $this->backupDestinations = new Collection();
+        $this->backupDestinations = new Collection;
     }
 
     public function dontBackupFilesystem(): self
@@ -71,7 +71,7 @@ class BackupJob
 
     public function dontBackupDatabases(): self
     {
-        $this->dbDumpers = new Collection();
+        $this->dbDumpers = new Collection;
 
         return $this;
     }
@@ -277,12 +277,12 @@ class BackupJob
 
                 // @todo is this still relevant or undocumented?
                 if (config('backup.backup.gzip_database_dump')) {
-                    $dbDumper->useCompressor(new GzipCompressor());
+                    $dbDumper->useCompressor(new GzipCompressor);
                     $fileName .= '.'.$dbDumper->getCompressorExtension();
                 }
 
                 if ($compressor = $this->config->backup->databaseDumpCompressor) {
-                    $dbDumper->useCompressor(new $compressor());
+                    $dbDumper->useCompressor(new $compressor);
                     $fileName .= '.'.$dbDumper->getCompressorExtension();
                 }
 

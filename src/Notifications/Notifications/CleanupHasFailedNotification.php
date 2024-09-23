@@ -17,7 +17,7 @@ class CleanupHasFailedNotification extends BaseNotification
 
     public function toMail(): MailMessage
     {
-        $mailMessage = (new MailMessage())
+        $mailMessage = (new MailMessage)
             ->error()
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
             ->subject(trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()]))
@@ -34,7 +34,7 @@ class CleanupHasFailedNotification extends BaseNotification
 
     public function toSlack(): SlackMessage
     {
-        return (new SlackMessage())
+        return (new SlackMessage)
             ->error()
             ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
             ->to($this->config()->notifications->slack->channel)
@@ -56,7 +56,7 @@ class CleanupHasFailedNotification extends BaseNotification
 
     public function toDiscord(): DiscordMessage
     {
-        return (new DiscordMessage())
+        return (new DiscordMessage)
             ->error()
             ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(

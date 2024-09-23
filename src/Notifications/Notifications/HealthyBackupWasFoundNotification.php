@@ -17,7 +17,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
 
     public function toMail(): MailMessage
     {
-        $mailMessage = (new MailMessage())
+        $mailMessage = (new MailMessage)
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
             ->subject(trans('backup::notifications.healthy_backup_found_subject', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line(trans('backup::notifications.healthy_backup_found_body', ['application_name' => $this->applicationName()]));
@@ -31,7 +31,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
 
     public function toSlack(): SlackMessage
     {
-        return (new SlackMessage())
+        return (new SlackMessage)
             ->success()
             ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
             ->to($this->config()->notifications->slack->channel)
@@ -43,7 +43,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
 
     public function toDiscord(): DiscordMessage
     {
-        return (new DiscordMessage())
+        return (new DiscordMessage)
             ->success()
             ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(

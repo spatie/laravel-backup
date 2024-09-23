@@ -36,7 +36,7 @@ class BackupDestinationStatus
     /** @return Collection<int, HealthCheck> */
     public function getHealthChecks(): Collection
     {
-        return collect($this->healthChecks)->prepend(new IsReachable());
+        return collect($this->healthChecks)->prepend(new IsReachable);
     }
 
     public function getHealthCheckFailure(): ?HealthCheckFailure

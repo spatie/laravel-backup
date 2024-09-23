@@ -62,7 +62,7 @@ class FileSelection
             return [];
         }
 
-        $finder = (new Finder())
+        $finder = (new Finder)
             ->ignoreDotFiles(false)
             ->ignoreVCS(false);
 

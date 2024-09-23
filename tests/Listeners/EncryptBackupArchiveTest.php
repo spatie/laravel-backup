@@ -11,7 +11,7 @@ it('keeps archive unencrypted without password', function () {
 
     $path = zip();
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open($path);
 
     assertEncryptionMethod($zip, ZipArchive::EM_NONE);
@@ -30,7 +30,7 @@ it('encrypts archive with password', function (int $algorithm) {
 
     $path = zip();
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open($path);
 
     assertEncryptionMethod($zip, $algorithm);
@@ -49,7 +49,7 @@ it('encrypts archive with password', function (int $algorithm) {
 it('can not open encrypted archive without password', function () {
     $path = zip();
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
     $zip->open($path);
 
     assertEncryptionMethod($zip, ZipArchive::EM_AES_256);

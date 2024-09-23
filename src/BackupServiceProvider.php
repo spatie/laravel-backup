@@ -61,7 +61,7 @@ class BackupServiceProvider extends PackageServiceProvider
     {
         Notification::resolved(function (ChannelManager $service) {
             $service->extend('discord', function ($app): DiscordChannel {
-                return new DiscordChannel();
+                return new DiscordChannel;
             });
         });
     }

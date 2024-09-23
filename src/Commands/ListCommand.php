@@ -44,8 +44,8 @@ class ListCommand extends BaseCommand
         });
 
         $this->table($headers, $rows, 'default', [
-            4 => new RightAlignedTableStyle(),
-            6 => new RightAlignedTableStyle(),
+            4 => new RightAlignedTableStyle,
+            6 => new RightAlignedTableStyle,
         ]);
 
         return $this;
