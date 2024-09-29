@@ -9,5 +9,4 @@ use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
  */
 interface TemporaryDirectory
 {
-    public function __construct(string $location = '');
 }
