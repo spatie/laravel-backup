@@ -13,7 +13,7 @@ class InvalidConfig extends Exception
 
     public static function missingSender(): static
     {
-        return new static('No sender email address specified.');
+        return new static("No sender email address specified. Make sure it's set in your config file or as `MAIL_FROM_ADDRESS` in your .env file.");
     }
 
     public static function integerMustBePositive(string $name): static
