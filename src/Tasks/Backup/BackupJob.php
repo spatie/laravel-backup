@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Config\Config;
+use Spatie\Backup\Contracts\TemporaryDirectory;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -20,7 +21,6 @@ use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
 use Spatie\SignalAwareCommand\Facades\Signal;
-use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class BackupJob
 {
@@ -36,13 +36,11 @@ class BackupJob
 
     protected string $filename;
 
-    protected TemporaryDirectory $temporaryDirectory;
-
     protected bool $sendNotifications = true;
 
     protected bool $signals = true;
 
-    public function __construct(protected Config $config)
+    public function __construct(protected Config $config, protected TemporaryDirectory $temporaryDirectory)
     {
         $this
             ->dontBackupFilesystem()
@@ -146,9 +144,7 @@ class BackupJob
     /** @throws Exception */
     public function run(): void
     {
-        $temporaryDirectoryPath = $this->config->backup->temporaryDirectory ?? storage_path('app/backup-temp');
-
-        $this->temporaryDirectory = (new TemporaryDirectory($temporaryDirectoryPath))
+        $this->temporaryDirectory
             ->name('temp')
             ->force()
             ->create()
