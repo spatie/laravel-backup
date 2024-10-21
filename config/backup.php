@@ -338,4 +338,10 @@ return [
         'retry_delay' => 0,
     ],
 
+    /**
+     * Here you can specify the backup locale for translation purposes.
+     * For example, if you want to use German (de) notifications even though your base app is in English.
+     * Supported languages: you can check the available languages in the `resources/lang` directory.
+     */
+    'locale' => env('BACKUP_LOCALE', 'en'),
 ];
