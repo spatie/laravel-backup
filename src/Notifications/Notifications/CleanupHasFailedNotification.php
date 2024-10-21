@@ -4,7 +4,7 @@ namespace Spatie\Backup\Notifications\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Slack\SlackMessage;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Notifications\BaseNotification;
 use Spatie\Backup\Notifications\Channels\Discord\DiscordMessage;
