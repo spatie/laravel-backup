@@ -33,7 +33,7 @@ class NotificationsConfig extends Data
             notifiable: $data['notifiable'],
             mail: NotificationMailConfig::fromArray($data['mail']),
             slack: NotificationSlackConfig::fromArray($data['slack']),
-            discord: $data['discord'] ? NotificationDiscordConfig::fromArray($data['discord']) : null,
+            discord: isset($data['discord']) ? NotificationDiscordConfig::fromArray($data['discord']) : null,
         );
     }
 }
