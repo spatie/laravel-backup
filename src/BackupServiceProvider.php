@@ -5,11 +5,13 @@ namespace Spatie\Backup;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Spatie\Backup\Adapters\TemporaryDirectoryAdapter;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
 use Spatie\Backup\Commands\MonitorCommand;
 use Spatie\Backup\Config\Config;
+use Spatie\Backup\Contracts\TemporaryDirectory as TemporaryDirectoryContract;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Helpers\ConsoleOutput;
 use Spatie\Backup\Listeners\EncryptBackupArchive;
@@ -18,6 +20,7 @@ use Spatie\Backup\Notifications\EventHandler;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class BackupServiceProvider extends PackageServiceProvider
 {
@@ -49,6 +52,7 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->app->singleton(ConsoleOutput::class);
 
         $this->app->bind(CleanupStrategy::class, config('backup.cleanup.strategy'));
+        $this->app->bind(TemporaryDirectoryContract::class, fn() => new TemporaryDirectoryAdapter(config('backup.temporary_directory') ?? storage_path('app/backup-temp')));
 
         $this->registerDiscordChannel();
 
