@@ -27,10 +27,10 @@ class Config extends Data
         $source = require realpath(__DIR__.'/../../config/backup.php');
 
         return new self(
-            backup: BackupConfig::fromArray(array_merge($source['backup'], $data['backup'])),
-            notifications: NotificationsConfig::fromArray(array_merge($source['notifications'], $data['notifications'])),
-            monitoredBackups: MonitoredBackupsConfig::fromArray($data['monitor_backups'] ?? $source['notifications']),
-            cleanup: CleanupConfig::fromArray(array_merge($source['cleanup'], $data['cleanup']))
+            backup: BackupConfig::fromArray(array_merge($source['backup'], $data['backup'] ?? [])),
+            notifications: NotificationsConfig::fromArray(array_merge($source['notifications'], $data['notifications'] ?? [])),
+            monitoredBackups: MonitoredBackupsConfig::fromArray($data['monitor_backups'] ?? $source['monitor_backups']),
+            cleanup: CleanupConfig::fromArray(array_merge($source['cleanup'], $data['cleanup'] ?? []))
         );
     }
 }
