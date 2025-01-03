@@ -18,7 +18,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 
     public function toMail(): MailMessage
     {
-        $mailMessage = (new MailMessage())
+        $mailMessage = (new MailMessage)
             ->error()
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
             ->subject(trans('backup::notifications.unhealthy_backup_found_subject', ['application_name' => $this->applicationName()]))
@@ -41,7 +41,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 
     public function toSlack(): SlackMessage
     {
-        $slackMessage = (new SlackMessage())
+        $slackMessage = (new SlackMessage)
             ->error()
             ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
             ->to($this->config()->notifications->slack->channel)
@@ -74,7 +74,7 @@ class UnhealthyBackupWasFoundNotification extends BaseNotification
 
     public function toDiscord(): DiscordMessage
     {
-        $discordMessage = (new DiscordMessage())
+        $discordMessage = (new DiscordMessage)
             ->error()
             ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(

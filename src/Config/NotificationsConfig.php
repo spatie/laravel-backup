@@ -18,7 +18,7 @@ class NotificationsConfig extends Data
         public string $notifiable,
         public NotificationMailConfig $mail,
         public NotificationSlackConfig $slack,
-        public NotificationDiscordConfig $discord,
+        public ?NotificationDiscordConfig $discord,
     ) {
         if (! class_exists($this->notifiable)) {
             throw InvalidConfig::invalidStrategy($this->notifiable);
@@ -33,7 +33,7 @@ class NotificationsConfig extends Data
             notifiable: $data['notifiable'],
             mail: NotificationMailConfig::fromArray($data['mail']),
             slack: NotificationSlackConfig::fromArray($data['slack']),
-            discord: NotificationDiscordConfig::fromArray($data['discord']),
+            discord: isset($data['discord']) ? NotificationDiscordConfig::fromArray($data['discord']) : null,
         );
     }
 }

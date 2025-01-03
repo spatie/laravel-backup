@@ -393,6 +393,25 @@ Here's an example for MySQL:
 	],
 ```
 
+## SkipSsl in MySQL/MariaDB database connection
+set the value of `dump.skip_ssl` to `true`  in your `config/database.php` to bypass **`TLS/SSL error: self-signed certificate`** error while establishing a database connection
+
+Here's an example for MySQL:
+
+```php
+//config/database.php
+'connections' => [
+	'mysql' => [
+		'driver'    => 'mysql'
+		...,
+		'dump' => [
+                    'dump_binary_path' => '/path/to/the/binary', // only the path, so without `mysqldump` or `pg_dump`
+                    'skip_ssl' => true, // default value is `false`
+		   ...,
+		]
+	],
+```
+
 ### Timestamp form of database dumps
 
 By default, database dump filenames do not contain a timestamp. If you would like to add a timestamp, you can set the timestamp format to be used in the config.

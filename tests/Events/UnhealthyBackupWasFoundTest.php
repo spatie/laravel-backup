@@ -28,7 +28,7 @@ it('sends an notification containing the exception message for handled health ch
         ->artisan('backup:monitor')->assertExitCode(1);
 
     Notification::assertSentTo(
-        new Notifiable(),
+        new Notifiable,
         UnhealthyBackupWasFoundNotification::class,
         function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
             $slack = $notification->toSlack();
@@ -57,7 +57,7 @@ it('sends an notification containing the exception for unexpected health check e
         ->artisan('backup:monitor')
         ->assertExitCode(1);
 
-    Notification::assertSentTo(new Notifiable(), UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
+    Notification::assertSentTo(new Notifiable, UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
         $slack = $notification->toSlack();
         expect($slack->content)->toContain(trans('backup::notifications.unhealthy_backup_found_unknown'));
         $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Health check'));

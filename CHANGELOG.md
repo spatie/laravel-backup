@@ -2,6 +2,34 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.1.3 - 2024-10-21
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.1.2...9.1.3
+
+## 9.1.2 - 2024-10-09
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.1.1...9.1.2
+
+## 9.1.1 - 2024-09-23
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.1.0...9.1.1
+
+## 9.1.0 - 2024-09-23
+
+### What's Changed
+
+* Fixing minor typo in Spanish language file. by @chessandrock in https://github.com/spatie/laravel-backup/pull/1822
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1828
+* Update installation-and-setup.md by @diadal in https://github.com/spatie/laravel-backup/pull/1843
+* Update DbDumperFactory.php by @diadal in https://github.com/spatie/laravel-backup/pull/1842
+
+### New Contributors
+
+* @chessandrock made their first contribution in https://github.com/spatie/laravel-backup/pull/1822
+* @diadal made their first contribution in https://github.com/spatie/laravel-backup/pull/1843
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.0.4...9.1.0
+
 ## 8.8.2 - 2024-08-07
 
 ### What's Changed

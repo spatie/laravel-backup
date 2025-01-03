@@ -129,7 +129,7 @@ it('can exclude files from multiple directories', function () {
 });
 
 it('returns an empty array when not specifying any directories', function () {
-    $fileSelection = new FileSelection();
+    $fileSelection = new FileSelection;
 
     expect(iterator_to_array($fileSelection->selectedFiles()))->toBeEmpty();
 });

@@ -17,7 +17,7 @@ class Zip
 
     public function __construct(protected string $pathToZip)
     {
-        $this->zipFile = new ZipArchive();
+        $this->zipFile = new ZipArchive;
         $this->config = app(Config::class);
 
         $this->open();
