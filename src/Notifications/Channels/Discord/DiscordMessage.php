@@ -105,7 +105,7 @@ class DiscordMessage
         foreach ($fields as $label => $value) {
             $this->fields[] = [
                 'name' => Str::limit($label, 250),
-                'value' => Str::limi($value, 1000),
+                'value' => Str::limit($value, 1000),
                 'inline' => $inline,
             ];
         }
