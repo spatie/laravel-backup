@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.0 - 2025-01-06
+
+### What's Changed
+
+* Test PHP 8.4 by @erikn69 in https://github.com/spatie/laravel-backup/pull/1852
+* Update overview.md by @lucasff in https://github.com/spatie/laravel-backup/pull/1858
+* Default config - Merge default backup config with user config by @mho22 in https://github.com/spatie/laravel-backup/pull/1863
+* Discord Notifications - Add limits in embed structures in discord notifications messages by @mho22 in https://github.com/spatie/laravel-backup/pull/1864
+
+### New Contributors
+
+* @lucasff made their first contribution in https://github.com/spatie/laravel-backup/pull/1858
+* @mho22 made their first contribution in https://github.com/spatie/laravel-backup/pull/1863
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.1.3...9.2.0
+
 ## 9.1.3 - 2024-10-21
 
 **Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.1.2...9.1.3
