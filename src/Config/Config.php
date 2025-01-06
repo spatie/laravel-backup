@@ -24,11 +24,13 @@ class Config extends Data
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self
     {
+        $source = require realpath(__DIR__.'/../../config/backup.php');
+
         return new self(
-            backup: BackupConfig::fromArray($data['backup']),
-            notifications: NotificationsConfig::fromArray($data['notifications']),
-            monitoredBackups: MonitoredBackupsConfig::fromArray($data['monitor_backups']),
-            cleanup: CleanupConfig::fromArray($data['cleanup']),
+            backup: BackupConfig::fromArray(array_merge($source['backup'], $data['backup'] ?? [])),
+            notifications: NotificationsConfig::fromArray(array_merge($source['notifications'], $data['notifications'] ?? [])),
+            monitoredBackups: MonitoredBackupsConfig::fromArray($data['monitor_backups'] ?? $source['monitor_backups']),
+            cleanup: CleanupConfig::fromArray(array_merge($source['cleanup'], $data['cleanup'] ?? []))
         );
     }
 }
