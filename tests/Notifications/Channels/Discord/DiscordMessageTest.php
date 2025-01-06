@@ -33,7 +33,7 @@ it('resizes embed description if character count is greater than 4096', function
 });
 
 it('resizes fields if fields count is greater than 25', function () {
-    $array = array_map(fn() => fake()->word(), range(1, 50));
+    $array = array_map(fn () => fake()->word(), range(1, 50));
     $count = count($array);
 
     expect($count)->toBeGreaterThan(25);
