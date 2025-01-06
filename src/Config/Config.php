@@ -24,7 +24,7 @@ class Config extends Data
     /** @param array<mixed> $data */
     public static function fromArray(array $data): self
     {
-        $source = config('backup');
+        $source = require dirname(__DIR__, 2) . '/config/backup.php';
 
         return new self(
             backup: BackupConfig::fromArray(array_merge($source['backup'], $data['backup'] ?? [])),
