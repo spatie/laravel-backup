@@ -75,7 +75,7 @@ it('can exclude files with wildcards from a given subdirectory', function () {
         'directory1/file2.txt',
         'directory2',
         'file',
-        'file1.txt', //it is kept because it is not in a directory /dir/file1.txt
+        'file1.txt', // it is kept because it is not in a directory /dir/file1.txt
         'file1.txt.txt',
         'file2.txt',
         'file3.txt',

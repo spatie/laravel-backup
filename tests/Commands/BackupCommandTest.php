@@ -226,7 +226,7 @@ it('will fail when try to backup only the files and only the db', function () {
 });
 
 it('will fail when trying to backup a non existing database', function () {
-    //use an invalid db name to trigger failure
+    // use an invalid db name to trigger failure
     Artisan::call('backup:run --only-files --only-db --db-name=wrongName');
 
     $this->seeInConsoleOutput('Backup failed');
@@ -338,7 +338,7 @@ it('should trigger the backup failed event', function () {
 });
 
 it('should omit the backup failed event with no notifications flag', function () {
-    //use an invalid dbname to trigger failure
+    // use an invalid dbname to trigger failure
     $this->artisan('backup:run --only-db --db-name=wrongName --disable-notifications')->assertExitCode(1);
 
     Event::assertNotDispatched(BackupHasFailed::class);
