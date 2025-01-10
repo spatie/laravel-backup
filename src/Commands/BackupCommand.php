@@ -5,7 +5,6 @@ namespace Spatie\Backup\Commands;
 use Exception;
 use Illuminate\Contracts\Console\Isolatable;
 use Spatie\Backup\Config\Config;
-use Spatie\Backup\Contracts\TemporaryDirectory;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
@@ -20,7 +19,7 @@ class BackupCommand extends BaseCommand implements Isolatable
 
     protected $description = 'Run the backup.';
 
-    public function __construct(protected Config $config, protected TemporaryDirectory $temporaryDirectory)
+    public function __construct(protected Config $config)
     {
         parent::__construct();
     }
@@ -38,7 +37,7 @@ class BackupCommand extends BaseCommand implements Isolatable
         try {
             $this->guardAgainstInvalidOptions();
 
-            $backupJob = BackupJobFactory::createFromConfig($this->config, $this->temporaryDirectory);
+            $backupJob = BackupJobFactory::createFromConfig($this->config);
 
             if ($this->option('only-db')) {
                 $backupJob->dontBackupFilesystem();
