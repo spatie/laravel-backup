@@ -29,8 +29,6 @@ class BackupJob
 
     protected FileSelection $fileSelection;
 
-    protected TemporaryDirectory $temporaryDirectory;
-
     /** @var Collection<string, DbDumper> */
     protected Collection $dbDumpers;
 
@@ -38,6 +36,8 @@ class BackupJob
     protected Collection $backupDestinations;
 
     protected string $filename;
+
+    protected TemporaryDirectory $temporaryDirectory;
 
     protected bool $sendNotifications = true;
 
