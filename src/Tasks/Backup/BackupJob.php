@@ -6,10 +6,10 @@ use Carbon\Carbon;
 use Exception;
 use Generator;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Config\Config;
-use Spatie\Backup\Contracts\TemporaryDirectory;
 use Spatie\Backup\Events\BackupManifestWasCreated;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -21,12 +21,15 @@ use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
 use Spatie\SignalAwareCommand\Facades\Signal;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class BackupJob
 {
     public const FILENAME_FORMAT = 'Y-m-d-H-i-s.\z\i\p';
 
     protected FileSelection $fileSelection;
+
+    protected TemporaryDirectory $temporaryDirectory;
 
     /** @var Collection<string, DbDumper> */
     protected Collection $dbDumpers;
@@ -40,7 +43,10 @@ class BackupJob
 
     protected bool $signals = true;
 
-    public function __construct(protected Config $config, protected TemporaryDirectory $temporaryDirectory)
+    /**
+     * @throws BindingResolutionException
+     */
+    public function __construct(protected Config $config)
     {
         $this
             ->dontBackupFilesystem()
@@ -48,6 +54,7 @@ class BackupJob
             ->setDefaultFilename();
 
         $this->backupDestinations = new Collection;
+        $this->temporaryDirectory = app()->make('backup-temporary-project');
     }
 
     public function dontBackupFilesystem(): self
