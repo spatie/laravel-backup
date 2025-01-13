@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.1 - 2025-01-13
+
+### What's Changed
+
+* Allow overriding default implementation of TemporaryDirectory by @jonerickson in https://github.com/spatie/laravel-backup/pull/1846
+
+### New Contributors
+
+* @jonerickson made their first contribution in https://github.com/spatie/laravel-backup/pull/1846
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.0...9.2.1
+
 ## 9.2.0 - 2025-01-06
 
 ### What's Changed
