@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.2 - 2025-01-20
+
+### What's Changed
+
+* feat: add `Slovak` language by @patressz in https://github.com/spatie/laravel-backup/pull/1870
+
+### New Contributors
+
+* @patressz made their first contribution in https://github.com/spatie/laravel-backup/pull/1870
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.1...9.2.2
+
 ## 9.2.1 - 2025-01-13
 
 ### What's Changed
