@@ -27,3 +27,11 @@ it('returns a merged backup config made with minimal config and default config f
     expect($config->backup)->toBeInstanceOf(BackupConfig::class);
     expect($config->backup->name)->toBe('foo');
 });
+
+it('receives temp directory as configured from service container', function () {
+    config()->set('backup.backup.temporary_directory', '/foo');
+
+    $tempDirectory = app()->make('backup-temporary-project');
+
+    expect($tempDirectory->path())->toBe('/foo');
+});

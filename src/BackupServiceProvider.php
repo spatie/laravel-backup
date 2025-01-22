@@ -50,7 +50,7 @@ class BackupServiceProvider extends PackageServiceProvider
         $this->app->singleton(ConsoleOutput::class);
 
         $this->app->bind(CleanupStrategy::class, config('backup.cleanup.strategy'));
-        $this->app->bind('backup-temporary-project', fn () => new TemporaryDirectory(config('backup.temporary_directory') ?? storage_path('app/backup-temp')));
+        $this->app->bind('backup-temporary-project', fn () => new TemporaryDirectory(config('backup.backup.temporary_directory') ?? storage_path('app/backup-temp')));
 
         $this->registerDiscordChannel();
 
