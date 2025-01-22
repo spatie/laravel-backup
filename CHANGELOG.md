@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.3 - 2025-01-22
+
+### What's Changed
+
+* Fix temp directory config path and add unit test by @NiroDeveloper in https://github.com/spatie/laravel-backup/pull/1872
+
+### New Contributors
+
+* @NiroDeveloper made their first contribution in https://github.com/spatie/laravel-backup/pull/1872
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.2...9.2.3
+
 ## 9.2.2 - 2025-01-20
 
 ### What's Changed
