@@ -43,14 +43,14 @@ it('merges the published config file with package config file', function () {
     $config = Config::fromArray(config('backup'));
 
     expect($config->backup->destination)->toBeInstanceOf(DestinationConfig::class);
-    expect($config->backup->destination->compressionMethod)->toBe(-1);
-});
+    expect($config->backup->destination->compressionMethod)->toBe(ZipArchive::CM_DEFAULT);
+})->only();
 
 it('merges the published config file with package config file and preserve published config values', function () {
-    config()->set('backup.backup.destination', ['compression_method' => 2]);
+    config()->set('backup.backup.destination', ['compression_method' => ZipArchive::CM_DEFLATE]);
 
     $config = Config::fromArray(config('backup'));
 
     expect($config->backup->destination)->toBeInstanceOf(DestinationConfig::class);
-    expect($config->backup->destination->compressionMethod)->toBe(2);
-});
+    expect($config->backup->destination->compressionMethod)->toBe(ZipArchive::CM_DEFLATE);
+})->only();
