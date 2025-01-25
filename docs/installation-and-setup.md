@@ -16,8 +16,16 @@ The package will automatically register its service provider.
 To publish the config file to `config/backup.php` run:
 
 ``` bash
-php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
+php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider" --tag=backup-config
 ```
+
+You can also publish translation files using the command:
+
+
+``` bash
+php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider" --tag=backup-translations
+```
+
 
 This is the default contents of the configuration:
 
