@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.4 - 2025-01-27
+
+### What's Changed
+
+* [DOCS] Update installation-and-setup.md by @altynbek07 in https://github.com/spatie/laravel-backup/pull/1874
+* [BUG] merge published config with package config by @pxpm in https://github.com/spatie/laravel-backup/pull/1873
+
+### New Contributors
+
+* @altynbek07 made their first contribution in https://github.com/spatie/laravel-backup/pull/1874
+* @pxpm made their first contribution in https://github.com/spatie/laravel-backup/pull/1873
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.3...9.2.4
+
 ## 9.2.3 - 2025-01-22
 
 ### What's Changed
