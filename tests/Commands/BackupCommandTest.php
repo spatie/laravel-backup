@@ -188,6 +188,16 @@ it('can selectively backup db', function () {
         ->assertExitCode(1);
 });
 
+it('can backup when no databases specified', function () {
+    config()->set('backup.backup.source.databases', []);
+
+    $this
+        ->artisan('backup:run')
+        ->assertSuccessful();
+
+    Storage::disk('local')->assertExists($this->expectedZipPath);
+});
+
 it('can backup twice a day at same time in 12h clock', function () {
     // first backup
     $this->date = Carbon::create('2016', 1, 1, 9, 1, 1);
