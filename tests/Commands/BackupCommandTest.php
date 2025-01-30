@@ -188,7 +188,7 @@ it('can selectively backup db', function () {
         ->assertExitCode(1);
 });
 
-it('can backup when no databases specified', function () {
+it('can create a backup when no databases specified', function () {
     config()->set('backup.backup.source.databases', []);
 
     $this
