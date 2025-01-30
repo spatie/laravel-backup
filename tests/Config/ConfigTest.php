@@ -54,3 +54,24 @@ it('merges the published config file with package config file and preserve publi
     expect($config->backup->destination)->toBeInstanceOf(DestinationConfig::class);
     expect($config->backup->destination->compressionMethod)->toBe(ZipArchive::CM_DEFLATE);
 });
+
+it('it ensures empty arrays on notifications are respected', function () {
+    config()->set('backup.notifications.notifications', ['Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification' => []]);
+
+    $config = Config::fromArray(config('backup'));
+    expect($config->notifications->notifications['Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification'])->toBe([]);
+});
+
+it('it ensures empty arrays on healthchecks are kept', function () {
+    config()->set('backup.monitor_backups', [
+        [
+            'name' => 'foo',
+            'disks' => ['local'],
+            'health_checks' => [],
+        ]
+    ]);
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->monitoredBackups->monitorBackups[0]['healthChecks'])->toBe([]);
+});
