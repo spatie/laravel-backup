@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup\Config;
 
+use Spatie\Backup\Support\ConfigMerger;
 use Spatie\Backup\Support\Data;
 
 class Config extends Data
@@ -27,10 +28,10 @@ class Config extends Data
         $source = require dirname(__DIR__, 2).'/config/backup.php';
 
         return new self(
-            backup: BackupConfig::fromArray(array_merge($source['backup'], $data['backup'] ?? [])),
-            notifications: NotificationsConfig::fromArray(array_merge($source['notifications'], $data['notifications'] ?? [])),
-            monitoredBackups: MonitoredBackupsConfig::fromArray($data['monitor_backups'] ?? $source['monitor_backups']),
-            cleanup: CleanupConfig::fromArray(array_merge($source['cleanup'], $data['cleanup'] ?? []))
+            backup: BackupConfig::fromArray(ConfigMerger::merge($data['backup'] ?? [], $source['backup'])),
+            notifications: NotificationsConfig::fromArray(ConfigMerger::merge($data['notifications'] ?? [], $source['notifications'])),
+            monitoredBackups: MonitoredBackupsConfig::fromArray(ConfigMerger::merge($data['monitor_backups'] ?? [], $source['monitor_backups'] ?? [])),
+            cleanup: CleanupConfig::fromArray(ConfigMerger::merge($data['cleanup'] ?? [], $source['cleanup']))
         );
     }
 }

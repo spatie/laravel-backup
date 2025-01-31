@@ -3,6 +3,7 @@
 use Spatie\Backup\Config\BackupConfig;
 use Spatie\Backup\Config\CleanupConfig;
 use Spatie\Backup\Config\Config;
+use Spatie\Backup\Config\DestinationConfig;
 use Spatie\Backup\Config\MonitoredBackupsConfig;
 use Spatie\Backup\Config\NotificationsConfig;
 
@@ -34,4 +35,51 @@ it('receives temp directory as configured from service container', function () {
     $tempDirectory = app()->make('backup-temporary-project');
 
     expect($tempDirectory->path())->toBe('/foo');
+});
+
+it('merges the published config file with package config file', function () {
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->backup->destination)->toBeInstanceOf(DestinationConfig::class);
+    expect($config->backup->destination->compressionMethod)->toBe(ZipArchive::CM_DEFAULT);
+});
+
+it('merges the published config file with package config file and preserve published config values', function () {
+    config()->set('backup.backup.destination', ['compression_method' => ZipArchive::CM_DEFLATE]);
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->backup->destination)->toBeInstanceOf(DestinationConfig::class);
+    expect($config->backup->destination->compressionMethod)->toBe(ZipArchive::CM_DEFLATE);
+});
+
+it('it ensures empty arrays on notifications are respected', function () {
+    config()->set('backup.notifications.notifications', ['Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification' => []]);
+
+    $config = Config::fromArray(config('backup'));
+    expect($config->notifications->notifications['Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification'])->toBe([]);
+});
+
+it('it ensures empty arrays on healthchecks are kept', function () {
+    config()->set('backup.monitor_backups', [
+        [
+            'name'          => 'foo',
+            'disks'         => ['local'],
+            'health_checks' => [],
+        ],
+    ]);
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->monitoredBackups->monitorBackups[0]['healthChecks'])->toBe([]);
+});
+
+it('it ensures empty arrays source files are kept', function () {
+    config()->set('backup.backup.source.files', [
+        'include' => [],
+    ]);
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->backup->source->files->include)->toBe([]);
 });
