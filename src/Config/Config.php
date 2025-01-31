@@ -27,10 +27,10 @@ class Config extends Data
         $source = require dirname(__DIR__, 2).'/config/backup.php';
 
         return new self(
-            backup: BackupConfig::fromArray(array_replace_recursive($source['backup'], $data['backup'] ?? [])),
-            notifications: NotificationsConfig::fromArray(array_replace_recursive($source['notifications'], $data['notifications'] ?? [])),
+            backup: BackupConfig::fromArray(array_merge($source['backup'], $data['backup'] ?? [])),
+            notifications: NotificationsConfig::fromArray(array_merge($source['notifications'], $data['notifications'] ?? [])),
             monitoredBackups: MonitoredBackupsConfig::fromArray($data['monitor_backups'] ?? $source['monitor_backups']),
-            cleanup: CleanupConfig::fromArray(array_replace_recursive($source['cleanup'], $data['cleanup'] ?? []))
+            cleanup: CleanupConfig::fromArray(array_merge($source['cleanup'], $data['cleanup'] ?? []))
         );
     }
 }
