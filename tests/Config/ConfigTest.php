@@ -3,7 +3,6 @@
 use Spatie\Backup\Config\BackupConfig;
 use Spatie\Backup\Config\CleanupConfig;
 use Spatie\Backup\Config\Config;
-use Spatie\Backup\Config\DestinationConfig;
 use Spatie\Backup\Config\MonitoredBackupsConfig;
 use Spatie\Backup\Config\NotificationsConfig;
 
