@@ -504,3 +504,13 @@ it('uses connection name in place of database name for dump filename', function 
      */
     app()['db']->disconnect();
 });
+
+it('can create a backup when no databases specified', function () {
+    config()->set('backup.backup.source.databases', []);
+
+    $this
+        ->artisan('backup:run')
+        ->assertSuccessful();
+
+    Storage::disk('local')->assertExists($this->expectedZipPath);
+});
