@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.5 - 2025-01-31
+
+### What's Changed
+
+* remove the `only()` from tests by @pxpm in https://github.com/spatie/laravel-backup/pull/1875
+* Include all supported databases by @SebKay in https://github.com/spatie/laravel-backup/pull/1876
+
+### New Contributors
+
+* @SebKay made their first contribution in https://github.com/spatie/laravel-backup/pull/1876
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.4...9.2.5
+
 ## 9.2.4 - 2025-01-27
 
 ### What's Changed
