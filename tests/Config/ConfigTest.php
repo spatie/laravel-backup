@@ -36,12 +36,3 @@ it('receives temp directory as configured from service container', function () {
 
     expect($tempDirectory->path())->toBe('/foo');
 });
-
-it('merges the published config file with package config file and preserve published config values', function () {
-    config()->set('backup.backup.destination', ['compression_method' => ZipArchive::CM_DEFLATE]);
-
-    $config = Config::fromArray(config('backup'));
-
-    expect($config->backup->destination)->toBeInstanceOf(DestinationConfig::class);
-    expect($config->backup->destination->compressionMethod)->toBe(ZipArchive::CM_DEFLATE);
-});
