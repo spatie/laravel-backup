@@ -15,7 +15,7 @@ class NotificationMailSenderConfig extends Data
     /** @param  array<mixed>  $data */
     public static function fromArray(array $data): self
     {
-        $address = $data['from']['address'] ?? config('mail.from.address');
+        $address = $data['address'] ?? config('mail.from.address');
 
         if ($address === null) {
             throw InvalidConfig::missingSender();
@@ -27,7 +27,7 @@ class NotificationMailSenderConfig extends Data
 
         return new self(
             address: $address,
-            name: $data['from']['name'] ?? config('mail.from.name'),
+            name: $data['name'] ?? config('mail.from.name'),
         );
     }
 }
