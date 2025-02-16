@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.7 - 2025-02-16
+
+### What's Changed
+
+* Kazakh language support 🇰🇿 by @altynbek07 in https://github.com/spatie/laravel-backup/pull/1890
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.6...9.2.7
+
 ## 9.2.6 - 2025-02-14
 
 ### What's Changed
