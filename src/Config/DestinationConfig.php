@@ -4,6 +4,7 @@ namespace Spatie\Backup\Config;
 
 use Spatie\Backup\Exceptions\InvalidConfig;
 use Spatie\Backup\Support\Data;
+use ZipArchive;
 
 class DestinationConfig extends Data
 {
@@ -26,14 +27,13 @@ class DestinationConfig extends Data
         }
     }
 
-    /** @param array<mixed> $data */
     public static function fromArray(array $data): self
     {
         return new self(
-            compressionMethod: $data['compression_method'],
-            compressionLevel: $data['compression_level'],
-            filenamePrefix: $data['filename_prefix'],
-            disks: $data['disks'],
+            compressionMethod: $data['compression_method'] ?? ZipArchive::CM_DEFAULT,
+            compressionLevel: $data['compression_level'] ?? 9,
+            filenamePrefix: $data['filename_prefix'] ?? '',
+            disks: $data['disks'] ?? ['local'],
         );
     }
 }
