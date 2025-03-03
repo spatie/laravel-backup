@@ -2,6 +2,26 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.2.8 - 2025-03-03
+
+### What's Changed
+
+* set config defaults
+* remove the `only()` from tests by @pxpm in https://github.com/spatie/laravel-backup/pull/1875
+* Include all supported databases by @SebKay in https://github.com/spatie/laravel-backup/pull/1876
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-backup/pull/1883
+* NotificationMailSenderConfig - remove redundant [ 'from' ] key  by @mho22 in https://github.com/spatie/laravel-backup/pull/1884
+* Update Laravel & Spatie Backup Versions in introduction.md by @majdghithan in https://github.com/spatie/laravel-backup/pull/1886
+* Laravel 12 Support by @erikn69 in https://github.com/spatie/laravel-backup/pull/1889
+* Kazakh language support 🇰🇿 by @altynbek07 in https://github.com/spatie/laravel-backup/pull/1890
+
+### New Contributors
+
+* @SebKay made their first contribution in https://github.com/spatie/laravel-backup/pull/1876
+* @majdghithan made their first contribution in https://github.com/spatie/laravel-backup/pull/1886
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.4...9.2.8
+
 ## 9.2.7 - 2025-02-16
 
 ### What's Changed
