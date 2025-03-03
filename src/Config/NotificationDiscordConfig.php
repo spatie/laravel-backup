@@ -16,9 +16,9 @@ class NotificationDiscordConfig extends Data
     public static function fromArray(array $data): self
     {
         return new self(
-            webhookUrl: $data['webhook_url'],
-            username: $data['username'],
-            avatar_url: $data['avatar_url'],
+            webhookUrl: $data['webhook_url'] ?? '',
+            username: $data['username'] ?? '',
+            avatar_url: $data['avatar_url'] ?? '',
         );
     }
 }
