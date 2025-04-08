@@ -1,12 +1,20 @@
-<p align="center"><img src="/art/socialcard.png" alt="Social Card of Laravel Activity Log"></p>
+<div align="left">
+    <a href="https://spatie.be/open-source?utm_source=github&utm_medium=banner&utm_campaign=laravel-backup">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://spatie.be/packages/header/laravel-backup/html/dark.webp">
+        <img alt="Logo for Laravel Backup" src=" https://spatie.be/packages/header/laravel-backup/html/light.webp" height="190">
+      </picture>
+    </a>
 
-# A modern backup solution for Laravel apps
-
+<h1>A modern backup solution for Laravel apps</h1>
+    
 [![Latest Stable Version](https://poser.pugx.org/spatie/laravel-backup/v/stable?format=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 ![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-backup/run-tests.yml?branch=main&label=Tests)
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-backup.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-backup)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-backup.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-backup)
+    
+</div>
 
 This Laravel package [creates a backup of your application](https://spatie.be/docs/laravel-backup/v8/taking-backups/overview). The backup is a zip file that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel](https://laravel.com/docs/filesystem).
 
@@ -73,7 +81,7 @@ We publish all received postcards [on our company website](https://spatie.be/ope
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
-And a special thanks to [Caneco](https://twitter.com/caneco) for the logo ✨
+Special thanks to [Caneco](https://twitter.com/caneco) for the original logo.
 
 ## License
 
