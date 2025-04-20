@@ -88,6 +88,31 @@ it('can create instance from database url', function () {
     expect(DbDumperFactory::createFromConnection('pgsql'))->toBeInstanceOf(PostgreSql::class);
 });
 
+it('ignores malformed ports', function () {
+    $dbConfig = [
+        'driver' => 'mysql',
+        'read' => [
+            'host' => 'localhost-read',
+            'database' => 'myDb-read',
+            'port' => ''
+        ],
+        'write' => [
+            'host' => 'localhost-write',
+            'database' => 'myDb-write',
+            'port' => 'fish'
+        ],
+        'username' => 'root',
+        'password' => 'myPassword',
+        'dump' => ['add_extra_option' => '--extra-option=value'],
+    ];
+
+    config()->set('database.connections.mysql', $dbConfig);
+
+    $dumper = DbDumperFactory::createFromConnection('mysql');
+
+    expect($dumper->getPort())->toEqual(null);
+});
+
 it('will use the read db when one is defined', function () {
     $dbConfig = [
         'driver' => 'mysql',
