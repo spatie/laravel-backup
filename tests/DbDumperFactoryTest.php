@@ -13,6 +13,11 @@ beforeEach(function () {
 
     config()->set('database.connections.mariadb', [
         'driver' => 'mariadb',
+        'host' => 'localhost',
+        'port' => 3306,
+        'database' => 'myDb',
+        'username' => 'root',
+        'password' => 'myPassword',
     ]);
 
     config()->set('database.connections.mongodb', [
