@@ -14,7 +14,7 @@ beforeEach(function () {
     config()->set('database.connections.mariadb', [
         'driver' => 'mariadb',
     ]);
-    
+
     config()->set('database.connections.mongodb', [
         'driver' => 'mongodb',
         'host' => 'localhost',
