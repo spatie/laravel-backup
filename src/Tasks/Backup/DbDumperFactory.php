@@ -7,6 +7,7 @@ use Illuminate\Database\ConfigurationUrlParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
+use Spatie\DbDumper\Databases\MariaDb;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
@@ -85,7 +86,8 @@ class DbDumperFactory
         }
 
         return match ($driver) {
-            'mysql', 'mariadb' => new MySql,
+            'mysql' => new MySql,
+            'mariadb' => new MariaDb,
             'pgsql' => new PostgreSql,
             'sqlite' => new Sqlite,
             'mongodb' => new MongoDb,
