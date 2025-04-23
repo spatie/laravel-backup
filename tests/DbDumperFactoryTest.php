@@ -11,6 +11,10 @@ use Spatie\DbDumper\Databases\Sqlite;
 beforeEach(function () {
     config()->set('database.default', 'mysql');
 
+    config()->set('database.connections.mariadb', [
+        'driver' => 'mariadb',
+    ]);
+    
     config()->set('database.connections.mongodb', [
         'driver' => 'mongodb',
         'host' => 'localhost',
