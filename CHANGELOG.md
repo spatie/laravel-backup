@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.0 - 2025-04-23
+
+### What's Changed
+
+* Update backup.php by @Sairahcaz in https://github.com/spatie/laravel-backup/pull/1895
+* Use MariaDb dumper by @NiroDeveloper in https://github.com/spatie/laravel-backup/pull/1903
+
+### New Contributors
+
+* @Sairahcaz made their first contribution in https://github.com/spatie/laravel-backup/pull/1895
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.9...9.3.0
+
 ## 9.2.9 - 2025-03-03
 
 **Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.2.8...9.2.9
