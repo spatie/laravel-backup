@@ -2,6 +2,7 @@
 
 use Spatie\Backup\Exceptions\CannotCreateDbDumper;
 use Spatie\Backup\Tasks\Backup\DbDumperFactory;
+use Spatie\DbDumper\Databases\MariaDb;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
@@ -9,6 +10,15 @@ use Spatie\DbDumper\Databases\Sqlite;
 
 beforeEach(function () {
     config()->set('database.default', 'mysql');
+
+    config()->set('database.connections.mariadb', [
+        'driver' => 'mariadb',
+        'host' => 'localhost',
+        'port' => 3306,
+        'database' => 'myDb',
+        'username' => 'root',
+        'password' => 'myPassword',
+    ]);
 
     config()->set('database.connections.mongodb', [
         'driver' => 'mongodb',
@@ -40,8 +50,9 @@ beforeEach(function () {
     ]);
 });
 
-it('can create instances of mysql and pgsql and mongodb', function () {
+it('can create instances of mysql and mariadb and pgsql and mongodb', function () {
     expect(DbDumperFactory::createFromConnection('mysql'))->toBeInstanceOf(MySql::class);
+    expect(DbDumperFactory::createFromConnection('mariadb'))->toBeInstanceOf(MariaDb::class);
     expect(DbDumperFactory::createFromConnection('pgsql'))->toBeInstanceOf(PostgreSql::class);
     expect(DbDumperFactory::createFromConnection('mongodb'))->toBeInstanceOf(MongoDb::class);
 });
