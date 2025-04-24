@@ -105,12 +105,12 @@ it('ignores malformed ports', function () {
         'read' => [
             'host' => 'localhost-read',
             'database' => 'myDb-read',
-            'port' => ''
+            'port' => '',
         ],
         'write' => [
             'host' => 'localhost-write',
             'database' => 'myDb-write',
-            'port' => 'fish'
+            'port' => 'fish',
         ],
         'username' => 'root',
         'password' => 'myPassword',

@@ -58,7 +58,7 @@ class DbDumperFactory
         }
 
         if (isset($dbConfig['port'])) {
-            if (is_integer($dbConfig['port'])) {
+            if (is_int($dbConfig['port'])) {
                 $dbDumper = $dbDumper->setPort($dbConfig['port']);
             }
         }
