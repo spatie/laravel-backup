@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.1 - 2025-04-24
+
+### What's Changed
+
+* DbDumperFactory: Ignore invalid ports by @CloCkWeRX in https://github.com/spatie/laravel-backup/pull/1901
+
+### New Contributors
+
+* @CloCkWeRX made their first contribution in https://github.com/spatie/laravel-backup/pull/1901
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.0...9.3.1
+
 ## 9.3.0 - 2025-04-23
 
 ### What's Changed
