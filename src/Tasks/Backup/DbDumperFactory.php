@@ -61,8 +61,8 @@ class DbDumperFactory
             if (filter_var($dbConfig['port'], FILTER_VALIDATE_INT, [
                 'options' => [
                     'min_range' => 1,
-                    'max_range' => 65535
-                ]
+                    'max_range' => 65535,
+                ],
             ]) !== false) {
                 $dbDumper = $dbDumper->setPort($dbConfig['port']);
             }
