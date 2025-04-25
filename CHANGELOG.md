@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.2 - 2025-04-25
+
+### What's Changed
+
+* Improve port check condition by @miskith in https://github.com/spatie/laravel-backup/pull/1904
+
+### New Contributors
+
+* @miskith made their first contribution in https://github.com/spatie/laravel-backup/pull/1904
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.1...9.3.2
+
 ## 9.3.1 - 2025-04-24
 
 ### What's Changed
