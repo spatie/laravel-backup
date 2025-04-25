@@ -64,7 +64,7 @@ class DbDumperFactory
                     'max_range' => 65535,
                 ],
             ]) !== false) {
-                $dbDumper = $dbDumper->setPort($dbConfig['port']);
+                $dbDumper = $dbDumper->setPort((int) $dbConfig['port']);
             }
         }
 
