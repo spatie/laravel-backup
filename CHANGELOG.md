@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.3 - 2025-05-20
+
+### What's Changed
+
+* Correct danish translation for "application" by @mathiaskastrup in https://github.com/spatie/laravel-backup/pull/1906
+
+### New Contributors
+
+* @mathiaskastrup made their first contribution in https://github.com/spatie/laravel-backup/pull/1906
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.2...9.3.3
+
 ## 9.3.2 - 2025-04-25
 
 ### What's Changed
