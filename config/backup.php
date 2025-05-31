@@ -210,6 +210,13 @@ return [
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
+        /*
+         * Include additional properties to notifications, like url, version, server properties, etc...
+         */
+        'properties' => [
+            // 'Url' => env('APP_URL'),
+        ],
+
         'mail' => [
             'to' => 'your@example.com',
 
