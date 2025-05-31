@@ -74,6 +74,7 @@ abstract class BaseNotification extends Notification
             $totalStorageUsed => Format::humanReadableSize($backupDestination->backups()->size()),
             $newestBackupDate => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : $noBackupsText,
             $oldestBackupDate => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : $noBackupsText,
+            ...config('backup.notifications.properties', []),
         ])->filter();
     }
 
