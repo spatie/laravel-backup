@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.4 - 2025-07-25
+
+### What's Changed
+
+* Update installation-and-setup.md by @justrau in https://github.com/spatie/laravel-backup/pull/1907
+* Standardize language folders to BCP 47 format (pt_BR, zh_CN, zh_TW) by @samuelterra22 in https://github.com/spatie/laravel-backup/pull/1913
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot[bot] in https://github.com/spatie/laravel-backup/pull/1910
+
+### New Contributors
+
+* @justrau made their first contribution in https://github.com/spatie/laravel-backup/pull/1907
+* @samuelterra22 made their first contribution in https://github.com/spatie/laravel-backup/pull/1913
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.3...9.3.4
+
 ## 9.3.3 - 2025-05-20
 
 ### What's Changed
