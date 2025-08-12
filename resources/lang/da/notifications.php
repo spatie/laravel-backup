@@ -34,7 +34,7 @@ return [
     'unhealthy_backup_found_full' => 'Backups bruger for meget plads. Nuværende disk forbrug er :disk_usage, hvilket er mere end den tilladte grænse på :disk_limit.',
 
     'no_backups_info' => 'Der blev ikke foretaget nogen sikkerhedskopier endnu',
-    'application_name' => 'Ansøgningens navn',
+    'application_name' => 'Applikationens navn',
     'backup_name' => 'Backup navn',
     'disk' => 'Disk',
     'newest_backup_size' => 'Nyeste backup-størrelse',
