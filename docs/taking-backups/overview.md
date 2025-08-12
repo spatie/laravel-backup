@@ -104,7 +104,13 @@ This section of the configuration determines which files and databases will be b
 The specified databases will be dumped and, together with the selected files, zipped. The zip file will be named`<specified name in configuration>/<Y-m-d-H-i-s>.zip`.
  
 The more files you need to backup, the bigger the zip will become. Make sure there's enough free space on your disk to create the zip file. After the source zip file has been copied to all destinations, it will be deleted.
- 
+
+If you want to backup with a specific configuration (in this example 'backup'), or reload it runtime (for e.g. when you make runtime changes for multiple tenants backup), run:
+
+```bash
+php artisan backup:run --config=backup
+```
+
 ### Determining the destination of the backup
 
 The zipped backup can be copied to one or more filesystems. This section of the configuration is where you specify those destination filesystems.

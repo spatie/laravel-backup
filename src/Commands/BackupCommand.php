@@ -15,7 +15,7 @@ class BackupCommand extends BaseCommand implements Isolatable
 {
     use Retryable;
 
-    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=} {--tries=} {--reload-config}';
+    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=} {--tries=} {--config=}';
 
     protected $description = 'Run the backup.';
 
@@ -34,8 +34,8 @@ class BackupCommand extends BaseCommand implements Isolatable
             set_time_limit((int) $this->option('timeout'));
         }
 
-        if ($this->option('reload-config')) {
-            $this->config = Config::fromArray(config('backup'));
+        if ($this->option('config')) {
+            $this->config = Config::fromArray(config($this->option('config') ?? 'backup'));
         }
 
         try {
@@ -96,8 +96,8 @@ class BackupCommand extends BaseCommand implements Isolatable
             if (! $disableNotifications) {
                 event(
                     $exception instanceof BackupFailed
-                    ? new BackupHasFailed($exception->getPrevious(), $exception->backupDestination)
-                    : new BackupHasFailed($exception)
+                        ? new BackupHasFailed($exception->getPrevious(), $exception->backupDestination)
+                        : new BackupHasFailed($exception)
                 );
             }
 
