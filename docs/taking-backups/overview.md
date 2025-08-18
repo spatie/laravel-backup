@@ -111,6 +111,17 @@ If you want to backup with a specific configuration (in this example 'backup'), 
 php artisan backup:run --config=backup
 ```
 
+Possible situations where you might want to do this are for e.g., when you want to backup multiple tenants at the same time from a console command:
+```php
+
+$tenants = ['tenant1', 'tenant2'];
+
+foreach ($tenants as $tenant) {
+    config(['backup.backup.destination.filename_prefix' => $tenant.'_']);
+    $this->call('backup:run', ['--timeout' => 120, '--config' => 'backup']);
+}
+```
+
 ### Determining the destination of the backup
 
 The zipped backup can be copied to one or more filesystems. This section of the configuration is where you specify those destination filesystems.
