@@ -105,22 +105,30 @@ The specified databases will be dumped and, together with the selected files, zi
  
 The more files you need to backup, the bigger the zip will become. Make sure there's enough free space on your disk to create the zip file. After the source zip file has been copied to all destinations, it will be deleted.
 
-If you want to backup with a specific configuration (in this example 'backup'), or reload it runtime (for e.g. when you make runtime changes for multiple tenants backup), run:
+### Running backups with a specific configuration
+If you want to back up different areas of your Laravel application separately – for example with different schedules, database connections, filesystem disks, or cleanup settings – you can create custom backup configuration files.
+
+#### Example:
+Additional config files placed in the config/ directory:
+
+- config/backup_database.php
+- config/backup_invoices.php
+- config/backup_uploads.php
+
+You can then run backups and cleanup commands individually:
 
 ```bash
-php artisan backup:run --config=backup
+php artisan backup:run --config=backup_database
+php artisan backup:clean --config=backup_database
+
+php artisan backup:run --config=backup_invoices
+php artisan backup:clean --config=backup_invoices
+
+php artisan backup:run --config=backup_uploads
+php artisan backup:clean --config=backup_uploads
 ```
 
-Possible situations where you might want to do this are for e.g., when you want to backup multiple tenants at the same time from a console command:
-```php
-
-$tenants = ['tenant1', 'tenant2'];
-
-foreach ($tenants as $tenant) {
-    config(['backup.backup.destination.filename_prefix' => $tenant.'_']);
-    $this->call('backup:run', ['--timeout' => 120, '--config' => 'backup']);
-}
-```
+This allows full flexibility in scheduling, retention, and target destinations for each backup scope.
 
 ### Determining the destination of the backup
 
