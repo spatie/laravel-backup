@@ -16,7 +16,7 @@ class CleanupCommand extends BaseCommand implements Isolatable
     use Retryable;
 
     /** @var string */
-    protected $signature = 'backup:clean {--disable-notifications} {--tries=}';
+    protected $signature = 'backup:clean {--disable-notifications} {--tries=} {--config=}';
 
     /** @var string */
     protected $description = 'Remove all backups older than specified number of days in config.';
@@ -35,6 +35,10 @@ class CleanupCommand extends BaseCommand implements Isolatable
         $disableNotifications = $this->option('disable-notifications');
 
         $this->setTries('cleanup');
+
+        if ($this->option('config')) {
+            $this->config = Config::fromArray(config($this->option('config') ?? 'backup'));
+        }
 
         try {
             $backupDestinations = BackupDestinationFactory::createFromArray($this->config);
