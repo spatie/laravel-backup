@@ -120,8 +120,11 @@ it('ignores malformed ports', function () {
     config()->set('database.connections.mysql', $dbConfig);
 
     $dumper = DbDumperFactory::createFromConnection('mysql');
+    $reflection = new \ReflectionClass($dumper);
+    $property = $reflection->getProperty('port');
+    $property->setAccessible(true);
 
-    expect($dumper->getPort())->toEqual(null);
+    expect($property->getValue($dumper))->toEqual(3306); // 3306 is mysql default
 });
 
 it('will use the read db when one is defined', function () {
