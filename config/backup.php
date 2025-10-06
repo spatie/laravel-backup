@@ -56,7 +56,7 @@ return [
              * 'mysql' => [
              *       ...
              *      'dump' => [
-             *           'excludeTables' => [
+             *           'exclude_tables' => [
              *                'table_to_exclude_from_backup',
              *                'another_table_to_exclude'
              *            ]
