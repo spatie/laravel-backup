@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Illuminate\Support\Str;
 use Spatie\Backup\Config\Config;
+use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Helpers\Format;
 use ZipArchive;
 
@@ -82,7 +83,11 @@ class Zip
 
     public function open(): void
     {
-        $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
+        $result = $this->zipFile->open($this->pathToZip, ZipArchive::CREATE);
+
+        if ($result !== true) {
+            throw BackupFailed::from(new \Exception("Failed to open zip file at '{$this->pathToZip}'. ZipArchive error code: {$result}"));
+        }
     }
 
     public function close(): void

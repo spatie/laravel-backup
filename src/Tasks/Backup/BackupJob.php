@@ -16,7 +16,6 @@ use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Events\DumpingDatabase;
 use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
-use Spatie\DbDumper\Compressors\GzipCompressor;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
@@ -277,12 +276,6 @@ class BackupJob
                 }
 
                 $fileName = "{$dbType}-{$dbName}{$timeStamp}.{$this->getExtension($dbDumper)}";
-
-                // @todo is this still relevant or undocumented?
-                if (config('backup.backup.gzip_database_dump')) {
-                    $dbDumper->useCompressor(new GzipCompressor);
-                    $fileName .= '.'.$dbDumper->getCompressorExtension();
-                }
 
                 if ($compressor = $this->config->backup->databaseDumpCompressor) {
                     $dbDumper->useCompressor(new $compressor);
