@@ -68,14 +68,16 @@ class BackupDestination
 
         $handle = fopen($file, 'r+');
 
-        $this->disk->getDriver()->writeStream(
-            $destination,
-            $handle,
-            $this->getDiskOptions(),
-        );
-
-        if (is_resource($handle)) {
-            fclose($handle);
+        try {
+            $this->disk->getDriver()->writeStream(
+                $destination,
+                $handle,
+                $this->getDiskOptions(),
+            );
+        } finally {
+            if (is_resource($handle)) {
+                fclose($handle);
+            }
         }
     }
 

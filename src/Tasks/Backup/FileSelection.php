@@ -145,10 +145,14 @@ class FileSelection
     protected function getMatchingPaths(string $path): array
     {
         if ($this->canUseGlobBrace($path)) {
-            return glob(str_replace('*', '{.[!.],}*', $path), GLOB_BRACE);
+            $result = @glob(str_replace('*', '{.[!.],}*', $path), GLOB_BRACE);
+
+            if ($result !== false) {
+                return $result;
+            }
         }
 
-        return glob($path);
+        return glob($path) ?: [];
     }
 
     protected function canUseGlobBrace(string $path): bool
