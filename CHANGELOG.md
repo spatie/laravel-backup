@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.5 - 2025-10-14
+
+### What's Changed
+
+* Update issue template by @AlexVanderbist in https://github.com/spatie/laravel-backup/pull/1916
+* Fix tests after #1901 by @erikn69 in https://github.com/spatie/laravel-backup/pull/1917
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/spatie/laravel-backup/pull/1915
+* Fix phpstan message by @erikn69 in https://github.com/spatie/laravel-backup/pull/1919
+* Test PHP 8.5 by @erikn69 in https://github.com/spatie/laravel-backup/pull/1918
+* fix: rename excludeTables to exclude_tables by @IsraelOrtuno in https://github.com/spatie/laravel-backup/pull/1920
+* fix: resolve ZipArchive::open() return value not checked, BackupDestination::write() on exceptions, glob() returning false causes type errors by @imhayatunnabi in https://github.com/spatie/laravel-backup/pull/1921
+
+### New Contributors
+
+* @IsraelOrtuno made their first contribution in https://github.com/spatie/laravel-backup/pull/1920
+* @imhayatunnabi made their first contribution in https://github.com/spatie/laravel-backup/pull/1921
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.4...9.3.5
+
 ## 9.3.4 - 2025-07-25
 
 ### What's Changed
