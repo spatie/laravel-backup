@@ -111,14 +111,20 @@ class FileSelection
 
     protected function shouldExclude(string $path): bool
     {
-        $path = realpath($path);
-        if (is_dir($path)) {
-            $path .= DIRECTORY_SEPARATOR;
+        $realPath = realpath($path);
+
+        if ($realPath === false) {
+            consoleOutput()->warn("Cannot resolve path: {$path}. Skipping...");
+            return false;
+        }
+
+        if (is_dir($realPath)) {
+            $realPath .= DIRECTORY_SEPARATOR;
         }
 
         foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (Str::startsWith($path, $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''))) {
-                if ($path != $excludedPath && is_file($excludedPath)) {
+            if (Str::startsWith($realPath, $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''))) {
+                if ($realPath != $excludedPath && is_file($excludedPath)) {
                     continue;
                 }
 
@@ -137,7 +143,13 @@ class FileSelection
         return collect($paths)
             ->reject(fn (string $path) => $path === '')
             ->flatMap(fn (string $path) => $this->getMatchingPaths($path))
-            ->map(fn (string $path) => realpath($path))
+            ->map(function (string $path) {
+                $realPath = realpath($path);
+                if ($realPath === false) {
+                    consoleOutput()->warn("Cannot resolve path: {$path}. This path will be excluded from backup.");
+                }
+                return $realPath;
+            })
             ->reject(fn ($path) => $path === false);
     }
 

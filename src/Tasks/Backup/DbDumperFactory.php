@@ -58,13 +58,17 @@ class DbDumperFactory
         }
 
         if (isset($dbConfig['port'])) {
-            if (filter_var($dbConfig['port'], FILTER_VALIDATE_INT, [
+            $port = $dbConfig['port'];
+            if ($port === '' || $port === null) {
+            } elseif (filter_var($port, FILTER_VALIDATE_INT, [
                 'options' => [
                     'min_range' => 1,
                     'max_range' => 65535,
                 ],
             ]) !== false) {
-                $dbDumper = $dbDumper->setPort((int) $dbConfig['port']);
+                $dbDumper = $dbDumper->setPort((int) $port);
+            } else {
+                consoleOutput()->warn("Invalid port value '{$port}' for database connection '{$dbConnectionName}'. Using default port.");
             }
         }
 
