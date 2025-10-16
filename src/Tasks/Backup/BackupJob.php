@@ -16,7 +16,6 @@ use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Events\DumpingDatabase;
 use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
-use Spatie\Backup\Helpers\CredentialSanitizer;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -189,8 +188,7 @@ class BackupJob
 
             $this->copyToBackupDestinations($zipFile);
         } catch (Exception $exception) {
-            $sanitizedError = CredentialSanitizer::sanitizeException($exception);
-            consoleOutput()->error("Backup failed because: {$sanitizedError}");
+            consoleOutput()->error("Backup failed because: {$exception->getMessage()}.".PHP_EOL.$exception->getTraceAsString());
 
             $this->temporaryDirectory->delete();
 
@@ -314,8 +312,7 @@ class BackupJob
             ->each(function (BackupDestination $backupDestination) use ($path) {
                 try {
                     if (! $backupDestination->isReachable()) {
-                        $sanitizedError = CredentialSanitizer::sanitizeMessage($backupDestination->connectionError());
-                        throw new Exception("Could not connect to disk {$backupDestination->diskName()} because: {$sanitizedError}");
+                        throw new Exception("Could not connect to disk {$backupDestination->diskName()} because: {$backupDestination->connectionError()}");
                     }
 
                     consoleOutput()->info("Copying zip to disk named {$backupDestination->diskName()}...");
@@ -326,8 +323,7 @@ class BackupJob
 
                     $this->sendNotification(new BackupWasSuccessful($backupDestination));
                 } catch (Exception $exception) {
-                    $sanitizedError = CredentialSanitizer::sanitizeMessage($exception->getMessage());
-                    consoleOutput()->error("Copying zip failed because: {$sanitizedError}");
+                    consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
                     throw BackupFailed::from($exception)->destination($backupDestination);
                 }
