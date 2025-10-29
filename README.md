@@ -18,7 +18,7 @@
 
 This Laravel package [creates a backup of your application](https://spatie.be/docs/laravel-backup/v8/taking-backups/overview). The backup is a zip file that contains all files in the directories you specify along with a dump of your database. The backup can be stored on [any of the filesystems you have configured in Laravel](https://laravel.com/docs/filesystem).
 
-Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once.
+Feeling paranoid about backups? No problem! You can backup your application to multiple filesystems at once, and the package includes automatic disk failover to enhance reliability when primary destinations fail.
 
 Once installed taking a backup of your files and databases is very easy. Just issue this artisan command:
 

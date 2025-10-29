@@ -148,6 +148,18 @@ return [
 
 If something goes wrong copying the zip file to one filesystem, the package will still try to copy zipped backup to all other configured filesystems.
 
+### Automatic Disk Failover
+
+For enhanced reliability, you can configure automatic failover to backup destinations:
+
+```php
+'destination' => [
+    'disks' => ['local', 's3'],
+    'fallback_disks' => ['backup_s3', 'dropbox'],
+    'enable_failover' => true,
+],
+```
+
 ## Get notifications when a backup goes wrong
 
 You can receive a notification when a backup goes wrong. Read

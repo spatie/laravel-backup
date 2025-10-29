@@ -7,6 +7,8 @@ weight: 4
 
 A backup is a .zip file containing all files in the directories you specify and a dump of your database (MySQL, PostgreSQL, SQLite and Mongo are supported). The .zip file can automatically be copied over to [any of the filesystems](https://laravel.com/docs/9.x/filesystem) you have configured.
 
+The package includes automatic disk failover functionality to enhance reliability. If primary backup destinations fail, it can automatically try fallback destinations with configurable retry logic.
+
 To perform a new backup you just have to run `php artisan backup:run`. In most cases you'll want to schedule this command.
 
 ## Cleaning up old backups
