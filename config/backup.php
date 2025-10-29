@@ -153,6 +153,30 @@ return [
             'disks' => [
                 'local',
             ],
+
+            /*
+             * Fallback disk names to use when primary disks fail.
+             * These disks will be used automatically if enable_failover is true.
+             */
+            'fallback_disks' => [
+                // 's3',
+                // 'backup_s3',
+            ],
+
+            /*
+             * Enable automatic failover to fallback disks when primary disks fail.
+             */
+            'enable_failover' => false,
+
+            /*
+             * Number of retries for each failover disk before moving to the next one.
+             */
+            'failover_retries' => 3,
+
+            /*
+             * Delay in seconds between failover attempts.
+             */
+            'failover_delay' => 5,
         ],
 
         /*

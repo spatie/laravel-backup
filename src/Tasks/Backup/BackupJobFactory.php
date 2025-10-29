@@ -6,16 +6,21 @@ use Illuminate\Support\Collection;
 use Spatie\Backup\BackupDestination\BackupDestinationFactory;
 use Spatie\Backup\Config\Config;
 use Spatie\Backup\Config\SourceFilesConfig;
+use Spatie\Backup\Tasks\Backup\FailoverManager;
 use Spatie\DbDumper\DbDumper;
 
 class BackupJobFactory
 {
     public static function createFromConfig(Config $config): BackupJob
     {
+        $failoverManager = new FailoverManager($config);
+        $failoverManager->setFallbackDestinations(BackupDestinationFactory::createFallbackDestinations($config));
+
         return (new BackupJob($config))
             ->setFileSelection(static::createFileSelection($config->backup->source->files))
             ->setDbDumpers(static::createDbDumpers($config->backup->source->databases))
-            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config));
+            ->setBackupDestinations(BackupDestinationFactory::createFromArray($config))
+            ->setFailoverManager($failoverManager);
     }
 
     protected static function createFileSelection(SourceFilesConfig $sourceFiles): FileSelection

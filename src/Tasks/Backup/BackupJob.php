@@ -42,6 +42,8 @@ class BackupJob
 
     protected bool $signals = true;
 
+    protected ?FailoverManager $failoverManager = null;
+
     /**
      * @throws BindingResolutionException
      */
@@ -143,6 +145,13 @@ class BackupJob
     public function setBackupDestinations(Collection $backupDestinations): self
     {
         $this->backupDestinations = $backupDestinations;
+
+        return $this;
+    }
+
+    public function setFailoverManager(FailoverManager $failoverManager): self
+    {
+        $this->failoverManager = $failoverManager;
 
         return $this;
     }
@@ -298,8 +307,11 @@ class BackupJob
      */
     protected function copyToBackupDestinations(string $path): void
     {
+        $successfulDestinations = [];
+        $failedDestinations = [];
+
         $this->backupDestinations
-            ->each(function (BackupDestination $backupDestination) use ($path) {
+            ->each(function (BackupDestination $backupDestination) use ($path, &$successfulDestinations, &$failedDestinations) {
                 try {
                     if (! $backupDestination->isReachable()) {
                         throw new Exception("Could not connect to disk {$backupDestination->diskName()} because: {$backupDestination->connectionError()}");
@@ -312,12 +324,30 @@ class BackupJob
                     consoleOutput()->info("Successfully copied zip to disk named {$backupDestination->diskName()}.");
 
                     $this->sendNotification(new BackupWasSuccessful($backupDestination));
+                    $successfulDestinations[] = $backupDestination;
                 } catch (Exception $exception) {
                     consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
+                    $failedDestinations[] = ['destination' => $backupDestination, 'exception' => $exception];
 
-                    throw BackupFailed::from($exception)->destination($backupDestination);
+                    // Attempt failover if configured and available
+                    if ($this->failoverManager) {
+                        try {
+                            $fallbackDestination = $this->failoverManager->attemptFailover($backupDestination, $path, $exception);
+                            $this->sendNotification(new BackupWasSuccessful($fallbackDestination));
+                            $successfulDestinations[] = $fallbackDestination;
+                        } catch (Exception $failoverException) {
+                            // Failover also failed, continue to next destination
+                            consoleOutput()->error("Failover also failed: {$failoverException->getMessage()}");
+                        }
+                    }
                 }
             });
+
+        // If no destinations succeeded (including failovers), throw an exception
+        if (empty($successfulDestinations) && ! empty($failedDestinations)) {
+            $lastFailure = end($failedDestinations);
+            throw BackupFailed::from($lastFailure['exception'])->destination($lastFailure['destination']);
+        }
     }
 
     protected function sendNotification(object|string $notification): void
