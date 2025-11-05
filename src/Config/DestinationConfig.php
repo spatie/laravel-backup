@@ -17,6 +17,7 @@ class DestinationConfig extends Data
         public int $compressionLevel,
         public string $filenamePrefix,
         public array $disks,
+        public bool $continueOnFailure,
     ) {
         if ($compressionLevel > 9) {
             throw InvalidConfig::integerMustBeBetween('compression_level', 0, 9);
@@ -35,6 +36,7 @@ class DestinationConfig extends Data
             compressionLevel: $data['compression_level'] ?? 9,
             filenamePrefix: $data['filename_prefix'] ?? '',
             disks: $data['disks'] ?? ['local'],
+            continueOnFailure: $data['continue_on_failure'] ?? false,
         );
     }
 }
