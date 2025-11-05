@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.6 - 2025-11-05
+
+### What's Changed
+
+* Fix: allows backups to continue when some destinations fail instead of failing completely by @imhayatunnabi in https://github.com/spatie/laravel-backup/pull/1933
+* Bump stefanzweifel/git-auto-commit-action from 6 to 7 by @dependabot[bot] in https://github.com/spatie/laravel-backup/pull/1931
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.5...9.3.6
+
 ## 9.3.5 - 2025-10-14
 
 ### What's Changed
