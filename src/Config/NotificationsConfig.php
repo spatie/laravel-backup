@@ -29,8 +29,8 @@ class NotificationsConfig extends Data
     public static function fromArray(array $data): self
     {
         return new self(
-            notifications: $data['notifications'],
-            notifiable: $data['notifiable'],
+            notifications: $data['notifications'] ?? [],
+            notifiable: $data['notifiable'] ?? Notifiable::class,
             mail: NotificationMailConfig::fromArray($data['mail']),
             slack: NotificationSlackConfig::fromArray($data['slack']),
             discord: isset($data['discord']) ? NotificationDiscordConfig::fromArray($data['discord']) : null,
