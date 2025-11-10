@@ -97,15 +97,21 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups): void
     {
-        if (! $this->shouldRemoveOldestBackup($backups)) {
-            return;
+        $maxIterations = 1000;
+        $iterations = 0;
+
+        while ($this->shouldRemoveOldestBackup($backups) && $iterations < $maxIterations) {
+            $oldestBackup = $backups->oldest();
+            $oldestBackup->delete();
+
+            $backups = $backups->filter(fn (Backup $backup) => $backup->exists());
+
+            if ($oldestBackup->exists()) {
+                break;
+            }
+
+            $iterations++;
         }
-
-        $backups->oldest()->delete();
-
-        $backups = $backups->filter(fn (Backup $backup) => $backup->exists());
-
-        $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
     }
 
     protected function shouldRemoveOldestBackup(BackupCollection $backups): bool
