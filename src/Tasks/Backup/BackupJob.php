@@ -298,8 +298,10 @@ class BackupJob
      */
     protected function copyToBackupDestinations(string $path): void
     {
+        $failures = [];
+
         $this->backupDestinations
-            ->each(function (BackupDestination $backupDestination) use ($path) {
+            ->each(function (BackupDestination $backupDestination) use ($path, &$failures) {
                 try {
                     if (! $backupDestination->isReachable()) {
                         throw new Exception("Could not connect to disk {$backupDestination->diskName()} because: {$backupDestination->connectionError()}");
@@ -315,9 +317,18 @@ class BackupJob
                 } catch (Exception $exception) {
                     consoleOutput()->error("Copying zip failed because: {$exception->getMessage()}.");
 
-                    throw BackupFailed::from($exception)->destination($backupDestination);
+                    $failures[] = ['destination' => $backupDestination, 'exception' => $exception];
+
+                    if (! $this->config->backup->destination->continueOnFailure) {
+                        throw BackupFailed::from($exception)->destination($backupDestination);
+                    }
                 }
             });
+
+        if ($this->config->backup->destination->continueOnFailure && count($failures) === count($this->backupDestinations)) {
+            $firstFailure = $failures[0];
+            throw BackupFailed::from($firstFailure['exception'])->destination($firstFailure['destination']);
+        }
     }
 
     protected function sendNotification(object|string $notification): void
