@@ -31,8 +31,8 @@
         "spatie/laravel-package-tools": "^1.6.2",
         "spatie/laravel-signal-aware-command": "^1.2|^2.0",
         "spatie/temporary-directory": "^2.0",
-        "symfony/console": "^6.0|^7.0",
-        "symfony/finder": "^6.0|^7.0"
+        "symfony/console": "^6.0|^7.0|^8.0",
+        "symfony/finder": "^6.0|^7.0|^8.0"
     },
     "require-dev": {
         "composer-runtime-api": "^2.0",
