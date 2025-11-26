@@ -41,7 +41,7 @@
         "laravel/slack-notification-channel": "^2.5|^3.0",
         "league/flysystem-aws-s3-v3": "^2.0|^3.0",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^9.0|^10.0",
+        "orchestra/testbench": "^9.6|^10.0",
         "pestphp/pest": "^4.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
