@@ -20,12 +20,12 @@
     "require": {
         "php": "^8.3",
         "ext-zip": "^1.14.0",
-        "illuminate/console": "^12.6",
-        "illuminate/contracts": "^12.6",
-        "illuminate/events": "^12.6",
-        "illuminate/filesystem": "^12.6",
-        "illuminate/notifications": "^12.6",
-        "illuminate/support": "^12.6",
+        "illuminate/console": "^12.40",
+        "illuminate/contracts": "^12.40",
+        "illuminate/events": "^12.40",
+        "illuminate/filesystem": "^12.40",
+        "illuminate/notifications": "^12.40",
+        "illuminate/support": "^12.40",
         "league/flysystem": "^3.30.2",
         "spatie/db-dumper": "^3.8.1",
         "spatie/laravel-package-tools": "^1.92.7",
@@ -37,16 +37,16 @@
     "require-dev": {
         "composer-runtime-api": "^2.0",
         "ext-pcntl": "*",
-        "larastan/larastan": "^3.0",
+        "larastan/larastan": "^3.8",
         "laravel/slack-notification-channel": "^3.7",
         "league/flysystem-aws-s3-v3": "^3.30.1",
         "mockery/mockery": "^1.6.12",
-        "orchestra/testbench": "^10.6",
-        "pestphp/pest": "^4.1.1",
+        "orchestra/testbench": "^10.8",
+        "pestphp/pest": "^4.1.5",
         "phpstan/extension-installer": "^1.4.3",
-        "phpstan/phpstan-deprecation-rules": "^2.0",
-        "phpstan/phpstan-phpunit": "^2.0",
-        "rector/rector": "^2.0"
+        "phpstan/phpstan-deprecation-rules": "^2.0.3",
+        "phpstan/phpstan-phpunit": "^2.0.8",
+        "rector/rector": "^2.2.8"
     },
     "autoload": {
         "psr-4": {
