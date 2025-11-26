@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.3.7 - 2025-11-26
+
+### What's Changed
+
+* Аdd a link to the test icon by @sashaphmn in https://github.com/spatie/laravel-backup/pull/1937
+* Added Symfony 8 support to all symfony/* packages. by @thecaliskan in https://github.com/spatie/laravel-backup/pull/1941
+
+### New Contributors
+
+* @sashaphmn made their first contribution in https://github.com/spatie/laravel-backup/pull/1937
+* @thecaliskan made their first contribution in https://github.com/spatie/laravel-backup/pull/1941
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.6...9.3.7
+
 ## 9.3.6 - 2025-11-05
 
 ### What's Changed
