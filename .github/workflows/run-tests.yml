@@ -18,15 +18,13 @@ jobs:
             matrix:
                 os: [ubuntu-latest]
                 php: [8.5, 8.4, 8.3, 8.2]
-                laravel: [12.*, 11.*, 10.*]
+                laravel: [12.*, 11.*]
                 stability: [prefer-lowest, prefer-stable]
                 include:
-                    - laravel: 10.*
-                      testbench: 8.*
                     - laravel: 11.*
                       testbench: 9.*
                     - laravel: 12.*
-                      testbench: ^10.6
+                      testbench: 10.*
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
@@ -49,7 +47,6 @@ jobs:
             - name: Setup problem matchers
               run: |
                   echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-                  echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             - name: Install dependencies
               run: |
