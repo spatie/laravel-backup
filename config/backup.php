@@ -153,6 +153,11 @@ return [
             'disks' => [
                 'local',
             ],
+
+            /*
+             * Determines whether to allow backups to continue when some targets fail instead of failing completely.
+             */
+            'continue_on_failure' => false,
         ],
 
         /*
