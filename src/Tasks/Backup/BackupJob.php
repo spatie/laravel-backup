@@ -16,6 +16,7 @@ use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Events\DumpingDatabase;
 use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
+use Spatie\DbDumper\Compressors\GzipCompressor;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
@@ -155,6 +156,14 @@ class BackupJob
             ->force()
             ->create()
             ->empty();
+        $cleanupRegistered = false;
+        $shutdownHandler = function () use (&$cleanupRegistered) {
+            if ($cleanupRegistered && $this->temporaryDirectory->exists()) {
+                $this->temporaryDirectory->delete();
+            }
+        };
+        register_shutdown_function($shutdownHandler);
+        $cleanupRegistered = true;
 
         if ($this->signals) {
             Signal::handle(SIGINT, function (Command $command) {
@@ -187,6 +196,7 @@ class BackupJob
         }
 
         $this->temporaryDirectory->delete();
+        $cleanupRegistered = false; // Prevent double cleanup
 
         if ($this->signals) {
             Signal::clearHandlers(SIGINT);
