@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class BackupOnMigration
 {
-    public function handle(MigrationsStarted $event)
+    public function handle(MigrationsStarted $event): void
     {
         if (! config('backup.backup_before_migration')) {
             return;
