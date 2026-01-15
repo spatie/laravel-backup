@@ -2,6 +2,7 @@
 
 namespace Spatie\Backup;
 
+use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -12,6 +13,7 @@ use Spatie\Backup\Commands\MonitorCommand;
 use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Helpers\ConsoleOutput;
+use Spatie\Backup\Listeners\BackupOnMigration;
 use Spatie\Backup\Listeners\EncryptBackupArchive;
 use Spatie\Backup\Notifications\Channels\Discord\DiscordChannel;
 use Spatie\Backup\Notifications\EventHandler;
@@ -43,6 +45,8 @@ class BackupServiceProvider extends PackageServiceProvider
         if (EncryptBackupArchive::shouldEncrypt()) {
             Event::listen(BackupZipWasCreated::class, EncryptBackupArchive::class);
         }
+
+        Event::listen(MigrationsStarted::class, BackupOnMigration::class);
     }
 
     public function packageRegistered(): void
