@@ -343,4 +343,15 @@ return [
         'retry_delay' => 0,
     ],
 
+    /*
+     * If enabled, the database will be backed up before running migrations.
+     * This ensures you have a fresh backup in case the migration fails.
+     */
+    'backup_before_migration' => env('BACKUP_BEFORE_MIGRATION', false),
+
+    /*
+     * The environments where the database backup before migration should occur.
+     */
+    'backup_before_migration_environments' => ['production'],
+
 ];
