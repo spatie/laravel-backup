@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 9.4.0 - 2026-01-31
+
+### What's Changed
+
+* Add missing continue_on_failure option to config by @BoGnY in https://github.com/spatie/laravel-backup/pull/1943
+* Fix notification dates to respect app timezone by @freekmurze in https://github.com/spatie/laravel-backup/pull/1953
+* Guard optional backup config keys for tenant-driven backups by @imhayatunnabi in https://github.com/spatie/laravel-backup/pull/1936
+* Restore notification defaults for legacy single-server installs by @imhayatunnabi in https://github.com/spatie/laravel-backup/pull/1935
+* Allow null or false for encryption config to disable encryption by @freekmurze in https://github.com/spatie/laravel-backup/pull/1954
+* Add --config option to reload configuration at runtime by @freekmurze in https://github.com/spatie/laravel-backup/pull/1955
+
+### New Contributors
+
+* @BoGnY made their first contribution in https://github.com/spatie/laravel-backup/pull/1943
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/9.3.7...9.4.0
+
 ## 9.3.7 - 2025-11-26
 
 ### What's Changed
