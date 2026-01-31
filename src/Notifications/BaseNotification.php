@@ -72,8 +72,8 @@ abstract class BaseNotification extends Notification
             $newestBackupSize => $newestBackup ? Format::humanReadableSize($newestBackup->sizeInBytes()) : $noBackupsText,
             $numberOfBackups => (string) $backupDestination->backups()->count(),
             $totalStorageUsed => Format::humanReadableSize($backupDestination->backups()->size()),
-            $newestBackupDate => $newestBackup ? $newestBackup->date()->format('Y/m/d H:i:s') : $noBackupsText,
-            $oldestBackupDate => $oldestBackup ? $oldestBackup->date()->format('Y/m/d H:i:s') : $noBackupsText,
+            $newestBackupDate => $newestBackup ? $newestBackup->date()->setTimezone(config('app.timezone'))->format('Y/m/d H:i:s') : $noBackupsText,
+            $oldestBackupDate => $oldestBackup ? $oldestBackup->date()->setTimezone(config('app.timezone'))->format('Y/m/d H:i:s') : $noBackupsText,
         ])->filter();
     }
 
