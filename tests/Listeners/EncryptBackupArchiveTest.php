@@ -22,6 +22,38 @@ it('keeps archive unencrypted without password', function () {
     $zip->close();
 });
 
+it('keeps archive unencrypted when encryption is set to null', function () {
+    config()->set('backup.backup.encryption', null);
+
+    $path = zip();
+
+    $zip = new ZipArchive;
+    $zip->open($path);
+
+    assertEncryptionMethod($zip, ZipArchive::EM_NONE);
+
+    $this->assertTrue($zip->extractTo(__DIR__.'/../temp/extraction'));
+    assertValidExtractedFiles();
+
+    $zip->close();
+});
+
+it('keeps archive unencrypted when encryption is set to false', function () {
+    config()->set('backup.backup.encryption', false);
+
+    $path = zip();
+
+    $zip = new ZipArchive;
+    $zip->open($path);
+
+    assertEncryptionMethod($zip, ZipArchive::EM_NONE);
+
+    $this->assertTrue($zip->extractTo(__DIR__.'/../temp/extraction'));
+    assertValidExtractedFiles();
+
+    $zip->close();
+});
+
 /**
  * @param  int  $algorithm
  */

@@ -17,7 +17,7 @@ class BackupConfig extends Data
         public DestinationConfig $destination,
         public ?string $temporaryDirectory,
         public ?string $password,
-        public string $encryption,
+        public string|false|null $encryption,
         public int $tries,
         public int $retryDelay,
         public ?MonitoredBackupsConfig $monitoredBackups,
