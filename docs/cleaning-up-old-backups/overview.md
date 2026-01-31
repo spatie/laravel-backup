@@ -11,6 +11,11 @@ You can clean up your backups by running:
 php artisan backup:clean
 ```
 
+If you want to clean up backups using a specific configuration, run:
+```bash
+php artisan backup:clean --config=backup
+```
+
 We'll tell you right off the bat that the package by default will never delete the latest backup regardless of its size or age.
 
 ## Determining which backups should be deleted

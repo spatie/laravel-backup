@@ -203,3 +203,17 @@ it('should wait before trying again when retry_delay is configured (with Sleep h
         Sleep::for(3)->seconds(),
     ]);
 });
+
+it('can cleanup with specified configuration', function () {
+    config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
+
+    $this->create1MbFileOnDisk('local', 'mysite/test1.zip', now()->subDays(1));
+    $this->create1MbFileOnDisk('local', 'mysite/test2.zip', now()->subDays(2));
+    $this->create1MbFileOnDisk('local', 'mysite/test3.zip', now()->subDays(3));
+
+    $this->artisan('backup:clean', ['--config' => 'backup'])->assertExitCode(0);
+
+    Storage::disk('local')->assertExists('mysite/test1.zip');
+    Storage::disk('local')->assertExists('mysite/test2.zip');
+    Storage::disk('local')->assertMissing('mysite/test3.zip');
+});

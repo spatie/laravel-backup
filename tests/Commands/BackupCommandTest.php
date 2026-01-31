@@ -514,3 +514,29 @@ it('can create a backup when no databases specified', function () {
 
     Storage::disk('local')->assertExists($this->expectedZipPath);
 });
+
+it('can backup with runtime changed configuration', function () {
+    $this->date = Carbon::create('2025', 8, 1, 10, 1, 1);
+    Carbon::setTestNow($this->date);
+
+    config()->set('backup.backup.destination.filename_prefix', 'prefix1_');
+    $this->expectedZipPath = 'mysite/prefix1_2025-08-01-10-01-01.zip';
+    $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
+
+    Storage::disk('local')->assertExists($this->expectedZipPath);
+    Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
+
+    // Now change the configuration
+    config()->set('backup.backup.destination.filename_prefix', 'prefix2_');
+    $this->expectedZipPath = 'mysite/prefix2_2025-08-01-10-01-01.zip';
+
+    // Run again without the config option, files should not exist
+    $this->artisan('backup:run', ['--only-files' => true])->assertExitCode(0);
+    Storage::disk('local')->assertMissing($this->expectedZipPath);
+    Storage::disk('secondLocal')->assertMissing($this->expectedZipPath);
+
+    // Run again with specified configuration, backup should be created
+    $this->artisan('backup:run', ['--only-files' => true, '--config' => 'backup'])->assertExitCode(0);
+    Storage::disk('local')->assertExists($this->expectedZipPath);
+    Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
+});
