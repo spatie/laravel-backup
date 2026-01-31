@@ -1,51 +1,73 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\:\\:filter\\(\\) expects \\(callable\\(Spatie\\\\Backup\\\\BackupDestination\\\\Backup, int\\)\\: bool\\)\\|null, Closure\\(string\\)\\: bool given\\.$#"
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 6
+			path: config/backup.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Spatie\\Backup\\BackupDestination\\Backup\>\:\:filter\(\) expects \(callable\(Spatie\\Backup\\BackupDestination\\Backup, int\)\: bool\)\|null, Closure\(string\)\: bool given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/BackupDestination/BackupCollection.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\:\\:map\\(\\) expects callable\\(Spatie\\\\Backup\\\\BackupDestination\\\\Backup, int\\)\\: Spatie\\\\Backup\\\\BackupDestination\\\\Backup, Closure\\(string\\)\\: Spatie\\\\Backup\\\\BackupDestination\\\\Backup given\\.$#"
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Spatie\\Backup\\BackupDestination\\Backup\>\:\:map\(\) expects callable\(Spatie\\Backup\\BackupDestination\\Backup, int\)\: Spatie\\Backup\\BackupDestination\\Backup, Closure\(string\)\: Spatie\\Backup\\BackupDestination\\Backup given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/BackupDestination/BackupCollection.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,int\\>\\:\\:map\\(\\) expects callable\\(int, int\\)\\: string, Closure\\(string\\)\\: non\\-falsy\\-string given\\.$#"
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,int\>\:\:map\(\) expects callable\(int, int\)\: non\-falsy\-string, Closure\(string\)\: non\-falsy\-string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Exceptions/CannotCreateDbDumper.php
 
 		-
-			message: "#^Method Spatie\\\\Backup\\\\Notifications\\\\Channels\\\\Discord\\\\DiscordMessage\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Call to function method_exists\(\) with Illuminate\\Contracts\\Filesystem\\Filesystem and ''mimeType'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Helpers/File.php
+
+		-
+			message: '#^Method Spatie\\Backup\\Notifications\\Channels\\Discord\\DiscordMessage\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/Notifications/Channels/Discord/DiscordMessage.php
 
 		-
-			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\FileSelection\\:\\:sanitize\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
+			message: '#^Method Spatie\\Backup\\Tasks\\Backup\\FileSelection\:\:sanitize\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/Tasks/Backup/FileSelection.php
 
 		-
-			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\Manifest\\:\\:files\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Spatie\\Backup\\Tasks\\Backup\\Manifest\:\:files\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/Tasks/Backup/Manifest.php
 
 		-
-			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\Manifest\\:\\:files\\(\\) return type has no value type specified in iterable type array\\|Generator\\.$#"
+			message: '#^Method Spatie\\Backup\\Tasks\\Backup\\Manifest\:\:files\(\) return type has no value type specified in iterable type array\|Generator\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/Tasks/Backup/Manifest.php
 
 		-
-			message: "#^Method Spatie\\\\Backup\\\\Tasks\\\\Backup\\\\Zip\\:\\:add\\(\\) has parameter \\$files with no value type specified in iterable type iterable\\.$#"
+			message: '#^Method Spatie\\Backup\\Tasks\\Backup\\Zip\:\:add\(\) has parameter \$files with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/Tasks/Backup/Zip.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\Backup\\\\BackupDestination\\\\Backup\\>\\:\\:each\\(\\) expects callable\\(Spatie\\\\Backup\\\\BackupDestination\\\\Backup, int\\)\\: mixed, Closure\\(Spatie\\\\Backup\\\\BackupDestination\\\\BackupCollection\\)\\: void given\\.$#"
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Spatie\\Backup\\BackupDestination\\Backup\>\:\:each\(\) expects callable\(Spatie\\Backup\\BackupDestination\\Backup, int\)\: mixed, Closure\(Spatie\\Backup\\BackupDestination\\BackupCollection\)\: void given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Tasks/Cleanup/Strategies/DefaultStrategy.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Spatie\\\\Backup\\\\Config\\\\MonitoredBackupConfig\\>\\:\\:flatMap\\(\\) expects callable\\(Spatie\\\\Backup\\\\Config\\\\MonitoredBackupConfig, int\\|string\\)\\: \\(array\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\>\\|Illuminate\\\\Support\\\\Collection\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\>\\), Closure\\(array\\)\\: Illuminate\\\\Support\\\\Collection\\<int, Spatie\\\\Backup\\\\Tasks\\\\Monitor\\\\BackupDestinationStatus\\> given\\.$#"
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),Spatie\\Backup\\Config\\MonitoredBackupConfig\>\:\:flatMap\(\) expects callable\(Spatie\\Backup\\Config\\MonitoredBackupConfig, int\|string\)\: \(array\<int, Spatie\\Backup\\Tasks\\Monitor\\BackupDestinationStatus\>\|Illuminate\\Support\\Collection\<int, Spatie\\Backup\\Tasks\\Monitor\\BackupDestinationStatus\>\), Closure\(array\)\: Illuminate\\Support\\Collection\<int, Spatie\\Backup\\Tasks\\Monitor\\BackupDestinationStatus\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Tasks/Monitor/BackupDestinationStatusFactory.php
