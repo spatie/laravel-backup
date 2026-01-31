@@ -61,8 +61,12 @@ class EncryptBackupArchive
     {
         $encryption = config('backup.backup.encryption');
 
+        if ($encryption === null || $encryption === false) {
+            return null;
+        }
+
         if ($encryption === 'default') {
-            $encryption = defined(\ZipArchive::class.'::EM_AES_256')
+            return defined(\ZipArchive::class.'::EM_AES_256')
                 ? ZipArchive::EM_AES_256
                 : null;
         }
