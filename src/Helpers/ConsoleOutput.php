@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 /**
  * @mixin \Illuminate\Console\Concerns\InteractsWithIO
+ *
  * @phpstan-ignore mixin.trait
  */
 class ConsoleOutput
