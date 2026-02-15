@@ -22,7 +22,8 @@ beforeEach(function () {
         'secondLocal',
     ]);
 
-    config()->set('backup.backup.source.files.include', [base_path()]);
+    config()->set('backup.backup.source.files.include', [$this->getStubDirectory()]);
+    config()->set('backup.backup.source.files.exclude', []);
 
     config()->set('backup.backup.source.databases', [
         'db1',
