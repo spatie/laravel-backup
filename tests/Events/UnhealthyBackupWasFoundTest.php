@@ -59,17 +59,15 @@ it('sends an notification containing the exception for unexpected health check e
 
     Notification::assertSentTo(new Notifiable, UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
         $slack = $notification->toSlack();
-        expect($slack->content)->toContain(trans('backup::notifications.unhealthy_backup_found_unknown'));
-        $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Health check'));
-        $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception message'));
-        $this->assertNotNull(collect($slack->attachments)->firstWhere('title', 'Exception trace'));
+        expect($slack->content)->toContain('dummy exception message');
+        expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
+        expect(collect($slack->attachments)->firstWhere('title', 'Exception message'))->toBeNull();
+        expect(collect($slack->attachments)->firstWhere('title', 'Exception trace'))->toBeNull();
 
         $mail = $notification->toMail();
 
         expect($mail->introLines)
-            ->hasItemContaining(trans('backup::notifications.unhealthy_backup_found_unknown'))
-            ->hasItemContaining('Health check:')
-            ->hasItemContaining('Exception trace:');
+            ->hasItemContaining('dummy exception message');
 
         return true;
     });

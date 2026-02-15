@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^8.5",
+        "php": "^8.4",
         "ext-zip": "^1.14.0",
         "illuminate/console": "^12.40",
         "illuminate/contracts": "^12.40",
