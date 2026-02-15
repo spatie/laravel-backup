@@ -14,8 +14,10 @@ class BackupCollection extends Collection
     /** @param array<string> $files */
     public static function createFromFiles(?FileSystem $disk, array $files): self
     {
+        $file = new File;
+
         return (new static($files))
-            ->filter(fn (string $path) => (new File)->isZipFile($disk, $path))
+            ->filter(fn (string $path) => $file->isZipFile($disk, $path))
             ->map(fn (string $path): \Spatie\Backup\BackupDestination\Backup => new Backup($disk, $path))
             ->sortByDesc(fn (Backup $backup) => $backup->date()->timestamp)
             ->values();

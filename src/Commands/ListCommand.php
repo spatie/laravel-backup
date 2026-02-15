@@ -107,7 +107,7 @@ class ListCommand extends BaseCommand
 
     protected function getFormattedBackupDate(?Backup $backup = null): string
     {
-        return is_null($backup)
+        return $backup === null
             ? 'No backups present'
             : Format::ageInDays($backup->date());
     }
