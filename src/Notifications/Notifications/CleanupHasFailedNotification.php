@@ -65,4 +65,16 @@ class CleanupHasFailedNotification extends BaseNotification
                 trans('backup::notifications.exception_message_title') => $this->event->exception->getMessage(),
             ]);
     }
+
+    /** @return array<string, mixed> */
+    public function toWebhook(): array
+    {
+        return [
+            'type' => 'cleanup_failed',
+            'application_name' => $this->applicationName(),
+            'exception' => $this->event->exception->getMessage(),
+            'disk_name' => $this->event->diskName,
+            'backup_name' => $this->event->backupName,
+        ];
+    }
 }

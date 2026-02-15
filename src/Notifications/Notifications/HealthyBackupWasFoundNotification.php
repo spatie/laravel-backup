@@ -19,7 +19,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
     {
         $mailMessage = (new MailMessage)
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
-            ->subject(trans('backup::notifications.healthy_backup_found_subject', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
+            ->subject(trans('backup::notifications.healthy_backup_found_subject', ['application_name' => $this->applicationName(), 'disk_name' => $this->event->diskName]))
             ->line(trans('backup::notifications.healthy_backup_found_body', ['application_name' => $this->applicationName()]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
@@ -51,5 +51,16 @@ class HealthyBackupWasFoundNotification extends BaseNotification
                     'application_name' => $this->applicationName(),
                 ])
             )->fields($this->backupDestinationProperties()->toArray());
+    }
+
+    /** @return array<string, mixed> */
+    public function toWebhook(): array
+    {
+        return [
+            'type' => 'healthy_backup_found',
+            'application_name' => $this->applicationName(),
+            'disk_name' => $this->event->diskName,
+            'backup_name' => $this->event->backupName,
+        ];
     }
 }

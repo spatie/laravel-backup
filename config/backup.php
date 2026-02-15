@@ -26,6 +26,7 @@ return [
                 'exclude' => [
                     base_path('vendor'),
                     base_path('node_modules'),
+                    storage_path('framework'),
                 ],
 
                 /*
@@ -173,12 +174,19 @@ return [
 
         /*
          * The encryption algorithm to be used for archive encryption.
-         * You can set it to `null` or `false` to disable encryption.
+         * Set to 'none' to disable encryption.
          *
-         * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
-         * available on your system.
+         * Supported: 'none', 'default', 'aes128', 'aes192', 'aes256'
+         *
+         * When set to 'default', we'll use AES-256 if available on your system.
          */
         'encryption' => 'default',
+
+        /*
+         * After creating the zip, verify it can be opened and contains files.
+         * Recommended for critical backups but adds a small overhead.
+         */
+        'verify_backup' => false,
 
         /*
          * The number of attempts, in case the backup command encounters an exception
@@ -249,6 +257,14 @@ return [
              * If this is an empty string, the avatar on the webhook will be used.
              */
             'avatar_url' => '',
+        ],
+
+        /*
+         * A generic webhook channel that POSTs JSON to a URL.
+         * Useful for Mattermost, Microsoft Teams, or custom integrations.
+         */
+        'webhook' => [
+            'url' => '',
         ],
     ],
 

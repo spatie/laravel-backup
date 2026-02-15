@@ -2,11 +2,16 @@
 
 namespace Spatie\Backup\Events;
 
-use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
+use Illuminate\Support\Collection;
 
 class UnhealthyBackupWasFound
 {
+    /**
+     * @param Collection<int, array{check: string, message: string}> $failureMessages
+     */
     public function __construct(
-        public BackupDestinationStatus $backupDestinationStatus
+        public string $diskName,
+        public string $backupName,
+        public Collection $failureMessages,
     ) {}
 }

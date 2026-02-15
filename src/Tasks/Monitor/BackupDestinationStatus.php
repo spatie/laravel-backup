@@ -9,13 +9,16 @@ use Spatie\Backup\Tasks\Monitor\HealthChecks\IsReachable;
 
 class BackupDestinationStatus
 {
-    protected ?HealthCheckFailure $healthCheckFailure = null;
+    /** @var Collection<int, HealthCheckFailure> */
+    protected Collection $healthCheckFailures;
 
     /** @param array<int, HealthCheck> $healthChecks */
     public function __construct(
         protected BackupDestination $backupDestination,
         protected array $healthChecks = []
-    ) {}
+    ) {
+        $this->healthCheckFailures = collect();
+    }
 
     public function backupDestination(): BackupDestination
     {
@@ -39,25 +42,43 @@ class BackupDestinationStatus
         return collect($this->healthChecks)->prepend(new IsReachable);
     }
 
+    /** @return Collection<int, HealthCheckFailure> */
+    public function getHealthCheckFailures(): Collection
+    {
+        return $this->healthCheckFailures;
+    }
+
     public function getHealthCheckFailure(): ?HealthCheckFailure
     {
-        return $this->healthCheckFailure;
+        return $this->healthCheckFailures->first();
     }
 
     public function isHealthy(): bool
     {
-        $healthChecks = $this->getHealthChecks();
+        $this->healthCheckFailures = collect();
 
-        foreach ($healthChecks as $healthCheck) {
+        foreach ($this->getHealthChecks() as $healthCheck) {
             $checkResult = $this->check($healthCheck);
 
             if ($checkResult instanceof HealthCheckFailure) {
-                $this->healthCheckFailure = $checkResult;
+                $this->healthCheckFailures->push($checkResult);
 
-                return false;
+                // If not reachable, skip remaining checks
+                if ($healthCheck instanceof IsReachable) {
+                    break;
+                }
             }
         }
 
-        return true;
+        return $this->healthCheckFailures->isEmpty();
+    }
+
+    /** @return Collection<int, array{check: string, message: string}> */
+    public function failureMessages(): Collection
+    {
+        return $this->healthCheckFailures->map(fn (HealthCheckFailure $failure) => [
+            'check' => $failure->healthCheck()->name(),
+            'message' => $failure->exception()->getMessage(),
+        ]);
     }
 }

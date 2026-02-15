@@ -41,31 +41,31 @@ class DefaultStrategy extends CleanupStrategy
     /** @return Collection<string, Period> */
     protected function calculateDateRanges(): Collection
     {
-        $config = $this->config->get('backup.cleanup.default_strategy');
+        $strategy = $this->config->cleanup->defaultStrategy;
 
         $daily = new Period(
-            Carbon::now()->subDays($config['keep_all_backups_for_days']),
+            Carbon::now()->subDays($strategy->keepAllBackupsForDays),
             Carbon::now()
-                ->subDays($config['keep_all_backups_for_days'])
-                ->subDays($config['keep_daily_backups_for_days'])
+                ->subDays($strategy->keepAllBackupsForDays)
+                ->subDays($strategy->keepDailyBackupsForDays)
         );
 
         $weekly = new Period(
             $daily->endDate(),
             $daily->endDate()
-                ->subWeeks($config['keep_weekly_backups_for_weeks'])
+                ->subWeeks($strategy->keepWeeklyBackupsForWeeks)
         );
 
         $monthly = new Period(
             $weekly->endDate(),
             $weekly->endDate()
-                ->subMonths($config['keep_monthly_backups_for_months'])
+                ->subMonths($strategy->keepMonthlyBackupsForMonths)
         );
 
         $yearly = new Period(
             $monthly->endDate(),
             $monthly->endDate()
-                ->subYears($config['keep_yearly_backups_for_years'])
+                ->subYears($strategy->keepYearlyBackupsForYears)
         );
 
         return collect([
@@ -102,25 +102,25 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups): void
     {
-        while ($this->shouldRemoveOldestBackup($backups)) {
+        $maximumSize = $this->config->cleanup->defaultStrategy->deleteOldestBackupsWhenUsingMoreMegabytesThan;
+
+        if ($maximumSize === null) {
+            return;
+        }
+
+        while ($this->shouldRemoveOldestBackup($backups, $maximumSize)) {
             $backups->oldest()->delete();
 
             $backups = $backups->filter(fn (Backup $backup) => $backup->exists());
         }
     }
 
-    protected function shouldRemoveOldestBackup(BackupCollection $backups): bool
+    protected function shouldRemoveOldestBackup(BackupCollection $backups, int $maximumSizeInMB): bool
     {
         if (! $backups->oldest()) {
             return false;
         }
 
-        $maximumSize = $this->config->get('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than');
-
-        if ($maximumSize === null) {
-            return false;
-        }
-
-        return ($backups->size() + $this->newestBackup->sizeInBytes()) > $maximumSize * 1024 * 1024;
+        return ($backups->size() + $this->newestBackup->sizeInBytes()) > $maximumSizeInMB * 1024 * 1024;
     }
 }

@@ -10,11 +10,11 @@ use Spatie\Backup\Tasks\Backup\BackupJob;
 
 class Backup
 {
-    protected bool $exists = true;
+    public private(set) bool $exists = true;
 
-    protected ?Carbon $date = null;
+    private ?Carbon $cachedDate = null;
 
-    protected ?int $size = null;
+    private ?int $cachedSize = null;
 
     public function __construct(
         protected Filesystem $disk,
@@ -40,30 +40,30 @@ class Backup
 
     public function date(): Carbon
     {
-        if ($this->date === null) {
+        if ($this->cachedDate === null) {
             try {
                 $basename = basename($this->path);
 
-                $this->date = Carbon::createFromFormat(BackupJob::FILENAME_FORMAT, $basename);
+                $this->cachedDate = Carbon::createFromFormat(BackupJob::FILENAME_FORMAT, $basename);
             } catch (InvalidArgumentException) {
-                $this->date = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
+                $this->cachedDate = Carbon::createFromTimestamp($this->disk->lastModified($this->path));
             }
         }
 
-        return $this->date;
+        return $this->cachedDate;
     }
 
     public function sizeInBytes(): float
     {
-        if ($this->size === null) {
+        if ($this->cachedSize === null) {
             if (! $this->exists()) {
                 return 0;
             }
 
-            $this->size = $this->disk->size($this->path);
+            $this->cachedSize = $this->disk->size($this->path);
         }
 
-        return $this->size;
+        return $this->cachedSize;
     }
 
     /** @return resource */
@@ -78,13 +78,13 @@ class Backup
     public function delete(): void
     {
         if (! $this->disk->delete($this->path)) {
-            consoleOutput()->error("Failed to delete backup `{$this->path}`.");
+            backupLogger()->error("Failed to delete backup `{$this->path}`.");
 
             return;
         }
 
         $this->exists = false;
 
-        consoleOutput()->info("Deleted backup `{$this->path}`.");
+        backupLogger()->info("Deleted backup `{$this->path}`.");
     }
 }

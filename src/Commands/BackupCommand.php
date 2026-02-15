@@ -8,6 +8,7 @@ use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\BackupFailed;
 use Spatie\Backup\Exceptions\InvalidCommand;
+use Spatie\Backup\Notifications\EventHandler;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Spatie\Backup\Traits\Retryable;
 
@@ -15,7 +16,19 @@ class BackupCommand extends BaseCommand implements Isolatable
 {
     use Retryable;
 
-    protected $signature = 'backup:run {--filename=} {--only-db} {--db-name=*} {--only-files} {--only-to-disk=} {--disable-notifications} {--timeout=} {--tries=} {--config=}';
+    protected $signature = 'backup:run
+        {--filename=}
+        {--filename-suffix=}
+        {--only-db}
+        {--db-name=*}
+        {--only-files}
+        {--only-to-disk=}
+        {--exclude=* : Directories or files to exclude from backup}
+        {--destination-path= : Override the backup destination path}
+        {--disable-notifications}
+        {--timeout=}
+        {--tries=}
+        {--config=}';
 
     protected $description = 'Run the backup.';
 
@@ -26,9 +39,11 @@ class BackupCommand extends BaseCommand implements Isolatable
 
     public function handle(): int
     {
-        consoleOutput()->comment($this->currentTry > 1 ? sprintf('Attempt n°%d...', $this->currentTry) : 'Starting backup...');
+        backupLogger()->comment($this->currentTry > 1 ? sprintf('Attempt n°%d...', $this->currentTry) : 'Starting backup...');
 
-        $disableNotifications = $this->option('disable-notifications');
+        if ($this->option('disable-notifications')) {
+            EventHandler::disable();
+        }
 
         if ($this->option('timeout') && is_numeric($this->option('timeout'))) {
             set_time_limit((int) $this->option('timeout'));
@@ -63,11 +78,19 @@ class BackupCommand extends BaseCommand implements Isolatable
                 $backupJob->setFilename($this->option('filename'));
             }
 
-            $this->setTries('backup');
-
-            if ($disableNotifications) {
-                $backupJob->disableNotifications();
+            if ($this->option('filename-suffix')) {
+                $backupJob->appendToFilename($this->option('filename-suffix'));
             }
+
+            if ($excludes = $this->option('exclude')) {
+                $backupJob->fileSelection()->excludeFilesFrom($excludes);
+            }
+
+            if ($destinationPath = $this->option('destination-path')) {
+                $backupJob->setDestinationPath($destinationPath);
+            }
+
+            $this->setTries('backup');
 
             if (! $this->getSubscribedSignals()) {
                 $backupJob->disableSignals();
@@ -75,7 +98,7 @@ class BackupCommand extends BaseCommand implements Isolatable
 
             $backupJob->run();
 
-            consoleOutput()->comment('Backup completed!');
+            backupLogger()->comment('Backup completed!');
 
             return static::SUCCESS;
         } catch (Exception $exception) {
@@ -89,17 +112,15 @@ class BackupCommand extends BaseCommand implements Isolatable
                 return $this->handle();
             }
 
-            consoleOutput()->error("Backup failed because: {$exception->getMessage()}.");
+            backupLogger()->error("Backup failed because: {$exception->getMessage()}.");
 
             report($exception);
 
-            if (! $disableNotifications) {
-                event(
-                    $exception instanceof BackupFailed
-                    ? new BackupHasFailed($exception->getPrevious(), $exception->backupDestination)
-                    : new BackupHasFailed($exception)
-                );
-            }
+            event(
+                $exception instanceof BackupFailed
+                ? new BackupHasFailed($exception->getPrevious(), $exception->backupDestination?->diskName(), $exception->backupDestination?->backupName())
+                : new BackupHasFailed($exception)
+            );
 
             return static::FAILURE;
         }

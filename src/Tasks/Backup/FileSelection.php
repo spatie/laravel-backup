@@ -77,11 +77,13 @@ class FileSelection
             yield $includedFile;
         }
 
-        if ($this->includedDirectories() === []) {
+        $directories = $this->includedDirectories();
+
+        if ($directories === []) {
             return [];
         }
 
-        $finder->in($this->includedDirectories());
+        $finder->in($directories);
 
         foreach ($finder->getIterator() as $file) {
             if ($this->shouldExclude($file)) {
@@ -105,7 +107,20 @@ class FileSelection
     {
         return $this
             ->includeFilesAndDirectories
-            ->reject(fn (string $path) => is_file($path))->toArray();
+            ->filter(function (string $path) {
+                if (is_file($path)) {
+                    return false;
+                }
+
+                if (! file_exists($path)) {
+                    backupLogger()->warn("Include path `{$path}` does not exist, skipping.");
+
+                    return false;
+                }
+
+                return true;
+            })
+            ->toArray();
     }
 
     protected function shouldExclude(string $path): bool

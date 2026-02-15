@@ -10,7 +10,11 @@ class Data implements Arrayable
     public function toArray(): array
     {
         return array_map(
-            fn ($value) => $value instanceof Arrayable ? $value->toArray() : $value,
+            fn ($value) => match (true) {
+                $value instanceof Arrayable => $value->toArray(),
+                $value instanceof \BackedEnum => $value->value,
+                default => $value,
+            },
             get_object_vars($this),
         );
     }

@@ -33,11 +33,23 @@ class MonitorCommand extends BaseCommand implements Isolatable
 
             if ($backupDestinationStatus->isHealthy()) {
                 $this->info("The {$backupName} backups on the {$diskName} disk are considered healthy.");
-                event(new HealthyBackupWasFound($backupDestinationStatus));
+                event(new HealthyBackupWasFound(
+                    diskName: $diskName,
+                    backupName: $backupName,
+                ));
             } else {
                 $hasError = true;
                 $this->error("The {$backupName} backups on the {$diskName} disk are considered unhealthy!");
-                event(new UnhealthyBackupWasFound($backupDestinationStatus));
+
+                foreach ($backupDestinationStatus->getHealthCheckFailures() as $failure) {
+                    $this->error("  - [{$failure->healthCheck()->name()}] {$failure->exception()->getMessage()}");
+                }
+
+                event(new UnhealthyBackupWasFound(
+                    diskName: $diskName,
+                    backupName: $backupName,
+                    failureMessages: $backupDestinationStatus->failureMessages(),
+                ));
             }
         }
 

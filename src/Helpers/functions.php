@@ -1,8 +1,8 @@
 <?php
 
-use Spatie\Backup\Helpers\ConsoleOutput;
+use Spatie\Backup\Support\BackupLogger;
 
-function consoleOutput(): ConsoleOutput
+function backupLogger(): BackupLogger
 {
-    return app(ConsoleOutput::class);
+    return app(BackupLogger::class);
 }

@@ -2,7 +2,7 @@
 
 namespace Spatie\Backup\Commands;
 
-use Spatie\Backup\Helpers\ConsoleOutput;
+use Spatie\Backup\Support\BackupLogger;
 use Spatie\SignalAwareCommand\SignalAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,7 +24,13 @@ abstract class BaseCommand extends SignalAwareCommand
 
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        app(ConsoleOutput::class)->setCommand($this);
+        app(BackupLogger::class)->onMessage(function (string $level, string $message) {
+            match ($level) {
+                'error' => $this->error($message),
+                'warning' => $this->warn($message),
+                default => $this->info($message),
+            };
+        });
 
         return parent::run($input, $output);
     }

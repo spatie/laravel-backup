@@ -2,6 +2,8 @@
 
 namespace Spatie\Backup\Config;
 
+use Spatie\Backup\Enums\DumpFilenameBase;
+use Spatie\Backup\Enums\Encryption;
 use Spatie\Backup\Exceptions\InvalidConfig;
 use Spatie\Backup\Support\Data;
 
@@ -12,15 +14,16 @@ class BackupConfig extends Data
         public SourceConfig $source,
         public ?string $databaseDumpCompressor,
         public ?string $databaseDumpFileTimestampFormat,
-        public string $databaseDumpFilenameBase,
+        public DumpFilenameBase $databaseDumpFilenameBase,
         public string $databaseDumpFileExtension,
         public DestinationConfig $destination,
         public ?string $temporaryDirectory,
         public ?string $password,
-        public string|false|null $encryption,
+        public Encryption $encryption,
         public int $tries,
         public int $retryDelay,
         public ?MonitoredBackupsConfig $monitoredBackups,
+        public bool $verifyBackup,
     ) {
         if ($this->tries < 1) {
             throw InvalidConfig::integerMustBePositive('tries');
@@ -37,15 +40,38 @@ class BackupConfig extends Data
             source: SourceConfig::fromArray($data['source']),
             databaseDumpCompressor: $data['database_dump_compressor'] ?? null,
             databaseDumpFileTimestampFormat: $data['database_dump_file_timestamp_format'] ?? null,
-            databaseDumpFilenameBase: $data['database_dump_filename_base'] ?? 'database',
+            databaseDumpFilenameBase: self::parseDumpFilenameBase($data['database_dump_filename_base'] ?? 'database'),
             databaseDumpFileExtension: $data['database_dump_file_extension'] ?? '',
             destination: DestinationConfig::fromArray($data['destination']),
             temporaryDirectory: $data['temporary_directory'] ?? null,
             password: $data['password'] ?? null,
-            encryption: $data['encryption'] ?? 'default',
+            encryption: self::parseEncryption($data['encryption'] ?? 'default'),
             tries: $data['tries'] ?? 1,
             retryDelay: $data['retry_delay'] ?? 0,
             monitoredBackups: $monitoredBackups ? MonitoredBackupsConfig::fromArray($monitoredBackups) : null,
+            verifyBackup: $data['verify_backup'] ?? false,
         );
+    }
+
+    private static function parseDumpFilenameBase(string $value): DumpFilenameBase
+    {
+        return DumpFilenameBase::from($value);
+    }
+
+    private static function parseEncryption(mixed $value): Encryption
+    {
+        if ($value === null || $value === false) {
+            return Encryption::None;
+        }
+
+        if ($value instanceof Encryption) {
+            return $value;
+        }
+
+        if (is_string($value)) {
+            return Encryption::from($value);
+        }
+
+        return Encryption::None;
     }
 }

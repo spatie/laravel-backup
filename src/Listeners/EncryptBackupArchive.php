@@ -2,15 +2,18 @@
 
 namespace Spatie\Backup\Listeners;
 
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\BackupFailed;
 use ZipArchive;
 
 class EncryptBackupArchive
 {
+    public function __construct(protected Config $config) {}
+
     public function handle(BackupZipWasCreated $event): void
     {
-        if (! self::shouldEncrypt()) {
+        if (! $this->shouldEncrypt()) {
             return;
         }
 
@@ -29,41 +32,24 @@ class EncryptBackupArchive
 
     protected function encrypt(ZipArchive $zip): void
     {
-        $zip->setPassword(static::getPassword());
+        $zip->setPassword($this->config->backup->password);
+
+        $algorithm = $this->config->backup->encryption->algorithm();
 
         foreach (range(0, $zip->numFiles - 1) as $i) {
-            $zip->setEncryptionIndex($i, static::getAlgorithm());
+            $zip->setEncryptionIndex($i, $algorithm);
         }
     }
 
-    public static function shouldEncrypt(): bool
+    public function shouldEncrypt(): bool
     {
-        if (static::getPassword() === null) {
+        $password = $this->config->backup->password;
+        $encryption = $this->config->backup->encryption;
+
+        if ($password === null) {
             return false;
         }
 
-        return is_int(static::getAlgorithm());
-    }
-
-    protected static function getPassword(): ?string
-    {
-        return config('backup.backup.password');
-    }
-
-    protected static function getAlgorithm(): ?int
-    {
-        $encryption = config('backup.backup.encryption');
-
-        if ($encryption === null || $encryption === false) {
-            return null;
-        }
-
-        if ($encryption === 'default') {
-            return defined(\ZipArchive::class.'::EM_AES_256')
-                ? ZipArchive::EM_AES_256
-                : null;
-        }
-
-        return $encryption;
+        return $encryption->shouldEncrypt();
     }
 }
