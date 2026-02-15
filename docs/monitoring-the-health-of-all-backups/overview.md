@@ -11,16 +11,15 @@ We recommend setting up a separate Laravel installation to do the monitoring, pr
 
 We also recommend to use a central storage disk, like s3, for your backups when using the monitoring. You can still use monitoring for local disks but you'll have to add the monitoring to the app which runs the backups.
 
-To install the monitor follow the regular [installation instructions](/docs/laravel-backup/v8/installation-and-setup).
+To install the monitor follow the regular [installation instructions](/docs/laravel-backup/v10/installation-and-setup).
 Instead of scheduling the `backup:run` and `backup:clean` commands, you should schedule the monitor command.
 
 ```php
-//app/Console/Kernel.php
+// routes/console.php
 
-protected function schedule(Schedule $schedule)
-{
-   $schedule->command('backup:monitor')->daily()->at('03:00');
-}
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('backup:monitor')->daily()->at('03:00');
 ```
 
 If you want, you can still schedule `backup:run` and `backup:clean` to backup the monitoring application itself.
@@ -70,7 +69,7 @@ the application that is being backed up.
 ## Get notifications of (un)healthy backups
 
 You can receive notifications when the monitor finds an (un)healthy backup. 
-Read the section on [notifications](/docs/laravel-backup/v8/sending-notifications/overview) to learn more.
+Read the section on [notifications](/docs/laravel-backup/v10/sending-notifications/overview) to learn more.
 
 ## Checking all backups
 
