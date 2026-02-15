@@ -31,24 +31,27 @@ abstract class BaseNotification extends Notification
         return "{$name} ({$env})";
     }
 
-    public function backupName(): string
+    protected function diskName(): ?string
     {
-        return $this->backupDestination()->backupName();
+        return $this->event->diskName ?? null;
     }
 
-    public function diskName(): string
+    protected function backupName(): ?string
     {
-        return $this->backupDestination()->diskName();
+        return $this->event->backupName ?? null;
     }
 
     /** @return Collection<string, string>  */
     protected function backupDestinationProperties(): Collection
     {
-        $backupDestination = $this->backupDestination();
+        $diskName = $this->diskName();
+        $backupName = $this->backupName();
 
-        if (! $backupDestination) {
+        if (! $diskName || ! $backupName) {
             return collect();
         }
+
+        $backupDestination = BackupDestination::create($diskName, $backupName);
 
         $backupDestination->fresh();
 
@@ -57,7 +60,7 @@ abstract class BaseNotification extends Notification
 
         $noBackupsText = trans('backup::notifications.no_backups_info');
         $applicationName = trans('backup::notifications.application_name');
-        $backupName = trans('backup::notifications.backup_name');
+        $backupNameLabel = trans('backup::notifications.backup_name');
         $disk = trans('backup::notifications.disk');
         $newestBackupSize = trans('backup::notifications.newest_backup_size');
         $numberOfBackups = trans('backup::notifications.number_of_backups');
@@ -67,26 +70,13 @@ abstract class BaseNotification extends Notification
 
         return collect([
             $applicationName => $this->applicationName(),
-            $backupName => $this->backupName(),
-            $disk => $backupDestination->diskName(),
+            $backupNameLabel => $backupName,
+            $disk => $diskName,
             $newestBackupSize => $newestBackup ? Format::humanReadableSize($newestBackup->sizeInBytes()) : $noBackupsText,
             $numberOfBackups => (string) $backupDestination->backups()->count(),
             $totalStorageUsed => Format::humanReadableSize($backupDestination->backups()->size()),
             $newestBackupDate => $newestBackup ? $newestBackup->date()->setTimezone(config('app.timezone'))->format('Y/m/d H:i:s') : $noBackupsText,
             $oldestBackupDate => $oldestBackup ? $oldestBackup->date()->setTimezone(config('app.timezone'))->format('Y/m/d H:i:s') : $noBackupsText,
         ])->filter();
-    }
-
-    public function backupDestination(): ?BackupDestination
-    {
-        if (isset($this->event->backupDestination)) {
-            return $this->event->backupDestination;
-        }
-
-        if (isset($this->event->backupDestinationStatus)) {
-            return $this->event->backupDestinationStatus->backupDestination();
-        }
-
-        return null;
     }
 }

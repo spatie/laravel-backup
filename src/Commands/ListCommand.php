@@ -9,6 +9,7 @@ use Spatie\Backup\Helpers\Format;
 use Spatie\Backup\Helpers\RightAlignedTableStyle;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
+use Spatie\Backup\Tasks\Monitor\HealthCheckFailure;
 
 class ListCommand extends BaseCommand
 {
@@ -72,7 +73,7 @@ class ListCommand extends BaseCommand
             }
         }
 
-        if ($backupDestinationStatus->getHealthCheckFailure() !== null) {
+        if ($backupDestinationStatus->getHealthCheckFailures()->isNotEmpty()) {
             $row['disk'] = '<error>'.$row['disk'].'</error>';
         }
 
@@ -83,16 +84,14 @@ class ListCommand extends BaseCommand
     protected function displayFailures(Collection $backupDestinationStatuses): static
     {
         $failed = $backupDestinationStatuses
-            ->filter(function (BackupDestinationStatus $backupDestinationStatus): bool {
-                return $backupDestinationStatus->getHealthCheckFailure() !== null;
-            })
-            ->map(function (BackupDestinationStatus $backupDestinationStatus): array {
-                return [
-                    $backupDestinationStatus->backupDestination()->backupName(),
-                    $backupDestinationStatus->backupDestination()->diskName(),
-                    $backupDestinationStatus->getHealthCheckFailure()->healthCheck()->name(),
-                    $backupDestinationStatus->getHealthCheckFailure()->exception()->getMessage(),
-                ];
+            ->filter(fn (BackupDestinationStatus $status) => $status->getHealthCheckFailures()->isNotEmpty())
+            ->flatMap(function (BackupDestinationStatus $status) {
+                return $status->getHealthCheckFailures()->map(fn (HealthCheckFailure $failure) => [
+                    $status->backupDestination()->backupName(),
+                    $status->backupDestination()->diskName(),
+                    $failure->healthCheck()->name(),
+                    $failure->exception()->getMessage(),
+                ]);
             });
 
         if ($failed->isNotEmpty()) {

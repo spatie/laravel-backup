@@ -86,6 +86,13 @@ class BackupDestination
         return $this->backupName;
     }
 
+    public function setBackupName(string $backupName): self
+    {
+        $this->backupName = $backupName;
+
+        return $this;
+    }
+
     public function backups(): BackupCollection
     {
         if ($this->backupCollectionCache) {

@@ -12,16 +12,48 @@ use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Events\HealthyBackupWasFound;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Exceptions\NotificationCouldNotBeSent;
+use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
+use Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification;
+use Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification;
+use Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification;
+use Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification;
+use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
 
 class EventHandler
 {
+    protected static bool $enabled = true;
+
+    public static function disable(): void
+    {
+        static::$enabled = false;
+    }
+
+    public static function enable(): void
+    {
+        static::$enabled = true;
+    }
+
+    /** @var array<class-string, class-string<Notification>> */
+    protected static array $eventToNotificationMap = [
+        BackupHasFailed::class => BackupHasFailedNotification::class,
+        BackupWasSuccessful::class => BackupWasSuccessfulNotification::class,
+        CleanupHasFailed::class => CleanupHasFailedNotification::class,
+        CleanupWasSuccessful::class => CleanupWasSuccessfulNotification::class,
+        HealthyBackupWasFound::class => HealthyBackupWasFoundNotification::class,
+        UnhealthyBackupWasFound::class => UnhealthyBackupWasFoundNotification::class,
+    ];
+
     public function __construct(
         protected Repository $config
     ) {}
 
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen($this->allBackupEventClasses(), function ($event) {
+        $events->listen(array_keys(static::$eventToNotificationMap), function ($event) {
+            if (! static::$enabled) {
+                return;
+            }
+
             $notifiable = $this->determineNotifiable();
 
             $notification = $this->determineNotification($event);
@@ -39,32 +71,24 @@ class EventHandler
 
     protected function determineNotification(object $event): Notification
     {
-        $lookingForNotificationClass = class_basename($event).'Notification';
+        $notificationClass = static::$eventToNotificationMap[$event::class] ?? null;
 
-        /** @var array<class-string, array<int, string>> $notificationClasses */
-        $notificationClasses = $this->config->get('backup.notifications.notifications');
+        if (! $notificationClass) {
+            // Fall back to checking the config for custom notification classes
+            /** @var array<class-string, array<int, string>> $notificationClasses */
+            $notificationClasses = $this->config->get('backup.notifications.notifications');
 
-        $notificationClass = collect($notificationClasses)
-            ->keys()
-            ->first(fn (string $notificationClass) => class_basename($notificationClass) === $lookingForNotificationClass);
+            $lookingForNotificationClass = class_basename($event).'Notification';
+
+            $notificationClass = collect($notificationClasses)
+                ->keys()
+                ->first(fn (string $class) => class_basename($class) === $lookingForNotificationClass);
+        }
 
         if (! $notificationClass) {
             throw NotificationCouldNotBeSent::noNotificationClassForEvent($event);
         }
 
         return new $notificationClass($event);
-    }
-
-    /** @return array<int, class-string> */
-    protected function allBackupEventClasses(): array
-    {
-        return [
-            BackupHasFailed::class,
-            BackupWasSuccessful::class,
-            CleanupHasFailed::class,
-            CleanupWasSuccessful::class,
-            HealthyBackupWasFound::class,
-            UnhealthyBackupWasFound::class,
-        ];
     }
 }

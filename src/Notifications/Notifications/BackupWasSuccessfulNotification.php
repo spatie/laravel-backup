@@ -20,7 +20,7 @@ class BackupWasSuccessfulNotification extends BaseNotification
         $mailMessage = (new MailMessage)
             ->from($this->config()->notifications->mail->from->address, $this->config()->notifications->mail->from->name)
             ->subject(trans('backup::notifications.backup_successful_subject', ['application_name' => $this->applicationName()]))
-            ->line(trans('backup::notifications.backup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]));
+            ->line(trans('backup::notifications.backup_successful_body', ['application_name' => $this->applicationName(), 'disk_name' => $this->event->diskName]));
 
         $this->backupDestinationProperties()->each(function ($value, $name) use ($mailMessage) {
             $mailMessage->line("{$name}: {$value}");
@@ -48,5 +48,16 @@ class BackupWasSuccessfulNotification extends BaseNotification
             ->from($this->config()->notifications->discord->username, $this->config()->notifications->discord->avatar_url)
             ->title(trans('backup::notifications.backup_successful_subject_title'))
             ->fields($this->backupDestinationProperties()->toArray());
+    }
+
+    /** @return array<string, mixed> */
+    public function toWebhook(): array
+    {
+        return [
+            'type' => 'backup_successful',
+            'application_name' => $this->applicationName(),
+            'disk_name' => $this->event->diskName,
+            'backup_name' => $this->event->backupName,
+        ];
     }
 }

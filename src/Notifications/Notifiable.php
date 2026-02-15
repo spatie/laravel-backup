@@ -25,6 +25,11 @@ class Notifiable
         return $this->config()->notifications->discord->webhookUrl;
     }
 
+    public function routeNotificationForWebhook(): string
+    {
+        return $this->config()->notifications->webhook?->url ?? '';
+    }
+
     public function getKey(): int
     {
         return 1;
