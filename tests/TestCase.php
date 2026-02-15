@@ -25,6 +25,7 @@ abstract class TestCase extends Orchestra
 
         EventHandler::enable();
     }
+
     /**
      * @param  \Illuminate\Foundation\Application  $app
      */
