@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 class UnhealthyBackupWasFound
 {
     /**
-     * @param Collection<int, array{check: string, message: string}> $failureMessages
+     * @param  Collection<int, array{check: string, message: string}>  $failureMessages
      */
     public function __construct(
         public string $diskName,
