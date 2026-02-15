@@ -11,20 +11,22 @@ These events are fired during the backup process.
 
 This event is fired when the zip file containing all files that should be backed up has successfully been copied to a destination filesystem.
 
-It has one public property `$backupDestination` that contains an instance 
-of `Spatie\Backup\BackupDestination\BackupDestination`.
+It has two public properties:
+
+- `$diskName`: a string containing the name of the destination disk.
+- `$backupName`: a string containing the name of the backup.
 
 ## BackupHasFailed
 
 `Spatie\Backup\Events\BackupHasFailed`
 
-This event will be fired when something goes wrong while backing up. 
+This event will be fired when something goes wrong while backing up.
 
-It has two public properties:
+It has three public properties:
 
 - `$exception`: an object that extends PHP's `Exception` class. It is highly likely that `$exception->getMessage()` will return more information on what went wrong.
-
-- `$backupDestination`: if this is `null` then something probably went wrong zipping the files. If it's an instance of `Spatie\Backup\BackupDestination\BackupDestination` then something went wrong copying the zip over to the backup destination.
+- `$diskName`: a nullable string containing the name of the destination disk. If this is `null` then something probably went wrong before the backup could be copied to a destination.
+- `$backupName`: a nullable string containing the name of the backup.
 
 ## BackupManifestWasCreated
 

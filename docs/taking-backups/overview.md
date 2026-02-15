@@ -27,6 +27,54 @@ If you only need to backup the files, and want to skip dumping the databases, ru
 php artisan backup:run --only-files
 ```
 
+You can set a custom filename for the backup zip:
+
+```bash
+php artisan backup:run --filename=my-backup.zip
+```
+
+Or append a suffix to the default filename:
+
+```bash
+php artisan backup:run --filename-suffix=-extra
+```
+
+You can exclude additional directories or files at runtime:
+
+```bash
+php artisan backup:run --exclude=storage/logs --exclude=storage/debugbar
+```
+
+You can override the backup destination path:
+
+```bash
+php artisan backup:run --destination-path=custom/path
+```
+
+To disable notifications for a specific run:
+
+```bash
+php artisan backup:run --disable-notifications
+```
+
+You can set a PHP timeout (in seconds) for the backup process:
+
+```bash
+php artisan backup:run --timeout=600
+```
+
+You can configure the number of retry attempts:
+
+```bash
+php artisan backup:run --tries=3
+```
+
+To run a backup with a specific configuration file:
+
+```bash
+php artisan backup:run --config=backup_database
+```
+
 <div class="alert -warning">
 Be very careful with `--only-db` and `--only-files`. When monitoring backups, the package **does not** make
 a distinction between full backups and a backup which only contains files or databases. It may be the case that you will not be able to recover from a partial backup.
@@ -41,63 +89,67 @@ This section of the configuration determines which files and databases will be b
 
 ```php
 'backup' => [
+    /*
+     * The name of this application. You can use this name to monitor
+     * the backups.
+     */
+    'name' => env('APP_NAME', 'laravel-backup'),
 
-     /*
-      * The name of this application. You can use this name to monitor
-      * the backups.
-      */
-     'name' => env('APP_NAME', 'laravel-backup'),
+    'source' => [
+        'files' => [
+            /*
+             * The list of directories and files that will be included in the backup.
+             */
+            'include' => [
+                base_path(),
+            ],
 
-     'source' => [
+            /*
+             * These directories and files will be excluded from the backup.
+             *
+             * Directories used by the backup process will automatically be excluded.
+             */
+            'exclude' => [
+                base_path('vendor'),
+                base_path('node_modules'),
+                storage_path('framework'),
+            ],
 
-         'files' => [
+            /*
+             * Determines if symlinks should be followed.
+             */
+            'follow_links' => false,
 
-             /*
-              * The list of directories and files that will be included in the backup.
-              */
-             'include' => [
-                 base_path(),
-             ],
-
-             /*
-              * These directories and files will be excluded from the backup.
-              */
-             'exclude' => [
-                 base_path('vendor'),
-                 base_path('node_modules'),
-             ],
-
-             /*
-              * Determines if symlinks should be followed.
-              */
-             'follow_links' => false,
+            /*
+             * Determines if it should avoid unreadable folders.
+             */
+            'ignore_unreadable_directories' => false,
 
             /*
              * This path is used to make directories in resulting zip-file relative
-             * Set to false to include complete absolute path
+             * Set to `null` to include complete absolute path
              * Example: base_path()
              */
-            'relative_path' => false,
-         ],
+            'relative_path' => null,
+        ],
 
-         /*
-          * The names of the connections to the databases that should be backed up
-          * MySQL, PostgreSQL, SQLite and Mongo databases are supported.
-          */
-         'databases' => [
-             'mysql',
-         ],
-     ],
+        /*
+         * The names of the connections to the databases that should be backed up
+         * MySQL, PostgreSQL, SQLite and Mongo databases are supported.
+         */
+        'databases' => [
+            env('DB_CONNECTION', 'mysql'),
+        ],
+    ],
 
-     'destination' => [
-
-         /*
-          * The disk names on which the backups will be stored.
-          */
-         'disks' => [
-             'local',
-         ],
-     ],
+    'destination' => [
+        /*
+         * The disk names on which the backups will be stored.
+         */
+        'disks' => [
+            'local',
+        ],
+    ],
 ]
 ```
 
@@ -178,4 +230,4 @@ If something goes wrong copying the zip file to one filesystem, the package will
 ## Get notifications when a backup goes wrong
 
 You can receive a notification when a backup goes wrong. Read
-the section on [notifications](/docs/laravel-backup/v8/sending-notifications/overview) to find out more.
+the section on [notifications](/docs/laravel-backup/v10/sending-notifications/overview) to find out more.
