@@ -4,7 +4,8 @@ use Illuminate\Contracts\Support\Arrayable;
 use Spatie\Backup\Support\Data;
 
 it('converts public properties to array', function () {
-    $data = new class extends Data {
+    $data = new class extends Data
+    {
         public function __construct(
             public string $name = 'test',
             public int $age = 25,
@@ -18,13 +19,15 @@ it('converts public properties to array', function () {
 });
 
 it('recursively converts nested Arrayable objects', function () {
-    $inner = new class extends Data {
+    $inner = new class extends Data
+    {
         public function __construct(
             public string $value = 'nested',
         ) {}
     };
 
-    $outer = new class($inner) extends Data {
+    $outer = new class($inner) extends Data
+    {
         public function __construct(
             public Arrayable $child,
             public string $name = 'parent',
@@ -38,7 +41,8 @@ it('recursively converts nested Arrayable objects', function () {
 });
 
 it('handles null values', function () {
-    $data = new class extends Data {
+    $data = new class extends Data
+    {
         public function __construct(
             public ?string $name = null,
             public ?int $age = null,
