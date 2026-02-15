@@ -10,7 +10,7 @@ use Spatie\Backup\Tasks\Backup\BackupJob;
 
 class Backup
 {
-    public private(set) bool $exists = true;
+    public bool $exists = true;
 
     private ?Carbon $cachedDate = null;
 
