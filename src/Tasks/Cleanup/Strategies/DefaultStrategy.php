@@ -68,7 +68,12 @@ class DefaultStrategy extends CleanupStrategy
                 ->subYears($config['keep_yearly_backups_for_years'])
         );
 
-        return collect(compact('daily', 'weekly', 'monthly', 'yearly'));
+        return collect([
+            'daily' => $daily,
+            'weekly' => $weekly,
+            'monthly' => $monthly,
+            'yearly' => $yearly,
+        ]);
     }
 
     protected function groupByDateFormat(BackupCollection $backups, string $dateFormat): BackupCollection
@@ -97,15 +102,11 @@ class DefaultStrategy extends CleanupStrategy
 
     protected function removeOldBackupsUntilUsingLessThanMaximumStorage(BackupCollection $backups): void
     {
-        if (! $this->shouldRemoveOldestBackup($backups)) {
-            return;
+        while ($this->shouldRemoveOldestBackup($backups)) {
+            $backups->oldest()->delete();
+
+            $backups = $backups->filter(fn (Backup $backup) => $backup->exists());
         }
-
-        $backups->oldest()->delete();
-
-        $backups = $backups->filter(fn (Backup $backup) => $backup->exists());
-
-        $this->removeOldBackupsUntilUsingLessThanMaximumStorage($backups);
     }
 
     protected function shouldRemoveOldestBackup(BackupCollection $backups): bool
@@ -120,10 +121,6 @@ class DefaultStrategy extends CleanupStrategy
             return false;
         }
 
-        if (($backups->size() + $this->newestBackup->sizeInBytes()) <= $maximumSize * 1024 * 1024) {
-            return false;
-        }
-
-        return true;
+        return ($backups->size() + $this->newestBackup->sizeInBytes()) > $maximumSize * 1024 * 1024;
     }
 }

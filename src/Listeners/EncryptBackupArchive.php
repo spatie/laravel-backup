@@ -38,18 +38,11 @@ class EncryptBackupArchive
 
     public static function shouldEncrypt(): bool
     {
-        $password = static::getPassword();
-        $algorithm = static::getAlgorithm();
-
-        if ($password === null) {
+        if (static::getPassword() === null) {
             return false;
         }
 
-        if (! is_int($algorithm)) {
-            return false;
-        }
-
-        return true;
+        return is_int(static::getAlgorithm());
     }
 
     protected static function getPassword(): ?string

@@ -21,12 +21,10 @@ class ConsoleOutput
     /** @param array<int, mixed> $arguments */
     public function __call(string $method, array $arguments): void
     {
-        $consoleOutput = app(static::class);
-
-        if (! $consoleOutput->command) {
+        if (! $this->command) {
             return;
         }
 
-        $consoleOutput->command->$method($arguments[0]);
+        $this->command->$method($arguments[0]);
     }
 }

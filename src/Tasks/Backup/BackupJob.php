@@ -15,6 +15,7 @@ use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Events\DumpingDatabase;
 use Spatie\Backup\Exceptions\BackupFailed;
+use Spatie\Backup\Listeners\EncryptBackupArchive;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -132,7 +133,7 @@ class BackupJob
             fn (BackupDestination $backupDestination) => $backupDestination->diskName() === $diskName
         );
 
-        if (! count($this->backupDestinations)) {
+        if ($this->backupDestinations->isEmpty()) {
             throw InvalidBackupJob::destinationDoesNotExist($diskName);
         }
 
@@ -165,7 +166,7 @@ class BackupJob
         }
 
         try {
-            if (! count($this->backupDestinations)) {
+            if ($this->backupDestinations->isEmpty()) {
                 throw InvalidBackupJob::noDestinationsSpecified();
             }
 
@@ -238,11 +239,11 @@ class BackupJob
 
         consoleOutput()->info("Created zip containing {$zip->count()} files and directories. Size is {$zip->humanReadableSize()}");
 
-        if ($this->sendNotifications) {
-            $this->sendNotification(new BackupZipWasCreated($pathToZip));
-        } else {
-            app()->call('\Spatie\Backup\Listeners\EncryptBackupArchive@handle', ['event' => new BackupZipWasCreated($pathToZip)]);
-        }
+        $backupZipWasCreated = new BackupZipWasCreated($pathToZip);
+
+        app(EncryptBackupArchive::class)->handle($backupZipWasCreated);
+
+        $this->sendNotification($backupZipWasCreated);
 
         return $pathToZip;
     }
