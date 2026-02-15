@@ -57,8 +57,8 @@ it('keeps archive unencrypted when encryption is set to false', function () {
 /**
  * @param  int  $algorithm
  */
-it('encrypts archive with password', function (int $algorithm) {
-    config()->set('backup.backup.encryption', $algorithm);
+it('encrypts archive with password', function (string $encryption, int $algorithm) {
+    config()->set('backup.backup.encryption', $encryption);
 
     $path = zip();
 
@@ -73,9 +73,9 @@ it('encrypts archive with password', function (int $algorithm) {
 
     $zip->close();
 })->with([
-    [ZipArchive::EM_AES_128],
-    [ZipArchive::EM_AES_192],
-    [ZipArchive::EM_AES_256],
+    ['aes128', ZipArchive::EM_AES_128],
+    ['aes192', ZipArchive::EM_AES_192],
+    ['aes256', ZipArchive::EM_AES_256],
 ]);
 
 it('can not open encrypted archive without password', function () {

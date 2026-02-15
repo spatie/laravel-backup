@@ -135,10 +135,10 @@ it('should trigger the cleanup successful event', function () {
     Event::assertDispatched(CleanupWasSuccessful::class);
 });
 
-it('should omit the cleanup successful event when the notifications are disabled', function () {
+it('should still dispatch the cleanup successful event when the notifications are disabled', function () {
     $this->artisan('backup:clean --disable-notifications')->assertExitCode(0);
 
-    Event::assertNotDispatched(CleanupWasSuccessful::class);
+    Event::assertDispatched(CleanupWasSuccessful::class);
 });
 
 it('should display correct used storage amount after cleanup', function () {

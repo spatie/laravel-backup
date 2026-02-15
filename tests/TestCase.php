@@ -13,11 +13,18 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Backup\BackupServiceProvider;
+use Spatie\Backup\Notifications\EventHandler;
 use Spatie\Backup\Tests\TestSupport\FakeFailingHealthCheck;
 use ZipArchive;
 
 abstract class TestCase extends Orchestra
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        EventHandler::enable();
+    }
     /**
      * @param  \Illuminate\Foundation\Application  $app
      */

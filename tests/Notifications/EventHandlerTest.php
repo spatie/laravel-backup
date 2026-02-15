@@ -112,5 +112,5 @@ function fireBackupHasFailedEvent(): void
 
     $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 
-    event(new BackupHasFailed($exception, $backupDestination));
+    event(new BackupHasFailed($exception, $backupDestination->diskName(), $backupDestination->backupName()));
 }

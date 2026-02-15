@@ -27,7 +27,7 @@ class Notifiable
 
     public function routeNotificationForWebhook(): string
     {
-        return $this->config()->notifications->webhook?->url ?? '';
+        return $this->config()->notifications->webhook->url ?? '';
     }
 
     public function getKey(): int

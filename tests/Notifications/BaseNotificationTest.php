@@ -19,7 +19,7 @@ it('uses the app timezone for backup dates in notifications', function () {
     $config = Config::fromArray(config('backup'));
     $backupDestination = BackupDestinationFactory::createFromArray($config)->first();
 
-    $event = new BackupWasSuccessful($backupDestination);
+    $event = new BackupWasSuccessful($backupDestination->diskName(), $backupDestination->backupName());
     $notification = new BackupWasSuccessfulNotification($event);
 
     // Access the protected method via reflection
