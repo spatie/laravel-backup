@@ -16,7 +16,7 @@ enum Encryption: string
     {
         return match ($this) {
             self::None => null,
-            self::Default, self::Aes256 => defined(ZipArchive::class . '::EM_AES_256')
+            self::Default, self::Aes256 => defined(ZipArchive::class.'::EM_AES_256')
                 ? ZipArchive::EM_AES_256
                 : null,
             self::Aes128 => ZipArchive::EM_AES_128,
