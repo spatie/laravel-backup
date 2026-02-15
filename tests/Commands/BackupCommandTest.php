@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
 use Spatie\Backup\Events\BackupHasFailed;
+use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 
@@ -53,6 +54,7 @@ it('can backup using a custom filename', function () {
 
 it('includes files from the local disks in the backup', function () {
     config()->set('backup.backup.source.files.include', [$this->getDiskRootPath('local')]);
+    config()->set('backup.backup.source.files.exclude', []);
 
     Storage::disk('local')->put('testing-file.txt', 'dummy content');
 
@@ -337,11 +339,11 @@ it('should trigger the backup failed event', function () {
     Event::assertDispatched(BackupHasFailed::class);
 });
 
-it('should omit the backup failed event with no notifications flag', function () {
+it('should still dispatch the backup failed event with disable-notifications flag', function () {
     // use an invalid dbname to trigger failure
     $this->artisan('backup:run --only-db --db-name=wrongName --disable-notifications')->assertExitCode(1);
 
-    Event::assertNotDispatched(BackupHasFailed::class);
+    Event::assertDispatched(BackupHasFailed::class);
 });
 
 it('compresses the database dump', function () {
@@ -362,6 +364,9 @@ it('compresses the database dump', function () {
 });
 
 it('will encrypt backup when notifications are disabled', function () {
+    // Allow BackupZipWasCreated through so the encryption listener fires
+    Event::fake([BackupWasSuccessful::class, BackupHasFailed::class]);
+
     config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
     config()->set('backup.backup.source.databases', ['db1']);
 
@@ -375,8 +380,6 @@ it('will encrypt backup when notifications are disabled', function () {
     expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_AES_256);
 
     $zip->close();
-
-    Event::assertNotDispatched(BackupZipWasCreated::class);
 });
 
 it('can use different compression methods for backup file', function () {

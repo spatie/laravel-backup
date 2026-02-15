@@ -45,7 +45,7 @@ class BackupConfig extends Data
             destination: DestinationConfig::fromArray($data['destination']),
             temporaryDirectory: $data['temporary_directory'] ?? null,
             password: $data['password'] ?? null,
-            encryption: self::parseEncryption($data['encryption'] ?? 'default'),
+            encryption: self::parseEncryption(array_key_exists('encryption', $data) ? $data['encryption'] : 'default'),
             tries: $data['tries'] ?? 1,
             retryDelay: $data['retry_delay'] ?? 0,
             monitoredBackups: $monitoredBackups ? MonitoredBackupsConfig::fromArray($monitoredBackups) : null,
