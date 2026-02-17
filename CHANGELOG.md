@@ -2,6 +2,32 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.0.0 - 2026-02-17
+
+### What's new
+
+v10 is a major release requiring PHP 8.4+ and Laravel 12+. See the [upgrade guide](UPGRADING.md) for migration instructions.
+
+#### Breaking changes
+
+- All events now carry primitive data (`string $diskName`, `string $backupName`) instead of `BackupDestination` or `BackupDestinationStatus` objects — events can now be used with queued listeners
+- `consoleOutput()` helper replaced by `backupLogger()`
+- `ConsoleOutput` class removed
+- `BackupJob::disableNotifications()` removed — use `EventHandler::disable()` instead
+- `CleanupStrategy` constructor changed from `Repository $config` to `Config $config`
+- Encryption config values changed from `null`/`false`/`'default'` to `'none'`/`'default'`/`'aes128'`/`'aes192'`/`'aes256'`
+- `BackupDestinationStatus::getHealthCheckFailure()` replaced by `getHealthCheckFailures()` (returns a collection)
+
+#### New features
+
+- Resilient multi-destination backups with `continue_on_failure` config option
+- Backup verification (`verify_backup` config option)
+- Generic webhook notification channel
+- New command options: `--filename-suffix`, `--exclude`, `--destination-path`
+- Health check now reports all failures instead of stopping at the first one
+- `storage/framework` excluded by default
+- Events and notifications are now decoupled — events always fire, notifications are gated separately
+
 ## 9.4.1 - 2026-02-15
 
 ### What's Changed
