@@ -21,7 +21,7 @@ class DiscordMessage
 
     protected string $description = '';
 
-    /** @var array<string> */
+    /** @var array<array{name: string, value: string, inline: bool}> */
     protected array $fields = [];
 
     protected ?string $timestamp = null;
@@ -36,7 +36,7 @@ class DiscordMessage
     {
         $this->username = $username;
 
-        if (! is_null($avatarUrl)) {
+        if ($avatarUrl !== null) {
             $this->avatarUrl = $avatarUrl;
         }
 

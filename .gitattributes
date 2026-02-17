@@ -13,6 +13,5 @@
 /docs               export-ignore
 /tests              export-ignore
 /.editorconfig      export-ignore
-/.php_cs.dist.php   export-ignore
 /CHANGELOG.md       export-ignore
 /UPGRADING.md       export-ignore
