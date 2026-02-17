@@ -2,5 +2,5 @@
 title: v10
 slogan: One day you'll thank us for this
 githubUrl: https://github.com/spatie/laravel-backup
-branch: v9
+branch: main
 ---
