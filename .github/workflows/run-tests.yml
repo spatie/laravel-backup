@@ -1,38 +1,30 @@
 name: run-tests
 
-on:
-  push:
-    paths:
-      - **.php
-      - .github/workflows/run-tests.yml
-      - phpunit.xml.dist
-      - composer.json
-      - composer.lock
+on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     timeout-minutes: 5
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        os: [ubuntu-latest]
         php: [8.5, 8.4, 8.3]
-        laravel: ['12.*', '13.*']
-        stability: [prefer-lowest, prefer-stable]
+        laravel: ['13.*', '12.*']
+        stability: [prefer-stable]
         include:
-          - laravel: 12.*
-            testbench: ^10.8
           - laravel: 13.*
             testbench: ^11.0
+          - laravel: 12.*
+            testbench: ^10.8
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Install SQLite 3
         run: |
@@ -46,18 +38,11 @@ jobs:
           extensions: curl, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, iconv
           coverage: none
 
-      - name: Setup problem matchers
-        run: |
-          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-
       - name: Install dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer remove "larastan/larastan" --dev --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: List Installed Dependencies
-        run: composer show -D
-
       - name: Execute tests
-        run: vendor/bin/pest --ci
+        run: vendor/bin/pest
