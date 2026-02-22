@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.0.1 - 2026-02-22
+
+### What's Changed
+
+* update supported PHP and Laravel in Readme by @hebbet in https://github.com/spatie/laravel-backup/pull/1958
+* Add Laravel 13 support by @freekmurze in https://github.com/spatie/laravel-backup/pull/1960
+
+### New Contributors
+
+* @hebbet made their first contribution in https://github.com/spatie/laravel-backup/pull/1958
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/10.0.0...10.0.1
+
 ## 10.0.0 - 2026-02-17
 
 ### What's new
