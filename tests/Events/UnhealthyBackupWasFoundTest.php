@@ -31,11 +31,13 @@ it('sends an notification containing the exception message for handled health ch
         new Notifiable,
         UnhealthyBackupWasFoundNotification::class,
         function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
-            $slack = $notification->toSlack();
-            expect($slack->content)->toContain($msg);
-            expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
-            expect(collect($slack->attachments)->firstWhere('title', 'Exception message'))->toBeNull();
-            expect(collect($slack->attachments)->firstWhere('title', 'Exception trace'))->toBeNull();
+            if (class_exists(\Illuminate\Notifications\Messages\SlackMessage::class)) {
+                $slack = $notification->toSlack();
+                expect($slack->content)->toContain($msg);
+                expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
+                expect(collect($slack->attachments)->firstWhere('title', 'Exception message'))->toBeNull();
+                expect(collect($slack->attachments)->firstWhere('title', 'Exception trace'))->toBeNull();
+            }
 
             $mail = $notification->toMail();
             expect($mail->introLines)->hasItemContaining($msg);
@@ -58,11 +60,13 @@ it('sends an notification containing the exception for unexpected health check e
         ->assertExitCode(1);
 
     Notification::assertSentTo(new Notifiable, UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
-        $slack = $notification->toSlack();
-        expect($slack->content)->toContain('dummy exception message');
-        expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
-        expect(collect($slack->attachments)->firstWhere('title', 'Exception message'))->toBeNull();
-        expect(collect($slack->attachments)->firstWhere('title', 'Exception trace'))->toBeNull();
+        if (class_exists(\Illuminate\Notifications\Messages\SlackMessage::class)) {
+            $slack = $notification->toSlack();
+            expect($slack->content)->toContain('dummy exception message');
+            expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
+            expect(collect($slack->attachments)->firstWhere('title', 'Exception message'))->toBeNull();
+            expect(collect($slack->attachments)->firstWhere('title', 'Exception trace'))->toBeNull();
+        }
 
         $mail = $notification->toMail();
 

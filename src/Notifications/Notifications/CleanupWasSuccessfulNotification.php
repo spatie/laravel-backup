@@ -29,8 +29,12 @@ class CleanupWasSuccessfulNotification extends BaseNotification
         return $mailMessage;
     }
 
-    public function toSlack(): SlackMessage
+    public function toSlack(): mixed
     {
+        if (! class_exists(SlackMessage::class)) {
+            return null;
+        }
+
         return (new SlackMessage)
             ->success()
             ->from($this->config()->notifications->slack->username, $this->config()->notifications->slack->icon)
