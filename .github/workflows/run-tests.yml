@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.5, 8.4, 8.3]
+        php: [8.5, 8.4]
         laravel: ['13.*', '12.*']
         stability: [prefer-stable]
         include:
@@ -41,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer remove "larastan/larastan" --dev --no-interaction --no-update
+          composer remove "larastan/larastan" "laravel/slack-notification-channel" --dev --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
