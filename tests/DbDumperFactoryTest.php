@@ -220,3 +220,26 @@ function getDumpCommand(): string
 
     return DbDumperFactory::createFromConnection('mysql')->getDumpCommand($dumpFile, $credentialsFile);
 }
+
+it('respects skip_ssl false when set in dump config', function () {
+    $dbConfig = [
+        'driver' => 'mysql',
+        'host' => 'localhost',
+        'database' => 'myDb',
+        'username' => 'root',
+        'password' => 'myPassword',
+        'dump' => [
+            'skip_ssl' => false,
+        ],
+    ];
+
+    config()->set('database.connections.mysql', $dbConfig);
+
+    $dumper = DbDumperFactory::createFromConnection('mysql');
+
+    $reflection = new \ReflectionClass($dumper);
+    $property = $reflection->getProperty('skipSsl');
+    $property->setAccessible(true);
+
+    expect($property->getValue($dumper))->toBeFalse();
+});
