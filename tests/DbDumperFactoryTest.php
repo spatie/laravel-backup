@@ -9,6 +9,10 @@ use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
 
 beforeEach(function () {
+    $reflection = new \ReflectionClass(DbDumperFactory::class);
+    $property = $reflection->getProperty('custom');
+    $property->setValue(null, []);
+
     config()->set('database.default', 'mysql');
 
     config()->set('database.connections.mariadb', [
