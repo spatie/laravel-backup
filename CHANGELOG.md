@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.0.2 - 2026-03-08
+
+Fix callMethodOnDumper treating false config values as no-argument calls (#1961)
+
 ## 10.0.1 - 2026-02-22
 
 ### What's Changed
