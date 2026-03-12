@@ -46,7 +46,19 @@ class BackupServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton(BackupLogger::class);
+        $this->app->singleton(BackupLogger::class, function ($app): BackupLogger {
+            $logger = new BackupLogger();
+
+            $channel = $app['config']->get('backup.logging.channel');
+
+            if ($channel === false) {
+                $logger->useLogger(new \Psr\Log\NullLogger());
+            } elseif ($channel !== null) {
+                $logger->useLogger($app->make('log')->channel($channel));
+            }
+
+            return $logger;
+        });
 
         $this->app->bind(CleanupStrategy::class, config('backup.cleanup.strategy'));
         $this->app->bind('backup-temporary-project', fn () => new TemporaryDirectory(config('backup.backup.temporary_directory') ?? storage_path('app/backup-temp')));

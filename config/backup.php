@@ -269,6 +269,23 @@ return [
     ],
 
     /*
+     * Configure how the backup package logs activity messages.
+     *
+     * Failure notifications are handled separately via the 'notifications'
+     * config and are not affected by these settings.
+     */
+    'logging' => [
+        /*
+         * The log channel used for backup activity messages.
+         *
+         * Set to any channel name defined in your logging.php config.
+         * Set to false to disable backup logging entirely.
+         * Set to null to use the default log channel.
+         */
+        'channel' => null,
+    ],
+
+    /*
      * Here you can specify which backups should be monitored.
      * If a backup does not meet the specified requirements the
      * UnHealthyBackupWasFound event will be fired.
