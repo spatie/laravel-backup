@@ -46,6 +46,7 @@ return [
                  */
                 'include' => [
                     base_path(),
+                    // storage_path(),  // Include if you use zero downtime deployments and don't follow symlinks
                 ],
 
                 /*
