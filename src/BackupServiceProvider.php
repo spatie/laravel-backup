@@ -5,6 +5,7 @@ namespace Spatie\Backup;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Psr\Log\NullLogger;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
@@ -46,7 +47,19 @@ class BackupServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton(BackupLogger::class);
+        $this->app->singleton(BackupLogger::class, function ($app): BackupLogger {
+            $logger = new BackupLogger;
+
+            $channel = $app['config']->get('backup.log_channel');
+
+            if ($channel === false) {
+                $logger->useLogger(new NullLogger);
+            } elseif (is_string($channel)) {
+                $logger->useLogger($app->make('log')->channel($channel));
+            }
+
+            return $logger;
+        });
 
         $this->app->bind(CleanupStrategy::class, config('backup.cleanup.strategy'));
         $this->app->bind('backup-temporary-project', fn () => new TemporaryDirectory(config('backup.backup.temporary_directory') ?? storage_path('app/backup-temp')));

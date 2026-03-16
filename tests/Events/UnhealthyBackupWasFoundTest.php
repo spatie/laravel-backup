@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
@@ -31,7 +32,7 @@ it('sends an notification containing the exception message for handled health ch
         new Notifiable,
         UnhealthyBackupWasFoundNotification::class,
         function (UnhealthyBackupWasFoundNotification $notification) use ($msg) {
-            if (class_exists(\Illuminate\Notifications\Messages\SlackMessage::class)) {
+            if (class_exists(SlackMessage::class)) {
                 $slack = $notification->toSlack();
                 expect($slack->content)->toContain($msg);
                 expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
@@ -60,7 +61,7 @@ it('sends an notification containing the exception for unexpected health check e
         ->assertExitCode(1);
 
     Notification::assertSentTo(new Notifiable, UnhealthyBackupWasFoundNotification::class, function (UnhealthyBackupWasFoundNotification $notification) {
-        if (class_exists(\Illuminate\Notifications\Messages\SlackMessage::class)) {
+        if (class_exists(SlackMessage::class)) {
             $slack = $notification->toSlack();
             expect($slack->content)->toContain('dummy exception message');
             expect(collect($slack->attachments)->firstWhere('title', 'Health check'))->toBeNull();
