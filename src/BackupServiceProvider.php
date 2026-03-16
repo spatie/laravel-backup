@@ -54,7 +54,9 @@ class BackupServiceProvider extends PackageServiceProvider
 
             if ($channel === false) {
                 $logger->useLogger(new NullLogger());
-            } elseif ($channel !== null) {
+            }
+
+            if (is_string($channel)) {
                 $logger->useLogger($app->make('log')->channel($channel));
             }
 
