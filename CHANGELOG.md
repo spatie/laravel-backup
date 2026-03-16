@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.1.1 - 2026-03-16
+
+### What's Changed
+
+* Storage include by @ndeblauw in https://github.com/spatie/laravel-backup/pull/1965
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/10.1.0...10.1.1
+
 ## 10.1.0 - 2026-03-16
 
 Add `log_channel` config option to control where backup activity logs are written. Set to a channel name to redirect logs, `false` to disable logging, or `null` (default) to keep existing behavior.
