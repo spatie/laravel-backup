@@ -5,6 +5,7 @@ namespace Spatie\Backup;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Psr\Log\NullLogger;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
@@ -52,7 +53,7 @@ class BackupServiceProvider extends PackageServiceProvider
             $channel = $app['config']->get('backup.logging.channel');
 
             if ($channel === false) {
-                $logger->useLogger(new \Psr\Log\NullLogger());
+                $logger->useLogger(new NullLogger());
             } elseif ($channel !== null) {
                 $logger->useLogger($app->make('log')->channel($channel));
             }

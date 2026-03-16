@@ -1,5 +1,6 @@
 <?php
 
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Spatie\Backup\Support\BackupLogger;
 
@@ -22,7 +23,7 @@ it('uses a specific log channel when logging.channel is a string', function () {
 
     expect(new ReflectionProperty($logger, 'logger'))
         ->getValue($logger)
-        ->toBeInstanceOf(Psr\Log\LoggerInterface::class);
+        ->toBeInstanceOf(LoggerInterface::class);
 });
 
 it('disables logging entirely when logging.channel is false', function () {
