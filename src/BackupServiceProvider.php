@@ -48,12 +48,12 @@ class BackupServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->singleton(BackupLogger::class, function ($app): BackupLogger {
-            $logger = new BackupLogger();
+            $logger = new BackupLogger;
 
             $channel = $app['config']->get('backup.log_channel');
 
             if ($channel === false) {
-                $logger->useLogger(new NullLogger());
+                $logger->useLogger(new NullLogger);
             } elseif (is_string($channel)) {
                 $logger->useLogger($app->make('log')->channel($channel));
             }

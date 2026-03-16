@@ -120,7 +120,7 @@ it('ignores malformed ports', function () {
     config()->set('database.connections.mysql', $dbConfig);
 
     $dumper = DbDumperFactory::createFromConnection('mysql');
-    $reflection = new \ReflectionClass($dumper);
+    $reflection = new ReflectionClass($dumper);
     $property = $reflection->getProperty('port');
     $property->setAccessible(true);
 

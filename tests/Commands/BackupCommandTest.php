@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
@@ -401,7 +402,7 @@ it('can use different compression methods for backup file', function () {
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_STORE);
     config()->set('backup.backup.destination.compression_level', 0);
 
-    \Spatie\Backup\Config\Config::rebind();
+    Config::rebind();
 
     $this->artisan('backup:run --only-db')->assertExitCode(0);
 
@@ -417,7 +418,7 @@ it('can use different compression methods for backup file', function () {
     config()->set('backup.backup.destination.compression_method', ZipArchive::CM_DEFLATE);
     config()->set('backup.backup.destination.compression_level', 2);
 
-    \Spatie\Backup\Config\Config::rebind();
+    Config::rebind();
 
     $this->artisan('backup:run --only-db')->assertExitCode(0);
 

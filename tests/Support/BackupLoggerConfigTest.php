@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Log;
+use Psr\Log\LoggerInterface;
 use Spatie\Backup\Support\BackupLogger;
 
 it('logs to the default channel when log_channel is null', function () {
@@ -19,7 +20,7 @@ it('logs to a specific channel when log_channel is a string', function () {
     $this->app->forgetInstance(BackupLogger::class);
 
     Log::shouldReceive('channel')->with('single')->andReturn(
-        $log = Mockery::mock(Psr\Log\LoggerInterface::class)
+        $log = Mockery::mock(LoggerInterface::class)
     );
 
     $log->shouldReceive('log')->with('info', '[backup] test message')->once();
