@@ -9,7 +9,7 @@ use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
 
 beforeEach(function () {
-    $reflection = new \ReflectionClass(DbDumperFactory::class);
+    $reflection = new ReflectionClass(DbDumperFactory::class);
     $property = $reflection->getProperty('custom');
     $property->setValue(null, []);
 
@@ -241,7 +241,7 @@ it('respects skip_ssl false when set in dump config', function () {
 
     $dumper = DbDumperFactory::createFromConnection('mysql');
 
-    $reflection = new \ReflectionClass($dumper);
+    $reflection = new ReflectionClass($dumper);
     $property = $reflection->getProperty('skipSsl');
     $property->setAccessible(true);
 
