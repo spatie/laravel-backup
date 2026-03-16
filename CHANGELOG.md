@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.1.0 - 2026-03-16
+
+Add `log_channel` config option to control where backup activity logs are written. Set to a channel name to redirect logs, `false` to disable logging, or `null` (default) to keep existing behavior.
+
 ## 10.0.2 - 2026-03-08
 
 Fix callMethodOnDumper treating false config values as no-argument calls (#1961)
