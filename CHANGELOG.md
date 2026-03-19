@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.2.0 - 2026-03-19
+
+### What's Changed
+
+* Downgrade PHP requirement from ^8.4 to ^8.3 by @erikn69 in https://github.com/spatie/laravel-backup/pull/1966
+
 ## 10.1.1 - 2026-03-16
 
 ### What's Changed
