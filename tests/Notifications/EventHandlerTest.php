@@ -8,6 +8,7 @@ use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Exceptions\InvalidConfig;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
+use Spatie\Backup\Tests\TestSupport\Notifications\BackupHasFailedNotification as CustomBackupHasFailedNotification;
 
 beforeEach(function () {
     Notification::fake();
@@ -50,6 +51,22 @@ it('it will send backup failed notification once with retries', function () {
     $this->artisan('backup:run', ['--only-files' => true, '--tries' => 5]);
 
     Notification::assertSentTimes(BackupHasFailedNotification::class, 1);
+});
+
+it('will send a custom notification class when configured', function () {
+    $notifications = config('backup.notifications.notifications');
+
+    unset($notifications[BackupHasFailedNotification::class]);
+    $notifications[CustomBackupHasFailedNotification::class] = ['mail'];
+
+    config()->set('backup.notifications.notifications', $notifications);
+
+    Config::rebind();
+
+    fireBackupHasFailedEvent();
+
+    Notification::assertSentTo(new Notifiable, CustomBackupHasFailedNotification::class);
+    Notification::assertNotSentTo(new Notifiable, BackupHasFailedNotification::class);
 });
 
 it('will accept a single email address', function () {
