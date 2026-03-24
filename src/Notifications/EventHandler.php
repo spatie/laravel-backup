@@ -71,18 +71,17 @@ class EventHandler
 
     protected function determineNotification(object $event): Notification
     {
-        $notificationClass = static::$eventToNotificationMap[$event::class] ?? null;
+        /** @var array<class-string, array<int, string>> $notificationClasses */
+        $notificationClasses = $this->config->get('backup.notifications.notifications');
+
+        $lookingForNotificationClass = class_basename($event).'Notification';
+
+        $notificationClass = collect($notificationClasses)
+            ->keys()
+            ->first(fn (string $class) => class_basename($class) === $lookingForNotificationClass);
 
         if (! $notificationClass) {
-            // Fall back to checking the config for custom notification classes
-            /** @var array<class-string, array<int, string>> $notificationClasses */
-            $notificationClasses = $this->config->get('backup.notifications.notifications');
-
-            $lookingForNotificationClass = class_basename($event).'Notification';
-
-            $notificationClass = collect($notificationClasses)
-                ->keys()
-                ->first(fn (string $class) => class_basename($class) === $lookingForNotificationClass);
+            $notificationClass = static::$eventToNotificationMap[$event::class] ?? null;
         }
 
         if (! $notificationClass) {
