@@ -11,7 +11,7 @@ return [
 
     'backup_successful_subject' => 'Erfolgreiches neues Backup von :application_name',
     'backup_successful_subject_title' => 'Erfolgreiches neues Backup!',
-    'backup_successful_body' => 'Gute Nachrichten, ein neues Backup von :application_name wurde erfolgreich erstellt und in :disk_name gepeichert.',
+    'backup_successful_body' => 'Gute Nachrichten, ein neues Backup von :application_name wurde erfolgreich erstellt und in :disk_name gespeichert.',
 
     'cleanup_failed_subject' => 'Aufräumen der Backups von :application_name schlug fehl.',
     'cleanup_failed_body' => 'Beim aufräumen der Backups von :application_name ist ein Fehler aufgetreten',
@@ -21,7 +21,7 @@ return [
     'cleanup_successful_body' => 'Aufräumen der Backups von :application_name in :disk_name war erfolgreich.',
 
     'healthy_backup_found_subject' => 'Die Backups von :application_name in :disk_name sind gesund',
-    'healthy_backup_found_subject_title' => 'Die Backups von :application_name sind Gesund',
+    'healthy_backup_found_subject_title' => 'Die Backups von :application_name sind gesund',
     'healthy_backup_found_body' => 'Die Backups von :application_name wurden als gesund eingestuft. Gute Arbeit!',
 
     'unhealthy_backup_found_subject' => 'Wichtig: Die Backups für :application_name sind nicht gesund',
@@ -31,7 +31,7 @@ return [
     'unhealthy_backup_found_empty' => 'Es gibt für die Anwendung noch gar keine Backups.',
     'unhealthy_backup_found_old' => 'Das letzte Backup am :date ist zu lange her.',
     'unhealthy_backup_found_unknown' => 'Sorry, ein genauer Grund konnte nicht gefunden werden.',
-    'unhealthy_backup_found_full' => 'Die Backups verbrauchen zu viel Platz. Aktuell wird :disk_usage belegt, dass ist höher als das erlaubte Limit von :disk_limit.',
+    'unhealthy_backup_found_full' => 'Die Backups verbrauchen zu viel Platz. Aktuell wird :disk_usage belegt, das ist höher als das erlaubte Limit von :disk_limit.',
 
     'no_backups_info' => 'Bisher keine Backups vorhanden',
     'application_name' => 'Applikationsname',
