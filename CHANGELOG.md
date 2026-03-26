@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.2.1 - 2026-03-26
+
+Fix German translations in notifications.php
+
 ## 10.2.0 - 2026-03-19
 
 ### What's Changed
