@@ -1,7 +1,5 @@
 ## From v9 to v10
 
-v10 requires PHP 8.4+ and Laravel 12+. If you are on an older version of PHP or Laravel, stay on v9.
-
 - In `config/backup.php`, if you had `encryption` set to `null` or `false`, change it to `'none'`. The supported values are now `'none'`, `'default'`, `'aes128'`, `'aes192'`, `'aes256'`.
 
 - All events now carry primitive properties (`string $diskName`, `string $backupName`) instead of `BackupDestination` or `BackupDestinationStatus` objects. Update your listeners:
