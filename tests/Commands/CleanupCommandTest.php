@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
 use Spatie\Backup\Events\CleanupWasSuccessful;
+use Spatie\Backup\Tests\TestSupport\FakeCleanupStrategy;
 
 beforeEach(function () {
     Event::fake();
@@ -216,4 +217,19 @@ it('can cleanup with specified configuration', function () {
     Storage::disk('local')->assertExists('mysite/test1.zip');
     Storage::disk('local')->assertExists('mysite/test2.zip');
     Storage::disk('local')->assertMissing('mysite/test3.zip');
+});
+
+it('uses the cleanup strategy from the specified configuration', function () {
+    FakeCleanupStrategy::$wasUsed = false;
+
+    config()->set('custom_backup', array_replace_recursive(
+        config('backup'),
+        ['cleanup' => ['strategy' => FakeCleanupStrategy::class]],
+    ));
+
+    $this->create1MbFileOnDisk('local', 'mysite/test1.zip', now()->subDays(1));
+
+    $this->artisan('backup:clean', ['--config' => 'custom_backup'])->assertExitCode(0);
+
+    expect(FakeCleanupStrategy::$wasUsed)->toBeTrue();
 });

@@ -40,6 +40,8 @@ class CleanupCommand extends BaseCommand implements Isolatable
 
         if ($this->option('config')) {
             $this->config = Config::fromArray(config($this->option('config')));
+
+            $this->strategy = app()->make($this->config->cleanup->strategy, ['config' => $this->config]);
         }
 
         try {
