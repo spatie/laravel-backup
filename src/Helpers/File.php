@@ -36,7 +36,7 @@ class File
     protected function mimeType(?Filesystem $disk, string $path): bool|string
     {
         try {
-            if ($disk && method_exists($disk, 'mimeType')) {
+            if ($disk) {
                 return $disk->mimeType($path) ?: false;
             }
         } catch (Exception) {

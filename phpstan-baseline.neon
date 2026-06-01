@@ -25,12 +25,6 @@ parameters:
 			path: src/Exceptions/CannotCreateDbDumper.php
 
 		-
-			message: '#^Call to function method_exists\(\) with Illuminate\\Contracts\\Filesystem\\Filesystem and ''mimeType'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/Helpers/File.php
-
-		-
 			message: '#^Method Spatie\\Backup\\Notifications\\Channels\\Discord\\DiscordMessage\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
