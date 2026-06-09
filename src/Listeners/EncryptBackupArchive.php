@@ -7,6 +7,10 @@ use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\BackupFailed;
 use ZipArchive;
 
+/**
+ * @deprecated Encryption is now applied by {@see \Spatie\Backup\Tasks\Backup\Zip} while the archive
+ *             is built. This listener is no longer registered.
+ */
 class EncryptBackupArchive
 {
     public function __construct(protected Config $config) {}

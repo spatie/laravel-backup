@@ -3,7 +3,6 @@
 namespace Spatie\Backup;
 
 use Illuminate\Notifications\ChannelManager;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Psr\Log\NullLogger;
 use Spatie\Backup\Commands\BackupCommand;
@@ -11,8 +10,6 @@ use Spatie\Backup\Commands\CleanupCommand;
 use Spatie\Backup\Commands\ListCommand;
 use Spatie\Backup\Commands\MonitorCommand;
 use Spatie\Backup\Config\Config;
-use Spatie\Backup\Events\BackupZipWasCreated;
-use Spatie\Backup\Listeners\EncryptBackupArchive;
 use Spatie\Backup\Notifications\Channels\Discord\DiscordChannel;
 use Spatie\Backup\Notifications\Channels\Webhook\WebhookChannel;
 use Spatie\Backup\Notifications\EventHandler;
@@ -41,8 +38,6 @@ class BackupServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         $this->app['events']->subscribe(EventHandler::class);
-
-        Event::listen(BackupZipWasCreated::class, EncryptBackupArchive::class);
     }
 
     public function packageRegistered(): void

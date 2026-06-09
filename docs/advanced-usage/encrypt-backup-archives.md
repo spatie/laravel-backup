@@ -12,10 +12,10 @@ If you want to customize this you can configure the `backup.backup.password` and
 
 The supported encryption values are: `'none'`, `'default'`, `'aes128'`, `'aes192'`, `'aes256'`. When set to `'default'`, AES-256 will be used if available on your system.
 
-The whole encryption is done with an event listener.
-The `\Spatie\Backup\Listeners\EncryptBackupArchive` listener is always attached to the `\Spatie\Backup\Events\BackupZipWasCreated` event.
+Encryption is applied while the archive is being built by the `\Spatie\Backup\Tasks\Backup\Zip` class.
 Encryption only runs when a password is set and the encryption algorithm is not `'none'`.
-You are free to add this listener your own or override it.
+
+The `\Spatie\Backup\Listeners\EncryptBackupArchive` listener that previously did this is deprecated and no longer registered.
 
 It's important to try this workflow and also to decrypt a backup archive.
 So you know that it works and you have a working backup restore solution.

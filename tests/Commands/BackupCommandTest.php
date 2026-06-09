@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
 use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupHasFailed;
-use Spatie\Backup\Events\BackupWasSuccessful;
-use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\DbDumper\Compressors\GzipCompressor;
 
 beforeEach(function () {
@@ -366,9 +364,6 @@ it('compresses the database dump', function () {
 });
 
 it('will encrypt backup when notifications are disabled', function () {
-    // Allow BackupZipWasCreated through so the encryption listener fires
-    Event::fake([BackupWasSuccessful::class, BackupHasFailed::class]);
-
     config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
     config()->set('backup.backup.source.databases', ['db1']);
 
@@ -380,6 +375,75 @@ it('will encrypt backup when notifications are disabled', function () {
 
     expect($zip->numFiles)->toBe(1);
     expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_AES_256);
+
+    $zip->close();
+});
+
+it('does not encrypt the backup when no password is configured', function () {
+    config()->set('backup.backup.password', null);
+    config()->set('backup.backup.source.databases', ['db1']);
+
+    $this->artisan('backup:run --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
+
+    $zip = new ZipArchive;
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
+    expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_NONE);
+
+    $zip->close();
+});
+
+it('does not encrypt the backup when encryption is disabled', function () {
+    config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
+    config()->set('backup.backup.encryption', 'none');
+    config()->set('backup.backup.source.databases', ['db1']);
+
+    $this->artisan('backup:run --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
+
+    $zip = new ZipArchive;
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
+    expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_NONE);
+
+    $zip->close();
+});
+
+it('encrypts the backup with the configured algorithm', function (string $encryption, int $algorithm) {
+    config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
+    config()->set('backup.backup.encryption', $encryption);
+    config()->set('backup.backup.source.databases', ['db1']);
+
+    $this->artisan('backup:run --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
+
+    $zip = new ZipArchive;
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
+    expect($zip->statIndex(0)['encryption_method'])->toBe($algorithm);
+
+    $zip->close();
+})->with([
+    ['aes128', ZipArchive::EM_AES_128],
+    ['aes192', ZipArchive::EM_AES_192],
+    ['aes256', ZipArchive::EM_AES_256],
+]);
+
+it('can not extract the encrypted backup without the password', function () {
+    $password = '24dsjF6BPjWgUfTu';
+
+    config()->set('backup.backup.password', $password);
+    config()->set('backup.backup.source.databases', ['db1']);
+
+    $this->artisan('backup:run --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
+
+    $zip = new ZipArchive;
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
+    $extractionPath = $this->getTempDirectory().'/extraction';
+
+    expect($zip->extractTo($extractionPath))->toBeFalse();
+
+    $zip->setPassword($password);
+    expect($zip->extractTo($extractionPath))->toBeTrue();
 
     $zip->close();
 });
