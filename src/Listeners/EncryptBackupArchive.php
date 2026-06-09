@@ -5,10 +5,11 @@ namespace Spatie\Backup\Listeners;
 use Spatie\Backup\Config\Config;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Exceptions\BackupFailed;
+use Spatie\Backup\Tasks\Backup\Zip;
 use ZipArchive;
 
 /**
- * @deprecated Encryption is now applied by {@see \Spatie\Backup\Tasks\Backup\Zip} while the archive
+ * @deprecated Encryption is now applied by {@see Zip} while the archive
  *             is built. This listener is no longer registered.
  */
 class EncryptBackupArchive
