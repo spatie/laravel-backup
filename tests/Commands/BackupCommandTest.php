@@ -393,9 +393,9 @@ it('does not encrypt the backup when no password is configured', function () {
     $zip->close();
 });
 
-it('does not encrypt the backup when encryption is disabled', function () {
+it('does not encrypt the backup when encryption is disabled', function (mixed $encryption) {
     config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
-    config()->set('backup.backup.encryption', 'none');
+    config()->set('backup.backup.encryption', $encryption);
     config()->set('backup.backup.source.databases', ['db1']);
 
     $this->artisan('backup:run --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
@@ -406,7 +406,11 @@ it('does not encrypt the backup when encryption is disabled', function () {
     expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_NONE);
 
     $zip->close();
-});
+})->with([
+    'none',
+    null,
+    false,
+]);
 
 it('encrypts the backup with the configured algorithm', function (string $encryption, int $algorithm) {
     config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
@@ -444,6 +448,10 @@ it('can not extract the encrypted backup without the password', function () {
 
     $zip->setPassword($password);
     expect($zip->extractTo($extractionPath))->toBeTrue();
+
+    $extractedFile = $extractionPath.'/'.$zip->statIndex(0)['name'];
+    expect(file_exists($extractedFile))->toBeTrue();
+    expect(filesize($extractedFile))->toBeGreaterThan(0);
 
     $zip->close();
 });

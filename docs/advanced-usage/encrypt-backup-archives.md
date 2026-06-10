@@ -15,7 +15,7 @@ The supported encryption values are: `'none'`, `'default'`, `'aes128'`, `'aes192
 Encryption is applied while the archive is being built by the `\Spatie\Backup\Tasks\Backup\Zip` class.
 Encryption only runs when a password is set and the encryption algorithm is not `'none'`.
 
-The `\Spatie\Backup\Listeners\EncryptBackupArchive` listener that previously did this is deprecated and no longer registered.
+The `\Spatie\Backup\Listeners\EncryptBackupArchive` listener that previously did this is deprecated and no longer registered. If you registered this listener yourself, remove that registration. Otherwise the archive will be encrypted during the build and rewritten again by the listener.
 
 It's important to try this workflow and also to decrypt a backup archive.
 So you know that it works and you have a working backup restore solution.
