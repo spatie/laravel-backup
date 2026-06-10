@@ -1,5 +1,6 @@
 <?php
 
+use Spatie\Backup\Config\Config;
 use Spatie\Backup\Tasks\Backup\Zip;
 
 beforeEach(function () {
@@ -28,7 +29,7 @@ it('can report its own size', function () {
 
 it('encrypts files added without a name in zip when a password is configured', function () {
     config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
-    app()->forgetInstance(\Spatie\Backup\Config\Config::class);
+    app()->forgetInstance(Config::class);
 
     $pathToZip = "{$this->getTempDirectory()}/encrypted-test.zip";
 
