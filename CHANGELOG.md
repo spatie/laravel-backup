@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.3.1 - 2026-07-28
+
+When `verify_backup` is enabled, the file count of the created archive is now compared against the backup manifest. Previously the expected count was passed to the verification step but never checked, so verification only caught an unopenable or completely empty zip. A truncated archive now fails the backup with a `BackupVerificationFailed` exception.
+
+Thanks to @gazben for spotting this.
+
+### What's Changed
+
+* Mention wnx/laravel-backup-restore in docs introduction page by @stefanzweifel in https://github.com/spatie/laravel-backup/pull/1980
+* Verify the archive file count against the manifest by @freekmurze in https://github.com/spatie/laravel-backup/pull/1982
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/10.3.0...10.3.1
+
 ## 10.3.0 - 2026-06-10
 
 #### Backup archives are now encrypted while they are being built (#1978)
