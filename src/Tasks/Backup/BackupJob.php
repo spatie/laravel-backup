@@ -17,6 +17,7 @@ use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Events\BackupZipWasCreated;
 use Spatie\Backup\Events\DumpingDatabase;
 use Spatie\Backup\Exceptions\BackupFailed;
+use Spatie\Backup\Exceptions\BackupVerificationFailed;
 use Spatie\Backup\Exceptions\InvalidBackupJob;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -273,14 +274,18 @@ class BackupJob
         $result = $zip->open($pathToZip, ZipArchive::RDONLY);
 
         if ($result !== true) {
-            throw new Exception("Backup verification failed: could not open zip file. Error code: {$result}");
+            throw BackupVerificationFailed::couldNotOpenZip($pathToZip, $result);
         }
 
         $actualCount = $zip->numFiles;
         $zip->close();
 
         if ($actualCount === 0) {
-            throw new Exception('Backup verification failed: zip file is empty.');
+            throw BackupVerificationFailed::zipIsEmpty($pathToZip);
+        }
+
+        if ($actualCount !== $expectedFileCount) {
+            throw BackupVerificationFailed::unexpectedFileCount($expectedFileCount, $actualCount);
         }
 
         backupLogger()->info("Backup verified: {$actualCount} files in archive.");
