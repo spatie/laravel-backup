@@ -617,3 +617,54 @@ it('can backup with runtime changed configuration', function () {
     Storage::disk('local')->assertExists($this->expectedZipPath);
     Storage::disk('secondLocal')->assertExists($this->expectedZipPath);
 });
+
+it('uses the alternate config in the zip layer when running with --config', function () {
+    // The alternate config file is a full copy of `backup` with a password set.
+    config()->set('alternate_backup', array_replace_recursive(config('backup'), [
+        'backup' => [
+            'password' => '24dsjF6BPjWgUfTu',
+            'source' => ['databases' => ['db1']],
+        ],
+    ]));
+
+    // The default config has no password, so encryption can only come from the alternate one.
+    config()->set('backup.backup.password', null);
+
+    $this->artisan('backup:run', [
+        '--only-db' => true,
+        '--db-name' => ['db1'],
+        '--only-to-disk' => 'local',
+        '--config' => 'alternate_backup',
+    ])->assertExitCode(0);
+
+    Storage::disk('local')->assertExists($this->expectedZipPath);
+
+    $zip = new ZipArchive;
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+
+    expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_AES_256);
+
+    $zip->close();
+});
+
+it('uses the relative path of the alternate config when running with --config', function () {
+    config()->set('alternate_backup', array_replace_recursive(config('backup'), [
+        'backup' => [
+            'source' => ['files' => ['include' => [$this->getStubDirectory()], 'relative_path' => '/stubs']],
+        ],
+    ]));
+
+    config()->set('backup.backup.source.files.relative_path', null);
+
+    $this->artisan('backup:run', [
+        '--only-files' => true,
+        '--config' => 'alternate_backup',
+    ])->assertExitCode(0);
+
+    $zip = new ZipArchive;
+    $zip->open(Storage::disk('local')->path($this->expectedZipPath));
+    $zipFile = $zip->numFiles ? $zip->statIndex(0)['name'] : '';
+    $zip->close();
+
+    expect($zipFile)->toStartWith(ltrim((string) $this->getStubDirectory(), DIRECTORY_SEPARATOR));
+});

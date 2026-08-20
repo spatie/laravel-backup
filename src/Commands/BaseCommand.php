@@ -2,8 +2,12 @@
 
 namespace Spatie\Backup\Commands;
 
+use Spatie\Backup\Config\Config;
+use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Support\BackupLogger;
+use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 use Spatie\SignalAwareCommand\SignalAwareCommand;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
@@ -33,6 +37,28 @@ abstract class BaseCommand extends SignalAwareCommand
         });
 
         return parent::run($input, $output);
+    }
+
+    /**
+     * Make the config file passed via `--config` the active backup config for
+     * the rest of this process. Everything that resolves the config from the
+     * container (`app(Config::class)`) or reads `config('backup.*')` directly
+     * needs to see the alternate config as well, not just the command itself.
+     */
+    protected function resolveConfig(): Config
+    {
+        $configArray = config($this->option('config'));
+        $config = Config::fromArray($configArray);
+
+        config()->set('backup', $configArray);
+
+        app()->instance(Config::class, $config);
+        app()->bind(CleanupStrategy::class, $config->cleanup->strategy);
+        app()->bind('backup-temporary-project', fn () => new TemporaryDirectory(
+            $config->backup->temporaryDirectory ?? storage_path('app/backup-temp')
+        ));
+
+        return $config;
     }
 
     protected function runningInConsole(): bool
