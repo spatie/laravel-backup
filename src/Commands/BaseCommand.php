@@ -3,7 +3,6 @@
 namespace Spatie\Backup\Commands;
 
 use Spatie\Backup\Config\Config;
-use Spatie\Backup\Exceptions\InvalidCommand;
 use Spatie\Backup\Support\BackupLogger;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 use Spatie\SignalAwareCommand\SignalAwareCommand;
