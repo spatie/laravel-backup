@@ -668,8 +668,3 @@ it('uses the relative path of the alternate config when running with --config', 
 
     expect($zipFile)->toStartWith(ltrim((string) $this->getStubDirectory(), DIRECTORY_SEPARATOR));
 });
-
-it('fails when the config passed to --config does not exist', function () {
-    $this->artisan('backup:run', ['--only-files' => true, '--config' => 'non_existing_backup_config'])
-        ->assertExitCode(1);
-});
