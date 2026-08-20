@@ -49,9 +49,11 @@ class BackupCommand extends BaseCommand implements Isolatable
             set_time_limit((int) $this->option('timeout'));
         }
 
-        try {
+        if ($this->option('config')) {
             $this->config = $this->resolveConfig();
+        }
 
+        try {
             $this->guardAgainstInvalidOptions();
 
             $backupJob = BackupJobFactory::createFromConfig($this->config);

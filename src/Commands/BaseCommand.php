@@ -47,21 +47,10 @@ abstract class BaseCommand extends SignalAwareCommand
      */
     protected function resolveConfig(): Config
     {
-        $configKey = $this->option('config');
-
-        if (! $configKey) {
-            return app(Config::class);
-        }
-
-        $configArray = config($configKey);
-
-        if (! is_array($configArray)) {
-            throw InvalidCommand::create("There is no config file named `{$configKey}`.");
-        }
+        $configArray = config($this->option('config'));
+        $config = Config::fromArray($configArray);
 
         config()->set('backup', $configArray);
-
-        $config = Config::fromArray($configArray);
 
         app()->instance(Config::class, $config);
         app()->bind(CleanupStrategy::class, $config->cleanup->strategy);
