@@ -6,7 +6,6 @@ use Spatie\Backup\Config\Config;
 use Spatie\Backup\Support\BackupLogger;
 use Spatie\Backup\Tasks\Cleanup\CleanupStrategy;
 use Spatie\SignalAwareCommand\SignalAwareCommand;
-use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
@@ -53,9 +52,6 @@ abstract class BaseCommand extends SignalAwareCommand
 
         app()->instance(Config::class, $config);
         app()->bind(CleanupStrategy::class, $config->cleanup->strategy);
-        app()->bind('backup-temporary-project', fn () => new TemporaryDirectory(
-            $config->backup->temporaryDirectory ?? storage_path('app/backup-temp')
-        ));
 
         return $config;
     }

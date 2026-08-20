@@ -668,3 +668,23 @@ it('uses the relative path of the alternate config when running with --config', 
 
     expect($zipFile)->toStartWith(ltrim((string) $this->getStubDirectory(), DIRECTORY_SEPARATOR));
 });
+
+it('uses the temporary directory of the alternate config when running with --config', function () {
+    config()->set('alternate_backup', array_replace_recursive(config('backup'), [
+        'backup' => [
+            'temporary_directory' => storage_path('app/alternate-temp'),
+            'source' => ['databases' => ['db1']],
+        ],
+    ]));
+
+    config()->set('backup.backup.temporary_directory', storage_path('app/default-temp'));
+
+    $this->artisan('backup:run', [
+        '--only-db' => true,
+        '--db-name' => ['db1'],
+        '--only-to-disk' => 'local',
+        '--config' => 'alternate_backup',
+    ])->assertExitCode(0);
+
+    expect(app()->make('backup-temporary-project')->path())->toBe(storage_path('app/alternate-temp'));
+});
