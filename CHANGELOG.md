@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.3.2 - 2026-08-20
+
+### What's Changed
+
+* Bump actions/checkout from 4 to 7 by @dependabot[bot] in https://github.com/spatie/laravel-backup/pull/1981
+* Add support for --config option to override backup configuration by @robert-abram in https://github.com/spatie/laravel-backup/pull/1983
+
+### New Contributors
+
+* @robert-abram made their first contribution in https://github.com/spatie/laravel-backup/pull/1983
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/10.3.1...10.3.2
+
 ## 10.3.1 - 2026-07-28
 
 When `verify_backup` is enabled, the file count of the created archive is now compared against the backup manifest. Previously the expected count was passed to the verification step but never checked, so verification only caught an unopenable or completely empty zip. A truncated archive now fails the backup with a `BackupVerificationFailed` exception.
