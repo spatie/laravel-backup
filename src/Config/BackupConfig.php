@@ -44,7 +44,12 @@ class BackupConfig extends Data
             databaseDumpFileExtension: $data['database_dump_file_extension'] ?? '',
             destination: DestinationConfig::fromArray($data['destination']),
             temporaryDirectory: $data['temporary_directory'] ?? null,
-            password: $data['password'] ?? null,
+            // `?? null` only catches a missing/null key — env('BACKUP_ARCHIVE_PASSWORD')
+            // returns '' (not null) for a key present-but-empty in .env, and an empty
+            // non-null password still flips Zip::open()/add() into AES-encryption mode,
+            // where libzip throws "ZipArchive::close(): Invalid argument" trying to
+            // encrypt with an empty password.
+            password: blank($data['password'] ?? null) ? null : $data['password'],
             encryption: self::parseEncryption(array_key_exists('encryption', $data) ? $data['encryption'] : 'default'),
             tries: $data['tries'] ?? 1,
             retryDelay: $data['retry_delay'] ?? 0,

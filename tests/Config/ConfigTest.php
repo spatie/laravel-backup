@@ -35,3 +35,21 @@ it('receives temp directory as configured from service container', function () {
 
     expect($tempDirectory->path())->toBe('/foo');
 });
+
+it('treats an empty string password the same as a missing one', function () {
+    // env('BACKUP_ARCHIVE_PASSWORD') returns '' (not null) for a key present
+    // but empty in .env — this must not be mistaken for "encryption wanted".
+    config()->set('backup.backup.password', '');
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->backup->password)->toBeNull();
+});
+
+it('keeps a real password', function () {
+    config()->set('backup.backup.password', 'secret');
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->backup->password)->toBe('secret');
+});
