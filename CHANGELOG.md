@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.3.3 - 2026-09-14
+
+An empty `BACKUP_ARCHIVE_PASSWORD` in your `.env` now disables encryption, as documented. Previously the empty string was treated as a password, which made the backup fail with `ZipArchive::close(): Invalid argument`.
+
+Thanks to @jeffersongoncalves for tracking this down.
+
+### What's Changed
+
+* Fix an empty-string archive password silently enabling encryption by @jeffersongoncalves in https://github.com/spatie/laravel-backup/pull/1984
+
+### New Contributors
+
+* @jeffersongoncalves made their first contribution in https://github.com/spatie/laravel-backup/pull/1984
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/10.3.2...10.3.3
+
 ## 10.3.2 - 2026-08-20
 
 ### What's Changed
