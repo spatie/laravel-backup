@@ -44,7 +44,7 @@ class BackupConfig extends Data
             databaseDumpFileExtension: $data['database_dump_file_extension'] ?? '',
             destination: DestinationConfig::fromArray($data['destination']),
             temporaryDirectory: $data['temporary_directory'] ?? null,
-            password: $data['password'] ?? null,
+            password: ($data['password'] ?? '') === '' ? null : $data['password'],
             encryption: self::parseEncryption(array_key_exists('encryption', $data) ? $data['encryption'] : 'default'),
             tries: $data['tries'] ?? 1,
             retryDelay: $data['retry_delay'] ?? 0,

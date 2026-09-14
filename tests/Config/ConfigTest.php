@@ -35,3 +35,22 @@ it('receives temp directory as configured from service container', function () {
 
     expect($tempDirectory->path())->toBe('/foo');
 });
+
+it('treats an empty string password the same as a missing one', function () {
+    config()->set('backup.backup.password', '');
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->backup->password)->toBeNull();
+});
+
+it('keeps a non-empty password', function (string $password) {
+    config()->set('backup.backup.password', $password);
+
+    $config = Config::fromArray(config('backup'));
+
+    expect($config->backup->password)->toBe($password);
+})->with([
+    'regular' => ['secret'],
+    'whitespace only' => ['   '],
+]);

@@ -199,7 +199,7 @@ return [
 
         /*
          * The password to be used for archive encryption.
-         * Set to `null` to disable encryption.
+         * Set to `null` or leave it empty to disable encryption.
          */
         'password' => env('BACKUP_ARCHIVE_PASSWORD'),
 

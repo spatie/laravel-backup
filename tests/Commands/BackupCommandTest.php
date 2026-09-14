@@ -379,8 +379,8 @@ it('will encrypt backup when notifications are disabled', function () {
     $zip->close();
 });
 
-it('does not encrypt the backup when no password is configured', function () {
-    config()->set('backup.backup.password', null);
+it('does not encrypt the backup when no password is configured', function (?string $password) {
+    config()->set('backup.backup.password', $password);
     config()->set('backup.backup.source.databases', ['db1']);
 
     $this->artisan('backup:run --only-db --db-name=db1 --only-to-disk=local')->assertExitCode(0);
@@ -391,7 +391,10 @@ it('does not encrypt the backup when no password is configured', function () {
     expect($zip->statIndex(0)['encryption_method'])->toBe(ZipArchive::EM_NONE);
 
     $zip->close();
-});
+})->with([
+    'null' => [null],
+    'empty string' => [''],
+]);
 
 it('does not encrypt the backup when encryption is disabled', function (mixed $encryption) {
     config()->set('backup.backup.password', '24dsjF6BPjWgUfTu');
