@@ -3,12 +3,21 @@
 namespace Spatie\Backup\Traits;
 
 use Illuminate\Support\Sleep;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 trait Retryable
 {
     protected int $tries = 1;
 
     protected int $currentTry = 1;
+
+    public function run(InputInterface $input, OutputInterface $output): int
+    {
+        $this->currentTry = 1;
+
+        return parent::run($input, $output);
+    }
 
     protected function shouldRetry(): bool
     {
