@@ -160,6 +160,25 @@ it('provides a factory method', function () {
     expect($fileSelection)->toBeInstanceOf(FileSelection::class);
 });
 
+it('uses an overridden shouldExclude method', function () {
+    $fileSelection = new class($this->sourceDirectory) extends FileSelection
+    {
+        protected function shouldExclude(string $path): bool
+        {
+            return basename($path) === 'directory1' || parent::shouldExclude($path);
+        }
+    };
+
+    $selectedFiles = array_map(
+        fn (string $path) => str_replace(DIRECTORY_SEPARATOR, '/', substr($path, strlen($this->sourceDirectory) + 1)),
+        iterator_to_array($fileSelection->selectedFiles(), false),
+    );
+
+    expect($selectedFiles)
+        ->not->toContain('directory1', 'directory1/directory1', 'directory2/directory1')
+        ->toContain('directory1/file1.txt', 'directory1/directory1/file1.txt', 'directory2/directory1/file1.txt', 'file1.txt');
+});
+
 function assertSameArrayContent($expected, $actual, $message = '')
 {
     test()->assertCount(count($expected), array_intersect($expected, $actual), $message);

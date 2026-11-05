@@ -4,7 +4,9 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Generator;
 use Illuminate\Support\Collection;
+use ReflectionMethod;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class FileSelection
 {
@@ -17,6 +19,9 @@ class FileSelection
     protected bool $shouldFollowLinks = false;
 
     protected bool $shouldIgnoreUnreadableDirs = false;
+
+    /** @var array<int, array{path: string, prefix: string, isFile: bool}>|null */
+    protected ?array $resolvedExclusions = null;
 
     /** @param array<string>|string $includeFilesAndDirectories */
     public static function create(array|string $includeFilesAndDirectories = []): static
@@ -36,6 +41,8 @@ class FileSelection
     public function excludeFilesFrom(array|string $excludeFilesAndDirectories): self
     {
         $this->excludeFilesAndDirectories = $this->excludeFilesAndDirectories->merge($this->sanitize($excludeFilesAndDirectories));
+
+        $this->resolvedExclusions = null;
 
         return $this;
     }
@@ -85,8 +92,14 @@ class FileSelection
 
         $finder->in($directories);
 
+        // Pruning relies on the default rule that everything inside an excluded directory is excluded,
+        // so subclasses with their own shouldExclude() keep having every path checked individually.
+        if ((new ReflectionMethod($this, 'shouldExclude'))->getDeclaringClass()->getName() === self::class) {
+            $finder->filter(fn (SplFileInfo $file) => ! $file->isDir() || ! $this->shouldExclude($file->getPathname()), true);
+        }
+
         foreach ($finder->getIterator() as $file) {
-            if ($this->shouldExclude($file)) {
+            if ($this->shouldExclude($file->getPathname())) {
                 continue;
             }
 
@@ -123,16 +136,32 @@ class FileSelection
             ->toArray();
     }
 
+    /** @return array<int, array{path: string, prefix: string, isFile: bool}> */
+    protected function resolveExclusions(): array
+    {
+        return $this->excludeFilesAndDirectories
+            ->map(fn (string $excludedPath) => [
+                'path' => $excludedPath,
+                'prefix' => $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''),
+                'isFile' => is_file($excludedPath),
+            ])
+            ->values()
+            ->all();
+    }
+
     protected function shouldExclude(string $path): bool
     {
-        $path = realpath($path);
+        $exclusions = $this->resolvedExclusions ??= $this->resolveExclusions();
+
+        $path = (string) realpath($path);
+
         if (is_dir($path)) {
             $path .= DIRECTORY_SEPARATOR;
         }
 
-        foreach ($this->excludeFilesAndDirectories as $excludedPath) {
-            if (str_starts_with($path, $excludedPath.(is_dir($excludedPath) ? DIRECTORY_SEPARATOR : ''))) {
-                if ($path !== $excludedPath && is_file($excludedPath)) {
+        foreach ($exclusions as $exclusion) {
+            if (str_starts_with($path, $exclusion['prefix'])) {
+                if ($path !== $exclusion['path'] && $exclusion['isFile']) {
                     continue;
                 }
 

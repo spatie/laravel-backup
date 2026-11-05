@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemAdapter;
+use ReflectionMethod;
 use Spatie\Backup\Exceptions\InvalidBackupDestination;
 
 class BackupDestination
@@ -99,6 +101,17 @@ class BackupDestination
             return $this->backupCollectionCache;
         }
 
+        if ($this->canListFileAttributes()) {
+            try {
+                return $this->backupCollectionCache = BackupCollection::createFromListing(
+                    $this->disk,
+                    $this->disk->getDriver()->listContents($this->backupName, true)->sortByPath()->toArray(),
+                );
+            } catch (Exception) {
+                return $this->backupCollectionCache = BackupCollection::createFromFiles($this->disk, []);
+            }
+        }
+
         $files = [];
 
         if ($this->disk !== null) {
@@ -114,6 +127,23 @@ class BackupDestination
             $this->disk,
             $files
         );
+    }
+
+    protected function canListFileAttributes(): bool
+    {
+        // Listings (e.g. S3 ListObjectsV2) already include file sizes, saving a HEAD request per backup.
+        // Disks that customise allFiles() keep using it so their behaviour doesn't change.
+        if (! $this->disk instanceof FilesystemAdapter) {
+            return false;
+        }
+
+        foreach (['allFiles', 'files'] as $method) {
+            if ((new ReflectionMethod($this->disk, $method))->getDeclaringClass()->getName() !== FilesystemAdapter::class) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function connectionError(): ?Exception

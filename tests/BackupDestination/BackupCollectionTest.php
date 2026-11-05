@@ -1,9 +1,11 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupCollection;
+use Spatie\Backup\BackupDestination\BackupDestination;
 
 it('can count all the files', function () {
     createFileOnBackupDisk('file1.zip');
@@ -105,6 +107,38 @@ it('need a float type size', function () {
     $backupCollection = getBackupCollectionForCurrentDiskContents();
 
     expect($backupCollection->size())->toBeFloat();
+});
+
+it('takes the backup sizes from the disk listing', function () {
+    $path = createFileOnBackupDisk('file1.zip');
+
+    $size = Storage::disk('local')->size($path);
+
+    $backups = BackupDestination::create('local', 'mysite.com')->backups();
+
+    Storage::disk('local')->delete($path);
+
+    expect($backups->first()->exists())->toBeTrue();
+    expect($backups->size())->toBe(floatval($size));
+});
+
+it('respects disks that customise how files are listed', function () {
+    createFileOnBackupDisk('file1.zip');
+    createFileOnBackupDisk('file2.zip');
+
+    $local = Storage::disk('local');
+
+    $disk = new class($local->getDriver(), $local->getAdapter(), []) extends FilesystemAdapter
+    {
+        public function allFiles($directory = null)
+        {
+            return ['mysite.com/file1.zip'];
+        }
+    };
+
+    $backups = (new BackupDestination($disk, 'mysite.com', 'local'))->backups();
+
+    expect($backups->map->path()->all())->toBe(['mysite.com/file1.zip']);
 });
 
 function getBackupCollectionForCurrentDiskContents(): BackupCollection
