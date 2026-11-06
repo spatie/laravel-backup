@@ -4,9 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Generator;
 use Illuminate\Support\Collection;
-use ReflectionMethod;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 class FileSelection
 {
@@ -64,6 +62,8 @@ class FileSelection
     /** @return Generator|array<empty> */
     public function selectedFiles(): Generator|array
     {
+        $this->resolvedExclusions = null;
+
         if ($this->includeFilesAndDirectories->isEmpty()) {
             return [];
         }
@@ -91,12 +91,6 @@ class FileSelection
         }
 
         $finder->in($directories);
-
-        // Pruning relies on the default rule that everything inside an excluded directory is excluded,
-        // so subclasses with their own shouldExclude() keep having every path checked individually.
-        if ((new ReflectionMethod($this, 'shouldExclude'))->getDeclaringClass()->getName() === self::class) {
-            $finder->filter(fn (SplFileInfo $file) => ! $file->isDir() || ! $this->shouldExclude($file->getPathname()), true);
-        }
 
         foreach ($finder->getIterator() as $file) {
             if ($this->shouldExclude($file->getPathname())) {

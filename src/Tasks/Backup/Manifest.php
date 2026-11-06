@@ -33,20 +33,42 @@ class Manifest implements Countable
             $filePaths = [$filePaths];
         }
 
-        $handle = fopen($this->manifestPath, 'a');
-
-        if ($handle === false) {
-            throw new RuntimeException("Could not open manifest file at `{$this->manifestPath}`.");
-        }
+        $handle = null;
 
         try {
             foreach ($filePaths as $filePath) {
-                if (! empty($filePath)) {
-                    fwrite($handle, $filePath.PHP_EOL);
+                if (empty($filePath)) {
+                    continue;
+                }
+
+                if ($handle === null) {
+                    $handle = fopen($this->manifestPath, 'a');
+
+                    if ($handle === false) {
+                        throw new RuntimeException("Could not open manifest file at `{$this->manifestPath}`.");
+                    }
+                }
+
+                $line = $filePath.PHP_EOL;
+                $offset = 0;
+                $length = strlen($line);
+
+                while ($offset < $length) {
+                    $written = fwrite($handle, substr($line, $offset));
+
+                    if ($written === false || $written === 0) {
+                        throw new RuntimeException("Could not write manifest file at `{$this->manifestPath}`.");
+                    }
+
+                    $offset += $written;
                 }
             }
         } finally {
-            fclose($handle);
+            if (is_resource($handle)) {
+                if (! fclose($handle)) {
+                    throw new RuntimeException("Could not close manifest file at `{$this->manifestPath}`.");
+                }
+            }
         }
 
         return $this;

@@ -160,6 +160,50 @@ it('provides a factory method', function () {
     expect($fileSelection)->toBeInstanceOf(FileSelection::class);
 });
 
+it('preserves links to included targets inside excluded directories', function (bool $followLinks) {
+    $this->initializeTempDirectory();
+    $root = $this->getTempDirectory();
+    mkdir("{$root}/source");
+    mkdir("{$root}/source/excluded");
+    mkdir("{$root}/outside");
+    file_put_contents("{$root}/outside/keep.txt", 'keep');
+    file_put_contents("{$root}/source/excluded/skip.txt", 'skip');
+    symlink("{$root}/outside/keep.txt", "{$root}/source/excluded/file-link.txt");
+    symlink("{$root}/outside", "{$root}/source/excluded/directory-link");
+
+    $selection = (new FileSelection("{$root}/source"))
+        ->excludeFilesFrom("{$root}/source/excluded")
+        ->shouldFollowLinks($followLinks);
+
+    $files = iterator_to_array($selection->selectedFiles(), false);
+
+    expect($files)
+        ->toContain("{$root}/source/excluded/file-link.txt", "{$root}/source/excluded/directory-link")
+        ->not->toContain("{$root}/source/excluded/skip.txt");
+
+    expect(in_array("{$root}/source/excluded/directory-link/keep.txt", $files))->toBe($followLinks);
+})->with([false, true]);
+
+it('refreshes exclusion types when selecting files again', function () {
+    $this->initializeTempDirectory();
+    $root = $this->getTempDirectory();
+    file_put_contents("{$root}/excluded", 'file');
+    file_put_contents("{$root}/excluded-sibling", 'keep');
+
+    $selection = (new FileSelection($root))->excludeFilesFrom("{$root}/excluded");
+
+    expect(iterator_to_array($selection->selectedFiles(), false))->not->toContain("{$root}/excluded");
+
+    unlink("{$root}/excluded");
+    mkdir("{$root}/excluded");
+    file_put_contents("{$root}/excluded/skip.txt", 'skip');
+    clearstatcache();
+
+    expect(iterator_to_array($selection->selectedFiles(), false))
+        ->not->toContain("{$root}/excluded", "{$root}/excluded/skip.txt")
+        ->toContain("{$root}/excluded-sibling");
+});
+
 it('uses an overridden shouldExclude method', function () {
     $fileSelection = new class($this->sourceDirectory) extends FileSelection
     {

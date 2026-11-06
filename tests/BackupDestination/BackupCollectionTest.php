@@ -141,6 +141,78 @@ it('respects disks that customise how files are listed', function () {
     expect($backups->map->path()->all())->toBe(['mysite.com/file1.zip']);
 });
 
+it('respects disks that customise backup metadata', function () {
+    createFileOnBackupDisk('file1.zip');
+    createFileOnBackupDisk('file2.zip');
+    $local = Storage::disk('local');
+
+    $disk = new class($local->getDriver(), $local->getAdapter(), []) extends FilesystemAdapter
+    {
+        public function size($path)
+        {
+            return 37;
+        }
+
+        public function exists($path)
+        {
+            return $path === 'mysite.com/file1.zip';
+        }
+    };
+
+    $backups = (new BackupDestination($disk, 'mysite.com', 'local'))->backups()->keyBy->path();
+
+    expect($backups['mysite.com/file1.zip']->sizeInBytes())->toBe(37.0);
+    expect($backups['mysite.com/file2.zip']->exists())->toBeFalse();
+    expect($backups['mysite.com/file2.zip']->sizeInBytes())->toBe(0.0);
+});
+
+it('does not hide backup metadata errors as an empty destination', function () {
+    createFileOnBackupDisk('file1.zip');
+    $local = Storage::disk('local');
+
+    $disk = new class($local->getDriver(), $local->getAdapter(), []) extends FilesystemAdapter
+    {
+        public function lastModified($path)
+        {
+            throw new RuntimeException('Metadata is unavailable');
+        }
+    };
+
+    expect(fn () => (new BackupDestination($disk, 'mysite.com', 'local'))->backups())
+        ->toThrow(RuntimeException::class, 'Metadata is unavailable');
+});
+
+it('does not count deleted backups towards storage when using listing sizes', function () {
+    createFileOnBackupDisk('file1.zip');
+    $backups = BackupDestination::create('local', 'mysite.com')->backups();
+
+    $backups->first()->delete();
+
+    expect($backups->size())->toBe(0.0);
+});
+
+it('refreshes listing sizes and membership only when requested', function () {
+    $path = createFileOnBackupDisk('2026-11-01-01-02-03.zip');
+    Storage::disk('local')->put($path, 'abc');
+    $destination = BackupDestination::create('local', 'mysite.com');
+
+    expect($destination->usedStorage())->toBe(3.0);
+
+    Storage::disk('local')->put($path, '1234567');
+    $secondPath = createFileOnBackupDisk('2026-11-02-01-02-03.zip');
+    Storage::disk('local')->put($secondPath, '');
+
+    expect($destination->backups())->toHaveCount(1);
+    expect($destination->usedStorage())->toBe(3.0);
+    expect($destination->fresh()->backups()->map->path()->all())->toBe([$secondPath, $path]);
+    expect($destination->usedStorage())->toBe(7.0);
+
+    Storage::disk('local')->delete([$path, $secondPath]);
+
+    expect($destination->fresh()->backups())->toBeEmpty();
+    expect($destination->usedStorage())->toBe(0.0);
+});
+
 function getBackupCollectionForCurrentDiskContents(): BackupCollection
 {
     $disk = Storage::disk('local');

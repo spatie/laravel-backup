@@ -87,6 +87,7 @@ class Backup
         }
 
         $this->exists = false;
+        $this->cachedSize = null;
 
         backupLogger()->info("Deleted backup `{$this->path}`.");
     }

@@ -102,14 +102,14 @@ class BackupDestination
         }
 
         if ($this->canListFileAttributes()) {
+            $listing = [];
+
             try {
-                return $this->backupCollectionCache = BackupCollection::createFromListing(
-                    $this->disk,
-                    $this->disk->getDriver()->listContents($this->backupName, true)->sortByPath()->toArray(),
-                );
+                $listing = $this->disk->getDriver()->listContents($this->backupName, true)->sortByPath()->toArray();
             } catch (Exception) {
-                return $this->backupCollectionCache = BackupCollection::createFromFiles($this->disk, []);
             }
+
+            return $this->backupCollectionCache = BackupCollection::createFromListing($this->disk, $listing);
         }
 
         $files = [];
@@ -132,12 +132,12 @@ class BackupDestination
     protected function canListFileAttributes(): bool
     {
         // Listings (e.g. S3 ListObjectsV2) already include file sizes, saving a HEAD request per backup.
-        // Disks that customise allFiles() keep using it so their behaviour doesn't change.
+        // Custom listing and metadata methods must still be respected.
         if (! $this->disk instanceof FilesystemAdapter) {
             return false;
         }
 
-        foreach (['allFiles', 'files'] as $method) {
+        foreach (['allFiles', 'files', 'getDriver', 'exists', 'size'] as $method) {
             if ((new ReflectionMethod($this->disk, $method))->getDeclaringClass()->getName() !== FilesystemAdapter::class) {
                 return false;
             }
