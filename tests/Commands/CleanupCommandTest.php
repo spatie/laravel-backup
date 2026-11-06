@@ -29,6 +29,19 @@ it('can remove old backups until using less than maximum storage', function () {
     Storage::disk('local')->assertMissing('mysite/test4.zip');
 });
 
+it('does not delete retained backups to account for already expired storage', function () {
+    config()->set('backup.cleanup.default_strategy.delete_oldest_backups_when_using_more_megabytes_than', 2);
+    $this->create1MbFileOnDisk('local', 'mysite/newest.zip', now()->subDays(1));
+    $this->create1MbFileOnDisk('local', 'mysite/retained.zip', now()->subDays(2));
+    $this->create1MbFileOnDisk('local', 'mysite/expired.zip', now()->subYears(10));
+
+    $this->artisan('backup:clean')->assertExitCode(0);
+
+    Storage::disk('local')->assertExists('mysite/newest.zip');
+    Storage::disk('local')->assertExists('mysite/retained.zip');
+    Storage::disk('local')->assertMissing('mysite/expired.zip');
+});
+
 it('can remove old backups from the backup directory', function () {
     [$expectedRemainingBackups, $expectedDeletedBackups] = Collection::times(1000)
         ->flatMap(function (int $numberOfDays) {

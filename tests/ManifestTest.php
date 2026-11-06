@@ -54,6 +54,42 @@ it('will not add an empty path', function () {
     expect($this->manifest)->toHaveCount(0);
 });
 
+it('does not open the manifest when there are no paths to append', function () {
+    unlink($this->pathToManifest);
+
+    $this->manifest->addFiles((function () {
+        yield '';
+        yield '0';
+    })());
+
+    expect(file_exists($this->pathToManifest))->toBeFalse();
+});
+
+it('writes generator paths in order and preserves already written paths after an exception', function () {
+    $this->manifest->addFiles('first');
+
+    $paths = (function () {
+        yield '';
+        yield 'second';
+        yield '0';
+        yield 'third';
+        throw new RuntimeException('Selection failed');
+    })();
+
+    expect(fn () => $this->manifest->addFiles($paths))->toThrow(RuntimeException::class, 'Selection failed');
+
+    $this->manifest->addFiles('fourth');
+
+    expect(file_get_contents($this->pathToManifest))->toBe(implode(PHP_EOL, ['first', 'second', 'third', 'fourth', '']));
+});
+
+it('fails rather than silently truncating the manifest when storage is full', function () {
+    unlink($this->pathToManifest);
+    symlink('/dev/full', $this->pathToManifest);
+
+    expect(fn () => @$this->manifest->addFiles('cannot be written'))->toThrow(RuntimeException::class);
+})->skip(! file_exists('/dev/full'), 'Requires a full device');
+
 it('can return a generator to loop over all the files in the manifest', function () {
     $testFiles = getManifestTestFiles();
 

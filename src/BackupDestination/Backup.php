@@ -19,8 +19,11 @@ class Backup
     public function __construct(
         protected Filesystem $disk,
         protected string $path,
+        ?bool $exists = null,
+        ?int $sizeInBytes = null,
     ) {
-        $this->exists = $this->disk->exists($this->path);
+        $this->exists = $exists ?? $this->disk->exists($this->path);
+        $this->cachedSize = $sizeInBytes;
     }
 
     public function disk(): Filesystem
@@ -84,6 +87,7 @@ class Backup
         }
 
         $this->exists = false;
+        $this->cachedSize = null;
 
         backupLogger()->info("Deleted backup `{$this->path}`.");
     }

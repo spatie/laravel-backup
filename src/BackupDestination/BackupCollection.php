@@ -4,6 +4,8 @@ namespace Spatie\Backup\BackupDestination;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use League\Flysystem\FileAttributes;
+use League\Flysystem\StorageAttributes;
 use Spatie\Backup\Helpers\File;
 
 /** @extends Collection<int,Backup> */
@@ -19,6 +21,26 @@ class BackupCollection extends Collection
         return (new static($files))
             ->filter(fn (string $path) => $file->isZipFile($disk, $path))
             ->map(fn (string $path): Backup => new Backup($disk, $path))
+            ->sortByDesc(fn (Backup $backup) => $backup->date()->timestamp)
+            ->values();
+    }
+
+    /** @param array<int, StorageAttributes> $listing */
+    public static function createFromListing(Filesystem $disk, array $listing): self
+    {
+        $file = new File;
+
+        $backups = collect($listing)
+            ->filter(fn (StorageAttributes $attributes) => $attributes->isFile() && $file->isZipFile($disk, $attributes->path()))
+            ->map(fn (StorageAttributes $attributes): Backup => new Backup(
+                $disk,
+                $attributes->path(),
+                true,
+                $attributes instanceof FileAttributes ? $attributes->fileSize() : null,
+            ))
+            ->all();
+
+        return (new static($backups))
             ->sortByDesc(fn (Backup $backup) => $backup->date()->timestamp)
             ->values();
     }

@@ -57,17 +57,19 @@ class ListCommand extends BaseCommand
     {
         $destination = $backupDestinationStatus->backupDestination();
 
+        $isReachable = $destination->isReachable();
+
         $row = [
             $destination->backupName(),
             'disk' => $destination->diskName(),
-            Format::emoji($destination->isReachable()),
+            Format::emoji($isReachable),
             Format::emoji($backupDestinationStatus->isHealthy()),
             'amount' => $destination->backups()->count(),
             'newest' => $this->getFormattedBackupDate($destination->newestBackup()),
             'usedStorage' => Format::humanReadableSize($destination->usedStorage()),
         ];
 
-        if (! $destination->isReachable()) {
+        if (! $isReachable) {
             foreach (['amount', 'newest', 'usedStorage'] as $propertyName) {
                 $row[$propertyName] = '/';
             }

@@ -4,6 +4,7 @@ namespace Spatie\Backup\Tasks\Backup;
 
 use Countable;
 use Generator;
+use RuntimeException;
 use SplFileObject;
 
 class Manifest implements Countable
@@ -32,9 +33,41 @@ class Manifest implements Countable
             $filePaths = [$filePaths];
         }
 
-        foreach ($filePaths as $filePath) {
-            if (! empty($filePath)) {
-                file_put_contents($this->manifestPath, $filePath.PHP_EOL, FILE_APPEND);
+        $handle = null;
+
+        try {
+            foreach ($filePaths as $filePath) {
+                if (empty($filePath)) {
+                    continue;
+                }
+
+                if ($handle === null) {
+                    $handle = fopen($this->manifestPath, 'a');
+
+                    if ($handle === false) {
+                        throw new RuntimeException("Could not open manifest file at `{$this->manifestPath}`.");
+                    }
+                }
+
+                $line = $filePath.PHP_EOL;
+                $offset = 0;
+                $length = strlen($line);
+
+                while ($offset < $length) {
+                    $written = fwrite($handle, substr($line, $offset));
+
+                    if ($written === false || $written === 0) {
+                        throw new RuntimeException("Could not write manifest file at `{$this->manifestPath}`.");
+                    }
+
+                    $offset += $written;
+                }
+            }
+        } finally {
+            if (is_resource($handle)) {
+                if (! fclose($handle)) {
+                    throw new RuntimeException("Could not close manifest file at `{$this->manifestPath}`.");
+                }
             }
         }
 
