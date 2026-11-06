@@ -2,6 +2,35 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.4.0 - 2026-11-06
+
+### Requirements
+
+**This release requires PHP 8.4 or newer. PHP 8.3 is no longer supported.** The minimum is aligned with the current Pest 5 / PHPUnit 13 test toolchain; this is not a claim that Laravel itself requires PHP 8.4. Laravel 12 and 13 remain supported.
+
+### Improvements and fixes
+
+- Reuse file sizes from backup-directory listings to avoid per-backup metadata requests. Custom disks and Flysystem storage attributes retain their existing behavior.
+- Append manifest paths using a single lazily opened stream, with bounded memory and explicit handling of incomplete or failed writes.
+- Cache exclusion metadata for each file-selection run while preserving symlink selection and overridden exclusion rules.
+- Avoid a redundant destination-reachability check in `backup:list`.
+- Invalidate deleted backup sizes so cleanup does not remove retained backups to account for storage that has already been freed.
+- Reset retry state for every command invocation, including when a command instance is reused.
+- Expand the test matrix to PHP 8.4, 8.5 and 8.6 with compatible Pest versions, accept PHP 8.6's ZIP extension version, and preserve empty manifest counts on PHP 8.6.
+
+### What's Changed
+
+- Test PHP 8.5 and 8.6 with compatible Pest versions by @freekmurze in https://github.com/spatie/laravel-backup/pull/1989
+- Reset retry state for each command invocation by @AleksandrSpicyn in https://github.com/spatie/laravel-backup/pull/1990
+- Speed up file selection, manifest writing and backup listing by @sajjadhossainshohag in https://github.com/spatie/laravel-backup/pull/1988
+
+### New Contributors
+
+- @AleksandrSpicyn made their first contribution in https://github.com/spatie/laravel-backup/pull/1990
+- @sajjadhossainshohag made their first contribution in https://github.com/spatie/laravel-backup/pull/1988
+
+**Full Changelog**: https://github.com/spatie/laravel-backup/compare/10.3.3...10.4.0
+
 ## 10.3.3 - 2026-09-14
 
 An empty `BACKUP_ARCHIVE_PASSWORD` in your `.env` now disables encryption, as documented. Previously the empty string was treated as a password, which made the backup fail with `ZipArchive::close(): Invalid argument`.
