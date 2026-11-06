@@ -691,3 +691,13 @@ it('uses the temporary directory of the alternate config when running with --con
 
     expect(app()->make('backup-temporary-project')->path())->toBe(storage_path('app/alternate-temp'));
 });
+
+it('retries each independent backup invocation', function () {
+    Artisan::call('backup:run --only-db --db-name=wrongName --tries=3');
+    Artisan::call('backup:run --only-db --db-name=wrongName --tries=3');
+
+    expect(Artisan::output())
+        ->toContain('Starting backup...')
+        ->toContain('Attempt n°2...')
+        ->toContain('Attempt n°3...');
+});
