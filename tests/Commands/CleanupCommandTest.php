@@ -246,3 +246,15 @@ it('uses the cleanup strategy from the specified configuration', function () {
 
     expect(FakeCleanupStrategy::$wasUsed)->toBeTrue();
 });
+
+it('retries each independent cleanup invocation', function () {
+    config()->set('backup.backup.destination.disks', ['wrong']);
+
+    Artisan::call('backup:clean', ['--tries' => 3]);
+    Artisan::call('backup:clean', ['--tries' => 3]);
+
+    expect(Artisan::output())
+        ->toContain('Starting cleanup...')
+        ->toContain('Attempt n°2...')
+        ->toContain('Attempt n°3...');
+});

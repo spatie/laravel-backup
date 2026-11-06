@@ -18,8 +18,8 @@
         }
     ],
     "require": {
-        "php": "^8.3",
-        "ext-zip": "^1.14.0",
+        "php": "^8.4",
+        "ext-zip": "^1.14.0|^8.6",
         "illuminate/console": "^12.40|^13.0",
         "illuminate/contracts": "^12.40|^13.0",
         "illuminate/events": "^12.40|^13.0",
@@ -42,7 +42,7 @@
         "league/flysystem-aws-s3-v3": "^3.30.1",
         "mockery/mockery": "^1.6.12",
         "orchestra/testbench": "^10.8|^11.0",
-        "pestphp/pest": "^4.1.5",
+        "pestphp/pest": "^4.7.8|^5.3.5",
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
         "phpstan/phpstan-phpunit": "^2.0.8",

@@ -9,16 +9,21 @@ jobs:
     timeout-minutes: 5
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        php: [8.5, 8.4, 8.3]
+        php: ['8.6', '8.5', '8.4']
         laravel: ['13.*', '12.*']
         stability: [prefer-stable]
+        exclude:
+          - php: '8.6'
+            laravel: 12.*
         include:
           - laravel: 13.*
             testbench: ^11.0
+            pest: ^5.3.5
           - laravel: 12.*
             testbench: ^10.8
+            pest: ^4.7.8
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
 
@@ -37,10 +42,19 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: curl, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, iconv
           coverage: none
+        env:
+          fail-fast: true
+
+      - name: Verify PHP version
+        env:
+          EXPECTED_PHP_VERSION: ${{ matrix.php }}
+        run: |
+          php -v
+          php -r 'exit(PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION === getenv("EXPECTED_PHP_VERSION") ? 0 : 1);'
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require --dev "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "pestphp/pest:${{ matrix.pest }}" --no-interaction --no-update
           composer remove "larastan/larastan" "laravel/slack-notification-channel" --dev --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
