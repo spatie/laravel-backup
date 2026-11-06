@@ -3,6 +3,9 @@
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\Filesystem as Flysystem;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\StorageAttributes;
 use Spatie\Backup\BackupDestination\Backup;
 use Spatie\Backup\BackupDestination\BackupCollection;
 use Spatie\Backup\BackupDestination\BackupDestination;
@@ -180,6 +183,30 @@ it('does not hide backup metadata errors as an empty destination', function () {
 
     expect(fn () => (new BackupDestination($disk, 'mysite.com', 'local'))->backups())
         ->toThrow(RuntimeException::class, 'Metadata is unavailable');
+});
+
+it('accepts custom storage attributes without requiring listing sizes', function () {
+    $path = createFileOnBackupDisk('file1.zip');
+    $attributes = Mockery::mock(StorageAttributes::class);
+    $attributes->shouldReceive('path')->andReturn($path);
+    $attributes->shouldReceive('isFile')->andReturn(true);
+
+    $adapter = new class($this->getDiskRootPath('local')) extends LocalFilesystemAdapter
+    {
+        public StorageAttributes $attributes;
+
+        public function listContents(string $path, bool $deep): iterable
+        {
+            yield $this->attributes;
+        }
+    };
+    $adapter->attributes = $attributes;
+    $disk = new FilesystemAdapter(new Flysystem($adapter), $adapter, []);
+
+    $backups = (new BackupDestination($disk, 'mysite.com', 'local'))->backups();
+
+    expect($backups->map->path()->all())->toBe([$path]);
+    expect($backups->size())->toBe(13.0);
 });
 
 it('does not count deleted backups towards storage when using listing sizes', function () {

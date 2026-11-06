@@ -31,8 +31,13 @@ class BackupCollection extends Collection
         $file = new File;
 
         $backups = collect($listing)
-            ->filter(fn (StorageAttributes $attributes) => $attributes instanceof FileAttributes && $file->isZipFile($disk, $attributes->path()))
-            ->map(fn (FileAttributes $attributes): Backup => new Backup($disk, $attributes->path(), true, $attributes->fileSize()))
+            ->filter(fn (StorageAttributes $attributes) => $attributes->isFile() && $file->isZipFile($disk, $attributes->path()))
+            ->map(fn (StorageAttributes $attributes): Backup => new Backup(
+                $disk,
+                $attributes->path(),
+                true,
+                $attributes instanceof FileAttributes ? $attributes->fileSize() : null,
+            ))
             ->all();
 
         return (new static($backups))
