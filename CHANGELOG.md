@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-backup` will be documented in this file.
 
+## 10.5.0 - 2026-11-18
+
+### What changed
+
+`MaximumAgeInDays` now accepts fractional day limits. For example, configure `1 / 24` to monitor backups with a one-hour limit. Both shorthand values and named `days` configuration support fractions.
+
+Existing integer limits are unchanged. Backups are still unhealthy at the exact age limit.
+
+Thanks to @yeganemehr for the contribution in https://github.com/spatie/laravel-backup/pull/1992.
+
+**Full changelog**: https://github.com/spatie/laravel-backup/compare/10.4.0...10.5.0
+
 ## 10.4.0 - 2026-11-06
 
 ### Requirements
