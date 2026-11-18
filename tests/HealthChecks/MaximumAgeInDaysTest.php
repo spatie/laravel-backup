@@ -48,16 +48,30 @@ it('accepts a shorthand value in config', function () {
     Event::assertDispatched(HealthyBackupWasFound::class);
 });
 
-it('accepts a fraction of a day', function () {
+it('checks the maximum age without truncating days', function (int|float $days, int $ageInSeconds, int $exitCode, bool $namedArgument) {
+    $this->travelTo(Carbon::create(2026, 11, 18, 12, 0, 0));
+
     config()->set('backup.monitor_backups.0.health_checks', [
-        MaximumAgeInDays::class => 1 / 24,
+        MaximumAgeInDays::class => $namedArgument ? ['days' => $days] : $days,
     ]);
 
-    $this->create1MbFileOnDisk('local', 'mysite/test.zip', Carbon::now()->subMinutes(30));
+    $this->create1MbFileOnDisk('local', 'mysite/test.zip', now()->subSeconds($ageInSeconds));
 
-    $this->artisan('backup:monitor')->assertExitCode(0);
+    $this->artisan('backup:monitor')->assertExitCode($exitCode);
 
-    $this->create1MbFileOnDisk('local', 'mysite/test.zip', Carbon::now()->subHours(2));
-
-    $this->artisan('backup:monitor')->assertExitCode(1);
-});
+    Event::assertDispatched($exitCode === 0 ? HealthyBackupWasFound::class : UnhealthyBackupWasFound::class);
+    Event::assertNotDispatched($exitCode === 0 ? UnhealthyBackupWasFound::class : HealthyBackupWasFound::class);
+})->with([
+    'one second before one hour' => [1 / 24, 3599, 0],
+    'exactly one hour' => [1 / 24, 3600, 1],
+    'one second after one hour' => [1 / 24, 3601, 1],
+    'one second before one day' => [1, 86399, 0],
+    'exactly one day' => [1, 86400, 1],
+    'one second after one day' => [1, 86401, 1],
+    'one second before one and a half days' => [1.5, 129599, 0],
+    'exactly one and a half days' => [1.5, 129600, 1],
+    'one second after one and a half days' => [1.5, 129601, 1],
+])->with([
+    'shorthand configuration' => false,
+    'named argument configuration' => true,
+]);
