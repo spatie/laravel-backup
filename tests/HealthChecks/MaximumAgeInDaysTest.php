@@ -47,3 +47,17 @@ it('accepts a shorthand value in config', function () {
 
     Event::assertDispatched(HealthyBackupWasFound::class);
 });
+
+it('accepts a fraction of a day', function () {
+    config()->set('backup.monitor_backups.0.health_checks', [
+        MaximumAgeInDays::class => 1 / 24,
+    ]);
+
+    $this->create1MbFileOnDisk('local', 'mysite/test.zip', Carbon::now()->subMinutes(30));
+
+    $this->artisan('backup:monitor')->assertExitCode(0);
+
+    $this->create1MbFileOnDisk('local', 'mysite/test.zip', Carbon::now()->subHours(2));
+
+    $this->artisan('backup:monitor')->assertExitCode(1);
+});
